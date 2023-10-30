@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
 import ReactPlayer from "react-player";
 
@@ -15,7 +15,7 @@ import {
   iphone,
   team1,
   video_homescreen,
-  videoImg
+  videoImg,
 } from "../../assets/images/user";
 
 import {
@@ -31,11 +31,18 @@ import {
   Apple,
 } from "../../assets/icons/user";
 import "../../styles/user/home.scss";
-import {Card,Slider} from "../../components/user";
+import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
+import { fetchData } from "../../redux/thunk/user/usrMain";
+import { useDispatch } from "react-redux";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchData());
+  }, []);
 
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
