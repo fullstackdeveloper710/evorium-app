@@ -165,7 +165,7 @@ function Programs() {
                       </p>
                     </div>
                   </Col>
-                  <Col md={4} className="text-end">
+                  <Col md={4} className="text-end d-none d-md-block">
                     {itemsToLoad < cardsData.length && (
                     
                         <button onClick={loadMore} className="view-All-btn">
@@ -223,6 +223,23 @@ function Programs() {
 
               <button onClick={loadMore} className="load-more-btn">Load more</button>)}
             </div> */}
+             <div className="text-end d-block d-md-none pt-5">
+                    {itemsToLoad < cardsData.length && (
+                    
+                        <button onClick={loadMore} className="view-All-btn">
+                          View All
+                        </button>
+                     
+                    )}
+                    :
+                    {itemsToLoad > 5 && (
+                     
+                        <button onClick={loadLess} className="view-All-btn">
+                          View Less
+                        </button>
+                      
+                    )}
+                  </div>
               </Container>
             </section>
           )}
@@ -244,7 +261,7 @@ function Programs() {
                       </p>
                     </div>
                   </Col>
-                  <Col md={4} className="text-end">
+                  <Col md={4} className="text-end d-none d-md-block">
                     {itemsToLoadPro < cardsData.length && (
                       
                         <button onClick={loadMorePro} className="view-All-btn">
@@ -306,6 +323,25 @@ function Programs() {
             {itemsToLoad > 5 && (
               <button onClick={loadLess} className="load-more-btn">Load Less</button>)}
             </div> */}
+
+          <div className="text-end d-block d-md-none pt-5">
+                    {itemsToLoad < cardsData.length && (
+                    
+                        <button onClick={loadMore} className="view-All-btn">
+                          View All
+                        </button>
+                     
+                    )}
+                    :
+                    {itemsToLoad > 5 && (
+                     
+                        <button onClick={loadLess} className="view-All-btn">
+                          View Less
+                        </button>
+                      
+                    )}
+                  </div>
+            
               </Container>
             </section>
           )}

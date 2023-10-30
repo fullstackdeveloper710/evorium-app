@@ -7,7 +7,7 @@
       font-size: 130px;
       font-family: $heading-font-family;
       color: #fff;
-      text-align: right;
+      text-align: center;
      margin-bottom: 30px;
     }
   }
@@ -113,5 +113,51 @@ transform: rotate(10deg);
   
   100%{
     transform: rotate(-10deg);
+  }
+}
+
+@media (max-width:767px) {
+  .road-map-section {
+    padding: 50px 0px;
+    margin-right: 0;
+    .title-block {
+      h2 {
+        font-size: 130px;
+        font-family: $heading-font-family;
+        color: #fff;
+        text-align: center;
+       margin-bottom: 30px;
+      }
+    }
+    .carousel {
+      height: auto;
+      background-color: rgba(255, 255, 255, 0.1);
+      border: 2px solid #616161;
+      border-radius: 15px;
+    
+      .carousel-caption {
+        position: static;
+        position: static;
+        max-width: 600px;
+        width: 100%;
+        text-align: left;
+        margin-left: auto;
+        h3 {
+          font-size: 28px;
+          font-family: $heading-font-family;
+          padding-bottom: 14px;
+        }
+        ul {
+          padding-left: 0px;
+  
+          li {
+            font-family: "AeonikTRIAL Regular";
+            font-size: 16px;
+            letter-spacing: 0px;
+            font-weight: 400;
+          }
+        }
+      }
+    }
   }
 }

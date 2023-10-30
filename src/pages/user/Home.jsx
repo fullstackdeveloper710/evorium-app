@@ -46,7 +46,7 @@ function Home() {
   return (
     <>
       <section className="banner-home">
-        <Image src={bannner} className="bannerImg img-fluid" />
+        <Image src={bannner} className="bannerImg img-fluid d-none d-md-block" />
         <Container>
           <Row>
             <Col md={5} sm={12}>
@@ -57,6 +57,7 @@ function Home() {
                   Set up complete sales and marketing funnels with ease using
                   the Screeno
                 </p>
+                <Image src={bannner} className="bannerImg img-fluid d-block d-md-none mb-4"/>
                 <div className="btns-group">
                   <a href="#" className="try-btn">
                     Try for Free

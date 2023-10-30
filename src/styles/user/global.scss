@@ -254,9 +254,7 @@ body main{
   .our-partners-section {
     .card-partner {
       img {
-        width: 100%;
-        height: auto;
-        max-width: 100px;
+        max-height: 68px;
       }
     }
   }
@@ -283,12 +281,6 @@ body main{
     .platformPage__top {
       .title-block {
         margin-bottom: 30px;
-        h1 {
-          font-size: 52px;
-        }
-        span {
-          font-size: 52px;
-        }
       }
     }
   }
@@ -626,7 +618,7 @@ body main{
     padding-top: 0;
     .title-block {
       h2 {
-        font-size: 32px;
+        font-size: 56px;
         line-height: 32px;
       }
     }
@@ -970,5 +962,17 @@ body main{
 
   .platformPage{
     padding-top: 0 !important;
+  }
+}
+
+
+.videoWrapper__left {
+  .lock_screen{
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
   }
 }
