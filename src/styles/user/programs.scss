@@ -1,0 +1,102 @@
+.platformPage {
+  padding: 100px 0;
+  .title-block {
+    h2 {
+      font-size: 38px;
+      font-family: "NeueMachina Regular";
+      font-weight: 500;
+    }
+  }
+  button {
+    filter: none;
+  }
+
+  &__top {
+    .title-block {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 60px;
+      h1 {
+        color: #fff;
+        font-family: "NeueMachina Regular";
+        font-size: 80px;
+        font-style: normal;
+        line-height: 105%; /* 84px */
+        text-transform: uppercase;
+      }
+      span {
+        color: #fff;
+        font-family: "NeueMachina Regular";
+        font-size: 80px;
+        font-style: normal;
+        line-height: 105%; /* 84px */
+        text-transform: uppercase;
+      }
+    }
+  }
+
+  .platformFilter {
+    margin-bottom: 60px;
+    padding-bottom: 60px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .title-block{
+    h2{
+        font-family: "NeueMachina Regular";
+        font-size: 42px;
+
+    }
+    p{
+        margin: 15px 0 0 0 !important;
+    }
+}
+  .right-nav .dropdown-toggle {
+    border: 1px solid rgba(255,255,255,.3);
+   
+    color: #fff !important;
+    margin-right: 20px;
+    padding: 14px;
+    border-radius: 60px;
+    padding-right: 35px;
+    min-width: 170px;
+    text-align: center;
+    background-position: 82% 53%;
+  }
+
+  .view-All-btn{
+    border: 1px solid rgba(255,255,255,.3);
+   
+    color: #fff !important;
+    margin-right: 0;
+    padding: 14px;
+    border-radius: 60px;
+    float: right;
+    min-width: 170px;
+    text-align: center;
+    background-color: transparent;
+    font-weight: 500;
+  &:hover{
+    background-color: #fff;
+    color: #333!important;
+  }
+  }
+}
+
+
+.sort .dropdown-toggle {
+  background-image: url(../../assets/icons/user/sort.png) !important;
+  background-position: 85% 15px;
+  background-repeat: no-repeat;
+}
+.right-nav .dropdown-toggle:hover {
+  color: #fff !important;
+}
+.right-nav .dropdown-toggle::after {
+  display: none;
+}
+.filter .dropdown-toggle {
+  background-image: url(../../assets/icons/user/filter.png) !important;
+  background-position: 85% 12px;
+  background-repeat: no-repeat;
+}
