@@ -377,7 +377,10 @@
 
 .circle-right {
   position: relative;
-
+.container{
+  position: relative;
+  z-index: 0;
+}
   &:after {
     content: "";
     position: absolute;
@@ -387,7 +390,7 @@
     height: 700px;
     background-color: #ff00c8;
     border-radius: 50% 0 0 50%;
-    z-index: -1;
+    z-index: 0;
     filter: blur(70px);
     opacity: 0.2;
   }
@@ -409,3 +412,212 @@ span.cardIcon {
   border-radius: 50%;
   margin-right: 10px;
 }
+
+@media (max-width:767px) {
+
+  .banner-home {
+  .text-block {
+    .btns-group {
+      justify-content: center;
+    }
+  }
+}
+
+  .our-partners-section {
+    padding: 50px 0px;
+    .title-block {
+      h2 {
+        font-size: 32px;
+      }
+    }
+    .card-partner {
+      width: 49%;
+      margin-top: 35px;
+      img{
+        max-width: 100%;
+      }
+    }
+  }
+
+
+  .circle-right {
+    &:after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 50%;
+      width: 700px;
+      height: 700px;
+      background-color: #ff00c8;
+      border-radius: 50% 0 0 50%;
+      z-index: -1;
+      filter: blur(70px);
+      opacity: 0.2;
+    }
+  }
+
+
+  .our-star-team-section {
+    padding: 50px 0px 0px 0px; 
+    .title-block {
+      h3 {
+        font-size: 32px;
+      }
+    }
+    .row-team{
+      .col-md-3{
+        .team-card {
+          .card-head {
+            height: 210px !important;
+            .insta-link {
+              width: 31px;
+              height: 31px;
+              img{
+                width: 14px;
+                height: 14px;
+              }
+            }
+          }
+          .card-bottom {
+            &:before {
+              z-index: -1;
+            }
+            h5 {
+              font-size: 22.34px;
+            }
+            p {
+              font-size: 12.76px;
+              line-height: 18px;
+            }
+          }
+        }
+      }
+    }
+    
+   
+    
+  }
+
+
+  .popular-section {
+    padding: 35px  0px 70px 0px;
+    .container{
+      .title-block {
+      h2 {
+        font-size:32px;
+        max-width: 310px;
+        text-transform: uppercase;
+        line-height: 35px;
+        margin: inherit;
+        img{
+          position: static;
+        }
+      }
+      .view-all-link {
+        font-size: 16px;
+      }
+      
+      }
+      .popular-row.row{
+        .subs-card{
+          .card-wrapper{
+            .premium-btn,.free-btn{
+              font-size: 7.6px;
+            }
+                    .bg-img {
+              height: 159px !important;
+    }
+    .bottom-details{
+      p.name{
+        font-size: 9.88px;
+      }
+      .link-card{
+        font-size: 12.16px;
+      }
+      .time-view{
+        .mins,.views{
+          font-size: 7.6px;
+        }
+      }
+    }
+          }
+      
+        }
+     
+      }
+   
+      .loadBtnWrap {
+        .load-more-btn:last-child{
+          width: 100%;
+          font-size: 16px;
+          font-weight: 500;
+          text-transform: capitalize;
+        }
+    }
+  }
+}
+
+.platform-section {
+  padding: 50px 0px;
+  .title-block {
+    padding-bottom: 20px;
+    h3 {
+      font-size: 32px;
+      max-width: 320px;
+      margin: auto;
+    }
+    p{
+      display: none;
+    }
+  }
+  .video-wrapper {
+    border-radius: 15px;
+    img {
+      border-radius: 15px;
+      width: 100%;
+    }
+  }
+  .video-wrapper > div {
+    width: 100% !important;
+    height: 100% !important;
+  }
+  .right-text {
+    padding-left: 30px;
+    color: #fff;
+    .card-all {
+      padding-bottom: 0;
+      margin-bottom: 80px;
+      h4 {
+        font-size: 18px;
+        .cardIcon{
+          width: 30px;
+          height: 30px;
+          flex: 0 0 30px !important;
+          svg{
+            width: 17px;
+          }
+        }
+        img {
+          margin-right: 10px;
+        }
+      }
+      p {
+        font-size: 16px;
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: contain;
+          max-width: fit-content;
+          display: block;
+        }
+      }
+    }
+    .card-all:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+}
+
+
+
