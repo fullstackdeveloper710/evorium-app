@@ -80,7 +80,7 @@
       }
 
       button.mid--btn {
-        color: #bdb3c7;
+        color: #bdb3c79c;
         font-size: 18px;
         font-style: normal;
         font-weight: 400;
@@ -92,6 +92,7 @@
         }
         &:nth-child(2) {
           margin-left: 8px;
+          color: #bdb3c7;
         }
       }
     }
@@ -199,4 +200,35 @@
 .videoWrapper__left img {
   width: 100%;
   border-radius: 8px;
+}
+
+@media (max-width:767px) {
+  .popular-section1 {
+    h1 {
+      font-size: 24px;
+    }
+  }
+
+
+
+  .popular-section.video_wrapper_page{
+    .container{
+      .popular-row.row {
+        padding-top: 25px;
+        .subs-card {
+          .card-wrapper {
+            .premium-btn:empty{
+             display: none;
+            }
+            .bg-img{
+              height: 95px !important;
+              img{
+                height: auto;
+              }
+            }
+          }
+        }
+      }
+    } 
+  } 
 }
