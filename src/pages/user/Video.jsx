@@ -17,6 +17,8 @@ import {
 } from '@stripe/react-stripe-js'
 import { Link } from "react-router-dom";
 const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+
 const VideoPlayer = () => {
   const options = {
     mode: 'payment',
@@ -27,27 +29,34 @@ const VideoPlayer = () => {
       /*...*/
     },
   };
-  
-  
+  const [showModal, setShowModal] = useState(false);
+
+  const [IsExpanded, setIsExpanded]= useState(false);
+  const toggleExpand = () =>{
+    setIsExpanded(!IsExpanded);
+  }
+
+
   console.log("running");
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [show,setShow] = useState(false)
   
 
-  // const regex = /[?&]type=([^&]+)/;
-  // const subscriptionType = window.location.search.match(regex);
 
-  // console.log(subscriptionType[1])
-
-  // const videoURL = window.location.search.slice(
-  //   1,
-  //   window.location.search.length
   // );
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
   };
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
   return (
     <>
@@ -99,9 +108,18 @@ const VideoPlayer = () => {
                   <div className="videoWrapper__caption__descp">
                     <h4>Description</h4>
                     <p>
-                      In this video we will learn how to create landing page for
-                      cryptocurrency apps ...read more
+                      {IsExpanded ? "In this video we will learn how to create landing page for  cryptocurrency apps"
+                     
+                    :
+                    "In this video we will learn how to create..."
+                    
+                    
+                    }
+                      
                     </p>
+                    <button onClick={toggleExpand}>
+                      {IsExpanded ? "Read Less":"Read More"}
+                    </button>
                   </div>
 
                   <div className="videoWrapper__caption__midbuttons">
@@ -168,8 +186,14 @@ const VideoPlayer = () => {
                       </button>
                     </div>
                   </div>
-                  <button onClick={() => setShow(true)} className="buyBtn">Buy For $1.0</button>
+                  {/* <button onClick={() => setShow(true)} className="buyBtn">Buy For $1.0</button> */}
+                  <div>
+      <button  className="buyBtn" onClick={openModal}>Buy For $1.0</button>
+      <CheckoutForm show={showModal} handleClose={closeModal} />
+    </div>
+               
                 </div>
+
               </div>
             </Col>
           </Row>
@@ -197,7 +221,7 @@ const VideoPlayer = () => {
                 </button>
               
             )}
-            :
+          
             {itemsToLoad > 5 && (
              
                 <button onClick={loadLess} className="view-All-btn">
@@ -220,21 +244,23 @@ const VideoPlayer = () => {
                     views,
                     description,
                     watched,
-                    subscription,
                     url,
+                    subsType,
+                    amount,
                   },
                   index
                 ) => (
                   <Card
-                    url={url}
-                    key={id}
-                    title={title}
-                    img={image}
-                    duration={duration}
-                    views={views}
-                    watched={watched}
-                    subscription={subscription}
-                    description={description}
+                  url={url}
+                  key={id}
+                  title={title}
+                  img={image}
+                  duration={duration}
+                  views={views}
+                  watched={watched}
+                  subsType={subsType}
+                  amount={amount}
+                  description={description}
                   />
                 )
               )}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
 import ReactPlayer from "react-player";
 
@@ -15,7 +15,7 @@ import {
   iphone,
   team1,
   video_homescreen,
-  videoImg
+  videoImg,
 } from "../../assets/images/user";
 
 import {
@@ -31,11 +31,18 @@ import {
   Apple,
 } from "../../assets/icons/user";
 import "../../styles/user/home.scss";
-import {Card,Slider} from "../../components/user";
+import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
+import { userSignUp } from "../../redux/thunk/user/usrMain";
+import { useDispatch } from "react-redux";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // dispatch(userSignUp());
+  }, []);
 
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
@@ -140,7 +147,7 @@ function Home() {
         <section className="popular-section">
           <Container>
             <div className="title-block">
-              <h2 className="text-white">
+              <h2 className="text-white" id="popular">
                 most popular <Image src={downarrow} />
               </h2>
               <a href="/programs" className="view-all-link">
@@ -189,8 +196,11 @@ function Home() {
               )}
 
               {itemsToLoad > 5 && (
-                <button onClick={loadLess} className="load-more-btn">
+                <button onClick={loadLess} className="load-more-btn" id="popular">
+                                    
+
                   Load Less
+                  
                 </button>
               )}
             </div>
