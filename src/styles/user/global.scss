@@ -525,10 +525,9 @@ body main{
 
     .bannerImg {
       order: 2;
-      position: static !important;
-
-      width: 80% !important;
       margin-left: auto;
+      height: auto !important;
+      bottom: auto !important;
     }
 
     .text-block {
@@ -550,10 +549,10 @@ body main{
         }
 
         a.aple {
-          width: 130px !important;
+          width: 110px !important;
         }
         a.gpay {
-          width: 140px !important;
+          width: 110px !important;
         }
       }
     }
@@ -629,13 +628,15 @@ body main{
         font-size: 32px;
       }
     }
+
     .row {
       padding-top: 0 !important;
-    }
+    
     .card-partner {
       width: 50%;
       margin-top: 25px;
     }
+  }
   }
   .our-star-team-section {
     .title-block {
@@ -721,8 +722,9 @@ body main{
   .videoWrapper {
     .videoWrapper__caption {
       small {
-        font-size: 12px;
+        font-size: 13px;
         line-height: 12px;
+        padding-top: 15px;
       }
       h1 {
         font-size: 22px;
@@ -961,7 +963,7 @@ body main{
   }
 
   .platformPage{
-    padding-top: 0 !important;
+    padding-top: 35px !important;
   }
 }
 
@@ -975,4 +977,76 @@ body main{
     left: 50%;
     transform: translate(-50%,-50%);
   }
+}
+
+
+.fade.modal.show{
+  left: 0px;
+  right: 0px;
+  margin: auto;
+  button[type="submit"] {
+    width: 100%;
+    margin-top: 24px;
+    padding: 10px;
+    border: 0px;
+    background: $primary-color ;
+    color: #fff;
+    font-size: 20px;
+    border-radius: 10px;
+}
+}
+.read_more{
+  cursor: pointer;
+  text-decoration: underline;
+  color: #fff;
+}
+
+@media (max-width:767px) {
+  .fade.modal.show{
+    width: 100% !important;
+    height: auto !important;
+  }
+
+
+
+  .banner-home {
+    display: flex;
+    flex-direction: column;
+
+    .bannerImg {
+      order: 2;
+      position: static !important;
+
+      width: 80% !important;
+      margin-left: auto;
+    }
+
+    .text-block {
+      padding: 0 0 30px 0 !important;
+      h1 {
+        font-size: 28px !important;
+        line-height: 40px !important;
+        margin: 0;
+        padding: 0;
+      }
+      p {
+        margin: 10px 0 30px 0 !important;
+      }
+
+      .btns-group {
+        .try-btn {
+          width: 100%;
+          text-align: center;
+        }
+
+        a.aple {
+          width: 130px !important;
+        }
+        a.gpay {
+          width: 140px !important;
+        }
+      }
+    }
+  }
+
 }
