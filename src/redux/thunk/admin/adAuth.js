@@ -13,9 +13,10 @@ export const adminLogin = createAsyncThunk(
       const config = {
         method: "post",
         url: adLogin,
+        data: data,
       };
       // Perform your asynchronous operation here, e.g., an API call
-      const response = await httpsClient(true, true, config, data);
+      const response = await httpsClient(config);
       const result = await response.json();
       return result;
     } catch (error) {
