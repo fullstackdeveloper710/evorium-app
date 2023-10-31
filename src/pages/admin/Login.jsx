@@ -5,11 +5,14 @@ import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import "../../styles/admin/auth.scss";
+import { useDispatch } from "react-redux";
+import { passwordRegExp } from "../../utility/regax";
+import { adminLogin } from "../../redux/thunk/admin/adAuth";
 
 const AdminLogin = () => {
   const [showPass, setShowPass] = useState(false);
-  const passwordRegExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  const dispatch = useDispatch();
+
   const initValues = {
     email: "",
     password: "",
@@ -24,9 +27,10 @@ const AdminLogin = () => {
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
   });
-  function submit() {
-    console.log("login");
-  }
+  const onSubmitHandler = (values) => {
+    console.log(values, "values%%");
+    dispatch(adminLogin(values));
+  };
 
   return (
     <>
@@ -36,9 +40,7 @@ const AdminLogin = () => {
           <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log(values, "values%%");
-            }}
+            onSubmit={onSubmitHandler}
           >
             {({
               values,

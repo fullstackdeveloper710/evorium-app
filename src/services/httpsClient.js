@@ -5,7 +5,7 @@ import axiosInstance from "./axiosInstance";
 async function httpsClient(loader, Authorization, config, path, data) {
   const configration = {
     ...config,
-    baseURL: `${process.env.REACT_APP_API_URL}${path}`,
+    baseURL: `${process.env.REACT_APP_API_URL}`,
     timeout: 5000,
   };
   try {
