@@ -20,12 +20,12 @@ const AdminLogin = () => {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required("required field"),
-    password: Yup.string()
-      .required("required field")
-      .matches(
-        passwordRegExp,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
+    // password: Yup.string()
+    //   .required("required field")
+    //   .matches(
+    //     passwordRegExp,
+    //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    //   ),
   });
   const onSubmitHandler = (values) => {
     console.log(values, "values%%");

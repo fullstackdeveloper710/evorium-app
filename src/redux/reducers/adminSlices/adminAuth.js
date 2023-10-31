@@ -2,17 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 import { adminLogin } from "../../thunk/admin/adAuth";
 
 const initialState = {
-  status: false,
+  adminAuthtoken: null,
 };
 
 const adminAuthSlice = createSlice({
   name: "adminAuthSlice",
   initialState: initialState,
-  reducers: {
-    someAsyncAction: (state, action) => {
-      // Update your state here with the action payload
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(adminLogin.pending, (state) => {
@@ -20,8 +16,10 @@ const adminAuthSlice = createSlice({
         state.error = null;
       })
       .addCase(adminLogin.fulfilled, (state, action) => {
+        const { payload } = action;
         // state.loading = false;
-        // state.data = action.payload;
+        console.log(payload, "payload");
+        state.adminAuthtoken = payload.access_token;
       })
       .addCase(adminLogin.rejected, (state, action) => {
         // state.loading = false;
@@ -30,5 +28,5 @@ const adminAuthSlice = createSlice({
   },
 });
 
-export const { someAsyncAction } = adminAuthSlice.actions;
+export const {} = adminAuthSlice.actions;
 export default adminAuthSlice.reducer;

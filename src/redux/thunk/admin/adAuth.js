@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
+import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
 const { adLogin } = adminApi;
 
@@ -8,19 +9,19 @@ const { adLogin } = adminApi;
 export const adminLogin = createAsyncThunk(
   "admin/adminLogin",
   async (data, thunkAPI) => {
-    console.log(data, "data");
     try {
       const config = {
         method: "post",
         url: adLogin,
         data: data,
       };
-      // Perform your asynchronous operation here, e.g., an API call
+      thunkAPI.dispatch(showLoader());
       const response = await httpsClient(config);
-      const result = await response.json();
-      return result;
+      thunkAPI.dispatch(hideLoader());
+      return response;
     } catch (error) {
-      // Handle errors
+      console.log("error", error);
+      thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
