@@ -234,7 +234,7 @@ const VideoPlayer = () => {
                 </button>
               
             )}
-            :
+          
             {itemsToLoad > 5 && (
              
                 <button onClick={loadLess} className="view-All-btn">
@@ -257,21 +257,23 @@ const VideoPlayer = () => {
                     views,
                     description,
                     watched,
-                    subscription,
                     url,
+                    subsType,
+                    amount,
                   },
                   index
                 ) => (
                   <Card
-                    url={url}
-                    key={id}
-                    title={title}
-                    img={image}
-                    duration={duration}
-                    views={views}
-                    watched={watched}
-                    subscription={subscription}
-                    description={description}
+                  url={url}
+                  key={id}
+                  title={title}
+                  img={image}
+                  duration={duration}
+                  views={views}
+                  watched={watched}
+                  subsType={subsType}
+                  amount={amount}
+                  description={description}
                   />
                 )
               )}

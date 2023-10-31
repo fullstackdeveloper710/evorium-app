@@ -146,7 +146,7 @@ function Home() {
         <section className="popular-section">
           <Container>
             <div className="title-block">
-              <h2 className="text-white">
+              <h2 className="text-white" id="popular">
                 most popular <Image src={downarrow} />
               </h2>
               <a href="/programs" className="view-all-link">
@@ -195,8 +195,11 @@ function Home() {
               )}
 
               {itemsToLoad > 5 && (
-                <button onClick={loadLess} className="load-more-btn">
+                <button onClick={loadLess} className="load-more-btn" id="popular">
+                                    
+
                   Load Less
+                  
                 </button>
               )}
             </div>
