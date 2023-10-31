@@ -3,7 +3,7 @@ const userApi = {
 };
 
 const adminApi = {
-  login: "/login",
+  adminLogin: "admin/login",
 };
 
 export { userApi, adminApi };
