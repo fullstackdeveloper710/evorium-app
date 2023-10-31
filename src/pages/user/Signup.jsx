@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button, Alert } from "../../components/user";
 import "../../styles/user/auth.scss";
@@ -13,15 +13,17 @@ import {
 import { Link } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { userSignUp } from "../../redux/thunk/user/usrMain";
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
+  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-
-  const initValues = {
+  const [formData, setFormData] = useState({
     name: "",
     email: "",
     password: "",
-  };
+  });
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -47,6 +49,14 @@ const Signup = () => {
     setShow(false);
     window.open("/login", "_self");
   }
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    dispatch(userSignUp(formData));
+  };
 
   return (
     <>
@@ -64,10 +74,10 @@ const Signup = () => {
           <h1 className="auth__title">Sign Up to your account</h1>
 
           <Formik
-            initialValues={initValues}
+            initialValues={formData}
             validationSchema={validationSchema}
             onSubmit={(values) => {
-              // console.log(values, "values%%");
+              console.log(values, "values%%");
               setShow(false);
               window.open("/login", "_self");
             }}
@@ -77,8 +87,8 @@ const Signup = () => {
               isSubmitting,
               errors,
               touched,
-              handleChange,
-              handleSubmit,
+              // handleChange,
+              // handleSubmit,
               handleBlur,
             }) => (
               <Form onSubmit={handleSubmit}>
@@ -184,14 +194,7 @@ const Signup = () => {
                   <Col md="12">
                     <p className="newUserLink">
                       Already Have an Account?
-                      <span
-                        onClick={() =>
-                          window.open(
-                            "/login",
-                            "_self"
-                          )
-                        }
-                      >
+                      <span onClick={() => window.open("/login", "_self")}>
                         Login
                       </span>
                     </p>

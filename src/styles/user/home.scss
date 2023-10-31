@@ -547,6 +547,8 @@ span.cardIcon {
       }
    
       .loadBtnWrap {
+        position: relative;
+        z-index: 1;
         .load-more-btn:last-child{
           width: 100%;
           font-size: 16px;
@@ -619,5 +621,7 @@ span.cardIcon {
 }
 }
 
-
+.loadBtnWrap {
+  position: relative;
+  z-index: 1;}
 

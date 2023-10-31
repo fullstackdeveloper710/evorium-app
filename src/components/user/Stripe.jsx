@@ -1,27 +1,21 @@
 import React, { useState } from "react";
 import ReactDOM from "react-dom";
-
 import {
   PaymentElement,
   Elements,
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { Modal } from "react-bootstrap";
-
-const CheckoutForm = ({show}) => {
+import { Button, Modal } from "react-bootstrap";
+const CheckoutForm = ({ show, handleClose }) => {
   const stripe = useStripe();
   const elements = useElements();
-
   const [errorMessage, setErrorMessage] = useState(null);
-
   const handleSubmit = async (event) => {
     event.preventDefault();
-
     if (elements == null) {
       return;
     }
-
     // Trigger form validation and wallet collection
     const { error: submitError } = await elements.submit();
     if (submitError) {
@@ -29,14 +23,11 @@ const CheckoutForm = ({show}) => {
       setErrorMessage(submitError.message);
       return;
     }
-
     // Create the PaymentIntent and obtain clientSecret from your server endpoint
     const res = await fetch("/create-intent", {
       method: "POST",
     });
-
     const { client_secret: clientSecret } = await res.json();
-
     const { error } = await stripe.confirmPayment({
       //`Elements` instance that was used to create the Payment Element
       elements,
@@ -45,7 +36,6 @@ const CheckoutForm = ({show}) => {
         return_url: "https://example.com/order/123/complete",
       },
     });
-
     if (error) {
       // This point will only be reached if there is an immediate error when
       // confirming the payment. Show error to your customer (for example, payment
@@ -57,25 +47,27 @@ const CheckoutForm = ({show}) => {
       // site first to authorize the payment, then redirected to the `return_url`.
     }
   };
-
   return (
-    <div style={{
-        display :'flex',
-        justifyContent:'center',
-        height:'100%',
-        width:'100%'
-    }}>
-
-           <Modal
-      show={show}
+    <div
       style={{
-        display:'flex',
-        height: 800,
-        width: 800,
-        justifyContent:'center'
+        display: "flex",
+        justifyContent: "center",
+        height: "100%",
+        width: "100%",
       }}
     >
-      <Modal.Body>
+      <Modal
+        show={show}
+        onHide={handleClose}
+        style={{
+          display: "flex",
+          height: 800,
+          width: 800,
+          justifyContent: "center",
+        }}
+      >
+        <Modal.Header closeButton></Modal.Header>
+        <Modal.Body>
         <form onSubmit={handleSubmit}>
           <PaymentElement />
           <button type="submit" disabled={!stripe || !elements}>
@@ -84,11 +76,9 @@ const CheckoutForm = ({show}) => {
           {/* Show error message to your customers */}
           {errorMessage && <div>{errorMessage}</div>}
         </form>
-      </Modal.Body>
-    </Modal> 
+        </Modal.Body>
+      </Modal>
     </div>
-
   );
 };
-
 export default CheckoutForm;

@@ -119,7 +119,7 @@ const Login = () => {
                     {/* <Button title={"Login"} className="submitBtn" submit={submit} /> */}
                     <Button
                       type="submit"
-                      title={"Save Changes"}
+                      title={"Login"}
                       className="submitBtn"
                       // submit={submit}
                     />
