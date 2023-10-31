@@ -9,7 +9,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { Modal } from "react-bootstrap";
 
-const CheckoutForm = ({show}) => {
+const CheckoutForm = ({ show }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -59,35 +59,40 @@ const CheckoutForm = ({show}) => {
   };
 
   return (
-    <div style={{
-        display :'flex',
-        justifyContent:'center',
-        height:'100%',
-        width:'100%'
-    }}>
-
-           <Modal
-      show={show}
+    <div
       style={{
-        display:'flex',
-        height: 800,
-        width: 800,
-        justifyContent:'center'
+        display: "flex",
+        justifyContent: "center",
+        height: "100%",
+        width: "100%",
       }}
     >
-      <Modal.Body>
-        <form onSubmit={handleSubmit}>
-          <PaymentElement />
-          <button type="submit" disabled={!stripe || !elements}>
-            Pay
-          </button>
-          {/* Show error message to your customers */}
-          {errorMessage && <div>{errorMessage}</div>}
-        </form>
-      </Modal.Body>
-    </Modal> 
-    </div>
+      <Modal
+        show={show}
+        style={{
+          display: "flex",
+          height: 800,
+          width: 800,
+          justifyContent: "center",
+        }}
+      >
+        <Modal.Header 
+      closeButton>
+          <h2>payment</h2>
 
+        </Modal.Header>
+        <Modal.Body>
+          <form onSubmit={handleSubmit}>
+            <PaymentElement/>
+            <button type="submit" disabled={!stripe || !elements}>
+              Pay
+            </button>
+            {/* Show error message to your customers */}
+            {errorMessage && <div>{errorMessage}</div>}
+          </form>
+        </Modal.Body>
+      </Modal>
+    </div>
   );
 };
 

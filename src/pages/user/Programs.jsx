@@ -27,6 +27,8 @@ import "../../styles/user/programs.scss";
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
+  const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
+
   const [showAlert, setShowAlert] = useState(false);
   const [sorted, setSorted] = useState("all");
 
@@ -56,6 +58,12 @@ function Programs() {
   };
   const loadLessPro = () => {
     setItemsToLoadPro(5);
+  };
+  const loadMoreTop = () => {
+    setItemsToLoadTop(cardsData.length);
+  };
+  const loadLessTop = () => {
+    setItemsToLoadTop(5);
   };
   return (
     <>
@@ -128,17 +136,17 @@ function Programs() {
                   </Nav>
                 </Col>
                 <Col md={6} className="text-end">
-                  {itemsToLoad < cardsData.length && (
+                  {itemsToLoadTop < cardsData.length && (
                    
-                      <button onClick={loadMore} className="view-All-btn">
+                      <button onClick={loadMoreTop} className="view-All-btn">
                         View All
                       </button>
                     
                   )}
                   :
-                  {itemsToLoad > 5 && (
+                  {itemsToLoadTop > 5 && (
                    
-                      <button onClick={loadLess} className="view-All-btn">
+                      <button onClick={loadMoreTop} className="view-All-btn">
                         View Less
                       </button>
                    

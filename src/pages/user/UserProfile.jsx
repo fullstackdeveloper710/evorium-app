@@ -21,11 +21,11 @@ const UserProfile = () => {
   };
 
   const CountryOptions = [
-    { value: "india", label: "india" },
-    { value: "italy", label: "italy" },
-    { value: "usa", label: "usa" },
-    { value: "china", label: "china" },
-    { value: "canada", label: "canada" },
+    { value: "India", label: "India" },
+    { value: "Italy", label: "Italy" },
+    { value: "USA", label: "USA" },
+    { value: "China", label: "China" },
+    { value: "Canada", label: "Canada" },
     { value: "UK", label: "UK" },
   ];
 

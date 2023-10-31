@@ -1,16 +1,17 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
+import { userApi } from "../../../services/apiEndpoints";
 
 // Create an async thunk
-export const fetchData = createAsyncThunk(
-  "data/fetchData",
+export const userSignUp = createAsyncThunk(
+  "user/userSignUp",
   async (params, thunkAPI) => {
     try {
       // Perform your asynchronous operation here, e.g., an API call
       const config = {
-        method: "get",
+        method: "post",
       };
-      const response = httpsClient(true, false, config, "posts");
+      const response = httpsClient(true, false, config,userApi.userSignup);
 
       // return data;
     } catch (error) {

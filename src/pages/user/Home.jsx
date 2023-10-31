@@ -33,7 +33,7 @@ import {
 import "../../styles/user/home.scss";
 import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
-import { fetchData } from "../../redux/thunk/user/usrMain";
+import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 
 function Home() {
@@ -41,7 +41,7 @@ function Home() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchData());
+    // dispatch(userSignUp());
   }, []);
 
   const loadMore = () => {

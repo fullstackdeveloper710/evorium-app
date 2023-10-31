@@ -16,6 +16,8 @@ import {
   useElements,
 } from '@stripe/react-stripe-js'
 const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
+
+
 const VideoPlayer = () => {
   const options = {
     mode: 'payment',
@@ -26,21 +28,18 @@ const VideoPlayer = () => {
       /*...*/
     },
   };
-  
-  
+  const [IsExpanded, setIsExpanded]= useState(false);
+  const toggleExpand = () =>{
+    setIsExpanded(!IsExpanded);
+  }
+
+
   console.log("running");
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [show,setShow] = useState(false)
   
 
-  // const regex = /[?&]type=([^&]+)/;
-  // const subscriptionType = window.location.search.match(regex);
 
-  // console.log(subscriptionType[1])
-
-  // const videoURL = window.location.search.slice(
-  //   1,
-  //   window.location.search.length
   // );
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
@@ -112,9 +111,18 @@ const VideoPlayer = () => {
                   <div className="videoWrapper__caption__descp">
                     <h4>Description</h4>
                     <p>
-                      In this video we will learn how to create landing page for
-                      cryptocurrency apps ...read more
+                      {IsExpanded ? "In this video we will learn how to create landing page for  cryptocurrency apps"
+                     
+                    :
+                    "In this video we will learn how to create..."
+                    
+                    
+                    }
+                      
                     </p>
+                    <button onClick={toggleExpand}>
+                      {IsExpanded ? "Read Less":"Read More"}
+                    </button>
                   </div>
 
                   <div className="videoWrapper__caption__midbuttons">
