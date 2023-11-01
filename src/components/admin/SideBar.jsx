@@ -25,7 +25,7 @@ function SideBar() {
   const {
     adLogin,
     adDashboard,
-    adUser,
+    adUserDetail,
     adUserList,
     adProgramList,
     adAddprogram,

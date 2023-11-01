@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { adminUserList } from "../../thunk/admin/adUser";
+import { getAdminUserList } from "../../thunk/admin/adUser";
 
 const initialState = {
   adminUsers: {
@@ -13,16 +13,16 @@ const adminUserSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(adminUserList.pending, (state) => {
+      .addCase(getAdminUserList.pending, (state) => {
         state.error = null;
         state.status = false;
       })
-      .addCase(adminUserList.fulfilled, (state, action) => {
+      .addCase(getAdminUserList.fulfilled, (state, action) => {
         const { payload } = action;
         state.adminUsers = payload;
         state.status = true;
       })
-      .addCase(adminUserList.rejected, (state, action) => {
+      .addCase(getAdminUserList.rejected, (state, action) => {
         state.status = false;
       });
   },

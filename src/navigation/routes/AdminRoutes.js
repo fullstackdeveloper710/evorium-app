@@ -18,7 +18,7 @@ import { ROUTES } from "../constants";
 const {
   adLogin,
   adDashboard,
-  adUser,
+  adUserDetail,
   adUserList,
   adProgramList,
   adAddprogram,
@@ -58,7 +58,7 @@ export const adminRoutes = [
   {
     id: 3,
     type: "private",
-    path: adUser,
+    path: adUserDetail,
     Component: UserDetails,
     Auth: true,
     defaultComp: false,

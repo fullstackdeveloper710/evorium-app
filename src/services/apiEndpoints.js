@@ -4,7 +4,8 @@ const userApi = {
 
 const adminApi = {
   adLogin: "admin/login",
-  adUserList: "/admin/users",
+  adUserList: "admin/users",
+  adUserDetail: "admin/userdetail",
 };
 
 export { userApi, adminApi };

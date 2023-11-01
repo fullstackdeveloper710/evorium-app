@@ -1,7 +1,7 @@
 export const ROUTES = {
   adLogin: "/backoffice",
   adDashboard: "/backoffice/dashboard",
-  adUser: "/backoffice/user",
+  adUserDetail: "/backoffice/user",
   adUserList: "/backoffice/user-listing",
   adProgramList: "/backoffice/program-listing",
   adAddprogram: "/backoffice/add-program",

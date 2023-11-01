@@ -1,10 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { demopic2, video_card } from "../../assets/images/admin";
 import { view } from "../../assets/icons/admin";
 import { Col, Image, Row, Table } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { getAdminUserDetail } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/userListing.scss";
 function UserDetails() {
+  const location = useLocation();
+  const { state } = location;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    console.log(state.id);
+    // dispatch(getAdminUserDetail());
+  }, []);
+
   return (
     <div className="user_listing_section">
       <h3 className="title">

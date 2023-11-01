@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
-import { adminUserList } from "../../redux/thunk/admin/adUser";
+import { getAdminUserList } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
 
 function UserList() {
@@ -17,7 +17,7 @@ function UserList() {
         pageSize: 4,
       },
     };
-    dispatch(adminUserList(data));
+    dispatch(getAdminUserList(data));
   }, []);
   return (
     <>

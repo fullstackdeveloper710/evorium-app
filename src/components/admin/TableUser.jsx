@@ -2,10 +2,17 @@ import React from "react";
 import { Image, Table } from "react-bootstrap";
 import { view, trash } from "../../assets/icons/admin";
 import { demopic } from "../../assets/images/admin";
-import { Link } from "react-router-dom";
-import "../../styles/admin/tableUser.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { dateFormater } from "../../utility/methods";
+import { ROUTES } from "../../navigation/constants";
+import "../../styles/admin/tableUser.scss";
 function TableUser({ data }) {
+  const navigate = useNavigate();
+
+  const onViewHandler = (id) => {
+    navigate(ROUTES.adUserDetail, { state: { id: id } });
+  };
+
   return (
     <>
       <div className="user_table">
@@ -31,6 +38,7 @@ function TableUser({ data }) {
                     profile_pic,
                     createdAt,
                     country_code,
+                    _id,
                   },
                   index
                 ) => (
@@ -72,7 +80,10 @@ function TableUser({ data }) {
                     </td>
                     <td>
                       <div className="actions_btns">
-                        <button className="action_btn">
+                        <button
+                          className="action_btn"
+                          onClick={() => onViewHandler(_id)}
+                        >
                           <Image src={view} />
                         </button>
                         <button className="action_btn">
