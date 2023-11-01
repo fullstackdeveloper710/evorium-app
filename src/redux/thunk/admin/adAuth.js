@@ -9,19 +9,20 @@ const { adLogin } = adminApi;
 export const adminLogin = createAsyncThunk(
   "admin/adminLogin",
   async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { values } = data;
     try {
       const config = {
         method: "post",
         url: adLogin,
-        data: data,
+        data: values,
       };
-      thunkAPI.dispatch(showLoader());
+      dispatch(showLoader());
       const response = await httpsClient(config);
-      thunkAPI.dispatch(hideLoader());
+      dispatch(hideLoader());
       return response;
     } catch (error) {
-      console.log("error", error);
-      thunkAPI.dispatch(hideLoader());
+      dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
