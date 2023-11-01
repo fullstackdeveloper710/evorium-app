@@ -7,9 +7,9 @@ import "../../styles/admin/user.scss";
 function UserList() {
   const dispatch = useDispatch();
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
+  const { adminUsers } = useSelector((state) => state.adUser);
 
   useEffect(() => {
-    console.log("user listing render");
     const data = {
       adminAuthtoken,
       values: {
@@ -43,7 +43,7 @@ function UserList() {
             </div>
           </div>
         </div>
-        <TableUser />
+        <TableUser data={adminUsers.data} />
       </div>
     </>
   );

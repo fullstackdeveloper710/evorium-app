@@ -3,7 +3,7 @@ import { adminUserList } from "../../thunk/admin/adUser";
 
 const initialState = {
   adminUsers: {
-    usrList: [],
+    data: [],
   },
 };
 

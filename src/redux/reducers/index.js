@@ -9,7 +9,7 @@ const rootReducer = combineReducers({
   app: appSlice,
   user: userMain,
   adAuth: adminMainSlice,
-  adUsers: adminUserSlice,
+  adUser: adminUserSlice,
   // Add other reducers here
 });
 
