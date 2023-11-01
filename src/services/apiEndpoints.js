@@ -7,6 +7,7 @@ const adminApi = {
   adUserList: "admin/users",
   adUserDetail: "admin/userdetail",
   adSpeakersList: "/admin/speakers",
+  adCategories: "/admin/categories",
 };
 
 export { userApi, adminApi };

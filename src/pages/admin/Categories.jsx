@@ -1,11 +1,30 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Row, Table, Image } from "react-bootstrap";
 import { CommonButtons } from "../../components/admin";
 import { trash } from "../../assets/icons/admin";
-import {Pagination} from "../../components/admin";
+import { Pagination } from "../../components/admin";
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import "../../styles/admin/categories.scss";
+import { getAdminCategories } from "../../redux/thunk/admin/adCategories";
+import { dateFormater } from "../../utility/methods";
 function Categories() {
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+  const { adminCategories } = useSelector((state) => state.adCategories);
+  const { data } = adminCategories;
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(getAdminCategories(data));
+  }, []);
+
   return (
     <div className="categories_section">
       <h3 className="title">Categories</h3>
@@ -36,54 +55,26 @@ function Categories() {
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>1.</td>
-                <td>Cryptocurrency</td>
-                <td>26 Nov,23</td>
-                <td>
-                  <div className="delete_action">
-                    <Link to="#" className="delete_btn">
-                      <Image src={trash} className="" />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>2.</td>
-                <td>Cryptocurrency</td>
-                <td>26 Nov,23</td>
-                <td>
-                  <div className="delete_action">
-                    <Link to="#" className="delete_btn">
-                      <Image src={trash} className="" />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>3.</td>
-                <td>Cryptocurrency</td>
-                <td>26 Nov,23</td>
-                <td>
-                  <div className="delete_action">
-                    <Link to="#" className="delete_btn">
-                      <Image src={trash} className="" />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
-              <tr>
-                <td>4.</td>
-                <td>Cryptocurrency</td>
-                <td>26 Nov,23</td>
-                <td>
-                  <div className="delete_action">
-                    <Link to="#" className="delete_btn">
-                      <Image src={trash} className="" />
-                    </Link>
-                  </div>
-                </td>
-              </tr>
+              {data?.length ? (
+                data?.map(({ title, createdAt }, index) => {
+                  return (
+                    <tr key={index}>
+                      <td>{index + 1}.</td>
+                      <td>{title}</td>
+                      <td>{dateFormater(createdAt)}</td>
+                      <td>
+                        <div className="delete_action">
+                          <Link to="#" className="delete_btn">
+                            <Image src={trash} className="" />
+                          </Link>
+                        </div>
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <div>No record Found</div>
+              )}
             </tbody>
           </Table>
         </div>

@@ -4,6 +4,7 @@ import adminMainSlice from "./adminSlices/adAuth";
 import adminUserSlice from "./adminSlices/adUser";
 import adminSpeakerSlice from "./adminSlices/adSpeakers";
 import appSlice from "./common/appSlice";
+import adminCategoriesSlice from "./adminSlices/adCategories";
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -12,6 +13,7 @@ const rootReducer = combineReducers({
   adAuth: adminMainSlice,
   adUser: adminUserSlice,
   adSpeaker: adminSpeakerSlice,
+  adCategories: adminCategoriesSlice,
   // Add other reducers here
 });
 
