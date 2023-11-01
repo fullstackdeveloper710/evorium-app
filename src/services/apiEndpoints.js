@@ -1,5 +1,6 @@
 const userApi = {
   userSignup: "user/signup",
+  usrLogin: "user/login",
 };
 
 const adminApi = {

@@ -5,11 +5,20 @@ import "../../styles/user/auth.scss";
 import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
+import { userLogin } from "../../redux/thunk/user/usrMain";
+import { useDispatch } from "react-redux";
 
 const Login = () => {
   const [show, setShow] = useState(false);
+
+
+  const [showPass, setShowPass] = useState(false);
+  const dispatch = useDispatch();
   const passwordRegExp =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+
+
+
   const initValues = {
     email: "",
     password: "",
@@ -17,12 +26,12 @@ const Login = () => {
 
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required("required field"),
-    password: Yup.string()
-      .required("required field")
-      .matches(
-        passwordRegExp,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
+    // password: Yup.string()
+    //   .required("required field")
+    //   .matches(
+    //     passwordRegExp,
+    //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    //   ),
   });
   function submit() {
     console.log("login");
@@ -30,6 +39,11 @@ const Login = () => {
     localStorage.setItem("login", true);
     window.open("/programs", "_self");
   }
+
+  const onSubmitHandler = (values) => {
+    console.log(values, "values%%");
+    dispatch(userLogin(values));
+  };
 
   return (
     <>
@@ -39,11 +53,7 @@ const Login = () => {
           <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log(values, "values%%");
-              localStorage.setItem("login", true);
-              window.open("/programs", "_self");
-            }}
+            onSubmit={onSubmitHandler}
           >
             {({
               values,
@@ -78,14 +88,20 @@ const Login = () => {
                         <input
                           name="password"
                           placeholder="Enter Password"
-                          type="password"
+                          type={showPass ? "text" : "password"}
                           value={values.password}
                           onBlur={handleBlur}
                           onChange={handleChange}
                         />
 
-                        <span className="inputRow__iconGroup">
-                          <EyeLock />
+                        <span
+                          className="inputRow__iconGroup"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowPass(!showPass);
+                          }}
+                        >
+                          {showPass ? <EyeLock /> : <EyeLock />}
                         </span>
                       </div>
                       <span style={{ color: "red" }}>

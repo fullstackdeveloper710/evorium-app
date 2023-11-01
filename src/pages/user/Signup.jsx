@@ -17,13 +17,16 @@ import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 
 const Signup = () => {
+  const [showPass, setShowPass] = useState(false);
+
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
+
+  const initValues = {
+    full_name: "",
     email: "",
     password: "",
-  });
+  };
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -35,11 +38,11 @@ const Signup = () => {
       .required("required field"),
     email: Yup.string().email().required("Enter your E-mail"),
     password: Yup.string()
-      .required("required field")
       .matches(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
+      )
+      .required("required field"),
   });
   function submit() {
     setShow(true);
@@ -49,15 +52,22 @@ const Signup = () => {
     setShow(false);
     window.open("/login", "_self");
   }
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(userSignUp(formData));
+  const onSubmitHandler = (values) => {
+    console.log(values, "signup------------");
+    dispatch(userSignUp(values));
+    setShow(true);
   };
-
+  //  const onSubmitHandler = async (values) => {
+  //   console.log(values,"values")
+  //     try {
+  //       console.log(values,"Sign_up")
+  //       dispatch(userSignUp(values));
+  //       setShow(true);
+  //     } catch (error) {
+  //       console.error("Error in userSignUp:", error);
+  //     }
+  //   };
   return (
     <>
       <Alert
@@ -74,21 +84,17 @@ const Signup = () => {
           <h1 className="auth__title">Sign Up to your account</h1>
 
           <Formik
-            initialValues={formData}
-            validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log(values, "values%%");
-              setShow(false);
-              window.open("/login", "_self");
-            }}
+            initialValues={initValues}
+            // validationSchema={validationSchema}
+            onSubmit={onSubmitHandler}
           >
             {({
               values,
               isSubmitting,
               errors,
               touched,
-              // handleChange,
-              // handleSubmit,
+              handleChange,
+              handleSubmit,
               handleBlur,
             }) => (
               <Form onSubmit={handleSubmit}>
@@ -96,16 +102,18 @@ const Signup = () => {
                   <Col md={12}>
                     <div className="inputRow">
                       <input
-                        name="name"
+                        name="full_name"
                         placeholder="Name"
-                        type="text"
-                        value={values.name}
+                        type="full_name"
+                        value={values.full_name}
                         onBlur={handleBlur}
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
                         {" "}
-                        {errors.name && touched.name && errors.name}
+                        {errors.full_name &&
+                          touched.full_name &&
+                          errors.full_name}
                       </span>
                     </div>
                   </Col>
@@ -132,14 +140,20 @@ const Signup = () => {
                         <input
                           name="password"
                           placeholder="Enter Password"
-                          type="password"
+                          type={showPass ? "text" : "password"}
                           value={values.password}
                           onBlur={handleBlur}
                           onChange={handleChange}
                         />
 
-                        <span className="inputRow__iconGroup">
-                          <EyeLock />
+                        <span
+                          className="inputRow__iconGroup"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setShowPass(!showPass);
+                          }}
+                        >
+                          {showPass ? <EyeLock /> : <EyeLock />}
                         </span>
                       </div>
                       <span style={{ color: "red" }}>
@@ -149,8 +163,6 @@ const Signup = () => {
                   </Col>
 
                   <Col md="12">
-                    {/* <Button title={"Signup"} className="submitBtn" submit={submit} />
-                     */}
                     <Button
                       type="submit"
                       title={"Save Changes"}
