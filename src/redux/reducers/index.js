@@ -1,13 +1,15 @@
 import { combineReducers } from "redux";
 import userMain from "./userSlices/userMain";
-import adminMainSlice from "./adminSlices/adminAuth";
+import adminMainSlice from "./adminSlices/adAuth";
+import adminUserSlice from "./adminSlices/adUser";
 import appSlice from "./common/appSlice";
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
   app: appSlice,
   user: userMain,
-  admin: adminMainSlice,
+  adAuth: adminMainSlice,
+  adUsers: adminUserSlice,
   // Add other reducers here
 });
 

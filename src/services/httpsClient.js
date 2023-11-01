@@ -11,7 +11,7 @@ const httpsClient = async (config, authToken) => {
   if (authToken) {
     configration.headers = {
       ...configration.headers,
-      Authorization: "Bearer your_token_here",
+      Authorization: `Bearer ${authToken}`,
     };
   }
   const result = await axiosInstance(configration);

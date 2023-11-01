@@ -3,22 +3,21 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adLogin } = adminApi;
+const { adUserList } = adminApi;
 
 // admin login thunk
-export const adminLogin = createAsyncThunk(
-  "admin/adminLogin",
+export const adminUserList = createAsyncThunk(
+  "admin/adminUserList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { values } = data;
+    const { adminToken, values } = data;
     try {
       const config = {
-        method: "post",
-        url: `${adLogin}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
-        data: values,
+        method: "get",
+        url: adUserList,
       };
       dispatch(showLoader());
-      const response = await httpsClient(config);
+      const response = await httpsClient(config, adminToken);
       dispatch(hideLoader());
       return response;
     } catch (error) {

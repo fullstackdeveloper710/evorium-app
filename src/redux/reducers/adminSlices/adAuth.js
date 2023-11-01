@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { adminLogin } from "../../thunk/admin/adAuth";
 
 const initialState = {
-  adminAuthtoken: null,
+  adminAuthtoken: true,
 };
 
 const adminAuthSlice = createSlice({

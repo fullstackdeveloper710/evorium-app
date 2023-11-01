@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 
 function AdPvtLayout() {
-  const { adminAuthtoken } = useSelector((state) => state.admin);
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adLogin } = ROUTES;
   if (adminAuthtoken) {
     return (
