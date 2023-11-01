@@ -10,20 +10,29 @@ import {
   Speaker,
   Tags,
   Faq,
+  Login,
 } from "../../pages/admin";
 
 export const adminRoutes = [
   {
     id: 1,
-    type: "Private",
+    type: "public",
     path: "/backoffice",
-    Component: Dashboard,
-    Auth: true,
+    Component: Login,
+    Auth: false,
     defaultComp: true,
   },
   {
+    id: 1,
+    type: "private",
+    path: "/backoffice/dashboard",
+    Component: Dashboard,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
     id: 2,
-    type: "Private",
+    type: "private",
     path: "user",
     Component: User,
     Auth: true,
@@ -31,7 +40,7 @@ export const adminRoutes = [
   },
   {
     id: 3,
-    type: "Private",
+    type: "private",
     path: "user-listing",
     Component: UserListing,
     Auth: true,
@@ -39,7 +48,7 @@ export const adminRoutes = [
   },
   {
     id: 4,
-    type: "Private",
+    type: "private",
     path: "program-listing",
     Component: ProgramListing,
     Auth: true,
@@ -47,7 +56,7 @@ export const adminRoutes = [
   },
   {
     id: 5,
-    type: "Private",
+    type: "private",
     path: "add-program",
     Component: AddProgram,
     Auth: true,
@@ -55,7 +64,7 @@ export const adminRoutes = [
   },
   {
     id: 6,
-    type: "Private",
+    type: "private",
     path: "categories",
     Component: Categories,
     Auth: true,
@@ -63,7 +72,7 @@ export const adminRoutes = [
   },
   {
     id: 7,
-    type: "Private",
+    type: "private",
     path: "tags",
     Component: Tags,
     Auth: true,
@@ -71,7 +80,7 @@ export const adminRoutes = [
   },
   {
     id: 8,
-    type: "Private",
+    type: "private",
     path: "payment",
     Component: Payment,
     Auth: true,
@@ -79,7 +88,7 @@ export const adminRoutes = [
   },
   {
     id: 9,
-    type: "Private",
+    type: "private",
     path: "speaker",
     Component: Speaker,
     Auth: true,
@@ -87,7 +96,7 @@ export const adminRoutes = [
   },
   {
     id: 10,
-    type: "Private",
+    type: "private",
     path: "faq",
     Component: Faq,
     Auth: true,
@@ -95,7 +104,7 @@ export const adminRoutes = [
   },
   {
     id: 11,
-    type: "Private",
+    type: "private",
     path: "faq-listing",
     Component: FaqListing,
     Auth: true,

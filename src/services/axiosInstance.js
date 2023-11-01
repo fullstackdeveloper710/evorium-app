@@ -1,12 +1,15 @@
 import axios from "axios";
 
-const axiosInstance = axios.create();
+const axiosInstance = axios.create({
+  baseURL: "http://api.evorium.xyz/",
+  timeout: 10000,
+});
 
 // Request Interceptor
 axiosInstance.interceptors.request.use(
   (config) => {
     // Modify the request config, add headers, or perform other tasks before the request is sent
-    config.headers["Authorization"] = "Bearer YourAccessToken";
+    // config.headers["Authorization"] = "Bearer YourAccessToken";
     return config;
   },
   (error) => {
