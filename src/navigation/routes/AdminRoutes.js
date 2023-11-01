@@ -12,12 +12,28 @@ import {
   Faq,
   Login,
 } from "../../pages/admin";
+import { ROUTES } from "../constants";
+
+const {
+  adLogin,
+  adDashboard,
+  adUser,
+  adUserList,
+  adProgramList,
+  adAddprogram,
+  adCategories,
+  adTags,
+  adPayment,
+  adSpeaker,
+  adFaq,
+  adFaqList,
+} = ROUTES;
 
 export const adminRoutes = [
   {
     id: 1,
     type: "public",
-    path: "/backoffice",
+    path: adLogin,
     Component: Login,
     Auth: false,
     defaultComp: true,
@@ -25,7 +41,7 @@ export const adminRoutes = [
   {
     id: 1,
     type: "private",
-    path: "/backoffice/dashboard",
+    path: adDashboard,
     Component: Dashboard,
     Auth: true,
     defaultComp: false,
@@ -33,7 +49,7 @@ export const adminRoutes = [
   {
     id: 2,
     type: "private",
-    path: "user",
+    path: adUser,
     Component: User,
     Auth: true,
     defaultComp: false,
@@ -41,7 +57,7 @@ export const adminRoutes = [
   {
     id: 3,
     type: "private",
-    path: "user-listing",
+    path: adUserList,
     Component: UserListing,
     Auth: true,
     defaultComp: false,
@@ -49,7 +65,7 @@ export const adminRoutes = [
   {
     id: 4,
     type: "private",
-    path: "program-listing",
+    path: adProgramList,
     Component: ProgramListing,
     Auth: true,
     defaultComp: false,
@@ -57,7 +73,7 @@ export const adminRoutes = [
   {
     id: 5,
     type: "private",
-    path: "add-program",
+    path: adAddprogram,
     Component: AddProgram,
     Auth: true,
     defaultComp: false,
@@ -65,7 +81,7 @@ export const adminRoutes = [
   {
     id: 6,
     type: "private",
-    path: "categories",
+    path: adCategories,
     Component: Categories,
     Auth: true,
     defaultComp: false,
@@ -73,7 +89,7 @@ export const adminRoutes = [
   {
     id: 7,
     type: "private",
-    path: "tags",
+    path: adTags,
     Component: Tags,
     Auth: true,
     defaultComp: false,
@@ -81,7 +97,7 @@ export const adminRoutes = [
   {
     id: 8,
     type: "private",
-    path: "payment",
+    path: adPayment,
     Component: Payment,
     Auth: true,
     defaultComp: false,
@@ -89,7 +105,7 @@ export const adminRoutes = [
   {
     id: 9,
     type: "private",
-    path: "speaker",
+    path: adSpeaker,
     Component: Speaker,
     Auth: true,
     defaultComp: false,
@@ -97,7 +113,7 @@ export const adminRoutes = [
   {
     id: 10,
     type: "private",
-    path: "faq",
+    path: adFaq,
     Component: Faq,
     Auth: true,
     defaultComp: false,
@@ -105,7 +121,7 @@ export const adminRoutes = [
   {
     id: 11,
     type: "private",
-    path: "faq-listing",
+    path: adFaqList,
     Component: FaqListing,
     Auth: true,
     defaultComp: false,

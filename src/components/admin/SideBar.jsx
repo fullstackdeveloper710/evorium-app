@@ -19,7 +19,23 @@ import {
 } from "../../assets/icons/admin";
 import "../../styles/admin/sidebar.scss";
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../navigation/constants";
+
 function SideBar() {
+  const {
+    adLogin,
+    adDashboard,
+    adUser,
+    adUserList,
+    adProgramList,
+    adAddprogram,
+    adCategories,
+    adTags,
+    adPayment,
+    adSpeaker,
+    adFaq,
+    adFaqList,
+  } = ROUTES;
   return (
     <div className="sidebar">
       <div className="brand-log">
@@ -31,49 +47,49 @@ function SideBar() {
       <div className="sidebar_links">
         <ul>
           <li className="active">
-            <Link to="/backoffice">
+            <Link to={adDashboard}>
               <Image src={dashboard} />
               Dashboard
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/user">
+            <Link to={adUser}>
               <Image src={user} />
               Users
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/speaker">
+            <Link to={adSpeaker}>
               <Image src={speakers} />
               Speakers
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/categories">
+            <Link to={adCategories}>
               <Image src={categories} />
               Categories
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/tags">
+            <Link to={adTags}>
               <Image src={tags} />
               Tags
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/program-listing">
+            <Link to={adProgramList}>
               <Image src={programs} />
               Programs
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/payment">
+            <Link to={adPayment}>
               <Image src={payment} />
               Payments
             </Link>
           </li>
           <li>
-            <Link to="/backoffice/faq-listing">
+            <Link to={adFaqList}>
               <Image src={faqs} />
               FAQ’s
             </Link>
