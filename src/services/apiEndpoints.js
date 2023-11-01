@@ -1,9 +1,10 @@
 const userApi = {
   userSignup: "user/signup",
+  usrLogin: "user/login",
 };
 
 const adminApi = {
-  login: "/login",
+  adLogin: "admin/login",
 };
 
 export { userApi, adminApi };

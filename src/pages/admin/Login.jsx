@@ -1,23 +1,17 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import {Button} from "../../components/user";
-import "../../styles/user/auth.scss";
+import { Button } from "../../components/user";
 import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
-import { userLogin } from "../../redux/thunk/user/usrMain";
+import "../../styles/admin/auth.scss";
 import { useDispatch } from "react-redux";
+import { passwordRegExp } from "../../utility/regax";
+import { adminLogin } from "../../redux/thunk/admin/adAuth";
 
-const Login = () => {
-  const [show, setShow] = useState(false);
-
-
+const AdminLogin = () => {
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
-  const passwordRegExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
-
-
 
   const initValues = {
     email: "",
@@ -33,16 +27,9 @@ const Login = () => {
     //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     //   ),
   });
-  function submit() {
-    console.log("login");
-    // setShow(true);
-    localStorage.setItem("login", true);
-    window.open("/programs", "_self");
-  }
-
   const onSubmitHandler = (values) => {
     console.log(values, "values%%");
-    dispatch(userLogin(values));
+    dispatch(adminLogin(values));
   };
 
   return (
@@ -119,12 +106,7 @@ const Login = () => {
 
                       <button
                         className="forgotLink"
-                        onClick={() =>
-                          window.open(
-                            "/reset_password",
-                            "_self"
-                          )
-                        }
+                        onClick={() => window.open("/reset_password", "_self")}
                       >
                         Forgot Password?
                       </button>
@@ -132,28 +114,12 @@ const Login = () => {
                   </Col>
 
                   <Col md="12">
-                    {/* <Button title={"Login"} className="submitBtn" submit={submit} /> */}
                     <Button
                       type="submit"
                       title={"Login"}
                       className="submitBtn"
                       // submit={submit}
                     />
-                  </Col>
-                  <Col md="12">
-                    <p className="newUserLink">
-                      New user?
-                      <span
-                        onClick={() =>
-                          window.open(
-                            "/signup",
-                            "_self"
-                          )
-                        }
-                      >
-                        Signup
-                      </span>
-                    </p>
                   </Col>
                 </Row>
               </Form>
@@ -165,4 +131,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default AdminLogin;

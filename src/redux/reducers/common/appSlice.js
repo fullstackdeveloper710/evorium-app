@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchData } from "../../thunk/admin/adMain";
+import { fetchData } from "../../thunk/admin/adAuth";
 
 const initialState = {
   loading: false,

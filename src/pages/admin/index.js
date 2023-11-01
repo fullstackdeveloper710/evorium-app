@@ -9,6 +9,7 @@ import { default as Speaker } from "./Speaker";
 import { default as Tags } from "./Tags";
 import { default as User } from "./User";
 import { default as Faq } from "./Faqs";
+import { default as Login } from "./Login";
 
 export {
   UserListing,
@@ -22,4 +23,5 @@ export {
   Speaker,
   Tags,
   Faq,
+  Login,
 };

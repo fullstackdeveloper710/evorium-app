@@ -1,8 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchData } from "../../thunk/admin/adMain";
+import { userLogin, userSignUp } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
+  userAuthtoken: null,
+
 };
 
 const userMain = createSlice({
@@ -15,16 +17,36 @@ const userMain = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(fetchData.pending, (state) => {
-        state.loading = true;
+    .addCase(userSignUp.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    .addCase(userSignUp.fulfilled, (state, action) => {
+      state.loading = false;
+      // state.data = action.payload;
+    })
+    .addCase(userSignUp.rejected, (state, action) => {
+      state.loading = false;
+      // state.error = action.payload;
+    });
+
+
+  },
+
+  extraReducers: (builder) => {
+    builder
+      .addCase(userLogin.pending, (state) => {
+        // state.loading = true;
         state.error = null;
       })
-      .addCase(fetchData.fulfilled, (state, action) => {
-        state.loading = false;
-        // state.data = action.payload;
+      .addCase(userLogin.fulfilled, (state, action) => {
+        const { payload } = action;
+        // state.loading = false;
+        console.log(payload, "payload");
+        state.userAuthtoken = payload.access_token;
       })
-      .addCase(fetchData.rejected, (state, action) => {
-        state.loading = false;
+      .addCase(userLogin.rejected, (state, action) => {
+        // state.loading = false;
         // state.error = action.payload;
       });
   },

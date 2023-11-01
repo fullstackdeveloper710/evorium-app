@@ -1,24 +1,15 @@
-import { hideLoader, showLoader } from "../redux/reducers/common/appSlice";
-import store from "../redux/store";
 import axiosInstance from "./axiosInstance";
-
-async function httpsClient(loader, Authorization, config, path, data) {
+const httpsClient = async (config) => {
+  console.log(config, "config here");
   const configration = {
     ...config,
-    baseURL: `${process.env.REACT_APP_API_URL}${path}`,
-    timeout: 5000,
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer your_token_here", // Add your custom headers here
+      // Add more headers if needed
+    },
   };
-  try {
-    if (loader) {
-      store.dispatch(showLoader());
-    }
-    store.dispatch(hideLoader());
-    const response = axiosInstance(configration);
-    store.dispatch(hideLoader());
-    return response;
-  } catch (error) {
-    return new Error(error);
-  }
-}
+  return await axiosInstance(configration);
+};
 
 export default httpsClient;
