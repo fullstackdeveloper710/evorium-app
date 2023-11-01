@@ -10,14 +10,15 @@ export const adminUserList = createAsyncThunk(
   "admin/adminUserList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminToken, values } = data;
+    const { adminAuthtoken, values } = data;
+    console.log(data, "data");
     try {
       const config = {
         method: "get",
-        url: adUserList,
+        url: `${adUserList}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
       };
       dispatch(showLoader());
-      const response = await httpsClient(config, adminToken);
+      const response = await httpsClient(config, adminAuthtoken);
       dispatch(hideLoader());
       return response;
     } catch (error) {

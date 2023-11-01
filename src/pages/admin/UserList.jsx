@@ -1,9 +1,24 @@
-import React from "react";
-import "../../styles/admin/user.scss";
+import React, { useEffect } from "react";
 import { TableUser } from "../../components/admin";
+import { useDispatch, useSelector } from "react-redux";
+import { adminUserList } from "../../redux/thunk/admin/adUser";
+import "../../styles/admin/user.scss";
 
-function User() {
-  console.log("user ");
+function UserList() {
+  const dispatch = useDispatch();
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
+  useEffect(() => {
+    console.log("user listing render");
+    const data = {
+      adminAuthtoken,
+      values: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(adminUserList(data));
+  }, []);
   return (
     <>
       <div className="user_tab">
@@ -34,4 +49,4 @@ function User() {
   );
 }
 
-export default User;
+export default UserList;

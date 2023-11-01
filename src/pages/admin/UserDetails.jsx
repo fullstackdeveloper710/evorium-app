@@ -1,27 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { demopic2, video_card } from "../../assets/images/admin";
 import { view } from "../../assets/icons/admin";
 import { Col, Image, Row, Table } from "react-bootstrap";
-import "../../styles/admin/userListing.scss";
 import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { adminUserList } from "../../redux/thunk/admin/adUser";
-function UserListing() {
-  const dispatch = useDispatch();
-  // const { adminAuthtoken } = useSelector((state) => state.adAuth);
-
-  useEffect(() => {
-    console.log("user listing render");
-    const data = {
-      // adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(adminUserList(data));
-  }, []);
-
+import "../../styles/admin/userListing.scss";
+function UserDetails() {
   return (
     <div className="user_listing_section">
       <h3 className="title">
@@ -186,4 +169,4 @@ function UserListing() {
   );
 }
 
-export default UserListing;
+export default UserDetails;

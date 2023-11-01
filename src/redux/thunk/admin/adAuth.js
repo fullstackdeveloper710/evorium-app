@@ -14,7 +14,7 @@ export const adminLogin = createAsyncThunk(
     try {
       const config = {
         method: "post",
-        url: `${adLogin}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
+        url: adLogin,
         data: values,
       };
       dispatch(showLoader());

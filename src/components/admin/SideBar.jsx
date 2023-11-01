@@ -53,7 +53,7 @@ function SideBar() {
             </Link>
           </li>
           <li>
-            <Link to={adUser}>
+            <Link to={adUserList}>
               <Image src={user} />
               Users
             </Link>

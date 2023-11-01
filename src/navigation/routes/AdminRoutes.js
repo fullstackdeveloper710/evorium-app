@@ -1,5 +1,4 @@
 import {
-  UserListing,
   User,
   AddProgram,
   Categories,
@@ -11,6 +10,8 @@ import {
   Tags,
   Faq,
   Login,
+  UserList,
+  UserDetails,
 } from "../../pages/admin";
 import { ROUTES } from "../constants";
 
@@ -49,16 +50,16 @@ export const adminRoutes = [
   {
     id: 2,
     type: "private",
-    path: adUser,
-    Component: User,
+    path: adUserList,
+    Component: UserList,
     Auth: true,
     defaultComp: false,
   },
   {
     id: 3,
     type: "private",
-    path: adUserList,
-    Component: UserListing,
+    path: adUser,
+    Component: UserDetails,
     Auth: true,
     defaultComp: false,
   },
