@@ -169,7 +169,7 @@
 .inputRow {
   width: 100%;
   margin-bottom: 20px;
-
+  position: relative;
   input[type="text"],
   input[type="email"],
   input[type="password"],
@@ -198,8 +198,8 @@
   }
   &__iconGroup {
     position: absolute;
-    right: 15px;
-    top: 16px;
+    right: 13px;
+    top: 15px;
     color: #9181ad;
 
     svg {
@@ -259,5 +259,44 @@
         height: auto;
       }
     }
+  }
+}
+
+
+
+
+.inputRow .css-b62m3t-container .css-z4ip2l-control,.inputRow .css-b62m3t-container .css-1b4rwch-control {
+    height: 58px !important;
+}
+.inputRow .css-b62m3t-container .css-z4ip2l-control .css-1fdsijx-ValueContainer ,.inputRow .css-b62m3t-container .css-1b4rwch-control  .css-1fdsijx-ValueContainer{
+    height: 48px  !important;
+}
+.inputRow .css-b62m3t-container .css-z4ip2l-control  .css-1dimb5e-singleValue, .inputRow .css-b62m3t-container .css-z4ip2l-control #react-select-2-placeholder,
+.inputRow .css-b62m3t-container .css-1b4rwch-control  .css-1fdsijx-ValueContainer #react-select-2-placeholder,
+.inputRow .css-b62m3t-container .css-1b4rwch-control  .css-1fdsijx-ValueContainer .css-1dimb5e-singleValue{
+    margin-top: -13px  !important;
+}
+.inputRow .css-b62m3t-container .css-1b4rwch-control{
+    background: #e8f0fe;
+    border-color: transparent;
+}
+.inputRow .css-b62m3t-container .css-z4ip2l-control .css-1dimb5e-singleValue{
+  color: #bdb3c7;
+}
+
+// .inputRow .css-b62m3t-container .css-1b4rwch-control .css-1fdsijx-ValueContainer .css-1dimb5e-singleValue {
+//   color: #000;
+
+// }
+.inputRow .css-b62m3t-container .css-z4ip2l-control{
+  background-color: #e8f0fe;
+}
+// .inputRow .css-b62m3t-container .css-z4ip2l-control{
+//   background-color: #e8f0fe;
+// }
+
+@media screen {
+  .inputRow .css-b62m3t-container .css-z4ip2l-control .css-1dimb5e-singleValue, .inputRow .css-b62m3t-container .css-z4ip2l-control #react-select-2-placeholder, .inputRow .css-b62m3t-container .css-1b4rwch-control .css-1fdsijx-ValueContainer #react-select-2-placeholder, .inputRow .css-b62m3t-container .css-1b4rwch-control .css-1fdsijx-ValueContainer .css-1dimb5e-singleValue{
+    text-align: left;
   }
 }

@@ -330,10 +330,8 @@
     .card-bottom {
       padding: 20px;
       //   border:2px solid #616161;
-
       position: relative;
       background: linear-gradient(to right, #2e1853, #ff00c810);
-
       &:before {
         content: "";
         position: absolute;
@@ -362,6 +360,10 @@
 }
 // ----
 .our-partners-section {
+  .container{
+    position: relative;
+    z-index: 1;
+  }
   padding: 50px 0px;
   .title-block {
     h2 {
@@ -377,10 +379,7 @@
 
 .circle-right {
   position: relative;
-.container{
-  position: relative;
-  z-index: 0;
-}
+  z-index: 1;
   &:after {
     content: "";
     position: absolute;
@@ -390,7 +389,7 @@
     height: 700px;
     background-color: #ff00c8;
     border-radius: 50% 0 0 50%;
-    z-index: 0;
+    z-index: -1;
     filter: blur(70px);
     opacity: 0.2;
   }
