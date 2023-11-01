@@ -5,10 +5,11 @@ import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import "../../styles/admin/auth.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { passwordRegExp } from "../../utility/regax";
 import { adminLogin } from "../../redux/thunk/admin/adAuth";
 import { useNavigate } from "react-router";
+import { ROUTES } from "../../navigation/constants";
 
 const AdminLogin = () => {
   const [showPass, setShowPass] = useState(false);
@@ -36,12 +37,14 @@ const AdminLogin = () => {
     //   ),
   });
 
+  const { adDashboard } = ROUTES;
+
   //Methods
   const onSubmitHandler = (values) => {
     const data = { values };
     dispatch(adminLogin(data)).then(({ payload }) => {
       if (payload.status) {
-        navigate("/backoffice/dashboard");
+        navigate(adDashboard);
       }
     });
   };
