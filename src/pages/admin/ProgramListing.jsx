@@ -1,18 +1,29 @@
 import React, { useEffect } from "react";
 import { Row } from "react-bootstrap";
-import { program } from "../../assets/images/admin";
 import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
-import "../../styles/admin/programListing.scss";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminProgramList } from "../../redux/thunk/admin/adPrograms";
 import { getMinutes } from "../../utility/methods";
+import { ROUTES } from "../../navigation/constants";
+import "../../styles/admin/programListing.scss";
+import { Button } from "../../components/common";
 function ProgramListing() {
+  //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminPrograms } = useSelector((state) => state.adPrograms);
   const { data } = adminPrograms;
+
+  //Redux action dispatcher
   const dispatch = useDispatch();
 
+  //Router functions
+  const navigate = useNavigate();
+
+  //Constant routes
+  const { adAddprogram } = ROUTES;
+
+  //Methods
   useEffect(() => {
     const data = {
       adminAuthtoken,
@@ -23,6 +34,7 @@ function ProgramListing() {
     };
     dispatch(getAdminProgramList(data));
   }, []);
+
   return (
     <div className="program_listing_section">
       <div className="top_bar">
@@ -34,11 +46,12 @@ function ProgramListing() {
               Search
             </button>
           </div>
-          <div className="add_new">
-            <button className="add_btn">
-              <Link to="add-program">Add New</Link>
-            </button>
-          </div>
+          <Button
+            type="button"
+            className="add_btn"
+            title="Add New"
+            onClick={() => navigate(adAddprogram)}
+          />
         </div>
       </div>
 

@@ -79,7 +79,7 @@ const adminSidebarList = [
     title: "Programs",
     icon: programs,
     type: "link",
-    activeFor: [adProgramList],
+    activeFor: [adProgramList, adAddprogram],
   },
   {
     id: 7,
