@@ -84,7 +84,7 @@ function Speaker() {
 
   return (
     <div className="categories_section">
-      <h3 className="title">Categories</h3>
+      <h3 className="title">Speakers</h3>
       <Formik
         initialValues={initValues}
         validationSchema={validationSchema}

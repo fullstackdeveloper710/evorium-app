@@ -13,7 +13,7 @@ const Input = ({
 }) => {
   return (
     <div className={className}>
-      {label && <label>{label}</label>}
+      {label && <label className="text-capitalize">{label}</label>}
       <input
         type={type}
         placeholder={placeholder}

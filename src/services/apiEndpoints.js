@@ -12,6 +12,7 @@ const adminApi = {
   adPrograms: "admin/programs",
   adDelUser: "/admin/delete_user",
   adAddSpeaker: "/admin/speakers",
+  adAddCategory: "/admin/categories",
 };
 
 export { userApi, adminApi };
