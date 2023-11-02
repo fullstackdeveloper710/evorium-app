@@ -1,11 +1,9 @@
 import React from "react";
 import { Image } from "react-bootstrap";
 import { logo } from "../../assets/images/admin";
-
-import "../../styles/admin/sidebar.scss";
 import { Link, useLocation } from "react-router-dom";
-import { ROUTES } from "../../navigation/constants";
 import { adminSidebarList } from "../../utility/sidebarList";
+import "../../styles/admin/sidebar.scss";
 
 function SideBar() {
   const location = useLocation();
