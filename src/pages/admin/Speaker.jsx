@@ -12,6 +12,8 @@ import * as Yup from "yup";
 import "../../styles/admin/categories.scss";
 import Button from "../../components/common/Button";
 import BtnGroup from "../../components/common/BtnGroup";
+import { Input } from "../../components/common";
+import SelectBox from "../../components/common/SelectBox";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -53,6 +55,25 @@ function Speaker() {
     console.log("cancle button click");
   };
 
+  const options = [
+    {
+      value: "",
+      label: "Select option",
+    },
+    {
+      value: "option1",
+      label: "option1",
+    },
+    {
+      value: "option2",
+      label: "option2",
+    },
+    {
+      value: "option3",
+      label: "option3",
+    },
+  ];
+
   return (
     <div className="categories_section">
       <h3 className="title">Categories</h3>
@@ -73,43 +94,27 @@ function Speaker() {
           <Form onSubmit={handleSubmit}>
             <Row>
               <Col md={6}>
-                <div className="input_label_wrap">
-                  <label>Speaker Name</label>
-                  <input
-                    type="text"
-                    placeholder="Enter text..."
-                    name="name"
-                    value={values.name}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                  />
-                  <span style={{ color: "red" }}>
-                    {errors.name && touched.name && errors.name}
-                  </span>
-                </div>
-                <div className="input_label_wrap">
-                  <label>Select Categories</label>
-                  <select
-                    name="category"
-                    value={values.category}
-                    onChange={handleChange}
-                    onBlur={handleBlur}
-                  >
-                    <option value="">Select option</option>
-                    <option value="option1" label="option1">
-                      option1
-                    </option>
-                    <option value="option2" label="option2">
-                      option2
-                    </option>
-                    <option value="option3" label="option3">
-                      option3
-                    </option>
-                    <option value="option4" label="option4">
-                      option4
-                    </option>
-                  </select>
-                </div>
+                <Input
+                  className="input_label_wrap"
+                  label="Speaker Name"
+                  type="text"
+                  placeholder="Enter text..."
+                  name="name"
+                  value={values.name}
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  error={errors.name && touched.name && errors.name}
+                />
+                <SelectBox
+                  className="input_label_wrap"
+                  name="category"
+                  label="Select Categories"
+                  value={values.category}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  options={options}
+                  error={errors.category && touched.category && errors.category}
+                />
                 <BtnGroup>
                   <Button
                     title="add"
@@ -118,7 +123,7 @@ function Speaker() {
                     onClick={onSubmitHandler}
                   />
                   <Button
-                    title="Cancel"
+                    title="cancel"
                     type="button"
                     className="secondry_btn"
                     onClick={onCancelHandler}
