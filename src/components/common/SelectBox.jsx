@@ -15,7 +15,12 @@ const SelectBox = ({
       {label && <label>{label}</label>}
       <select name={name} value={value} onChange={onChange} onBlur={onBlur}>
         {options.map(({ value, label }, index) => (
-          <option key={index} value={value} label={label}>
+          <option
+            key={index}
+            value={value}
+            label={label}
+            className="text-capitalize"
+          >
             {label}
           </option>
         ))}

@@ -32,15 +32,24 @@ export const addAdminSpeaker = createAsyncThunk(
   "admin/addAdminSpeaker",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+    const { adminAuthtoken, values, pagination } = data;
     try {
       const config = {
         method: "post",
         url: `${adAddSpeaker}`,
-        data,
+        data: values,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
+      if (response) {
+        const data = {
+          adminAuthtoken,
+          values: {
+            ...pagination,
+          },
+        };
+        dispatch(getAdminSpeakers(data));
+      }
       dispatch(hideLoader());
       return response;
     } catch (error) {

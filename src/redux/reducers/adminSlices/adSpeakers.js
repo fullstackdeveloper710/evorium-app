@@ -37,8 +37,6 @@ const adminSpeakerSlice = createSlice({
         state.status = false;
       })
       .addCase(addAdminSpeaker.fulfilled, (state, action) => {
-        const { payload } = action;
-        state.adminSpeakers = payload;
         state.status = true;
       })
       .addCase(addAdminSpeaker.rejected, (state, action) => {

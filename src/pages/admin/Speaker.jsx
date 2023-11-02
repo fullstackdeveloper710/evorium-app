@@ -1,19 +1,21 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row, Table, Image } from "react-bootstrap";
-import { CommonButtons } from "../../components/admin";
 import { trash } from "../../assets/icons/admin";
 import { Pagination } from "../../components/admin";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdminSpeakers } from "../../redux/thunk/admin/adSpeakers";
+import {
+  addAdminSpeaker,
+  getAdminSpeakers,
+} from "../../redux/thunk/admin/adSpeakers";
 import { dateFormater } from "../../utility/methods";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import "../../styles/admin/categories.scss";
 import Button from "../../components/common/Button";
 import BtnGroup from "../../components/common/BtnGroup";
 import { Input } from "../../components/common";
 import SelectBox from "../../components/common/SelectBox";
+import "../../styles/admin/categories.scss";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -45,14 +47,24 @@ function Speaker() {
       },
     };
     dispatch(getAdminSpeakers(data));
-  }, []);
+  }, [adminAuthtoken, dispatch]);
 
   const onSubmitHandler = (values) => {
-    console.log(values, "speakers values");
+    const data = {
+      adminAuthtoken,
+      values: {
+        ...values,
+      },
+      pagination: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(addAdminSpeaker(data));
   };
 
-  const onCancelHandler = () => {
-    console.log("cancle button click");
+  const onCancelHandler = (resetForm) => {
+    resetForm();
   };
 
   const options = [
@@ -61,16 +73,12 @@ function Speaker() {
       label: "Select option",
     },
     {
-      value: "option1",
-      label: "option1",
+      value: "pro",
+      label: "pro",
     },
     {
-      value: "option2",
-      label: "option2",
-    },
-    {
-      value: "option3",
-      label: "option3",
+      value: "free",
+      label: "free",
     },
   ];
 
@@ -90,6 +98,7 @@ function Speaker() {
           handleChange,
           handleSubmit,
           handleBlur,
+          resetForm,
         }) => (
           <Form onSubmit={handleSubmit}>
             <Row>
@@ -126,7 +135,7 @@ function Speaker() {
                     title="cancel"
                     type="button"
                     className="secondry_btn"
-                    onClick={onCancelHandler}
+                    onClick={() => onCancelHandler(resetForm)}
                   />
                 </BtnGroup>
               </Col>
