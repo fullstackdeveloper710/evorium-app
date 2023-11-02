@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminSpeakers } from "../../thunk/admin/adSpeakers";
+import {
+  addAdminSpeaker,
+  getAdminSpeakers,
+} from "../../thunk/admin/adSpeakers";
 
 const initialState = {
   adminSpeakers: {
@@ -12,6 +15,7 @@ const adminSpeakerSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    //get admin speaker list
     builder
       .addCase(getAdminSpeakers.pending, (state) => {
         state.error = null;
@@ -23,6 +27,21 @@ const adminSpeakerSlice = createSlice({
         state.status = true;
       })
       .addCase(getAdminSpeakers.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //add admin speaker
+    builder
+      .addCase(addAdminSpeaker.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(addAdminSpeaker.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.adminSpeakers = payload;
+        state.status = true;
+      })
+      .addCase(addAdminSpeaker.rejected, (state, action) => {
         state.status = false;
       });
   },
