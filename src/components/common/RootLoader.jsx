@@ -2,9 +2,9 @@ import ReactDOM from "react-dom";
 import { Circles } from "react-loader-spinner";
 import { useSelector } from "react-redux";
 function RootLoader() {
-  const { loading } = useSelector((state) => state.app);
+  const { rootLoader } = useSelector((state) => state.app);
   // Creating a portal
-  if (loading) {
+  if (rootLoader) {
     return ReactDOM.createPortal(
       <div className="main_loader">
         <Circles
