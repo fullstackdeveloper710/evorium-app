@@ -1,7 +1,10 @@
 import React, { useEffect } from "react";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdminUserList } from "../../redux/thunk/admin/adUser";
+import {
+  deleteAdminUser,
+  getAdminUserList,
+} from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
 
 function UserList() {
@@ -19,6 +22,16 @@ function UserList() {
     };
     dispatch(getAdminUserList(data));
   }, []);
+
+  const deleteUserHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminUser(data));
+  };
   return (
     <>
       <div className="user_tab">
@@ -43,7 +56,10 @@ function UserList() {
             </div>
           </div>
         </div>
-        <TableUser data={adminUsers.data} />
+        <TableUser
+          data={adminUsers.data}
+          deleteUserHandler={deleteUserHandler}
+        />
       </div>
     </>
   );

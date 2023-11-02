@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { dateFormater } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/tableUser.scss";
-function TableUser({ data }) {
+function TableUser({ data, deleteUserHandler }) {
   const navigate = useNavigate();
 
   const onViewHandler = (id) => {
@@ -86,7 +86,12 @@ function TableUser({ data }) {
                         >
                           <Image src={view} />
                         </button>
-                        <button className="action_btn">
+                        <button
+                          className="action_btn"
+                          onClick={() => {
+                            deleteUserHandler(_id);
+                          }}
+                        >
                           <Image src={trash} />
                         </button>
                       </div>

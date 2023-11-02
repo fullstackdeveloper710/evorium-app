@@ -10,6 +10,7 @@ const adminApi = {
   adCategories: "admin/categories",
   adTagsList: "admin/tags",
   adPrograms: "admin/programs",
+  adDelUser: "/admin/delete_user",
 };
 
 export { userApi, adminApi };
