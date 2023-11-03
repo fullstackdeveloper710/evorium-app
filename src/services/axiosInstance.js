@@ -1,9 +1,6 @@
 import axios from "axios";
 
-const axiosInstance = axios.create({
-  baseURL: "http://api.evorium.xyz/",
-  timeout: 10000,
-});
+const axiosInstance = axios.create();
 
 // Request Interceptor
 axiosInstance.interceptors.request.use(

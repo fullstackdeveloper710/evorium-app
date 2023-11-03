@@ -7,9 +7,9 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import { Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 
-const CheckoutForm = ({ show }) => {
+const CheckoutForm = ({ show, handleClose }) => {
   const stripe = useStripe();
   const elements = useElements();
 
@@ -69,6 +69,7 @@ const CheckoutForm = ({ show }) => {
     >
       <Modal
         show={show}
+        onHide={handleClose}
         style={{
           display: "flex",
           height: 800,
@@ -76,21 +77,18 @@ const CheckoutForm = ({ show }) => {
           justifyContent: "center",
         }}
       >
-        <Modal.Header 
-      closeButton>
-          <h2>payment</h2>
-
-        </Modal.Header>
+        <Modal.Header closeButton></Modal.Header>
         <Modal.Body>
-          <form onSubmit={handleSubmit}>
-            <PaymentElement/>
-            <button type="submit" disabled={!stripe || !elements}>
-              Pay
-            </button>
-            {/* Show error message to your customers */}
-            {errorMessage && <div>{errorMessage}</div>}
-          </form>
+        <form onSubmit={handleSubmit}>
+          <PaymentElement />
+          <button type="submit" disabled={!stripe || !elements}>
+            Pay
+          </button>
+          {/* Show error message to your customers */}
+          {errorMessage && <div>{errorMessage}</div>}
+        </form>
         </Modal.Body>
+     
       </Modal>
     </div>
   );

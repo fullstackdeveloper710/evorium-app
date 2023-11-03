@@ -28,6 +28,8 @@ const VideoPlayer = () => {
       /*...*/
     },
   };
+  const [showModal, setShowModal] = useState(false);
+
   const [IsExpanded, setIsExpanded]= useState(false);
   const toggleExpand = () =>{
     setIsExpanded(!IsExpanded);
@@ -46,6 +48,14 @@ const VideoPlayer = () => {
   };
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
+  };
+
+  const openModal = () => {
+    setShowModal(true);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
   };
   return (
     <>
@@ -189,8 +199,14 @@ const VideoPlayer = () => {
                       </button>
                     </div>
                   </div>
-                  <button onClick={() => setShow(true)} className="buyBtn">Buy For $1.0</button>
+                  {/* <button onClick={() => setShow(true)} className="buyBtn">Buy For $1.0</button> */}
+                  <div>
+      <button  className="buyBtn" onClick={openModal}>Buy For $1.0</button>
+      <CheckoutForm show={showModal} handleClose={closeModal} />
+    </div>
+               
                 </div>
+
               </div>
             </Col>
           </Row>
@@ -218,7 +234,7 @@ const VideoPlayer = () => {
                 </button>
               
             )}
-            :
+          
             {itemsToLoad > 5 && (
              
                 <button onClick={loadLess} className="view-All-btn">
@@ -241,21 +257,23 @@ const VideoPlayer = () => {
                     views,
                     description,
                     watched,
-                    subscription,
                     url,
+                    subsType,
+                    amount,
                   },
                   index
                 ) => (
                   <Card
-                    url={url}
-                    key={id}
-                    title={title}
-                    img={image}
-                    duration={duration}
-                    views={views}
-                    watched={watched}
-                    subscription={subscription}
-                    description={description}
+                  url={url}
+                  key={id}
+                  title={title}
+                  img={image}
+                  duration={duration}
+                  views={views}
+                  watched={watched}
+                  subsType={subsType}
+                  amount={amount}
+                  description={description}
                   />
                 )
               )}

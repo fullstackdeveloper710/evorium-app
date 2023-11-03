@@ -5,13 +5,14 @@ import { userRoutes } from "./routes/userRoutes";
 import AdPvtLayout from "../layouts/adminLayout/AdPvtLayout";
 import UsrPvtLayout from "../layouts/userLayout/usrPvtLayout";
 import AdPubLayout from "../layouts/adminLayout/AdPubLayout";
+import { ROUTES } from "./constants";
 
 const Navigation = () => {
+  const { adLogin } = ROUTES;
   return (
     <Routes>
       <Route path="/" element={<UsrPvtLayout />}>
         {userRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
-          console.log(path, "path here");
           return (
             <Route
               key={id}
@@ -23,7 +24,8 @@ const Navigation = () => {
         })}
       </Route>
 
-      <Route path="/backoffice" element={<AdPubLayout />}>
+      {/*Admin Routes */}
+      <Route path={adLogin} element={<AdPubLayout />}>
         {adminRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
           if (type === "public") {
             return (
@@ -38,7 +40,7 @@ const Navigation = () => {
         })}
       </Route>
 
-      <Route path="/backoffice" element={<AdPvtLayout />}>
+      <Route path={adLogin} element={<AdPvtLayout />}>
         {adminRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
           if (type === "private") {
             return (

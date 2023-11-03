@@ -2,21 +2,29 @@ import { createSlice } from "@reduxjs/toolkit";
 import { fetchData } from "../../thunk/admin/adAuth";
 
 const initialState = {
-  loading: false,
+  rootLoader: false,
+  loader: false,
 };
 
 const appSlice = createSlice({
   name: "appSlice",
   initialState: initialState,
   reducers: {
+    showRootLoader: (state, action) => {
+      state.rootLoader = true;
+    },
+    hideRootLoader: (state, action) => {
+      state.rootLoader = false;
+    },
     showLoader: (state, action) => {
-      state.loading = true;
+      state.loader = true;
     },
     hideLoader: (state, action) => {
-      state.loading = false;
+      state.loader = false;
     },
   },
 });
 
-export const { showLoader, hideLoader } = appSlice.actions;
+export const { showRootLoader, hideRootLoader, showLoader, hideLoader } =
+  appSlice.actions;
 export default appSlice.reducer;
