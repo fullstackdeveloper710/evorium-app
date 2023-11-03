@@ -12,7 +12,7 @@ const Navigation = () => {
       <Route path="/" element={<UsrPvtLayout />}>
         {userRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
           console.log(path, "path here");
-          return (
+            return (
             <Route
               key={id}
               path={path}
@@ -20,6 +20,8 @@ const Navigation = () => {
               element={<Component />}
             />
           );
+
+            
         })}
       </Route>
 

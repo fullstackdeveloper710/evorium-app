@@ -52,5 +52,5 @@ const userMain = createSlice({
   },
 });
 
-export const { someAsyncAction } = userMain.actions;
+export const {} = userMain.actions;
 export default userMain.reducer;
