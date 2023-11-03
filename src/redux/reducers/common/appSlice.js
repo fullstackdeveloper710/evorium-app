@@ -17,10 +17,10 @@ const appSlice = createSlice({
       state.rootLoader = false;
     },
     showLoader: (state, action) => {
-      state.loading = true;
+      state.loader = true;
     },
     hideLoader: (state, action) => {
-      state.loading = false;
+      state.loader = false;
     },
   },
 });

@@ -13,6 +13,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { BtnGroup, Button, Input } from "../../components/common";
 import "../../styles/admin/categories.scss";
+import ReactDataTable from "../../components/common/DataTable";
 function Categories() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -63,6 +64,29 @@ function Categories() {
   const onCancelHandler = (resetForm) => {
     resetForm();
   };
+
+  const columns = [
+    { name: "S.No.", selector: (row, index) => index + 1 },
+    {
+      name: "Category Name",
+      selector: (row) => row.title,
+      sortable: true,
+    },
+    {
+      name: "Created On",
+      selector: (row) => dateFormater(row?.createdAt),
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <div className="delete_action">
+          <Link to="#" className="delete_btn">
+            <Image src={trash} className="" />
+          </Link>
+        </div>
+      ),
+    },
+  ];
 
   return (
     <div className="categories_section">
@@ -126,46 +150,48 @@ function Categories() {
         )}
       </Formik>
 
-      <div className="categories_logs_section">
-        <h3 className="title">Categories Logs</h3>
-        <div className="categories_logs_table comn_table">
-          <Table>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Category Name</th>
-                <th>Created On</th>
-                <th className="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.length ? (
-                data?.map(({ title, createdAt }, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}.</td>
-                      <td>{title}</td>
-                      <td>{dateFormater(createdAt)}</td>
-                      <td>
-                        <div className="delete_action">
-                          <Link to="#" className="delete_btn">
-                            <Image src={trash} className="" />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <div>No record Found</div>
-              )}
-            </tbody>
-          </Table>
-        </div>
-        <Pagination />
-      </div>
+      <ReactDataTable data={data} columns={columns} pagination={true} />
     </div>
   );
 }
 
 export default Categories;
+
+// <div className="categories_logs_section">
+//         <h3 className="title">Categories Logs</h3>
+//         <div className="categories_logs_table comn_table">
+//           <Table>
+//             <thead>
+//               <tr>
+//                 <th>S.No.</th>
+//                 <th>Category Name</th>
+//                 <th>Created On</th>
+//                 <th className="text-center">Action</th>
+//               </tr>
+//             </thead>
+//             <tbody>
+//               {data?.length ? (
+//                 data?.map(({ title, createdAt }, index) => {
+//                   return (
+//                     <tr key={index}>
+//                       <td>{index + 1}.</td>
+//                       <td>{title}</td>
+//                       <td>{dateFormater(createdAt)}</td>
+//                       <td>
+//                         <div className="delete_action">
+//                           <Link to="#" className="delete_btn">
+//                             <Image src={trash} className="" />
+//                           </Link>
+//                         </div>
+//                       </td>
+//                     </tr>
+//                   );
+//                 })
+//               ) : (
+//                 <div>No record Found</div>
+//               )}
+//             </tbody>
+//           </Table>
+//         </div>
+//         <Pagination />
+//       </div>
