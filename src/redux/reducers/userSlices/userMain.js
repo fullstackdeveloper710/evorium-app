@@ -23,6 +23,7 @@ const userMain = createSlice({
     })
     .addCase(userSignUp.fulfilled, (state, action) => {
       state.loading = false;
+      
       // state.data = action.payload;
     })
     .addCase(userSignUp.rejected, (state, action) => {
@@ -52,5 +53,5 @@ const userMain = createSlice({
   },
 });
 
-export const { someAsyncAction } = userMain.actions;
+export const {} = userMain.actions;
 export default userMain.reducer;

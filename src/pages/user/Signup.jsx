@@ -16,6 +16,8 @@ import * as Yup from "yup";
 import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { Input } from "../../components/common";
+import { GoogleLogin } from "react-google-login";
+// import {FacebookLogin} from "react-facebook-login";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
@@ -23,10 +25,17 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
+ 
   const initValues = {
     full_name: "",
     email: "",
     password: "",
+    phone :"",
+  };
+
+  const responseGoogle = (response) => {
+    console.log(response);
+    // Handle the Google Sign-In response here
   };
 
   const validationSchema = Yup.object().shape({
@@ -55,7 +64,11 @@ const Signup = () => {
   }
 
   const onSubmitHandler = (values) => {
-    dispatch(userSignUp(values));
+    console.log(values, "signup------------");
+    const data ={
+      ...values
+    }
+    dispatch(userSignUp(data));
     setShow(true);
   };
   return (
@@ -162,20 +175,36 @@ const Signup = () => {
                       <div className="auth__socialWrap__icon">
                         <ul>
                           <li>
-                            <Link to="/">
+                            {/* <Link to="/">
                               <FacebookIcon />
-                            </Link>
+                            </Link> */}
+                            {/* <FacebookLogin
+                              appId="1206715649505081"
+                              fields="name,email,picture"
+                              onClick={componentClicked}
+                              callback={responseFacebook}
+                              icon="fa-facebook"
+                            ></FacebookLogin> */}
                           </li>
                           <li>
-                            <Link to="/">
+                            {/* <Link to="/">
                               <GoogleIcon />
-                            </Link>
+                            </Link> */}
+                            <GoogleLogin
+                              clientId="821353603223-ue9aberp764eb2tjsd8ikau2bm4hsldg.apps.googleusercontent.com"
+                              buttonText=""
+                              onSuccess={responseGoogle}
+                              onFailure={responseGoogle}
+                              cookiePolicy={"single_host_origin"}
+                              // redirectUri=""
+                            />
                           </li>
 
                           <li>
                             <Link to="/">
                               <AppleIcon />
                             </Link>
+                            
                           </li>
                         </ul>
                       </div>

@@ -14,11 +14,13 @@ export const userSignUp = createAsyncThunk(
         url:userApi.userSignup,
         data:data,
       };
-      const response =  httpsClient( config,userApi.userSignup);
-
-      return response.data;
+   thunkAPI.dispatch(showLoader());
+      const response = await httpsClient(config);
+      thunkAPI.dispatch(hideLoader());
+      return response;
     } catch (error) {
-      // Handle errors
+      console.log("error", error);
+      thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
@@ -47,7 +49,7 @@ const { usrLogin } = userApi;
 
     
 export const userLogin = createAsyncThunk(
-  "admin/userLogin",
+  "user/userLogin",
   async (data, thunkAPI) => {
     try {
       const config = {
