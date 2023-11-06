@@ -15,6 +15,7 @@ const adminApi = {
   adAddSpeaker: "/admin/speakers",
   adAddCategory: "/admin/categories",
   adAddTags: "/admin/tags",
+  adDashboard: "/admin/dashboard_stats",
 };
 
 export { userApi, adminApi };

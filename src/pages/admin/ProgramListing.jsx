@@ -33,7 +33,7 @@ function ProgramListing() {
       },
     };
     dispatch(getAdminProgramList(data));
-  }, []);
+  }, [dispatch, adminAuthtoken]);
 
   return (
     <div className="program_listing_section">

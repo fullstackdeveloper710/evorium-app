@@ -45,7 +45,7 @@ function Categories() {
       },
     };
     dispatch(getAdminCategories(data));
-  }, []);
+  }, [adminAuthtoken, dispatch]);
 
   const onSubmitHandler = (values) => {
     const data = {
