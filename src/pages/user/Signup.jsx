@@ -25,12 +25,12 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
- 
   const initValues = {
     full_name: "",
     email: "",
     password: "",
-    phone :"",
+    phone: "",
+    country_code: "",
   };
 
   const responseGoogle = (response) => {
@@ -39,7 +39,7 @@ const Signup = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    full_name: Yup.string()
+    name: Yup.string()
       .matches(
         /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
         "Name can only contain Latin letters."
@@ -65,9 +65,9 @@ const Signup = () => {
 
   const onSubmitHandler = (values) => {
     console.log(values, "signup------------");
-    const data ={
-      ...values
-    }
+    const data = {
+      ...values,
+    };
     dispatch(userSignUp(data));
     setShow(true);
   };
@@ -160,6 +160,35 @@ const Signup = () => {
                     </div>
                   </Col>
 
+                  <Col md={12}>
+                    <Input
+                      className="inputRow"
+                      type="text"
+                      placeholder="Country Code"
+                      name="country_code"
+                      value={values.country_code}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={
+                        errors.country_code &&
+                        touched.country_code &&
+                        errors.country_code
+                      }
+                    />
+                  </Col>
+                  <Col md={12}>
+                    <Input
+                      className="inputRow"
+                      type="text"
+                      placeholder="Phone Number"
+                      name="phone"
+                      value={values.phone}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={errors.phone && touched.phone && errors.phone}
+                    />
+                  </Col>
+
                   <Col md="12">
                     <Button
                       type="submit"
@@ -204,7 +233,6 @@ const Signup = () => {
                             <Link to="/">
                               <AppleIcon />
                             </Link>
-                            
                           </li>
                         </ul>
                       </div>
