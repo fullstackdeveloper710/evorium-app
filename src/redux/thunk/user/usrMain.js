@@ -14,7 +14,7 @@ export const userSignUp = createAsyncThunk(
         url:userApi.userSignup,
         data:data,
       };
-      thunkAPI.dispatch(showLoader());
+   thunkAPI.dispatch(showLoader());
       const response = await httpsClient(config);
       thunkAPI.dispatch(hideLoader());
       return response;
@@ -49,7 +49,7 @@ const { usrLogin } = userApi;
 
     
 export const userLogin = createAsyncThunk(
-  "admin/userLogin",
+  "user/userLogin",
   async (data, thunkAPI) => {
     try {
       const config = {

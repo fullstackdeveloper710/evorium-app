@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Button,
   Container,
@@ -23,24 +23,45 @@ import { cardsData } from "../../utility/data";
 import { star } from "../../assets/icons/user";
 
 import "../../styles/user/programs.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
   const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
-
   const [showAlert, setShowAlert] = useState(false);
   const [sorted, setSorted] = useState("all");
 
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userPrograms } = useSelector((state) => state.userPrograms);
+  const { data } = userPrograms;
+
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    // console.log
+    dispatch(getUserProgramList(data));
+  }, []);
+
+
   // Add default value on page load
 
-  const data = cardsData.filter((item) => {
-    return item.subsType === "free";
-  });
+  // const data = cardsData.filter((item) => {
+  //   return item.subsType === "free";
+  // });
 
-  const datapro = cardsData.filter((item) => {
-    return item.subsType === "pro";
-  });
+  // const datapro = cardsData.filter((item) => {
+  //   return item.subsType === "pro";
+  // });
 
   // console.log(data,"data")
 
@@ -271,7 +292,7 @@ function Programs() {
                   </Col>
                 </Row>
                 <Row className="popular-row">
-                  {datapro
+                  {data
                     .slice(0, itemsToLoadPro)
                     .map(
                       (

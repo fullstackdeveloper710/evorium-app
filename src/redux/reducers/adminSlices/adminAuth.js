@@ -9,6 +9,7 @@ const adminAuthSlice = createSlice({
   name: "adminAuthSlice",
   initialState: initialState,
   reducers: {},
+  
   extraReducers: (builder) => {
     builder
       .addCase(adminLogin.pending, (state) => {

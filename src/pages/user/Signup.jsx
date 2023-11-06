@@ -24,17 +24,12 @@ const Signup = () => {
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
 
-  const componentClicked = () => {
-    console.log("clicked");
-  };
-  const responseFacebook = (response) => {
-    console.log(response);
-  };
-
+ 
   const initValues = {
     full_name: "",
     email: "",
     password: "",
+    phone :"",
   };
 
   const responseGoogle = (response) => {
@@ -69,7 +64,10 @@ const Signup = () => {
 
   const onSubmitHandler = (values) => {
     console.log(values, "signup------------");
-    dispatch(userSignUp(values));
+    const data ={
+      ...values
+    }
+    dispatch(userSignUp(data));
     setShow(true);
   };
   //  const onSubmitHandler = async (values) => {
@@ -118,7 +116,7 @@ const Signup = () => {
                       <input
                         name="full_name"
                         placeholder="Name"
-                        type="full_name"
+                        type="text"
                         value={values.full_name}
                         onBlur={handleBlur}
                         onChange={handleChange}
@@ -128,6 +126,39 @@ const Signup = () => {
                         {errors.full_name &&
                           touched.full_name &&
                           errors.full_name}
+                      </span>
+                    </div>
+                  </Col>
+
+                  <Col md={12}>
+                    <div className="inputRow">
+                      <input
+                        name="country_code"
+                        placeholder="Country Code"
+                        type="text"
+                        value={values.country_code}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                       <span style={{ color: "red" }}>
+                        {errors.country_code && touched.country_code && errors.country_code}
+                      </span>
+                    </div>
+                  </Col>
+
+
+                  <Col md={12}>
+                    <div className="inputRow">
+                      <input
+                        name="phone"
+                        placeholder="Phone Number"
+                        type="text"
+                        value={values.phone}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                      <span style={{ color: "red" }}>
+                        {errors.phone && touched.phone && errors.phone}
                       </span>
                     </div>
                   </Col>
@@ -220,6 +251,7 @@ const Signup = () => {
                             <Link to="/">
                               <AppleIcon />
                             </Link>
+                            
                           </li>
                         </ul>
                       </div>

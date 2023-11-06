@@ -33,16 +33,23 @@ import {
 import "../../styles/user/home.scss";
 import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
-import { userSignUp } from "../../redux/thunk/user/usrMain";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const dispatch = useDispatch();
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userPrograms } = useSelector((state) => state.userPrograms);
+  const { data } = userPrograms;
 
-  useEffect(() => {
-    // dispatch(userSignUp());
-  }, []);
+
+
+
+
+  // useEffect(() => {
+  //   // dispatch(userSignUp());
+  // }, []);
 
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
@@ -50,6 +57,17 @@ function Home() {
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    console.log("dataaa-------", data)
+    dispatch(getUserProgramList(data));
+  }, []);
   return (
     <>
       <section className="banner-home">
@@ -153,7 +171,44 @@ function Home() {
                 View All
               </a>
             </div>
-            <Row className="popular-row">
+            <Row>
+          {data?.length > 0 ? (
+            data?.map(
+              (
+                {
+                  speaker,
+                  course_type,
+                  description,
+                  thumbnail_url,
+                  video_duration,
+                  view_count,
+                },
+                index
+              ) => {
+                return (
+                  <div key={index}>
+                       <Card
+                      url={thumbnail_url}
+                      // key={id}
+                      title={speaker}
+                      // img={image}
+                      duration={video_duration}
+                      views={view_count}
+                      watched={view_count}
+                      subsType={course_type}
+                      // amount={amount}
+                      description={description}
+                    />
+                  </div>
+                
+                );
+              }
+            )
+          ) : (
+            <div>No Record Found</div>
+          )}
+        </Row>
+            {/* <Row className="popular-row">
               {cardsData
                 .slice(0, itemsToLoad)
                 .map(
@@ -186,7 +241,7 @@ function Home() {
                     />
                   )
                 )}
-            </Row>
+            </Row> */}
             <div className="text-center loadBtnWrap pt-5">
               {itemsToLoad < cardsData.length && (
                 <button onClick={loadMore} className="load-more-btn">

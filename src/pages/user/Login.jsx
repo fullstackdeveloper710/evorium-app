@@ -7,6 +7,8 @@ import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import { userLogin } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
+import { GoogleLogin } from 'react-google-login';
+
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -17,8 +19,7 @@ const Login = () => {
   const passwordRegExp =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
-
-
+   
   const initValues = {
     email: "",
     password: "",
@@ -42,7 +43,10 @@ const Login = () => {
 
   const onSubmitHandler = (values) => {
     console.log(values, "values%%");
-    dispatch(userLogin(values));
+    const data ={
+      ...values
+    }
+    dispatch(userLogin(data));
   };
 
   return (
