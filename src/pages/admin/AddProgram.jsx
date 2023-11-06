@@ -4,7 +4,7 @@ import { upload } from "../../assets/icons/admin";
 import { thumbnail, video } from "../../assets/images/admin";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
-import { Form, Formik } from "formik";
+import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { BtnGroup, Button, Input } from "../../components/common";
@@ -249,86 +249,99 @@ function AddProgram() {
                     />
 
                     <div className="episode_section">
-                      {values.episodesFields.map(
-                        ({ label, startTime, endTime }, index) => (
-                          <Row className="episodes_wrap" key={index}>
-                            <Col xs lg="4">
-                              <Input
-                                className="input_label_wrap"
-                                label={label}
-                                type="text"
-                                placeholder="Enter Episode Title"
-                                name="name"
-                                // value={name}
-                                onBlur={handleBlur}
-                                onChange={handleChange}
-                                error={
-                                  errors.number &&
-                                  touched.number &&
-                                  errors.number
-                                }
-                              />
-                            </Col>
-                            <Col xs lg="4">
-                              <div className="start_input commn_input">
-                                <span className="start_end_title">Start</span>
-                                <div className="timing_block">
-                                  <div className="hour">
-                                    <input
+                      <FieldArray name="episodesFields">
+                        {({ insert, remove, push }) => (
+                          <div>
+                            {values.episodesFields.map(
+                              ({ label, startTime, endTime }, index) => (
+                                <Row className="episodes_wrap" key={index}>
+                                  <Col xs lg="4">
+                                    <Input
+                                      className="input_label_wrap"
+                                      label={label}
                                       type="text"
-                                      value={startTime.hours}
+                                      placeholder="Enter Episode Title"
+                                      name="name"
+                                      // value={name}
+                                      onBlur={handleBlur}
+                                      onChange={handleChange}
+                                      error={
+                                        errors.number &&
+                                        touched.number &&
+                                        errors.number
+                                      }
                                     />
-                                    <label>Hour</label>
-                                  </div>
-                                  <div className="minute">
-                                    <span className="dot">:</span>
-                                    <input
-                                      type="text"
-                                      value={startTime.minutes}
-                                    />
-                                    <label>Minute</label>
-                                  </div>
-                                  <div className="seconds">
-                                    <span className="dot">:</span>
-                                    <input
-                                      type="text"
-                                      value={startTime.seconds}
-                                    />
-                                    <label>Seconds</label>
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                            <Col xs lg="4">
-                              <div className="start_input commn_input">
-                                <span className="start_end_title">End</span>
-                                <div className="timing_block">
-                                  <div className="hour">
-                                    <input type="text" value={endTime.hours} />
-                                    <label>Hour</label>
-                                  </div>
-                                  <div className="minute">
-                                    <span className="dot">:</span>
-                                    <input
-                                      type="text"
-                                      value={endTime.minutes}
-                                    />
-                                    <label>Minute</label>
-                                  </div>
-                                  <div className="seconds">
-                                    <span className="dot">:</span>
-                                    <input
-                                      type="text"
-                                      value={endTime.seconds}
-                                    />
-                                    <label>Seconds</label>
-                                  </div>
-                                </div>
-                              </div>
-                            </Col>
-                          </Row>
-                        )
-                      )}
+                                  </Col>
+                                  <Col xs lg="4">
+                                    <div className="start_input commn_input">
+                                      <span className="start_end_title">
+                                        Start
+                                      </span>
+                                      <div className="timing_block">
+                                        <div className="hour">
+                                          <input
+                                            type="text"
+                                            value={startTime.hours}
+                                          />
+                                          <label>Hour</label>
+                                        </div>
+                                        <div className="minute">
+                                          <span className="dot">:</span>
+                                          <input
+                                            type="text"
+                                            value={startTime.minutes}
+                                          />
+                                          <label>Minute</label>
+                                        </div>
+                                        <div className="seconds">
+                                          <span className="dot">:</span>
+                                          <input
+                                            type="text"
+                                            value={startTime.seconds}
+                                          />
+                                          <label>Seconds</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Col>
+                                  <Col xs lg="4">
+                                    <div className="start_input commn_input">
+                                      <span className="start_end_title">
+                                        End
+                                      </span>
+                                      <div className="timing_block">
+                                        <div className="hour">
+                                          <input
+                                            type="text"
+                                            value={endTime.hours}
+                                          />
+                                          <label>Hour</label>
+                                        </div>
+                                        <div className="minute">
+                                          <span className="dot">:</span>
+                                          <input
+                                            type="text"
+                                            value={endTime.minutes}
+                                          />
+                                          <label>Minute</label>
+                                        </div>
+                                        <div className="seconds">
+                                          <span className="dot">:</span>
+                                          <input
+                                            type="text"
+                                            value={endTime.seconds}
+                                          />
+                                          <label>Seconds</label>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </Col>
+                                </Row>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </FieldArray>
                     </div>
 
                     <div className="radio_btns">
