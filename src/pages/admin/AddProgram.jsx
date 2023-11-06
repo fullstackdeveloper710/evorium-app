@@ -3,11 +3,107 @@ import { Col, Row, Image } from "react-bootstrap";
 import { CommonButtons } from "../../components/admin";
 import { upload } from "../../assets/icons/admin";
 import { thumbnail, video } from "../../assets/images/admin";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/addprogram.scss";
+import { Form, Formik } from "formik";
+import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { BtnGroup, Button, Input } from "../../components/common";
+import SelectBox from "../../components/common/SelectBox";
+import RadioBtn from "../../components/common/RadioBtn";
+import RadioGroup from "../../components/common/RadioGroup";
+
 function AddProgram() {
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
   const { adProgramList } = ROUTES;
+
+  //Formik initial state
+  const initValues = {
+    number: "",
+    email: "",
+    category: "",
+    speaker: "",
+    episodes: "",
+    course: "",
+    tags: "",
+    price: "",
+  };
+
+  //Yup validation schema
+  const validationSchema = Yup.object().shape({
+    number: Yup.number().required("required field"),
+    email: Yup.string().email().required("required field"),
+    category: Yup.string().required("required field"),
+    speaker: Yup.string().required("required field"),
+    episodes: Yup.string().required("required field"),
+    course: Yup.string().required("required field"),
+    tags: Yup.string().required("required field"),
+    price: Yup.string().required("required field"),
+  });
+
+  //Methods
+  const onSubmitHandler = (values) => {
+    console.log(values);
+  };
+
+  const onCancelHandler = (resetForm) => {
+    resetForm();
+  };
+
+  const catOptions = [
+    {
+      value: "",
+      label: "Select option",
+    },
+    {
+      value: "Cryptocurrency",
+      label: "Cryptocurrency",
+    },
+    {
+      value: "Cryptocurrency1",
+      label: "Cryptocurrency1",
+    },
+  ];
+
+  const speakerOptions = [
+    {
+      value: "",
+      label: "Select option",
+    },
+    {
+      value: "Speaker",
+      label: "Speaker",
+    },
+    {
+      value: "Speaker1",
+      label: "Speaker1",
+    },
+  ];
+
+  const episodesOptions = [
+    {
+      value: "",
+      label: "Select option",
+    },
+    {
+      value: "1",
+      label: "1",
+    },
+    {
+      value: "2",
+      label: "2",
+    },
+    {
+      value: "3",
+      label: "3",
+    },
+  ];
+
   return (
     <div className="add_program_section">
       <h3 className="title mb-4">
@@ -26,283 +122,373 @@ function AddProgram() {
           </svg>
         </Link>
         Add New Program
-      </h3>
+      </h3>{" "}
+      <Formik
+        initialValues={initValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmitHandler}
+      >
+        {({
+          values,
+          resetForm,
+          isSubmitting,
+          errors,
+          touched,
+          handleChange,
+          handleSubmit,
+          handleBlur,
+          setFieldValue,
+        }) => (
+          <Form onSubmit={handleSubmit}>
+            {console.log(errors, "errors")}
+            <div className="add_program_form">
+              <Row>
+                <Col md={7}>
+                  <div className="left_block">
+                    <Input
+                      className="input_label_wrap"
+                      label="Course Title"
+                      type="number"
+                      placeholder="0 123 456 7890"
+                      name="number"
+                      value={values.number}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={errors.number && touched.number && errors.number}
+                    />
 
-      <div className="add_program_form">
-        <Row>
-          <Col md={7}>
-            <div className="left_block">
-              <div className="input_label_wrap">
-                <label>Course Title</label>
-                <input type="number" placeholder="0 123 456 7890" />
-              </div>
+                    <Input
+                      className="input_label_wrap"
+                      label="Description"
+                      type="email"
+                      placeholder="john@gmail.com"
+                      name="email"
+                      value={values.email}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={errors.email && touched.email && errors.email}
+                    />
 
-              <div className="input_label_wrap">
-                <label>Description</label>
-                <input type="email" placeholder="john@gmail.com" />
-              </div>
+                    <SelectBox
+                      className="input_label_wrap"
+                      name="category"
+                      label="Categories"
+                      value={values.category}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      options={catOptions}
+                      error={
+                        errors.category && touched.category && errors.category
+                      }
+                    />
 
-              <div className="input_label_wrap">
-                <label>Categories</label>
-                <select>
-                  <option>Cryptocurrency</option>
-                  <option>Cryptocurrency</option>
-                  <option>Cryptocurrency</option>
-                  <option>Cryptocurrency</option>
-                  <option>Cryptocurrency</option>
-                </select>
-              </div>
+                    <SelectBox
+                      className="input_label_wrap"
+                      name="speaker"
+                      label="Speaker"
+                      value={values.speaker}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      options={speakerOptions}
+                      error={
+                        errors.speaker && touched.speaker && errors.speaker
+                      }
+                    />
 
-              <div className="input_label_wrap">
-                <label>Speaker</label>
-                <select>
-                  <option>Dubai</option>
-                  <option>Dubai</option>
-                  <option>Dubai</option>
-                  <option>Dubai</option>
-                  <option>Dubai</option>
-                </select>
-              </div>
+                    <SelectBox
+                      className="input_label_wrap"
+                      name="episodes"
+                      label="Select number of Episodes"
+                      value={values.episodes}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      options={episodesOptions}
+                      error={
+                        errors.episodes && touched.episodes && errors.episodes
+                      }
+                    />
 
-              <div className="input_label_wrap">
-                <label>Select number of Episodes</label>
-                <select>
-                  <option>3</option>
-                  <option>3</option>
-                  <option>3</option>
-                  <option>3</option>
-                  <option>3</option>
-                </select>
-              </div>
-
-              <div className="episode_section">
-                <Row className="episodes_wrap">
-                  <Col xs lg="4">
-                    <div className="input_label_wrap">
-                      <label>Episode 1</label>
-                      <input type="text" placeholder="Enter Episode Title" />
+                    <div className="episode_section">
+                      <Row className="episodes_wrap">
+                        <Col xs lg="4">
+                          <div className="input_label_wrap">
+                            <label>Episode 1</label>
+                            <input
+                              type="text"
+                              placeholder="Enter Episode Title"
+                            />
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">Start</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">End</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row className="episodes_wrap">
+                        <Col xs lg="4">
+                          <div className="input_label_wrap">
+                            <label>Episode 1</label>
+                            <input
+                              type="text"
+                              placeholder="Enter Episode Title"
+                            />
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">Start</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">End</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
+                      <Row className="episodes_wrap">
+                        <Col xs lg="4">
+                          <div className="input_label_wrap">
+                            <label>Episode 1</label>
+                            <input
+                              type="text"
+                              placeholder="Enter Episode Title"
+                            />
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">Start</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                        <Col xs lg="4">
+                          <div className="start_input commn_input">
+                            <span className="start_end_title">End</span>
+                            <div className="timing_block">
+                              <div className="hour">
+                                <input type="text" value="20" />
+                                <label>Hour</label>
+                              </div>
+                              <div className="minute">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Minute</label>
+                              </div>
+                              <div className="seconds">
+                                <span className="dot">:</span>
+                                <input type="text" value="0 0" />
+                                <label>Seconds</label>
+                              </div>
+                            </div>
+                          </div>
+                        </Col>
+                      </Row>
                     </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">Start</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
+
+                    <div className="radio_btns">
+                      <RadioGroup
+                        groupClass="course_type"
+                        title="Course Type"
+                        error={errors.course && touched.course && errors.course}
+                      >
+                        <RadioBtn
+                          id="paid"
+                          name="course"
+                          label="paid"
+                          checked={values.course === "paid"}
+                          value={values.course}
+                          onChange={() => setFieldValue("course", "paid")}
+                        />
+                        <RadioBtn
+                          id="free"
+                          name="course"
+                          label="free"
+                          checked={values.course === "free"}
+                          value={values.course}
+                          onChange={() => setFieldValue("course", "free")}
+                        />
+                      </RadioGroup>
+
+                      <RadioGroup
+                        groupClass="tags"
+                        title="Tags"
+                        error={errors.tags && touched.tags && errors.tags}
+                      >
+                        <RadioBtn
+                          id="popular"
+                          name="tags"
+                          label="popular"
+                          value={values.tags}
+                          checked={values.tags === "popular"}
+                          onChange={() => setFieldValue("tags", "popular")}
+                        />
+                        <RadioBtn
+                          id="recommended"
+                          name="tags"
+                          label="recommended"
+                          value={values.tags}
+                          checked={values.tags === "recommended"}
+                          onChange={() => setFieldValue("tags", "recommended")}
+                        />
+                      </RadioGroup>
+                    </div>
+
+                    <Input
+                      className="input_label_wrap"
+                      label="Price(in $)"
+                      type="text"
+                      placeholder="$100"
+                      name="price"
+                      value={values.price}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={errors.price && touched.price && errors.price}
+                    />
+
+                    <BtnGroup>
+                      <Button
+                        title="Save"
+                        type="submit"
+                        className="primary_btn"
+                        onClick={onSubmitHandler}
+                      />
+                      <Button
+                        title="cancel"
+                        type="button"
+                        className="secondry_btn"
+                        onClick={() => onCancelHandler(resetForm)}
+                      />
+                    </BtnGroup>
+                  </div>
+                </Col>
+                <Col md={5}>
+                  <div className="video_upload_wrap">
+                    <div className="upload_input">
+                      <input type="file" id="video" className="d-none" />
+                      <label for="video">
+                        <Image src={upload} />
+                        <span className="upload_title">Upload Video</span>
+                      </label>
+                    </div>
+
+                    <div className="uploaded_videos_wrap d-none">
+                      <Image src={video} />
+                      {/* video here */}
+                      <div className="loader_block">
+                        <span className="loader">80%</span>
                       </div>
                     </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">End</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-                <Row className="episodes_wrap">
-                  <Col xs lg="4">
-                    <div className="input_label_wrap">
-                      <label>Episode 1</label>
-                      <input type="text" placeholder="Enter Episode Title" />
-                    </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">Start</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">End</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-                <Row className="episodes_wrap">
-                  <Col xs lg="4">
-                    <div className="input_label_wrap">
-                      <label>Episode 1</label>
-                      <input type="text" placeholder="Enter Episode Title" />
-                    </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">Start</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                  <Col xs lg="4">
-                    <div className="start_input commn_input">
-                      <span className="start_end_title">End</span>
-                      <div className="timing_block">
-                        <div className="hour">
-                          <input type="text" value="20" />
-                          <label>Hour</label>
-                        </div>
-                        <div className="minute">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Minute</label>
-                        </div>
-                        <div className="seconds">
-                          <span className="dot">:</span>
-                          <input type="text" value="0 0" />
-                          <label>Seconds</label>
-                        </div>
-                      </div>
-                    </div>
-                  </Col>
-                </Row>
-              </div>
 
-              <div className="radio_btns">
-                <div className="course_type">
-                  <h5>Course Type</h5>
-                  <label for="paid">
-                    <input type="radio" name="course" id="paid" />
-                    Paid
-                  </label>
-                  <label for="free">
-                    <input type="radio" name="course" id="free" />
-                    Free
-                  </label>
-                </div>
-                <div className="tags">
-                  <h5>Tags</h5>
-                  <label for="popular">
-                    <input type="radio" name="tags" id="popular" />
-                    Popular
-                  </label>
-                  <label for="recommended">
-                    <input type="radio" name="tags" id="recommended" />
-                    Recommended
-                  </label>
-                </div>
-              </div>
-
-              <div className="input_label_wrap">
-                <label>Price(in $)</label>
-                <input type="text" placeholder="$100" />
-              </div>
-
-              <div className="pt-5">
-                <CommonButtons firstBtn="Save" secondBtn="Cancel" />
-              </div>
+                    <div className="select_thumbnail">
+                      <p>Select Thumbnail</p>
+                      <div className="select_thumbnail_imgs">
+                        <button className="thumbnail_link">
+                          <Image src={thumbnail} />
+                        </button>
+                        <button className="thumbnail_link">
+                          <Image src={thumbnail} />
+                        </button>
+                        <button className="thumbnail_link">
+                          <Image src={thumbnail} />
+                        </button>
+                        <button className="thumbnail_link">
+                          <Image src={thumbnail} />
+                        </button>
+                      </div>
+                      <button className="done_btn">Done</button>
+                    </div>
+                  </div>
+                </Col>
+              </Row>
             </div>
-          </Col>
-          <Col md={5}>
-            <div className="video_upload_wrap">
-              <div className="upload_input">
-                <input type="file" id="video" className="d-none" />
-                <label for="video">
-                  <Image src={upload} />
-                  <span className="upload_title">Upload Video</span>
-                </label>
-              </div>
-
-              <div className="uploaded_videos_wrap d-none">
-                <Image src={video} />
-                {/* video here */}
-                <div className="loader_block">
-                  <span className="loader">80%</span>
-                </div>
-              </div>
-
-              <div className="select_thumbnail">
-                <p>Select Thumbnail</p>
-                <div className="select_thumbnail_imgs">
-                  <button className="thumbnail_link">
-                    <Image src={thumbnail} />
-                  </button>
-                  <button className="thumbnail_link">
-                    <Image src={thumbnail} />
-                  </button>
-                  <button className="thumbnail_link">
-                    <Image src={thumbnail} />
-                  </button>
-                  <button className="thumbnail_link">
-                    <Image src={thumbnail} />
-                  </button>
-                </div>
-                <button className="done_btn">Done</button>
-              </div>
-            </div>
-          </Col>
-        </Row>
-      </div>
+          </Form>
+        )}
+      </Formik>
     </div>
   );
 }

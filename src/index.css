@@ -35,3 +35,28 @@ code {
 .error_msg {
   color: red;
 }
+
+.radio_button{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  display: inline;
+}
+
+.radio_button label{
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+input[type=radio] {
+  appearance: none;
+  padding: 5px;
+  border:1px solid #2E2753;
+  border-radius:50%;
+  margin-right: 10px;
+  cursor: pointer;
+}
+input[type=radio]:checked {
+  background-color: #2E2753;
+  cursor: pointer;
+}
