@@ -38,7 +38,7 @@
   .platformFilter {
     margin-bottom: 60px;
     padding-bottom: 60px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid #FFF;
   }
 
   .title-block{
@@ -51,7 +51,8 @@
         margin: 15px 0 0 0 !important;
     }
 }
-  .right-nav .dropdown-toggle {
+  .right-nav {
+  .dropdown-toggle {
     border: 1px solid rgba(255,255,255,.3);
    
     color: #fff !important;
@@ -63,7 +64,14 @@
     text-align: center;
     background-position: 82% 53%;
   }
-
+  .filter {
+    .dropdown-toggle{
+      padding: 14px;
+      padding-left: 35px;
+      background-position: 32% 53%;
+    }
+  }
+}
   .view-All-btn{
     border: 1px solid rgba(255,255,255,.3);
    
@@ -99,4 +107,82 @@
   background-image: url(../../assets/icons/user/filter.png) !important;
   background-position: 85% 12px;
   background-repeat: no-repeat;
+}
+
+@media (max-width:767px) {
+  .platformPage {
+    padding: 50px 0px 10px 0;
+    .title-block {
+      h2 {
+        font-size: 38px;
+      }
+    }
+    button {
+      filter: none;
+    }
+  
+    &__top {
+      .title-block {
+        justify-content: start;
+        gap: 10px;
+        h1 {
+          font-size: 40px;
+        }
+        span {
+          font-size: 40px;
+        }
+      }
+    }
+  
+    .platformFilter {
+      margin-bottom: 10px;
+      padding-bottom: 20px;
+    }
+  
+    .title-block{
+      h2{
+          font-size: 42px;
+      }
+  }
+    .right-nav {
+    .dropdown-toggle {
+      padding:7px 15px;
+      padding-right: 35px;
+      min-width: auto;
+      background-position: 82% 55%;
+    }
+    .filter {
+      .dropdown-toggle{
+        padding: 7px 15px;
+        padding-left: 35px;
+        background-position: 32% 53%;
+      }
+    }
+  }
+    .view-All-btn{
+      padding: 7px 15px;
+      min-width: auto;
+    }
+  }
+ 
+  .platformPage{
+  section.program-section,section.pro-section.py-5{
+    .row
+    {
+      flex-wrap: nowrap;
+      justify-content: start;
+      overflow: auto;
+      .subs-card{
+        width: 63%;
+      }
+    }
+   .view-All-btn{
+     width: 100%;
+     margin-bottom: 10px;
+    }
+  }
+  }
+  .popular-row.row .subs-card .card-wrapper .img-wrap .bg-img{
+    height: 210px !important;
+  }
 }

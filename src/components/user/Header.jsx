@@ -111,20 +111,11 @@ function Header() {
         <div className="container">
           <div className="customHeader__innerHeader">
             <button className="hamburgerMenu" onClick={() => setShow(!show)}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 24 24"
-                fill="none"
-              >
-                <path
-                  d="M3 7h18M3 12h18M3 17h18"
-                  stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
-                ></path>
-              </svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="12" viewBox="0 0 16 12" fill="none">
+            <line y1="1.36441" x2="16" y2="1.36441" stroke="white" stroke-width="1.27119"/>
+            <line y1="6.36441" x2="16" y2="6.36441" stroke="white" stroke-width="1.27119"/>
+            <line y1="11.3644" x2="9" y2="11.3644" stroke="white" stroke-width="1.27119"/>
+            </svg>
             </button>
             <Link to="/">
               <SiteLogo className="siteLogo" />

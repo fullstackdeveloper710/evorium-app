@@ -15,6 +15,7 @@ import {
   useStripe,
   useElements,
 } from '@stripe/react-stripe-js'
+import { Link } from "react-router-dom";
 const stripePromise = loadStripe('pk_test_6pRNASCoBOKtIshFeQd4XMUh');
 
 
@@ -86,29 +87,15 @@ const VideoPlayer = () => {
             
                 <Image src={video_player_thumbnail}  className="videoImg img-fluid"/>
 
-                {/* {subscriptionType[1] == 'pro' &&  <div
-                  style={{
-                    backgroundColor: "transparent",
-                    height: "100%",
-                    width: "100%",
-                    color: "white",
-                    position: "absolute",
-                    top: 0,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                > */}
-                  {/* <Image
+                {'pro' == 'pro' &&  
+                <Link>
+                   <Image
                     src={lockscreen}
-                    style={{
-                      height: 70,
-                      width: 70,
-                      color: "red",
-                    }}
-                  /> */}
-                </div> 
-              
+                    className="lock_screen"
+                  /> 
+                  </Link>
+                }
+              </div>
               
             </Col>
 
