@@ -15,6 +15,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
+import { Input } from "../../components/common";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
@@ -29,7 +30,7 @@ const Signup = () => {
   };
 
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
+    full_name: Yup.string()
       .matches(
         /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
         "Name can only contain Latin letters."
@@ -54,20 +55,9 @@ const Signup = () => {
   }
 
   const onSubmitHandler = (values) => {
-    console.log(values, "signup------------");
     dispatch(userSignUp(values));
     setShow(true);
   };
-  //  const onSubmitHandler = async (values) => {
-  //   console.log(values,"values")
-  //     try {
-  //       console.log(values,"Sign_up")
-  //       dispatch(userSignUp(values));
-  //       setShow(true);
-  //     } catch (error) {
-  //       console.error("Error in userSignUp:", error);
-  //     }
-  //   };
   return (
     <>
       <Alert
@@ -85,7 +75,7 @@ const Signup = () => {
 
           <Formik
             initialValues={initValues}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -100,38 +90,33 @@ const Signup = () => {
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col md={12}>
-                    <div className="inputRow">
-                      <input
-                        name="full_name"
-                        placeholder="Name"
-                        type="full_name"
-                        value={values.full_name}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      <span style={{ color: "red" }}>
-                        {" "}
-                        {errors.full_name &&
-                          touched.full_name &&
-                          errors.full_name}
-                      </span>
-                    </div>
+                    <Input
+                      className="inputRow"
+                      type="text"
+                      placeholder="Name"
+                      name="full_name"
+                      value={values.full_name}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={
+                        errors.full_name &&
+                        touched.full_name &&
+                        errors.full_name
+                      }
+                    />
                   </Col>
 
                   <Col md={12}>
-                    <div className="inputRow">
-                      <input
-                        name="email"
-                        placeholder="E-mail"
-                        type="email"
-                        value={values.email}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      <span style={{ color: "red" }}>
-                        {errors.email && touched.email && errors.email}
-                      </span>
-                    </div>
+                    <Input
+                      className="inputRow"
+                      type="email"
+                      placeholder="E-mail"
+                      name="email"
+                      value={values.email}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={errors.email && touched.email && errors.email}
+                    />
                   </Col>
 
                   <Col md={12}>
