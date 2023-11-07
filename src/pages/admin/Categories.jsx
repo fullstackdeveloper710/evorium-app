@@ -70,7 +70,6 @@ function Categories() {
     {
       name: "Category Name",
       selector: (row) => row.title,
-      sortable: true,
     },
     {
       name: "Created On",

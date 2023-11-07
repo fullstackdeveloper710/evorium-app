@@ -6,11 +6,24 @@ import {
   getAdminUserList,
 } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
+import ReactDataTable from "../../components/common/DataTable";
+import { Image } from "react-bootstrap";
+import { demopic } from "../../assets/images/admin";
+import { dateFormater } from "../../utility/methods";
+import { Link, useNavigate } from "react-router-dom";
+import { ROUTES } from "../../navigation/constants";
+import { trash, view } from "../../assets/icons/admin";
 
 function UserList() {
   const dispatch = useDispatch();
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminUsers } = useSelector((state) => state.adUser);
+
+  const navigate = useNavigate();
+
+  const onViewHandler = (id) => {
+    navigate(ROUTES.adUserDetail, { state: { id: id } });
+  };
 
   useEffect(() => {
     const data = {
@@ -32,36 +45,87 @@ function UserList() {
     };
     dispatch(deleteAdminUser(data));
   };
-  return (
-    <>
-      <div className="user_tab">
-        <div className="tob_bar">
-          <h3 className="title pt-2 mb-0">Users</h3>
-          <div className="right_search_bar">
-            <div className="search_block">
-              <input type="text" placeholder="Search" />
-              <button type="" className="search_btn">
-                Search
-              </button>
-            </div>
-            <div className="date_block">
-              <div className="input_wraper">
-                <label>From Date</label>
-                <input type="date" />
-              </div>
-              <div className="input_wraper">
-                <label>To date</label>
-                <input type="date" />
-              </div>
-            </div>
-          </div>
+
+  const columns = [
+    {
+      name: "Name",
+      selector: (row, index) => (
+        <div className="user_name">
+          <Image src={row.profile_pic !== "" ? row.profile_pic : demopic} />
+          <span className="name">{row.full_name}</span>
         </div>
-        <TableUser
-          data={adminUsers.data}
-          deleteUserHandler={deleteUserHandler}
-        />
-      </div>
-    </>
+      ),
+    },
+    {
+      name: "Email Address",
+      selector: (row) => (
+        <div className="email">
+          <Link to="user-listing" className="email_link">
+            {row.email}
+          </Link>
+        </div>
+      ),
+    },
+    {
+      name: "Phone Number",
+      selector: (row) => (
+        <div className="number">
+          <span>
+            {row.country_code && row.phone ? row.country_code + row.phone : ""}
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Created On",
+      selector: (row) => (
+        <div className="date">
+          <span>{dateFormater(row.createdAt)}</span>
+        </div>
+      ),
+    },
+    {
+      name: "Address",
+      selector: (row) => (
+        <div className="location">
+          <span>
+            <Image />
+            London, UK
+          </span>
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <div className="actions_btns">
+          <button className="action_btn" onClick={() => onViewHandler(row._id)}>
+            <Image src={view} />
+          </button>
+          <button
+            className="action_btn"
+            onClick={() => {
+              deleteUserHandler(row._id);
+            }}
+          >
+            <Image src={trash} />
+          </button>
+        </div>
+      ),
+    },
+  ];
+  return (
+    <div className="user_tab">
+      <ReactDataTable
+        data={adminUsers.data}
+        columns={columns}
+        pagination={true}
+        searchBar={true}
+        dateFilter={true}
+        header="users"
+        subHeader={true}
+      />
+    </div>
   );
 }
 

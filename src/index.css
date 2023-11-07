@@ -60,3 +60,24 @@ input[type=radio]:checked {
   background-color: #2E2753;
   cursor: pointer;
 }
+
+/*Scrollbar css*/
+/* width */
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #2e2753 ; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #2e2753 ; 
+}
