@@ -31,7 +31,7 @@ function ReactDataTable({
       progressPending={loader}
       progressComponent={<Loader />}
       subHeader={subHeader}
-      responsive
+      // responsive
       subHeaderComponent={
         <div className="top_bar">
           {header && (

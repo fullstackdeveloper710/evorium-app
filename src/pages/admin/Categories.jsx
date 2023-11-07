@@ -149,7 +149,13 @@ function Categories() {
         )}
       </Formik>
 
-      <ReactDataTable data={data} columns={columns} pagination={true} />
+      <ReactDataTable
+        data={data}
+        columns={columns}
+        pagination={true}
+        subHeader={true}
+        header="Categories Logs"
+      />
     </div>
   );
 }
