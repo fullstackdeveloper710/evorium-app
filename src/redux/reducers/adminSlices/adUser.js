@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   deleteAdminUser,
+  filterAdminUserbyDate,
   getAdminUserList,
   searchAdminUserList,
 } from "../../thunk/admin/adUser";
@@ -54,7 +55,7 @@ const adminUserSlice = createSlice({
         state.status = false;
       });
 
-    //get admin user list
+    //search admin user list
     builder
       .addCase(searchAdminUserList.pending, (state) => {
         state.error = null;
@@ -67,6 +68,22 @@ const adminUserSlice = createSlice({
         state.status = true;
       })
       .addCase(searchAdminUserList.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //filter admin user list by date
+    builder
+      .addCase(filterAdminUserbyDate.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(filterAdminUserbyDate.fulfilled, (state, action) => {
+        const { payload } = action;
+        console.log(payload, "payload in search use slice");
+        state.adminUsers = payload.data;
+        state.status = true;
+      })
+      .addCase(filterAdminUserbyDate.rejected, (state, action) => {
         state.status = false;
       });
   },

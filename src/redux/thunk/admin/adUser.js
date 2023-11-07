@@ -3,7 +3,8 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adUserList, adUserDetail, adDelUser, adSearchUser } = adminApi;
+const { adUserList, adUserDetail, adDelUser, adSearchUser, adFilterUser } =
+  adminApi;
 
 // get admin users list thunk
 export const getAdminUserList = createAsyncThunk(
@@ -80,12 +81,36 @@ export const searchAdminUserList = createAsyncThunk(
     const {
       adminAuthtoken,
       query: { search },
-      pagination: { pageNo, pageSize },
     } = data;
     try {
       const config = {
         method: "get",
-        url: `${adSearchUser}?query=${search}&pageNo=${pageNo}&pageSize=${pageSize}`,
+        url: `${adSearchUser}?query=${search}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// filter admin users list thunk
+export const filterAdminUserbyDate = createAsyncThunk(
+  "admin/filterAdminUserbyDate",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const {
+      adminAuthtoken,
+      query: { start, end },
+    } = data;
+    try {
+      const config = {
+        method: "get",
+        url: `${adFilterUser}?startDate=${start}&endDate=${end}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

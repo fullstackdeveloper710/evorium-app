@@ -128,10 +128,6 @@ function UserList() {
       query: {
         search: val,
       },
-      pagination: {
-        pageNo: 1,
-        pageSize: 4,
-      },
     };
     dispatch(searchAdminUserList(data));
   };
