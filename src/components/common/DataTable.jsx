@@ -2,6 +2,8 @@ import DataTable from "react-data-table-component";
 import { useSelector } from "react-redux";
 import Loader from "./Loader";
 import { Pagination } from "../admin";
+import SearchBar from "./SearchBar";
+import DateFilter from "./DateFilter";
 import "../../styles/common/dataTable.scss";
 
 function ReactDataTable({
@@ -12,6 +14,8 @@ function ReactDataTable({
   searchBar,
   header,
   subHeader,
+  onSearch,
+  onDateFilter,
 }) {
   const { loader } = useSelector((state) => state.app);
 
@@ -21,17 +25,18 @@ function ReactDataTable({
     selectAllRowsItem: true,
     selectAllRowsItemText: "Todos",
   };
+
   return (
     <DataTable
       // fixedHeader
       // fixedHeaderScrollHeight="500px"
+      // responsive
       columns={columns}
       data={data}
       pagination={pagination}
       progressPending={loader}
       progressComponent={<Loader />}
       subHeader={subHeader}
-      // responsive
       subHeaderComponent={
         <div className="top_bar">
           {header && (
@@ -39,25 +44,8 @@ function ReactDataTable({
           )}
           {searchBar && (
             <div className="right_search_bar">
-              <div className="search_block">
-                <input type="text" placeholder="Search" />
-                <button type="" className="search_btn">
-                  Search
-                </button>
-              </div>
-
-              {dateFilter && (
-                <div className="date_block">
-                  <div className="input_wraper">
-                    <label>From Date</label>
-                    <input type="date" />
-                  </div>
-                  <div className="input_wraper">
-                    <label>To date</label>
-                    <input type="date" />
-                  </div>
-                </div>
-              )}
+              <SearchBar onSearch={onSearch} />
+              <DateFilter show={dateFilter} onDateFilter={onDateFilter} />
             </div>
           )}
         </div>

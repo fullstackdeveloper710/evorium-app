@@ -114,6 +114,14 @@ function UserList() {
       ),
     },
   ];
+
+  const onSearchHandler = (val) => {
+    console.log(val, "search val");
+  };
+
+  const onDateFilterHandler = (values) => {
+    console.log(values, "values here");
+  };
   return (
     <div className="user_tab">
       <ReactDataTable
@@ -124,6 +132,8 @@ function UserList() {
         dateFilter={true}
         header="users"
         subHeader={true}
+        onSearch={onSearchHandler}
+        onDateFilter={onDateFilterHandler}
       />
     </div>
   );
