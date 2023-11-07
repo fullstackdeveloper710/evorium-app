@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
   getAdminUserList,
+  searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
 import ReactDataTable from "../../components/common/DataTable";
@@ -116,7 +117,17 @@ function UserList() {
   ];
 
   const onSearchHandler = (val) => {
-    console.log(val, "search val");
+    const data = {
+      adminAuthtoken,
+      query: {
+        search: val,
+      },
+      pagination: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(searchAdminUserList(data));
   };
 
   const onDateFilterHandler = (values) => {

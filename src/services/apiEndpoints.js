@@ -23,6 +23,7 @@ const adminApi = {
   adAddCategory: "/admin/categories",
   adAddTags: "/admin/tags",
   adDashboard: "/admin/dashboard_stats",
+  adSearchUser: "/admin/search_user",
 
   //pending
   adDelTag: "/admin/delete_tag/:id",
@@ -34,7 +35,7 @@ const adminApi = {
   asGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
   adSearchProgram: "/admin/search_program?query=learn&pageNo=1&pageSize=4",
-  adSearchUser: "/admin/search_user?query=search_string&pageNo=1&pageSize=4",
+
   adFilterUser:
     "/admin/filtered_users?pageNo=1&pageSize=10&startDate=2023-10-2&endDate=2023-10-26",
 };
