@@ -7,6 +7,7 @@ const DateFilter = ({ show, onDateFilter }) => {
   });
   const { startDate, endDate } = dateFilter;
 
+  //Methods
   useEffect(() => {
     if (startDate !== "" && endDate !== "") {
       onDateFilterhandler(dateFilter);

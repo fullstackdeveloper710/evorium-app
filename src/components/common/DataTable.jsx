@@ -17,8 +17,10 @@ function ReactDataTable({
   onSearch,
   onDateFilter,
 }) {
+  //Redux state
   const { loader } = useSelector((state) => state.app);
 
+  //Paginations options
   const paginationComponentOptions = {
     rowsPerPageText: "Filas por página",
     rangeSeparatorText: "de",

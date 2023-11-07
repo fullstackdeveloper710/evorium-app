@@ -16,37 +16,17 @@ import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
 
 function UserList() {
-  const dispatch = useDispatch();
+  //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminUsers } = useSelector((state) => state.adUser);
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
   const navigate = useNavigate();
 
-  const onViewHandler = (id) => {
-    navigate(ROUTES.adUserDetail, { state: { id: id } });
-  };
-
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminUserList(data));
-  }, []);
-
-  const deleteUserHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminUser(data));
-  };
-
+  //Datatable columns
   const columns = [
     {
       name: "Name",
@@ -115,6 +95,32 @@ function UserList() {
       ),
     },
   ];
+
+  //Methods
+  const onViewHandler = (id) => {
+    navigate(ROUTES.adUserDetail, { state: { id: id } });
+  };
+
+  useEffect(() => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(getAdminUserList(data));
+  }, []);
+
+  const deleteUserHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminUser(data));
+  };
 
   const onSearchHandler = (val) => {
     const data = {
