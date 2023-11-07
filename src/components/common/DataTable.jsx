@@ -16,6 +16,8 @@ function ReactDataTable({
   subHeader,
   onSearch,
   onDateFilter,
+  search,
+  onSearchChange,
 }) {
   //Redux state
   const { loader } = useSelector((state) => state.app);
@@ -46,7 +48,11 @@ function ReactDataTable({
           )}
           {searchBar && (
             <div className="right_search_bar">
-              <SearchBar onSearch={onSearch} />
+              <SearchBar
+                onSearch={onSearch}
+                search={search}
+                onSearchChange={onSearchChange}
+              />
               <DateFilter show={dateFilter} onDateFilter={onDateFilter} />
             </div>
           )}

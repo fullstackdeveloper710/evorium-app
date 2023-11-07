@@ -64,7 +64,10 @@ const adminUserSlice = createSlice({
       .addCase(searchAdminUserList.fulfilled, (state, action) => {
         const { payload } = action;
         console.log(payload, "payload in search use slice");
-        state.adminUsers = payload.data;
+        state.adminUsers = {
+          ...state.adminUsers,
+          data: payload.data,
+        };
         state.status = true;
       })
       .addCase(searchAdminUserList.rejected, (state, action) => {

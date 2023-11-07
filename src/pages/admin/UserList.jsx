@@ -14,6 +14,7 @@ import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
+import useSearch from "../../customHooks/useSearch";
 
 function UserList() {
   //Redux state
@@ -25,6 +26,9 @@ function UserList() {
 
   //Router functions
   const navigate = useNavigate();
+
+  //Custom hook
+  const { search, onSearchChange } = useSearch();
 
   //Datatable columns
   const columns = [
@@ -102,15 +106,17 @@ function UserList() {
   };
 
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminUserList(data));
-  }, []);
+    if (search === "") {
+      const data = {
+        adminAuthtoken,
+        values: {
+          pageNo: 1,
+          pageSize: 4,
+        },
+      };
+      dispatch(getAdminUserList(data));
+    }
+  }, [search]);
 
   const deleteUserHandler = (id) => {
     const data = {
@@ -122,11 +128,11 @@ function UserList() {
     dispatch(deleteAdminUser(data));
   };
 
-  const onSearchHandler = (val) => {
+  const onSearchHandler = () => {
     const data = {
       adminAuthtoken,
       query: {
-        search: val,
+        search,
       },
     };
     dispatch(searchAdminUserList(data));
@@ -146,7 +152,9 @@ function UserList() {
         header="users"
         subHeader={true}
         onSearch={onSearchHandler}
+        onSearchChange={onSearchChange}
         onDateFilter={onDateFilterHandler}
+        search={search}
       />
     </div>
   );

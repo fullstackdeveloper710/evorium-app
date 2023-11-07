@@ -1,15 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 
-const SearchBar = ({ onSearch }) => {
-  const [search, setSearch] = useState("");
-
-  const onSearchChange = (e) => {
-    const { value } = e.target;
-    setSearch(value);
-  };
-  const onSearchHandler = () => {
-    onSearch(search);
-  };
+const SearchBar = ({ onSearch, onSearchChange, search }) => {
   return (
     <div className="search_block">
       <input
@@ -18,7 +9,7 @@ const SearchBar = ({ onSearch }) => {
         onChange={onSearchChange}
         value={search}
       />
-      <button type="" className="search_btn" onClick={onSearchHandler}>
+      <button type="" className="search_btn" onClick={onSearch}>
         Search
       </button>
     </div>
