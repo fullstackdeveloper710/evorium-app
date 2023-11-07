@@ -4,9 +4,17 @@ import {Button,Alert} from "../../components/user";
 import { EmailIcon } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { forgotPassword, resetPassword } from "../../redux/thunk/user/usrMain";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../navigation/constants";
 
 const ResetPassword = () => {
   const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+
 
   const initValues = {
   
@@ -26,6 +34,21 @@ const ResetPassword = () => {
     setShow(false);
     window.open("/create_new_password", "_self");
   }
+
+const{usrCreatePassword}=ROUTES
+
+  const onSubmitHandler = (values) => {
+    console.log(values, "forget  password-----------%%");
+    const data ={
+      ...values
+    }
+    dispatch(forgotPassword(data)).then(({ payload }) => {
+      if (payload.status) {
+        navigate(usrCreatePassword);
+      }
+    }); 
+    setShow(true); };
+
   return (
     <>
       <Alert
@@ -48,11 +71,8 @@ const ResetPassword = () => {
           <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              // console.log(values, "values%%");
-              setShow(true);
-              window.open("/create_new_password", "_self");
-            }}
+            onSubmit={onSubmitHandler}
+
           >
             {({
               values,

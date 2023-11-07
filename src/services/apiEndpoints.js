@@ -2,12 +2,13 @@ const userApi = {
   userSignup: "user/signup",
   usrLogin: "user/login",
   usrPrograms: "user/programs",
+  usrForgetPass: "/user/forget_password",
 
   //pending
   usrVerify: "/user/verify_mobile_number",
   usrRefreshToken: "/user/refresh_token",
-  usrForgetPass: "/user/forget_password",
-  usrResetPass: "/user/reset_password/:token",
+  // usrForgetPass: "/user/forget_password",
+  // usrResetPass: "/user/reset_password/:token",
 };
 
 const adminApi = {

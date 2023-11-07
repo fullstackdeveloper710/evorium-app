@@ -65,14 +65,6 @@ const Signup = () => {
     window.open("/login", "_self");
   }
 
-  const onSubmitHandler = (values) => {
-    console.log(values, "signup------------");
-    const data = {
-      ...values,
-    };
-    dispatch(userSignUp(data));
-    setShow(true);
-  };
 
   const componentClicked = () => {
     console.log("Button clicked");
@@ -82,6 +74,16 @@ const Signup = () => {
     console.log(response);
     // Handle the Facebook login response here
   };
+
+  const onSubmitHandler = (values) => {
+    console.log(values, "signup------------");
+    const data = {
+      ...values,
+    };
+    dispatch(userSignUp(data));
+    setShow(true);
+  };
+  
   return (
     <>
       <Alert
@@ -99,7 +101,7 @@ const Signup = () => {
 
           <Formik
             initialValues={initValues}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
