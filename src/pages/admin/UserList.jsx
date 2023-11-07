@@ -28,7 +28,9 @@ function UserList() {
   const navigate = useNavigate();
 
   //Custom hook
-  const { search, onSearchChange } = useSearch();
+  const { search, onSearchChange, onSearchHandler } = useSearch({
+    action: searchAdminUserList,
+  });
 
   //Datatable columns
   const columns = [
@@ -126,16 +128,6 @@ function UserList() {
       },
     };
     dispatch(deleteAdminUser(data));
-  };
-
-  const onSearchHandler = () => {
-    const data = {
-      adminAuthtoken,
-      query: {
-        search,
-      },
-    };
-    dispatch(searchAdminUserList(data));
   };
 
   const onDateFilterHandler = (values) => {

@@ -1,7 +1,14 @@
 import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const useSearch = () => {
+const useSearch = ({ action }) => {
   const [search, setSearch] = useState("");
+
+  //Redux state
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
 
   //Methods
   const onSearchChange = (e) => {
@@ -9,9 +16,20 @@ const useSearch = () => {
     setSearch(value);
   };
 
+  const onSearchHandler = () => {
+    const data = {
+      adminAuthtoken,
+      query: {
+        search,
+      },
+    };
+    dispatch(action(data));
+  };
+
   return {
     search,
     onSearchChange,
+    onSearchHandler,
   };
 };
 
