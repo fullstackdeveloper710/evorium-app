@@ -10,14 +10,15 @@ function ReactDataTable({
   columns,
   data,
   pagination,
-  dateFilter,
+  showDateFilter,
   searchBar,
   header,
   subHeader,
   onSearch,
-  onDateFilter,
   search,
   onSearchChange,
+  onDateChange,
+  clearFilter,
 }) {
   //Redux state
   const { loader } = useSelector((state) => state.app);
@@ -53,7 +54,12 @@ function ReactDataTable({
                 search={search}
                 onSearchChange={onSearchChange}
               />
-              <DateFilter show={dateFilter} onDateFilter={onDateFilter} />
+              <DateFilter
+                showDateFilter={showDateFilter}
+                onDateChange={onDateChange}
+                dateFilter={onDateChange}
+                clearFilter={clearFilter}
+              />
             </div>
           )}
         </div>

@@ -1,34 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 
-const DateFilter = ({ show, onDateFilter }) => {
-  const [dateFilter, setDateFilter] = useState({
-    startDate: "",
-    endDate: "",
-  });
+const DateFilter = ({
+  showDateFilter,
+  onDateChange,
+  dateFilter,
+  clearFilter,
+}) => {
   const { startDate, endDate } = dateFilter;
 
-  //Methods
-  useEffect(() => {
-    if (startDate !== "" && endDate !== "") {
-      onDateFilterhandler(dateFilter);
-    }
-  }, [startDate, endDate]);
-
-  const onDateFilterhandler = (values) => {
-    onDateFilter(values);
-  };
-
-  const onDateChange = (e) => {
-    const { value, name } = e.target;
-    setDateFilter((prev) => {
-      return {
-        ...prev,
-        [name]: value,
-      };
-    });
-  };
-
-  if (show) {
+  if (showDateFilter) {
     return (
       <div className="date_block">
         <div className="input_wraper">
@@ -55,3 +35,7 @@ const DateFilter = ({ show, onDateFilter }) => {
 };
 
 export default DateFilter;
+
+// <button type="button" onClick={clearFilter}>
+//   clear
+// </button>

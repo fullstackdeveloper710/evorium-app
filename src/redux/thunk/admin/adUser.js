@@ -105,12 +105,12 @@ export const filterAdminUserbyDate = createAsyncThunk(
     const { dispatch } = thunkAPI;
     const {
       adminAuthtoken,
-      query: { start, end },
+      query: { startDate, endDate },
     } = data;
     try {
       const config = {
         method: "get",
-        url: `${adFilterUser}?startDate=${start}&endDate=${end}`,
+        url: `${adFilterUser}?startDate=${startDate}&endDate=${endDate}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

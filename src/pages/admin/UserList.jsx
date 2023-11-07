@@ -3,6 +3,7 @@ import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
+  filterAdminUserbyDate,
   getAdminUserList,
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
@@ -14,7 +15,7 @@ import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
-import useSearch from "../../customHooks/useSearch";
+import { useSearch, useDateFilter } from "../../utility/hooks";
 
 function UserList() {
   //Redux state
@@ -27,9 +28,13 @@ function UserList() {
   //Router functions
   const navigate = useNavigate();
 
-  //Custom hook
+  //Custom hooks
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminUserList,
+  });
+
+  const { dateFilter, onDateChange, clearFilter } = useDateFilter({
+    action: filterAdminUserbyDate,
   });
 
   //Datatable columns
@@ -130,9 +135,6 @@ function UserList() {
     dispatch(deleteAdminUser(data));
   };
 
-  const onDateFilterHandler = (values) => {
-    console.log(values, "values here");
-  };
   return (
     <div className="user_tab">
       <ReactDataTable
@@ -140,12 +142,15 @@ function UserList() {
         columns={columns}
         pagination={true}
         searchBar={true}
-        dateFilter={true}
+        showDateFilter={true}
         header="users"
         subHeader={true}
         onSearch={onSearchHandler}
         onSearchChange={onSearchChange}
-        onDateFilter={onDateFilterHandler}
+        onDateChange={onDateChange}
+        dateFilter={dateFilter}
+        // onDateFilter={onDateFilterHandler}
+        clearFilter={clearFilter}
         search={search}
       />
     </div>
