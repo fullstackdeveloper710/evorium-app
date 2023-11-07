@@ -25,6 +25,7 @@ import { star } from "../../assets/icons/user";
 import "../../styles/user/programs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
+import { ROUTES } from "../../navigation/constants";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -39,7 +40,7 @@ function Programs() {
 
 
   const dispatch = useDispatch();
-
+// const{usrPrograms} =ROUTES
   useEffect(() => {
     const data = {
       userAuthtoken,
@@ -50,7 +51,7 @@ function Programs() {
     };
     // console.log
     dispatch(getUserProgramList(data));
-  }, []);
+  }, [dispatch, userAuthtoken]);
 
 
   // Add default value on page load
