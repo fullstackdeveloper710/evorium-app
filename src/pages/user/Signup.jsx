@@ -17,6 +17,8 @@ import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { Input } from "../../components/common";
 import { GoogleLogin } from "react-google-login";
+import FacebookLogin from "react-facebook-login";
+// import FacebookLogin from "facebook-login";
 // import {FacebookLogin} from "react-facebook-login";
 
 const Signup = () => {
@@ -70,6 +72,15 @@ const Signup = () => {
     };
     dispatch(userSignUp(data));
     setShow(true);
+  };
+
+  const componentClicked = () => {
+    console.log("Button clicked");
+  };
+  
+  const responseFacebook = (response) => {
+    console.log(response);
+    // Handle the Facebook login response here
   };
   return (
     <>
@@ -204,21 +215,24 @@ const Signup = () => {
                       <div className="auth__socialWrap__icon">
                         <ul>
                           <li>
-                            {/* <Link to="/">
-                              <FacebookIcon />
-                            </Link> */}
-                            {/* <FacebookLogin
-                              appId="1206715649505081"
+                          
+                            <FacebookLogin
+                              appId="1083604836218636"
+                            textButton="facebook"
+
                               fields="name,email,picture"
                               onClick={componentClicked}
                               callback={responseFacebook}
                               icon="fa-facebook"
-                            ></FacebookLogin> */}
+                            
+                            
+                            />
                           </li>
                           <li>
                             {/* <Link to="/">
                               <GoogleIcon />
                             </Link> */}
+                        
                             <GoogleLogin
                               clientId="821353603223-ue9aberp764eb2tjsd8ikau2bm4hsldg.apps.googleusercontent.com"
                               buttonText=""
