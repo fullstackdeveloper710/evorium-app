@@ -7,7 +7,12 @@ import { ROUTES } from "../../navigation/constants";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { BtnGroup, Button, Input } from "../../components/common";
+import {
+  BtnGroup,
+  Button,
+  Input,
+  VideoUploader,
+} from "../../components/common";
 import SelectBox from "../../components/common/SelectBox";
 import RadioBtn from "../../components/common/RadioBtn";
 import RadioGroup from "../../components/common/RadioGroup";
