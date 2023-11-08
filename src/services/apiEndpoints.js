@@ -33,6 +33,7 @@ const adminApi = {
   adFaqList: "/admin/faq_list",
   adAddFaq: "/admin/add_faq",
   adSearchFaq: "admin/search_faq",
+  adSearchProgram: "/admin/search_program",
 
   //pending
   adDelProgram: "/admin/delete_program/:id",
@@ -40,7 +41,6 @@ const adminApi = {
   adAddProgram: "/admin/program",
   adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
-  adSearchProgram: "/admin/search_program?query=learn&pageNo=1&pageSize=4",
 };
 
 export { userApi, adminApi };
