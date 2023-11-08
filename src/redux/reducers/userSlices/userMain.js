@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { forgotPassword, resetPassword, userLogin, userSignUp, userVerifyNum } from "../../thunk/user/usrMain";
+import { forgotPassword, resetPassword, userGoogleLogin, userLogin, userSignUp, userVerifyNum } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
@@ -85,6 +85,25 @@ const userMain = createSlice({
       builder.addCase(userVerifyNum.pending, (state) => {
         state.status = "pending";
       });
+
+
+      // GOOGLE login reducer
+    builder
+    .addCase(userGoogleLogin.pending, (state) => {
+      // state.loading = true;
+      state.error = null;
+    })
+    .addCase(userGoogleLogin.fulfilled, (state, action) => {
+      const { payload } = action;
+      // state.loading = false;
+      console.log(payload, "payload");
+      state.userAuthtoken = payload.access_token;
+    })
+    .addCase(userGoogleLogin.rejected, (state, action) => {
+      // state.loading = false;
+      // state.error = action.payload;
+    });
+
   },
 });
 

@@ -24,6 +24,7 @@ import { ROUTES } from "../../navigation/constants";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
+  const [name , setName]= useState()
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
@@ -38,27 +39,31 @@ const Signup = () => {
     country_code: "",
   };
 
-  const responseGoogle = (response) => {
-    console.log(response);
-    // Handle the Google Sign-In response here
+  const responseGoogle = (res) => {
+    console.log(res);
+    // setName(res.profileObj["name"]);
+    // console.log("success",res.profileObj);
+  
+
+
   };
 
-  const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .matches(
-        /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
-        "Name can only contain Latin letters."
-      )
-      .max(50)
-      .required("required field"),
-    email: Yup.string().email().required("Enter your E-mail"),
-    password: Yup.string()
-      .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      )
-      .required("required field"),
-  });
+  // const validationSchema = Yup.object().shape({
+  //   name: Yup.string()
+  //     .matches(
+  //       /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
+  //       "Name can only contain Latin letters."
+  //     )
+  //     .max(50)
+  //     .required("required field"),
+  //   email: Yup.string().email().required("Enter your E-mail"),
+  //   password: Yup.string()
+  //     .matches(
+  //       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+  //       "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+  //     )
+  //     .required("required field"),
+  // });
   function submit() {
     setShow(true);
   }
@@ -98,6 +103,10 @@ const {usrOtp} =ROUTES
     });
   
   };
+
+
+
+
   
   return (
     <>
@@ -226,10 +235,23 @@ const {usrOtp} =ROUTES
                     />
                   </Col>
 
-                  <Col md={12}>
-                    <div className="auth__socialWrap">
+                  
+                  <Col md="12">
+                    <p className="newUserLink">
+                      Already Have an Account?
+                      <span onClick={() => window.open("/login", "_self")}>
+                        Login
+                      </span>
+                    </p>
+                  </Col>
+                </Row>
+              </Form>
+            )}
+          </Formik>
+          <Col md={12}>
+                    <div className="auth__socialWrap" >
                       <p>Or Continue with</p>
-                      <div className="auth__socialWrap__icon">
+                      <div className="auth__socialWrap__icon" >
                         <ul>
                           <li>
                           
@@ -249,15 +271,16 @@ const {usrOtp} =ROUTES
                             {/* <Link to="/">
                               <GoogleIcon />
                             </Link> */}
-                        
-                            <GoogleLogin
+                      
+                           <GoogleLogin
                               clientId="821353603223-ue9aberp764eb2tjsd8ikau2bm4hsldg.apps.googleusercontent.com"
                               buttonText=""
                               onSuccess={responseGoogle}
                               onFailure={responseGoogle}
                               cookiePolicy={"single_host_origin"}
-                              // redirectUri=""
-                            />
+                              redirectUri="http://localhost:3000"
+                              // isSignedIn={false}
+                            />  
                           </li>
 
                           <li>
@@ -276,18 +299,7 @@ const {usrOtp} =ROUTES
                       </p>
                     </div>
                   </Col>
-                  <Col md="12">
-                    <p className="newUserLink">
-                      Already Have an Account?
-                      <span onClick={() => window.open("/login", "_self")}>
-                        Login
-                      </span>
-                    </p>
-                  </Col>
-                </Row>
-              </Form>
-            )}
-          </Formik>
+          
         </div>
       </section>
     </>
