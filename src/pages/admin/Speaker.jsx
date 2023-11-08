@@ -1,21 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row, Table, Image } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminSpeaker,
+  deleteAdminSpeaker,
   getAdminSpeakers,
 } from "../../redux/thunk/admin/adSpeakers";
 import { dateFormater } from "../../utility/methods";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import Button from "../../components/common/Button";
-import BtnGroup from "../../components/common/BtnGroup";
-import { Input } from "../../components/common";
-import SelectBox from "../../components/common/SelectBox";
-import { ReactDataTable } from "../../components/common";
+import {
+  Input,
+  Button,
+  BtnGroup,
+  SelectBox,
+  ReactDataTable,
+} from "../../components/common";
 import "../../styles/admin/categories.scss";
 function Speaker() {
   //Redux state
@@ -68,6 +69,16 @@ function Speaker() {
     resetForm();
   };
 
+  const deleteUserHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminSpeaker(data));
+  };
+
   const options = [
     {
       value: "",
@@ -108,9 +119,14 @@ function Speaker() {
       name: "Action",
       selector: (row) => (
         <div className="delete_action">
-          <Link to="#" className="delete_btn">
-            <Image src={trash} className="" />
-          </Link>
+          <button
+            className="action_btn"
+            onClick={() => {
+              deleteUserHandler(row._id);
+            }}
+          >
+            <Image src={trash} />
+          </button>
         </div>
       ),
     },

@@ -25,13 +25,14 @@ const adminApi = {
   adDashboard: "/admin/dashboard_stats",
   adSearchUser: "/admin/search_user",
   adFilterUser: "/admin/filtered_users",
+  adDelSpeaker: "/admin/delete_speaker/",
 
   //pending
   adDelTag: "/admin/delete_tag/:id",
   adDelUser: "/admin/delete_user/:id",
   adDelProgram: "/admin/delete_program/:id",
   adDelCategory: "/admin/delete_program/:id",
-  adDelSpeaker: "/admin/delete_speaker/:id",
+
   adAddProgram: "/admin/program",
   asGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addAdminSpeaker,
+  deleteAdminSpeaker,
   getAdminSpeakers,
 } from "../../thunk/admin/adSpeakers";
 
@@ -40,6 +41,26 @@ const adminSpeakerSlice = createSlice({
         state.status = true;
       })
       .addCase(addAdminSpeaker.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //delete admin speaker
+    builder
+      .addCase(deleteAdminSpeaker.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(deleteAdminSpeaker.fulfilled, (state, action) => {
+        const { meta } = action;
+        state.adminSpeakers = {
+          ...state.adminSpeakers,
+          data: state.adminSpeakers.data.filter(
+            (item) => item._id !== meta.arg.values.id
+          ),
+        };
+        state.status = true;
+      })
+      .addCase(deleteAdminSpeaker.rejected, (state, action) => {
         state.status = false;
       });
   },

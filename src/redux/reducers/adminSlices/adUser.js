@@ -39,10 +39,7 @@ const adminUserSlice = createSlice({
         state.status = false;
       })
       .addCase(deleteAdminUser.fulfilled, (state, action) => {
-        const { meta, payload } = action;
-        console.log(meta, "meta here");
-        console.log(meta.arg.values.id, "meta");
-        console.log(payload, "payload here ");
+        const { meta } = action;
         state.adminUsers = {
           ...state.adminUsers,
           data: state.adminUsers.data.filter(

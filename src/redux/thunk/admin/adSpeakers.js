@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adSpeakersList, adAddSpeaker } = adminApi;
+const { adSpeakersList, adAddSpeaker, adDelSpeaker } = adminApi;
 
 // get admin speakers list thunk
 export const getAdminSpeakers = createAsyncThunk(
@@ -50,6 +50,28 @@ export const addAdminSpeaker = createAsyncThunk(
         };
         dispatch(getAdminSpeakers(data));
       }
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// delete admin speaker thunk
+export const deleteAdminSpeaker = createAsyncThunk(
+  "admin/deleteAdminSpeaker",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken, values } = data;
+    try {
+      const config = {
+        method: "delete",
+        url: `${adDelSpeaker}/${values.id}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
       dispatch(hideLoader());
       return response;
     } catch (error) {

@@ -36,6 +36,34 @@ function UserList() {
     action: filterAdminUserbyDate,
   });
 
+  //Methods
+  const onViewHandler = (id) => {
+    navigate(ROUTES.adUserDetail, { state: { id: id } });
+  };
+
+  useEffect(() => {
+    if (search === "") {
+      const data = {
+        adminAuthtoken,
+        values: {
+          pageNo: 1,
+          pageSize: 4,
+        },
+      };
+      dispatch(getAdminUserList(data));
+    }
+  }, [search]);
+
+  const deleteUserHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminUser(data));
+  };
+
   //Datatable columns
   const columns = [
     {
@@ -105,35 +133,6 @@ function UserList() {
       ),
     },
   ];
-
-  //Methods
-  const onViewHandler = (id) => {
-    navigate(ROUTES.adUserDetail, { state: { id: id } });
-  };
-
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminUserList(data));
-    }
-  }, [search]);
-
-  const deleteUserHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminUser(data));
-  };
-
   return (
     <div className="user_tab">
       <ReactDataTable
