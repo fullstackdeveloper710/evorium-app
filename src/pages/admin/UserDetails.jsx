@@ -6,10 +6,13 @@ import { Link, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { getAdminUserDetail } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/userListing.scss";
+import { ROUTES } from "../../navigation/constants";
 function UserDetails() {
   const location = useLocation();
   const { state } = location;
   const dispatch = useDispatch();
+
+  const { adUserList } = ROUTES;
 
   useEffect(() => {
     console.log(state.id);
@@ -19,7 +22,7 @@ function UserDetails() {
   return (
     <div className="user_listing_section">
       <h3 className="title">
-        <Link to="#" className="me-3">
+        <Link to={adUserList} className="me-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="35"
