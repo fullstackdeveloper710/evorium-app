@@ -35,7 +35,7 @@ function ReactDataTable({
     <DataTable
       // fixedHeader
       // fixedHeaderScrollHeight="500px"
-      // responsive
+      responsive
       columns={columns}
       data={data}
       pagination={pagination}
@@ -54,12 +54,13 @@ function ReactDataTable({
                 search={search}
                 onSearchChange={onSearchChange}
               />
-              <DateFilter
-                showDateFilter={showDateFilter}
-                onDateChange={onDateChange}
-                dateFilter={onDateChange}
-                clearFilter={clearFilter}
-              />
+              {showDateFilter && (
+                <DateFilter
+                  onDateChange={onDateChange}
+                  dateFilter={onDateChange}
+                  clearFilter={clearFilter}
+                />
+              )}
             </div>
           )}
         </div>

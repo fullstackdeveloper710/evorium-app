@@ -53,9 +53,9 @@ const adminFaqsSlice = createSlice({
       })
       .addCase(deleteAdminFaq.fulfilled, (state, action) => {
         const { meta } = action;
-        state.adminTags = {
-          ...state.adminTags,
-          data: state.adminTags.data.filter(
+        state.adminFaqs = {
+          ...state.adminFaqs,
+          data: state.adminFaqs.data.filter(
             (item) => item._id !== meta.arg.values.id
           ),
         };

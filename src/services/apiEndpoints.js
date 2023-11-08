@@ -31,6 +31,7 @@ const adminApi = {
   adDelFaq: "/admin/delete_faq",
   adFaqList: "/admin/faq_list",
   adAddFaq: "/admin/add_faq",
+  adSearchFaq: "admin/search_faq",
 
   //pending
   adDelProgram: "/admin/delete_program/:id",
