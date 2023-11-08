@@ -60,7 +60,7 @@ function Dashboard() {
                 <Image src={dashboard_payment} />
               </span>
               <div className="right_text">
-                <span className="number">22</span>
+                <span className="number">{data?.payment_count}</span>
                 <p className="text_card">Payments</p>
               </div>
             </div>
