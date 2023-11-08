@@ -28,6 +28,9 @@ const adminApi = {
   adDelSpeaker: "/admin/delete_speaker",
   adDelCategory: "/admin/delete_category",
   adDelTag: "/admin/delete_tag",
+  adDelFaq: "/admin/delete_faq",
+  adFaqList: "/admin/faq_list",
+  adAddFaq: "/admin/add_faq",
 
   //pending
   adDelProgram: "/admin/delete_program/:id",

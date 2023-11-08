@@ -9,6 +9,7 @@ import adminTagsSlice from "./adminSlices/adTags";
 import adminProgramsSlice from "./adminSlices/adPrograms";
 import adminDashboardSlice from "./adminSlices/adDashboard";
 import userProgramsSlice from "./userSlices/userPrograms";
+import adminFaqsSlice from "./adminSlices/adFaq";
 // Import other reducers as needed
 
 const rootReducer = combineReducers({
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   adPrograms: adminProgramsSlice,
   adDashboard: adminDashboardSlice,
   admin: adminMainSlice,
+  adFaqs: adminFaqsSlice,
   userAuth: userMain,
   userPrograms: userProgramsSlice,
   // Add other reducers here
