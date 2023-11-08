@@ -43,7 +43,7 @@ function Programs() {
 // const{usrPrograms} =ROUTES
   useEffect(() => {
     const data = {
-      userAuthtoken,
+      // userAuthtoken,
       values: {
         pageNo: 1,
         pageSize: 4,
@@ -51,7 +51,7 @@ function Programs() {
     };
     // console.log
     dispatch(getUserProgramList(data));
-  }, [dispatch, userAuthtoken]);
+  },)
 
 
   // Add default value on page load

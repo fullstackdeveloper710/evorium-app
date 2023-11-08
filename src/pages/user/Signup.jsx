@@ -10,7 +10,7 @@ import {
   FacebookIcon,
   GoogleIcon,
 } from "../../assets/icons/user";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { userSignUp } from "../../redux/thunk/user/usrMain";
@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux";
 import { Input } from "../../components/common";
 import { GoogleLogin } from "react-google-login";
 import FacebookLogin from "react-facebook-login";
+import { ROUTES } from "../../navigation/constants";
 // import FacebookLogin from "facebook-login";
 // import {FacebookLogin} from "react-facebook-login";
 
@@ -26,6 +27,8 @@ const Signup = () => {
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+
 
   const initValues = {
     full_name: "",
@@ -74,14 +77,26 @@ const Signup = () => {
     console.log(response);
     // Handle the Facebook login response here
   };
-
+const {usrOtp} =ROUTES
   const onSubmitHandler = (values) => {
     console.log(values, "signup------------");
     const data = {
       ...values,
     };
-    dispatch(userSignUp(data));
-    setShow(true);
+    dispatch(userSignUp(data)).then(({ payload }) => {
+      if (payload) {
+        setShow(true);
+        navigate(usrOtp,{
+          state: {
+            id:payload.user_id,
+            otp:payload.otp
+            
+            //...values
+          }
+        });
+      }
+    });
+  
   };
   
   return (
@@ -205,7 +220,7 @@ const Signup = () => {
                   <Col md="12">
                     <Button
                       type="submit"
-                      title={"Save Changes"}
+                      title={"Sign In"}
                       className="submitBtn"
                       // submit={submit}
                     />

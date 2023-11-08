@@ -11,10 +11,12 @@ import {
   UserProfile,
   VideoPlayer,
   Signup,
+
 } from "../../pages/user";
+import Otp from "../../pages/user/Otp";
 import { ROUTES } from "../constants";
 
-const { usrLogin, usrPrograms ,usrResetPassword ,usrCreatePassword } = ROUTES;
+const { usrLogin, usrPrograms ,usrResetPassword ,usrCreatePassword,usrOtp } = ROUTES;
 export const userRoutes = [
   {
     id: 1,
@@ -102,6 +104,15 @@ export const userRoutes = [
     path: "terms-of-service",
     Component: TermsofService,
     Auth: true,
+    defaultComp: false,
+  },
+
+  {
+    id: 12,
+    type: "public",
+    path: usrOtp,
+    Component: Otp,
+    Auth: false,
     defaultComp: false,
   },
 ];

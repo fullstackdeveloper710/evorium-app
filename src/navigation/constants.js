@@ -19,5 +19,6 @@ export const ROUTES = {
   usrLogin:"/login",
   usrPrograms: "/Programs",
   usrResetPassword:"/reset_password",
-  usrCreatePassword:"/create_new_password"
+  usrCreatePassword:"/create_new_password",
+  usrOtp:"/otp"
 };

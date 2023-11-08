@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
-import { hideLoader, hideRootLoader, showLoader, showRootLoader } from "../../reducers/common/appSlice";
+import {
+  hideLoader,
+  hideRootLoader,
+  showLoader,
+  showRootLoader,
+} from "../../reducers/common/appSlice";
 
 // Create an async thunk
 export const userSignUp = createAsyncThunk(
@@ -11,10 +16,10 @@ export const userSignUp = createAsyncThunk(
       // Perform your asynchronous operation here, e.g., an API call
       const config = {
         method: "post",
-        url:userApi.userSignup,
-        data:data,
+        url: userApi.userSignup,
+        data: data,
       };
-   thunkAPI.dispatch(showLoader());
+      thunkAPI.dispatch(showLoader());
       const response = await httpsClient(config);
       thunkAPI.dispatch(hideLoader());
       return response;
@@ -47,7 +52,6 @@ export const userSignUp = createAsyncThunk(
 // );
 const { usrLogin } = userApi;
 
-    
 export const userLogin = createAsyncThunk(
   "user/userLogin",
   async (data, thunkAPI) => {
@@ -69,14 +73,13 @@ export const userLogin = createAsyncThunk(
     }
   }
 );
-  // reset password
+// reset password
 
-  const { usrResetPass } = userApi;
+const { usrResetPass } = userApi;
 
 export const resetPassword = createAsyncThunk(
   "user/resetPassword",
   async (data, thunkAPI) => {
-
     try {
       const config = {
         method: "post",
@@ -84,7 +87,7 @@ export const resetPassword = createAsyncThunk(
         data: data,
       };
       thunkAPI.dispatch(showLoader());
-      const response = await httpsClient(config );
+      const response = await httpsClient(config);
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
@@ -93,20 +96,15 @@ export const resetPassword = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   }
-
-
 );
 
 // FORGET PASSWORD--------------------
-
-
 
 const { usrForgetPass } = userApi;
 
 export const forgotPassword = createAsyncThunk(
   "user/forgotPassword",
   async (data, thunkAPI) => {
-
     try {
       const config = {
         method: "post",
@@ -114,7 +112,7 @@ export const forgotPassword = createAsyncThunk(
         data: data,
       };
       thunkAPI.dispatch(showLoader());
-      const response = await httpsClient(config );
+      const response = await httpsClient(config);
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
@@ -123,6 +121,34 @@ export const forgotPassword = createAsyncThunk(
       return thunkAPI.rejectWithValue(error.message);
     }
   }
+);
+// verify otp
 
+const { usrVerify } = userApi;
 
+export const userVerifyNum = createAsyncThunk(
+  "user/userVerifyNum",
+  async (data, thunkAPI) => {
+    const {
+      values,
+    } = data;
+
+    try {
+      const config = {
+        method: "post",
+        url: `${usrVerify}`,
+        data:values
+
+        // data: data,
+      };
+      thunkAPI.dispatch(showLoader());
+      const response = await httpsClient(config);
+      thunkAPI.dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      console.log("error", error);
+      thunkAPI.dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
 );
