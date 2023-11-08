@@ -30,11 +30,10 @@ const adminApi = {
   adDelTag: "/admin/delete_tag",
 
   //pending
-  adDelUser: "/admin/delete_user/:id",
   adDelProgram: "/admin/delete_program/:id",
 
   adAddProgram: "/admin/program",
-  asGetProgram: "/admin/program/id",
+  adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
   adSearchProgram: "/admin/search_program?query=learn&pageNo=1&pageSize=4",
 };
