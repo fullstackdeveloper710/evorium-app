@@ -1,5 +1,5 @@
 import { combineReducers } from "redux";
-import userMain from "./userSlices/userMain";
+import userAuth from "./userSlices/userAuth";
 import adminMainSlice from "./adminSlices/adAuth";
 import adminUserSlice from "./adminSlices/adUser";
 import adminSpeakerSlice from "./adminSlices/adSpeakers";
@@ -10,11 +10,11 @@ import adminProgramsSlice from "./adminSlices/adPrograms";
 import adminDashboardSlice from "./adminSlices/adDashboard";
 import userProgramsSlice from "./userSlices/userPrograms";
 import adminFaqsSlice from "./adminSlices/adFaq";
-// Import other reducers as needed
 
 const rootReducer = combineReducers({
+  //common slices
   app: appSlice,
-  user: userMain,
+  //Admin slices
   adAuth: adminMainSlice,
   adUser: adminUserSlice,
   adSpeaker: adminSpeakerSlice,
@@ -24,9 +24,9 @@ const rootReducer = combineReducers({
   adDashboard: adminDashboardSlice,
   admin: adminMainSlice,
   adFaqs: adminFaqsSlice,
-  userAuth: userMain,
+  //User slices
+  userAuth: userAuth,
   userPrograms: userProgramsSlice,
-  // Add other reducers here
 });
 
 export default rootReducer;
