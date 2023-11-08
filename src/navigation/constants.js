@@ -11,4 +11,14 @@ export const ROUTES = {
   adSpeaker: "/backoffice/speaker",
   adFaq: "/backoffice/faq",
   adFaqList: "/backoffice/faq-listing",
+
+
+
+  // user routes
+  usrHome:"/",
+  usrLogin:"/login",
+  usrPrograms: "/Programs",
+  usrResetPassword:"/reset_password",
+  usrCreatePassword:"/create_new_password",
+  usrOtp:"/otp"
 };

@@ -8,12 +8,13 @@ import { Form, Formik } from "formik";
 import { userLogin } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { GoogleLogin } from 'react-google-login';
+import { ROUTES } from "../../navigation/constants";
+import { useNavigate } from "react-router";
 
 
 const Login = () => {
   const [show, setShow] = useState(false);
-
-
+  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
   const passwordRegExp =
@@ -40,14 +41,20 @@ const Login = () => {
     localStorage.setItem("login", true);
     window.open("/programs", "_self");
   }
+  const { usrPrograms } = ROUTES;
 
   const onSubmitHandler = (values) => {
     console.log(values, "values%%");
-    const data ={
-      ...values
-    }
-    dispatch(userLogin(data));
+    const data = { values };
+    dispatch(userLogin(data)).then(({ payload }) => {
+      if (payload.status) {
+        navigate(usrPrograms);
+      }
+    });
   };
+
+
+    
 
   return (
     <>

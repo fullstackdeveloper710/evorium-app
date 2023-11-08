@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userLogin, userSignUp } from "../../thunk/user/usrMain";
+import { forgotPassword, resetPassword, userLogin, userSignUp, userVerifyNum } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
@@ -32,9 +32,8 @@ const userMain = createSlice({
     });
 
 
-  },
-
-  extraReducers: (builder) => {
+  
+// login reducer
     builder
       .addCase(userLogin.pending, (state) => {
         // state.loading = true;
@@ -49,6 +48,42 @@ const userMain = createSlice({
       .addCase(userLogin.rejected, (state, action) => {
         // state.loading = false;
         // state.error = action.payload;
+      });
+
+
+
+
+ 
+  
+
+      // FORGET PASSWORD REDUCER----------------------------
+      builder.addCase(forgotPassword.fulfilled, (state, action) => {
+        // state.userDetails = action.payload;
+        state.status = "success";
+      });
+      builder.addCase(forgotPassword.rejected, (state, action) => {
+        state.error = action.payload;
+        state.status = "failed";
+      });
+      builder.addCase(forgotPassword.pending, (state) => {
+        state.status = "pending";
+      });
+
+
+
+
+
+      // USER VERIFY REDUCER----------------------------
+      builder.addCase(userVerifyNum.fulfilled, (state, action) => {
+        // state.userDetails = action.payload;
+        state.status = "success";
+      });
+      builder.addCase(userVerifyNum.rejected, (state, action) => {
+        state.error = action.payload;
+        state.status = "failed";
+      });
+      builder.addCase(userVerifyNum.pending, (state) => {
+        state.status = "pending";
       });
   },
 });

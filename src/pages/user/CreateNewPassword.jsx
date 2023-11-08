@@ -38,11 +38,7 @@ const CreateNewPassword = () => {
         <Formik
           initialValues={initValues}
           validationSchema={validationSchema}
-          onSubmit={(values) => {
-            // console.log(values, "values%%");
-            localStorage.setItem('login',true)
-            window.open("/login", "_self");
-          }}
+         
         >
           {({
             values,
