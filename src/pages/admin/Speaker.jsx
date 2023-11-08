@@ -15,6 +15,7 @@ import Button from "../../components/common/Button";
 import BtnGroup from "../../components/common/BtnGroup";
 import { Input } from "../../components/common";
 import SelectBox from "../../components/common/SelectBox";
+import { ReactDataTable } from "../../components/common";
 import "../../styles/admin/categories.scss";
 function Speaker() {
   //Redux state
@@ -82,6 +83,39 @@ function Speaker() {
     },
   ];
 
+  const columns = [
+    {
+      name: "S.No.",
+      selector: (row, index) => <div>{index + 1}</div>,
+    },
+    {
+      name: "Speaker Name",
+      selector: (row) => <div>{row.name}</div>,
+    },
+    {
+      name: "Categories",
+      selector: (row) => <div>{row.category}</div>,
+    },
+    {
+      name: "Created On",
+      selector: (row) => (
+        <div className="date">
+          <span>{dateFormater(row.createdAt)}</span>
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <div className="delete_action">
+          <Link to="#" className="delete_btn">
+            <Image src={trash} className="" />
+          </Link>
+        </div>
+      ),
+    },
+  ];
+
   return (
     <div className="categories_section">
       <h3 className="title">Speakers</h3>
@@ -144,46 +178,13 @@ function Speaker() {
         )}
       </Formik>
 
-      <div className="categories_logs_section">
-        <h3 className="title">Speakers Logs</h3>
-        <div className="categories_logs_table comn_table">
-          <Table striped>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Speaker Name</th>
-                <th>Categories</th>
-                <th>Created On</th>
-                <th className="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.length > 0 ? (
-                data?.map(({ name, category, createdAt }, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}.</td>
-                      <td>{name}</td>
-                      <td>{category}</td>
-                      <td>{dateFormater(createdAt)}</td>
-                      <td>
-                        <div className="delete_action">
-                          <Link to="#" className="delete_btn">
-                            <Image src={trash} className="" />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <div>No Record Found</div>
-              )}
-            </tbody>
-          </Table>
-        </div>
-        <Pagination />
-      </div>
+      <ReactDataTable
+        data={data}
+        columns={columns}
+        pagination={true}
+        header="Speakers Logs"
+        subHeader={true}
+      />
     </div>
   );
 }

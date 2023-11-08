@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
@@ -8,7 +7,7 @@ import {
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
-import ReactDataTable from "../../components/common/DataTable";
+import { ReactDataTable } from "../../components/common";
 import { Image } from "react-bootstrap";
 import { demopic } from "../../assets/images/admin";
 import { dateFormater } from "../../utility/methods";

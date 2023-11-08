@@ -9,7 +9,12 @@ import { dateFormater } from "../../utility/methods";
 import * as Yup from "yup";
 import "../../styles/admin/categories.scss";
 import { Form, Formik } from "formik";
-import { BtnGroup, Button, Input } from "../../components/common";
+import {
+  BtnGroup,
+  Button,
+  Input,
+  ReactDataTable,
+} from "../../components/common";
 function Tags() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -60,6 +65,31 @@ function Tags() {
   const onCancelHandler = (resetForm) => {
     resetForm();
   };
+
+  const columns = [
+    {
+      name: "S.No.",
+      selector: (row, index) => <div>{index + 1}</div>,
+    },
+    {
+      name: "Tag Name",
+      selector: (row) => <div>{row.title}</div>,
+    },
+    {
+      name: "Created On",
+      selector: (row) => <div>{dateFormater(row.createdAt)}</div>,
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <div className="delete_action">
+          <Link to="#" className="delete_btn">
+            <Image src={trash} className="" />
+          </Link>
+        </div>
+      ),
+    },
+  ];
   return (
     <div className="categories_section tags_section">
       <h3 className="title">Tags</h3>
@@ -122,44 +152,13 @@ function Tags() {
         )}
       </Formik>
 
-      <div className="categories_logs_section">
-        <h3 className="title">Tags Logs</h3>
-        <div className="categories_logs_table comn_table">
-          <Table>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Tag Name</th>
-                <th>Created On</th>
-                <th className="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.length > 0 ? (
-                data?.map(({ createdAt, title }, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}.</td>
-                      <td>{title}</td>
-                      <td>{dateFormater(createdAt)}</td>
-                      <td>
-                        <div className="delete_action">
-                          <Link to="#" className="delete_btn">
-                            <Image src={trash} className="" />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <div>No Record Found</div>
-              )}
-            </tbody>
-          </Table>
-        </div>
-        <Pagination />
-      </div>
+      <ReactDataTable
+        data={data}
+        columns={columns}
+        pagination={true}
+        header="Tags Logs"
+        subHeader={true}
+      />
     </div>
   );
 }
