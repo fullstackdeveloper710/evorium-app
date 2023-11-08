@@ -11,12 +11,12 @@ import {
   UserProfile,
   VideoPlayer,
   Signup,
-
 } from "../../pages/user";
 import Otp from "../../pages/user/Otp";
 import { ROUTES } from "../constants";
 
-const { usrLogin, usrPrograms ,usrResetPassword ,usrCreatePassword,usrOtp } = ROUTES;
+const { usrLogin, usrPrograms, usrResetPassword, usrCreatePassword, usrOtp } =
+  ROUTES;
 export const userRoutes = [
   {
     id: 1,
@@ -36,7 +36,7 @@ export const userRoutes = [
   },
   {
     id: 3,
-    type: "Private",
+    type: "private",
     path: "videoplayer",
     Component: VideoPlayer,
     Auth: true,
@@ -52,7 +52,7 @@ export const userRoutes = [
   },
   {
     id: 5,
-    type: "Private",
+    type: "private",
     path: "signup",
     Component: Signup,
     Auth: true,
@@ -76,7 +76,7 @@ export const userRoutes = [
   },
   {
     id: 8,
-    type: "Private",
+    type: "private",
     path: "edit-profile",
     Component: UserProfile,
     Auth: true,
@@ -84,7 +84,7 @@ export const userRoutes = [
   },
   {
     id: 9,
-    type: "Private",
+    type: "private",
     path: "privacy-policy",
     Component: PrivacyPolicy,
     Auth: true,
@@ -92,7 +92,7 @@ export const userRoutes = [
   },
   {
     id: 10,
-    type: "Private",
+    type: "private",
     path: "refunds-policy",
     Component: RefundsPolicy,
     Auth: true,
@@ -100,7 +100,7 @@ export const userRoutes = [
   },
   {
     id: 11,
-    type: "Private",
+    type: "private",
     path: "terms-of-service",
     Component: TermsofService,
     Auth: true,

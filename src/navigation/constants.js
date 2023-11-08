@@ -12,13 +12,12 @@ export const ROUTES = {
   adFaq: "/backoffice/faq",
   adFaqList: "/backoffice/faq-listing",
 
-
-
   // user routes
-  usrHome:"/",
-  usrLogin:"/login",
+  usrHome: "/",
+  usrLogin: "/login",
   usrPrograms: "/Programs",
-  usrResetPassword:"/reset_password",
-  usrCreatePassword:"/create_new_password",
-  usrOtp:"/otp"
+  usrResetPassword: "/reset_password",
+  usrCreatePassword: "/create_new_password",
+  usrOtp: "/otp",
+  usrEditProfile: "/edit-profile",
 };

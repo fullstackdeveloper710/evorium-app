@@ -7,21 +7,16 @@ import { ROUTES } from "../../navigation/constants";
 
 function UsrPvtLayout() {
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { usrHome } = ROUTES;
+  const { usrLogin } = ROUTES;
   if (userAuthtoken) {
     return (
-      <div className="main_wrapper">
-        {/* <SideBar /> */}
-        <div className="right_section">
-          <Header />
-          <div className="admin-content-section">
-            <Outlet />
-          </div>
-        </div>
+      <div>
+        <Header />
+        <Outlet />
       </div>
     );
   } else {
-    return <Navigate to={usrHome} />;
+    return <Navigate to={usrLogin} />;
   }
 }
 
