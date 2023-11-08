@@ -69,7 +69,7 @@ function Speaker() {
     resetForm();
   };
 
-  const deleteUserHandler = (id) => {
+  const deleteSpeakerHandler = (id) => {
     const data = {
       adminAuthtoken,
       values: {
@@ -122,7 +122,7 @@ function Speaker() {
           <button
             className="action_btn"
             onClick={() => {
-              deleteUserHandler(row._id);
+              deleteSpeakerHandler(row._id);
             }}
           >
             <Image src={trash} />

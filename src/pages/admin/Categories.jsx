@@ -66,7 +66,7 @@ function Categories() {
     resetForm();
   };
 
-  const deleteUserHandler = (id) => {
+  const deleteCategoryHandler = (id) => {
     const data = {
       adminAuthtoken,
       values: {
@@ -93,7 +93,7 @@ function Categories() {
           <button
             className="action_btn"
             onClick={() => {
-              deleteUserHandler(row._id);
+              deleteCategoryHandler(row._id);
             }}
           >
             <Image src={trash} />

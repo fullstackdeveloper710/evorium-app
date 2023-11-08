@@ -27,9 +27,9 @@ const adminApi = {
   adFilterUser: "/admin/filtered_users",
   adDelSpeaker: "/admin/delete_speaker",
   adDelCategory: "/admin/delete_category",
+  adDelTag: "/admin/delete_tag",
 
   //pending
-  adDelTag: "/admin/delete_tag/:id",
   adDelUser: "/admin/delete_user/:id",
   adDelProgram: "/admin/delete_program/:id",
 

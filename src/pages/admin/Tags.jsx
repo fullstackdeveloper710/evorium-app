@@ -4,7 +4,11 @@ import { trash } from "../../assets/icons/admin";
 import { Pagination } from "../../components/admin";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { addAdminTags, getAdminTags } from "../../redux/thunk/admin/adTags";
+import {
+  addAdminTags,
+  deleteAdminTag,
+  getAdminTags,
+} from "../../redux/thunk/admin/adTags";
 import { dateFormater } from "../../utility/methods";
 import * as Yup from "yup";
 import "../../styles/admin/categories.scss";
@@ -66,6 +70,15 @@ function Tags() {
     resetForm();
   };
 
+  const deleteTagHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminTag(data));
+  };
   const columns = [
     {
       name: "S.No.",
@@ -83,9 +96,14 @@ function Tags() {
       name: "Action",
       selector: (row) => (
         <div className="delete_action">
-          <Link to="#" className="delete_btn">
-            <Image src={trash} className="" />
-          </Link>
+          <button
+            className="action_btn"
+            onClick={() => {
+              deleteTagHandler(row._id);
+            }}
+          >
+            <Image src={trash} />
+          </button>
         </div>
       ),
     },
