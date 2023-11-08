@@ -1,7 +1,7 @@
 import React from "react";
 
-const BtnGroup = ({ children }) => {
-  return <div className="common_btns">{children}</div>;
+const BtnGroup = ({ children, className }) => {
+  return <div className={className}>{children}</div>;
 };
 
 export default BtnGroup;

@@ -118,16 +118,16 @@ function Speaker() {
     {
       name: "Action",
       selector: (row) => (
-        <div className="delete_action">
-          <button
+        <BtnGroup className="delete_action">
+          <Button
+            title={<Image src={trash} />}
+            type="button"
             className="action_btn"
             onClick={() => {
               deleteSpeakerHandler(row._id);
             }}
-          >
-            <Image src={trash} />
-          </button>
-        </div>
+          />
+        </BtnGroup>
       ),
     },
   ];
@@ -174,7 +174,7 @@ function Speaker() {
                   options={options}
                   error={errors.category && touched.category && errors.category}
                 />
-                <BtnGroup>
+                <BtnGroup className="common_btns">
                   <Button
                     title="add"
                     type="submit"

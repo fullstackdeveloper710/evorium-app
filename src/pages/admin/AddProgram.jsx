@@ -409,7 +409,7 @@ function AddProgram() {
                       error={errors.price && touched.price && errors.price}
                     />
 
-                    <BtnGroup>
+                    <BtnGroup className="common_btns">
                       <Button
                         title="Save"
                         type="submit"

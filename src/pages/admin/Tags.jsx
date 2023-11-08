@@ -95,16 +95,16 @@ function Tags() {
     {
       name: "Action",
       selector: (row) => (
-        <div className="delete_action">
-          <button
+        <BtnGroup className="delete_action">
+          <Button
+            title={<Image src={trash} />}
+            type="button"
             className="action_btn"
             onClick={() => {
               deleteTagHandler(row._id);
             }}
-          >
-            <Image src={trash} />
-          </button>
-        </div>
+          />
+        </BtnGroup>
       ),
     },
   ];
@@ -150,7 +150,7 @@ function Tags() {
                   onChange={handleChange}
                   error={errors.date && touched.date && errors.date}
                 />
-                <BtnGroup>
+                <BtnGroup className="common_btns">
                   <Button
                     title="add"
                     type="submit"
