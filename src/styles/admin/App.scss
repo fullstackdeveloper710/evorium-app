@@ -10,7 +10,7 @@ h3.title {
 .main_wrapper {
   display: flex;
   .right_section {
-    flex: 1;
+   width: calc(100% - 350px);
     .admin-content-section {
       padding: 35px;
       background-color: #f5f7fc;
@@ -139,6 +139,14 @@ h3.title {
       text-align: center;
     }
   }
+
+
+  .main_wrapper {
+    .right_section {
+     width: calc(100% - 300px);
+    }
+  }
+
 }
 
 .right_section {
