@@ -47,7 +47,7 @@ const adminSidebarList = [
     title: "Users",
     icon: user,
     type: "link",
-    activeFor: [adUserList],
+    activeFor: [adUserList, adUserDetail],
   },
   {
     id: 3,
