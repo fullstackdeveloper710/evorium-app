@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminCategory,
+  deleteAdminCategory,
   getAdminCategories,
 } from "../../redux/thunk/admin/adCategories";
 import { dateFormater } from "../../utility/methods";
@@ -65,6 +66,16 @@ function Categories() {
     resetForm();
   };
 
+  const deleteUserHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminCategory(data));
+  };
+
   const columns = [
     { name: "S.No.", selector: (row, index) => index + 1 },
     {
@@ -79,9 +90,14 @@ function Categories() {
       name: "Action",
       selector: (row) => (
         <div className="delete_action">
-          <Link to="#" className="delete_btn">
-            <Image src={trash} className="" />
-          </Link>
+          <button
+            className="action_btn"
+            onClick={() => {
+              deleteUserHandler(row._id);
+            }}
+          >
+            <Image src={trash} />
+          </button>
         </div>
       ),
     },

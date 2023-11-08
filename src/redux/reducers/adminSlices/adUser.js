@@ -60,7 +60,6 @@ const adminUserSlice = createSlice({
       })
       .addCase(searchAdminUserList.fulfilled, (state, action) => {
         const { payload } = action;
-        console.log(payload, "payload in search use slice");
         state.adminUsers = {
           ...state.adminUsers,
           data: payload.data,
@@ -79,7 +78,6 @@ const adminUserSlice = createSlice({
       })
       .addCase(filterAdminUserbyDate.fulfilled, (state, action) => {
         const { payload } = action;
-        console.log(payload, "payload in filter use slice");
         state.adminUsers = {
           ...state.adminUsers,
           data: payload.data,

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addAdminCategory,
+  deleteAdminCategory,
   getAdminCategories,
 } from "../../thunk/admin/adCategories";
 
@@ -40,6 +41,26 @@ const adminCategoriesSlice = createSlice({
         state.status = true;
       })
       .addCase(addAdminCategory.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //delete admin category
+    builder
+      .addCase(deleteAdminCategory.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(deleteAdminCategory.fulfilled, (state, action) => {
+        const { meta } = action;
+        state.adminCategories = {
+          ...state.adminCategories,
+          data: state.adminCategories.data.filter(
+            (item) => item._id !== meta.arg.values.id
+          ),
+        };
+        state.status = true;
+      })
+      .addCase(deleteAdminCategory.rejected, (state, action) => {
         state.status = false;
       });
   },
