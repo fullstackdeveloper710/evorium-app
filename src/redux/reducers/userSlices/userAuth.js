@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   forgotPassword,
   resetPassword,
+  userFacebookLogin,
   userGoogleLogin,
   userLogin,
   userSignUp,
@@ -96,6 +97,25 @@ const userAuth = createSlice({
         // state.loading = false;
         // state.error = action.payload;
       });
+
+
+
+        // FACEBOOK login reducer
+    builder
+    .addCase(userFacebookLogin.pending, (state) => {
+      // state.loading = true;
+      state.error = null;
+    })
+    .addCase(userFacebookLogin.fulfilled, (state, action) => {
+      const { payload } = action;
+      // state.loading = false;
+      console.log(payload, "payload");
+      state.userAuthtoken = payload.access_token;
+    })
+    .addCase(userFacebookLogin.rejected, (state, action) => {
+      // state.loading = false;
+      // state.error = action.payload;
+    });
   },
 });
 

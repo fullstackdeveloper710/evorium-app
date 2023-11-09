@@ -16,11 +16,11 @@ const Otp = () => {
   const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
   const dispatch = useDispatch();
-  const location = useLocation()
+  const location = useLocation();
   const params = useParams();
   const { id } = params;
-  
-  const {state} = location;
+
+  const { state } = location;
 
   const initValues = {
     otp: "",
@@ -39,16 +39,14 @@ const Otp = () => {
   const onSubmitHandler = (values) => {
     console.log(values, "values%%");
     const data = {
-      // userAuthtoken,
       values: {
         user_id: state.id,
-        otp:state.otp,
+        otp: state.otp,
       },
     };
     dispatch(userVerifyNum(data)).then(({ payload }) => {
       if (payload.status) {
         navigate(usrLogin);
-        setShow(true);
       }
     });
   };

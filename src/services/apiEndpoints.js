@@ -4,11 +4,13 @@ const userApi = {
   usrPrograms: "user/programs",
   usrForgetPass: "/user/forget_password",
   usrVerify: "/user/verify_mobile_number",
+  usrGoogleLogin:"user/login_google",
+  usrFacebookLogin:"user/login_facebook",
+
 
 
 
   //pending
-  usrGoogleLogin:"user/login_google",
   usrRefreshToken: "/user/refresh_token",
   // usrForgetPass: "/user/forget_password",
   // usrResetPass: "/user/reset_password/:token",

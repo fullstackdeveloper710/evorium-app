@@ -176,3 +176,28 @@ export const userGoogleLogin = createAsyncThunk(
     }
   }
 );
+
+
+// user FACEBOOK login 
+const {usrFacebookLogin} = userApi
+export const userFacebookLogin = createAsyncThunk(
+  "user/userFacebookLogin",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { values } = data;
+    try {
+      const config = {
+        method: "post",
+        url: usrFacebookLogin,
+        data: values,
+      };
+      dispatch(showRootLoader());
+      const response = await httpsClient(config);
+      dispatch(hideRootLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideRootLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
