@@ -152,3 +152,27 @@ export const userVerifyNum = createAsyncThunk(
     }
   }
 );
+
+// user GOOGLE login 
+const {usrGoogleLogin} = userApi
+export const userGoogleLogin = createAsyncThunk(
+  "user/userGoogleLogin",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { values } = data;
+    try {
+      const config = {
+        method: "post",
+        url: usrGoogleLogin,
+        data: values,
+      };
+      dispatch(showRootLoader());
+      const response = await httpsClient(config);
+      dispatch(hideRootLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideRootLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
