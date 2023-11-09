@@ -1,13 +1,17 @@
 import React, { useEffect } from "react";
-import { Row } from "react-bootstrap";
+import { Row, DropdownButton, Dropdown} from "react-bootstrap";
 import { Pagination } from "../../components/admin";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getAdminProgramList } from "../../redux/thunk/admin/adPrograms";
+import {
+  getAdminProgramList,
+  searchAdminProgram,
+} from "../../redux/thunk/admin/adPrograms";
 import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
-import { Button } from "../../components/common";
+import { Button, SearchBar } from "../../components/common";
+import { useSearch } from "../../utility/hooks";
 function ProgramListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -17,6 +21,11 @@ function ProgramListing() {
   //Redux action dispatcher
   const dispatch = useDispatch();
 
+  //Custom hooks
+  const { search, onSearchChange, onSearchHandler } = useSearch({
+    action: searchAdminProgram,
+  });
+
   //Router functions
   const navigate = useNavigate();
 
@@ -25,15 +34,17 @@ function ProgramListing() {
 
   //Methods
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminProgramList(data));
-  }, [dispatch, adminAuthtoken]);
+    if (search === "") {
+      const data = {
+        adminAuthtoken,
+        values: {
+          pageNo: 1,
+          pageSize: 4,
+        },
+      };
+      dispatch(getAdminProgramList(data));
+    }
+  }, [dispatch, adminAuthtoken, search]);
 
   return (
     <div className="program_listing_section">
@@ -41,8 +52,17 @@ function ProgramListing() {
         <h3 className="title">Videos</h3>
         <div className="search_block">
           <div className="search_input">
-            <input type="text" placeholder="Search" />
-            <button type="" className="search_btn">
+            <input
+              type="text"
+              placeholder="Search"
+              value={search}
+              onChange={onSearchChange}
+            />
+            <button
+              type="button"
+              className="search_btn"
+              onClick={onSearchHandler}
+            >
               Search
             </button>
           </div>
@@ -82,7 +102,15 @@ function ProgramListing() {
                           {/* <img src="" className="label-watch"/> */}
                         </div>
                         <div className="bottom-details">
-                          <p className="name">{speaker}</p>
+                          
+                    {/* btn drop_dow */}
+                    <DropdownButton className="btn_programs" id="dropdown-basic-button" title="...">
+                          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
+                          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
+                          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
+                        </DropdownButton>
+                        {/* btn drop_dow */}
+                                <p className="name">{speaker}</p>
                           <Link to="#" className="link-card">
                             {description}
                           </Link>

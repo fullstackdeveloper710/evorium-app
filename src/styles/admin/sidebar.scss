@@ -39,6 +39,12 @@
   }
 }
 
+@media (max-width: 1400px) {
+  .sidebar {
+    width: 300px;
+  }
+}
+
 @media (max-width: 767px) {
   .sidebar {
     display: none;

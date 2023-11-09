@@ -11,11 +11,20 @@ import {
   SiteLogo,
   OpenSea,
 } from "../../assets/icons/user";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "../../styles/user/header.scss";
+import { ROUTES } from "../../navigation/constants";
+import { useSelector } from "react-redux";
 
 function Header() {
   const [show, setShow] = useState(true);
+
+  //Redux state
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+
+  const navigate = useNavigate();
+
+  const { usrHome, usrPrograms, usrEditProfile } = ROUTES;
 
   useEffect(() => {
     if (window.innerWidth < 992) {
@@ -42,71 +51,6 @@ function Header() {
 
   return (
     <>
-      {/* <Navbar collapseOnSelect expand="lg" className="custom-header">
-          <Container>
-            <Navbar.Brand href="/">
-              <Image src={mainLogo} />
-            </Navbar.Brand>
-            <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-            <Navbar.Collapse id="responsive-navbar-nav">
-              <div className="me-auto left-nav">
-                <Nav className="">
-                  <Nav.Link href="/">home</Nav.Link>
-                  <Nav.Link href="/programs">programs</Nav.Link>
-                </Nav>
-                <div className="social-icons">
-                  <a href="#">
-                    <Image src={insta} />
-                  </a>
-                  <a href="#">
-                    <Image src={twiter} />
-                  </a>
-                  <a href="#">
-                    <Image src={union} />
-                  </a>
-                  <a href="#">
-                    <Image src={tiktok} />
-                  </a>
-                  <a href="#">
-                    <Image src={facebook} />
-                  </a>
-                </div>
-              </div>
-              <Nav className="right-nav">
-                <NavDropdown title="English" id="collapsible-nav-dropdown">
-                  <NavDropdown.Item href="#action/3.1">English</NavDropdown.Item>
-                  <NavDropdown.Item href="#action/3.2">Hindi</NavDropdown.Item>
-                </NavDropdown>
-                {localStorage.getItem("login") === "true" ? (
-                  <Nav.Link
-                    onClick={() => localStorage.removeItem("login")}
-                    href="edit-profile"
-                    //  className="login-btn"
-                  >
-                    <Image
-                      src={thumbnail}
-                      roundedCircle={true}
-                      style={{
-                        borderRadius: "20%",
-                        height: "50px",
-                        width: "50px",
-                      }}
-                    ></Image>{" "}
-                  </Nav.Link>
-                ) : (
-                  <>
-                  <Nav.Link href="login" className="login-btn">
-                    Login
-                  </Nav.Link>
-
-                  <span className="headeruser"><UserIcon/></span>
-                  </>
-                )}
-              </Nav>
-            </Navbar.Collapse>
-          </Container>
-        </Navbar> */}
-
       <div className="customHeader">
         <div className="container">
           <div className="customHeader__innerHeader">
@@ -126,7 +70,7 @@ function Header() {
                 ></path>
               </svg>
             </button>
-            <Link to="/">
+            <Link to={usrHome}>
               <SiteLogo className="siteLogo" />
             </Link>
 
@@ -134,10 +78,10 @@ function Header() {
               <div className="customHeader__dropMenu">
                 <ul className="customHeader__menu">
                   <li>
-                    <Link to="">Home</Link>
+                    <Link to={usrHome}>Home</Link>
                   </li>
                   <li>
-                    <Link to="/programs">Programs</Link>
+                    <Link to={usrPrograms}>Programs</Link>
                   </li>
                 </ul>
 
@@ -218,8 +162,7 @@ function Header() {
             )}
 
             <button
-              onClick={() => localStorage.removeItem("login")}
-              href="edit-profile"
+              onClick={() => navigate(usrEditProfile)}
               className="mobileLogin"
             >
               <span className="headeruser">

@@ -7,7 +7,6 @@ import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import { userLogin } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
-import { GoogleLogin } from 'react-google-login';
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 

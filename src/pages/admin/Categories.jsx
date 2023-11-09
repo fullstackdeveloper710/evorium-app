@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminCategory,
+  deleteAdminCategory,
   getAdminCategories,
 } from "../../redux/thunk/admin/adCategories";
 import { dateFormater } from "../../utility/methods";
@@ -65,12 +66,21 @@ function Categories() {
     resetForm();
   };
 
+  const deleteCategoryHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminCategory(data));
+  };
+
   const columns = [
     { name: "S.No.", selector: (row, index) => index + 1 },
     {
       name: "Category Name",
       selector: (row) => row.title,
-      sortable: true,
     },
     {
       name: "Created On",
@@ -79,11 +89,16 @@ function Categories() {
     {
       name: "Action",
       selector: (row) => (
-        <div className="delete_action">
-          <Link to="#" className="delete_btn">
-            <Image src={trash} className="" />
-          </Link>
-        </div>
+        <BtnGroup className="delete_action">
+          <Button
+            title={<Image src={trash} />}
+            type="button"
+            className="action_btn"
+            onClick={() => {
+              deleteCategoryHandler(row._id);
+            }}
+          />
+        </BtnGroup>
       ),
     },
   ];
@@ -130,7 +145,7 @@ function Categories() {
                   onChange={handleChange}
                   error={errors.date && touched.date && errors.date}
                 />
-                <BtnGroup>
+                <BtnGroup className="common_btns">
                   <Button
                     title="add"
                     type="submit"
@@ -150,48 +165,15 @@ function Categories() {
         )}
       </Formik>
 
-      <ReactDataTable data={data} columns={columns} pagination={true} />
+      <ReactDataTable
+        data={data}
+        columns={columns}
+        pagination={true}
+        subHeader={true}
+        header="Categories Logs"
+      />
     </div>
   );
 }
 
 export default Categories;
-
-// <div className="categories_logs_section">
-//         <h3 className="title">Categories Logs</h3>
-//         <div className="categories_logs_table comn_table">
-//           <Table>
-//             <thead>
-//               <tr>
-//                 <th>S.No.</th>
-//                 <th>Category Name</th>
-//                 <th>Created On</th>
-//                 <th className="text-center">Action</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {data?.length ? (
-//                 data?.map(({ title, createdAt }, index) => {
-//                   return (
-//                     <tr key={index}>
-//                       <td>{index + 1}.</td>
-//                       <td>{title}</td>
-//                       <td>{dateFormater(createdAt)}</td>
-//                       <td>
-//                         <div className="delete_action">
-//                           <Link to="#" className="delete_btn">
-//                             <Image src={trash} className="" />
-//                           </Link>
-//                         </div>
-//                       </td>
-//                     </tr>
-//                   );
-//                 })
-//               ) : (
-//                 <div>No record Found</div>
-//               )}
-//             </tbody>
-//           </Table>
-//         </div>
-//         <Pagination />
-//       </div>

@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { Col, Row, Table, Image } from "react-bootstrap";
+import React, { useEffect } from "react";
+import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminSpeaker,
+  deleteAdminSpeaker,
   getAdminSpeakers,
 } from "../../redux/thunk/admin/adSpeakers";
 import { dateFormater } from "../../utility/methods";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import Button from "../../components/common/Button";
-import BtnGroup from "../../components/common/BtnGroup";
-import { Input } from "../../components/common";
-import SelectBox from "../../components/common/SelectBox";
+import {
+  Input,
+  Button,
+  BtnGroup,
+  SelectBox,
+  ReactDataTable,
+} from "../../components/common";
 import "../../styles/admin/categories.scss";
 function Speaker() {
   //Redux state
@@ -67,6 +69,16 @@ function Speaker() {
     resetForm();
   };
 
+  const deleteSpeakerHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      values: {
+        id,
+      },
+    };
+    dispatch(deleteAdminSpeaker(data));
+  };
+
   const options = [
     {
       value: "",
@@ -79,6 +91,44 @@ function Speaker() {
     {
       value: "free",
       label: "free",
+    },
+  ];
+
+  const columns = [
+    {
+      name: "S.No.",
+      selector: (row, index) => <div>{index + 1}</div>,
+    },
+    {
+      name: "Speaker Name",
+      selector: (row) => <div>{row.name}</div>,
+    },
+    {
+      name: "Categories",
+      selector: (row) => <div>{row.category}</div>,
+    },
+    {
+      name: "Created On",
+      selector: (row) => (
+        <div className="date">
+          <span>{dateFormater(row.createdAt)}</span>
+        </div>
+      ),
+    },
+    {
+      name: "Action",
+      selector: (row) => (
+        <BtnGroup className="delete_action">
+          <Button
+            title={<Image src={trash} />}
+            type="button"
+            className="action_btn"
+            onClick={() => {
+              deleteSpeakerHandler(row._id);
+            }}
+          />
+        </BtnGroup>
+      ),
     },
   ];
 
@@ -124,7 +174,7 @@ function Speaker() {
                   options={options}
                   error={errors.category && touched.category && errors.category}
                 />
-                <BtnGroup>
+                <BtnGroup className="common_btns">
                   <Button
                     title="add"
                     type="submit"
@@ -144,46 +194,13 @@ function Speaker() {
         )}
       </Formik>
 
-      <div className="categories_logs_section">
-        <h3 className="title">Speakers Logs</h3>
-        <div className="categories_logs_table comn_table">
-          <Table striped>
-            <thead>
-              <tr>
-                <th>S.No.</th>
-                <th>Speaker Name</th>
-                <th>Categories</th>
-                <th>Created On</th>
-                <th className="text-center">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {data?.length > 0 ? (
-                data?.map(({ name, category, createdAt }, index) => {
-                  return (
-                    <tr key={index}>
-                      <td>{index + 1}.</td>
-                      <td>{name}</td>
-                      <td>{category}</td>
-                      <td>{dateFormater(createdAt)}</td>
-                      <td>
-                        <div className="delete_action">
-                          <Link to="#" className="delete_btn">
-                            <Image src={trash} className="" />
-                          </Link>
-                        </div>
-                      </td>
-                    </tr>
-                  );
-                })
-              ) : (
-                <div>No Record Found</div>
-              )}
-            </tbody>
-          </Table>
-        </div>
-        <Pagination />
-      </div>
+      <ReactDataTable
+        data={data}
+        columns={columns}
+        pagination={true}
+        header="Speakers Logs"
+        subHeader={true}
+      />
     </div>
   );
 }

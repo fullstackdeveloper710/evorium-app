@@ -10,38 +10,36 @@ import UserPubLayout from "../layouts/userLayout/UserPubLayout";
 
 const Navigation = () => {
   const { adLogin } = ROUTES;
-  const {usrHome} = ROUTES;
+  const { usrHome } = ROUTES;
   return (
     <Routes>
       <Route path={usrHome} element={<UserPubLayout />}>
         {userRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
-          console.log(path, "public");
+          if (type === "public") {
             return (
-            <Route
-              key={id}
-              path={path}
-              index={defaultComp}
-              element={<Component />}
-            />
-          );
-
-            
+              <Route
+                key={id}
+                path={path}
+                index={defaultComp}
+                element={<Component />}
+              />
+            );
+          }
         })}
       </Route>
       {/* user routes */}
       <Route path={usrHome} element={<UsrPvtLayout />}>
         {userRoutes.map(({ path, type, Auth, Component, defaultComp, id }) => {
-          console.log(path, "private");
+          if (type === "private") {
             return (
-            <Route
-              key={id}
-              path={path}
-              index={defaultComp}
-              element={<Component />}
-            />
-          );
-
-            
+              <Route
+                key={id}
+                path={path}
+                index={defaultComp}
+                element={<Component />}
+              />
+            );
+          }
         })}
       </Route>
 

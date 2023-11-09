@@ -3,18 +3,18 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adSpeakersList, adAddSpeaker, adDelSpeaker } = adminApi;
+const { adDelFaq, adFaqList, adAddFaq } = adminApi;
 
-// get admin speakers list thunk
-export const getAdminSpeakers = createAsyncThunk(
-  "admin/getAdminSpeakers",
+// get admin faq list thunk
+export const getAdminFaqs = createAsyncThunk(
+  "admin/getAdminFaqs",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { adminAuthtoken, values } = data;
     try {
       const config = {
         method: "get",
-        url: `${adSpeakersList}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
+        url: `${adFaqList}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
@@ -27,16 +27,16 @@ export const getAdminSpeakers = createAsyncThunk(
   }
 );
 
-// add admin speakers thunk
-export const addAdminSpeaker = createAsyncThunk(
-  "admin/addAdminSpeaker",
+// add admin faq thunk
+export const addAdminFaq = createAsyncThunk(
+  "admin/addAdminFaq",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { adminAuthtoken, values, pagination } = data;
     try {
       const config = {
         method: "post",
-        url: `${adAddSpeaker}`,
+        url: `${adAddFaq}`,
         data: values,
       };
       dispatch(showLoader());
@@ -48,7 +48,7 @@ export const addAdminSpeaker = createAsyncThunk(
             ...pagination,
           },
         };
-        dispatch(getAdminSpeakers(data));
+        dispatch(getAdminFaqs(data));
       }
       dispatch(hideLoader());
       return response;
@@ -59,16 +59,16 @@ export const addAdminSpeaker = createAsyncThunk(
   }
 );
 
-// delete admin speaker thunk
-export const deleteAdminSpeaker = createAsyncThunk(
-  "admin/deleteAdminSpeaker",
+// delete admin faq thunk
+export const deleteAdminFaq = createAsyncThunk(
+  "admin/deleteAdminFaq",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { adminAuthtoken, values } = data;
     try {
       const config = {
         method: "delete",
-        url: `${adDelSpeaker}/${values.id}`,
+        url: `${adDelFaq}/${values.id}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

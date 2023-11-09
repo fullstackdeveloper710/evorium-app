@@ -16,20 +16,18 @@ import * as Yup from "yup";
 import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { Input } from "../../components/common";
-import { GoogleLogin } from "react-google-login";
-import FacebookLogin from "react-facebook-login";
+
 import { ROUTES } from "../../navigation/constants";
-// import FacebookLogin from "facebook-login";
-// import {FacebookLogin} from "react-facebook-login";
+import SocialMedia from "../common/SocialMedia";
+
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
-  const [name , setName]= useState()
+  const [name, setName] = useState();
 
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const navigate = useNavigate();
-
 
   const initValues = {
     full_name: "",
@@ -69,16 +67,15 @@ const Signup = () => {
     window.open("/login", "_self");
   }
 
-
   const componentClicked = () => {
     console.log("Button clicked");
   };
-  
+
   const responseFacebook = (response) => {
     console.log(response);
     // Handle the Facebook login response here
   };
-const {usrOtp} =ROUTES
+  const { usrOtp } = ROUTES;
   const onSubmitHandler = (values) => {
     console.log(values, "signup------------");
     const data = {
@@ -87,23 +84,18 @@ const {usrOtp} =ROUTES
     dispatch(userSignUp(data)).then(({ payload }) => {
       if (payload) {
         setShow(true);
-        navigate(usrOtp,{
+        navigate(usrOtp, {
           state: {
-            id:payload.user_id,
-            otp:payload.otp
-            
+            id: payload.user_id,
+            otp: payload.otp,
+
             //...values
-          }
+          },
         });
       }
     });
-  
   };
 
-
-
-
-  
   return (
     <>
       <Alert
@@ -231,7 +223,6 @@ const {usrOtp} =ROUTES
                     />
                   </Col>
 
-                  
                   <Col md="12">
                     <p className="newUserLink">
                       Already Have an Account?
@@ -244,7 +235,8 @@ const {usrOtp} =ROUTES
               </Form>
             )}
           </Formik>
-          <Col md={12}>
+          <SocialMedia />
+          {/* <Col md={12}>
                     <div className="auth__socialWrap" >
                       <p>Or Continue with</p>
                       <div className="auth__socialWrap__icon" >
@@ -264,9 +256,9 @@ const {usrOtp} =ROUTES
                             />
                           </li>
                           <li>
-                            {/* <Link to="/">
+                             <Link to="/">
                               <GoogleIcon />
-                            </Link> */}
+                            </Link>
                       
                            <GoogleLogin
                               clientId="821353603223-ue9aberp764eb2tjsd8ikau2bm4hsldg.apps.googleusercontent.com"
@@ -297,8 +289,7 @@ const {usrOtp} =ROUTES
                         <Link to="/">Cookies Policy</Link>.
                       </p>
                     </div>
-                  </Col>
-          
+                  </Col> */}
         </div>
       </section>
     </>

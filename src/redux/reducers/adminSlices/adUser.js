@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { deleteAdminUser, getAdminUserList } from "../../thunk/admin/adUser";
+import {
+  deleteAdminUser,
+  filterAdminUserbyDate,
+  getAdminUserList,
+  searchAdminUserList,
+} from "../../thunk/admin/adUser";
 
 const initialState = {
   adminUsers: {
@@ -34,10 +39,7 @@ const adminUserSlice = createSlice({
         state.status = false;
       })
       .addCase(deleteAdminUser.fulfilled, (state, action) => {
-        const { meta, payload } = action;
-        console.log(meta, "meta here");
-        console.log(meta.arg.values.id, "meta");
-        console.log(payload, "payload here ");
+        const { meta } = action;
         state.adminUsers = {
           ...state.adminUsers,
           data: state.adminUsers.data.filter(
@@ -47,6 +49,42 @@ const adminUserSlice = createSlice({
         state.status = true;
       })
       .addCase(deleteAdminUser.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //search admin user list
+    builder
+      .addCase(searchAdminUserList.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(searchAdminUserList.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.adminUsers = {
+          ...state.adminUsers,
+          data: payload.data,
+        };
+        state.status = true;
+      })
+      .addCase(searchAdminUserList.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //filter admin user list by date
+    builder
+      .addCase(filterAdminUserbyDate.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(filterAdminUserbyDate.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.adminUsers = {
+          ...state.adminUsers,
+          data: payload.data,
+        };
+        state.status = true;
+      })
+      .addCase(filterAdminUserbyDate.rejected, (state, action) => {
         state.status = false;
       });
   },

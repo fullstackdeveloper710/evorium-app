@@ -54,7 +54,6 @@
       font-family: "poppins", sans-serif;
       .card-wrapper {
         border-radius: 15px;
-        overflow: hidden;
         background-color: #2e2753;
         .img-wrap {
           position: relative;
@@ -62,6 +61,8 @@
             width: 100%;
             height: 183px !important;
             background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px 15px 0px 0px;
+            overflow: hidden;
             img {
               width: 100%;
             }
@@ -95,6 +96,24 @@
         }
         .bottom-details {
           padding: 15px;
+          position: relative;
+          .btn_programs{
+            position: absolute;
+            right: 10px;
+            top: 5px;
+          .dropdown-toggle  {
+            background-color: transparent;
+            border: 0px;
+            padding: 0px;
+            font-size: 0px;
+            &:after{
+             content: '...';
+             font-size: 30px;
+             border: 0px;
+             transform: rotate(90deg);
+            }
+          }
+          }
           p {
             font-size: 13px;
             font-family: "poppins", sans-serif;
@@ -113,7 +132,7 @@
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            min-height: 38px;
+            min-height: 48px;
             font-size: 16px;
             letter-spacing: 1px;
           }

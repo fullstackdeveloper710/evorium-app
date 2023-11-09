@@ -36,6 +36,8 @@ const Card = ({
           <Image src={watched ? checked : paused} className="label-watch" />
         </div>
         <div className="bottom-details">
+
+
           <p className="name">{title}</p>
           <a href="#" className="link-card">
             {description}

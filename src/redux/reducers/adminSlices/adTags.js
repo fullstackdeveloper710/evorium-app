@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminTags } from "../../thunk/admin/adTags";
+import { deleteAdminTag, getAdminTags } from "../../thunk/admin/adTags";
 
 const initialState = {
   adminTags: {
@@ -12,6 +12,7 @@ const adminTagsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // get admin tags list
     builder
       .addCase(getAdminTags.pending, (state) => {
         state.error = null;
@@ -23,6 +24,26 @@ const adminTagsSlice = createSlice({
         state.status = true;
       })
       .addCase(getAdminTags.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    // delete admin tag
+    builder
+      .addCase(deleteAdminTag.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(deleteAdminTag.fulfilled, (state, action) => {
+        const { meta } = action;
+        state.adminTags = {
+          ...state.adminTags,
+          data: state.adminTags.data.filter(
+            (item) => item._id !== meta.arg.values.id
+          ),
+        };
+        state.status = true;
+      })
+      .addCase(deleteAdminTag.rejected, (state, action) => {
         state.status = false;
       });
   },
