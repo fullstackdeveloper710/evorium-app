@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   BtnGroup,
   Button,
@@ -19,6 +19,9 @@ import RadioGroup from "../../components/common/RadioGroup";
 import "../../styles/admin/addprogram.scss";
 
 function AddProgram() {
+  //Redux state
+  const {} = useSelector((state) => state.adAuth);
+
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -28,28 +31,30 @@ function AddProgram() {
 
   //Formik initial state
   const initValues = {
-    number: "",
+    title: "",
     email: "",
     category: "",
     speaker: "",
-    episodes: "",
-    course: "",
+    selectedEpisode: "",
+    course_type: "",
     tags: "",
     price: "",
-    episodesFields: [],
+    episodes: [],
+    video: "",
+    thumbnail: "",
   };
 
   //Yup validation schema
   const validationSchema = Yup.object().shape({
-    number: Yup.number().required("required field"),
+    title: Yup.number().required("required field"),
     email: Yup.string().email().required("required field"),
     category: Yup.string().required("required field"),
     speaker: Yup.string().required("required field"),
-    episodes: Yup.string().required("required field"),
-    course: Yup.string().required("required field"),
+    selectedEpisode: Yup.string().required("required field"),
+    course_type: Yup.string().required("required field"),
     tags: Yup.string().required("required field"),
     price: Yup.string().required("required field"),
-    // episodesFields: Yup.array().of(
+    // episodes: Yup.array().of(
     //   Yup.object().shape({
     //     label: Yup.string().required("Required field"),
     //     startTime: Yup.object().shape({
@@ -68,7 +73,17 @@ function AddProgram() {
 
   //Methods
   const onSubmitHandler = (values) => {
-    console.log(values, "values here");
+    const data = {
+      ...values,
+      episodes: values.episodes.map((item) => {
+        return {
+          title: item.title,
+          start: `${item.startTime.hours}:${item.startTime.minutes}:${item.startTime.seconds}`,
+          end: `${item.endTime.hours}:${item.endTime.minutes}:${item.endTime.seconds}`,
+        };
+      }),
+    };
+    console.log(data, "data here");
   };
 
   const onCancelHandler = (resetForm) => {
@@ -145,7 +160,7 @@ function AddProgram() {
       </h3>{" "}
       <Formik
         initialValues={initValues}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={onSubmitHandler}
       >
         {({
@@ -160,7 +175,6 @@ function AddProgram() {
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            {console.log(errors, "erors")}
             <div className="add_program_form">
               <Row>
                 <Col md={7}>
@@ -170,11 +184,11 @@ function AddProgram() {
                       label="Course Title"
                       type="number"
                       placeholder="0 123 456 7890"
-                      name="number"
-                      value={values.number}
+                      name="title"
+                      value={values.title}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      error={errors.number && touched.number && errors.number}
+                      error={errors.title && touched.title && errors.title}
                     />
 
                     <Input
@@ -217,16 +231,16 @@ function AddProgram() {
 
                     <SelectBox
                       className="input_label_wrap"
-                      name="episodes"
+                      name="selectedEpisode"
                       label="Select number of Episodes"
-                      value={values.episodes}
+                      value={values.selectedEpisode}
                       onChange={(e) => {
-                        setFieldValue("episodes", e.target.value);
+                        setFieldValue("selectedEpisode", e.target.value);
                         const newEpisodesFields = Array.from(
                           { length: parseInt(e.target.value, 10) },
                           (_, index) => ({
                             label: `episode ${index + 1}`,
-                            name: "",
+                            title: "",
                             startTime: {
                               hours: "",
                               minutes: "",
@@ -239,20 +253,22 @@ function AddProgram() {
                             },
                           })
                         );
-                        setFieldValue("episodesFields", newEpisodesFields);
+                        setFieldValue("episodes", newEpisodesFields);
                       }}
                       onBlur={handleBlur}
                       options={episodesOptions}
                       error={
-                        errors.episodes && touched.episodes && errors.episodes
+                        errors.selectedEpisode &&
+                        touched.selectedEpisode &&
+                        errors.selectedEpisode
                       }
                     />
 
                     <div className="episode_section">
-                      <FieldArray name="episodesFields">
+                      <FieldArray name="episodes">
                         {({ insert, remove, push }) => (
                           <div>
-                            {values.episodesFields.map(
+                            {values.episodes.map(
                               ({ label, startTime, endTime }, index) => (
                                 <Row className="episodes_wrap" key={index}>
                                   <Col xs lg="4">
@@ -261,7 +277,7 @@ function AddProgram() {
                                       label={label}
                                       type="text"
                                       placeholder="Enter Episode Title"
-                                      name={`episodesFields.${index}.name`}
+                                      name={`episodes.${index}.title`}
                                       // value={name}
                                       onBlur={handleBlur}
                                       onChange={handleChange}
@@ -282,7 +298,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={startTime.hours}
-                                            name={`episodesFields.${index}.startTime.hours`}
+                                            name={`episodes.${index}.startTime.hours`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -294,7 +310,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={startTime.minutes}
-                                            name={`episodesFields.${index}.startTime.minutes`}
+                                            name={`episodes.${index}.startTime.minutes`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -306,7 +322,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={startTime.seconds}
-                                            name={`episodesFields.${index}.startTime.seconds`}
+                                            name={`episodes.${index}.startTime.seconds`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -326,7 +342,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={endTime.hours}
-                                            name={`episodesFields.${index}.endTime.hours`}
+                                            name={`episodes.${index}.endTime.hours`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -338,7 +354,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={endTime.minutes}
-                                            name={`episodesFields.${index}.endTime.minutes`}
+                                            name={`episodes.${index}.endTime.minutes`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -350,7 +366,7 @@ function AddProgram() {
                                           <input
                                             type="number"
                                             value={endTime.seconds}
-                                            name={`episodesFields.${index}.endTime.seconds`}
+                                            name={`episodes.${index}.endTime.seconds`}
                                             placeholder="00"
                                             onBlur={handleBlur}
                                             onChange={handleChange}
@@ -371,23 +387,27 @@ function AddProgram() {
                       <RadioGroup
                         groupClass="course_type"
                         title="Course Type"
-                        error={errors.course && touched.course && errors.course}
+                        error={
+                          errors.course_type &&
+                          touched.course_type &&
+                          errors.course_type
+                        }
                       >
                         <RadioBtn
                           id="paid"
-                          name="course"
+                          name="course_type"
                           label="paid"
-                          checked={values.course === "paid"}
-                          value={values.course}
-                          onChange={() => setFieldValue("course", "paid")}
+                          checked={values.course_type === "paid"}
+                          value={values.course_type}
+                          onChange={() => setFieldValue("course_type", "paid")}
                         />
                         <RadioBtn
                           id="free"
-                          name="course"
+                          name="course_type"
                           label="free"
-                          checked={values.course === "free"}
-                          value={values.course}
-                          onChange={() => setFieldValue("course", "free")}
+                          checked={values.course_type === "free"}
+                          value={values.course_type}
+                          onChange={() => setFieldValue("course_type", "free")}
                         />
                       </RadioGroup>
 
