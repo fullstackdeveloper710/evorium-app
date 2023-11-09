@@ -39,15 +39,11 @@ const Signup = () => {
     country_code: "",
   };
 
-  const responseGoogle = (res) => {
-    console.log(res);
-    // setName(res.profileObj["name"]);
-    // console.log("success",res.profileObj);
-  
 
-
+  const responseGoogle = (response) => {
+    console.log(response);
+    // Handle the Google Sign-In response here
   };
-
   // const validationSchema = Yup.object().shape({
   //   name: Yup.string()
   //     .matches(
@@ -277,8 +273,11 @@ const {usrOtp} =ROUTES
                               buttonText=""
                               onSuccess={responseGoogle}
                               onFailure={responseGoogle}
-                              cookiePolicy={"single_host_origin"}
+                              // cookiePolicy={"single_host_origin"}
+                              
                               redirectUri="http://localhost:3000"
+                              
+                              
                               // isSignedIn={false}
                             />  
                           </li>
