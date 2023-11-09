@@ -36,47 +36,7 @@ function AddProgram() {
     course: "",
     tags: "",
     price: "",
-    episodesFields: [
-      {
-        label: "episode 1",
-        startTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-        endTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-      },
-      {
-        label: "episode 2",
-        startTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-        endTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-      },
-      {
-        label: "episode 3",
-        startTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-        endTime: {
-          hours: "20",
-          minutes: "00",
-          seconds: "00",
-        },
-      },
-    ],
+    episodesFields: [],
   };
 
   //Yup validation schema
@@ -89,11 +49,26 @@ function AddProgram() {
     course: Yup.string().required("required field"),
     tags: Yup.string().required("required field"),
     price: Yup.string().required("required field"),
+    // episodesFields: Yup.array().of(
+    //   Yup.object().shape({
+    //     label: Yup.string().required("Required field"),
+    //     startTime: Yup.object().shape({
+    //       hours: Yup.string().required("Required field"),
+    //       minutes: Yup.string().required("Required field"),
+    //       seconds: Yup.string().required("Required field"),
+    //     }),
+    //     endTime: Yup.object().shape({
+    //       hours: Yup.string().required("Required field"),
+    //       minutes: Yup.string().required("Required field"),
+    //       seconds: Yup.string().required("Required field"),
+    //     }),
+    //   })
+    // ),
   });
 
   //Methods
   const onSubmitHandler = (values) => {
-    console.log(values);
+    console.log(values, "values here");
   };
 
   const onCancelHandler = (resetForm) => {
@@ -185,7 +160,7 @@ function AddProgram() {
           setFieldValue,
         }) => (
           <Form onSubmit={handleSubmit}>
-            {console.log(errors, "errors")}
+            {console.log(errors, "erors")}
             <div className="add_program_form">
               <Row>
                 <Col md={7}>
@@ -245,7 +220,27 @@ function AddProgram() {
                       name="episodes"
                       label="Select number of Episodes"
                       value={values.episodes}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        setFieldValue("episodes", e.target.value);
+                        const newEpisodesFields = Array.from(
+                          { length: parseInt(e.target.value, 10) },
+                          (_, index) => ({
+                            label: `episode ${index + 1}`,
+                            name: "",
+                            startTime: {
+                              hours: "",
+                              minutes: "",
+                              seconds: "",
+                            },
+                            endTime: {
+                              hours: "",
+                              minutes: "",
+                              seconds: "",
+                            },
+                          })
+                        );
+                        setFieldValue("episodesFields", newEpisodesFields);
+                      }}
                       onBlur={handleBlur}
                       options={episodesOptions}
                       error={
@@ -266,15 +261,15 @@ function AddProgram() {
                                       label={label}
                                       type="text"
                                       placeholder="Enter Episode Title"
-                                      name="name"
+                                      name={`episodesFields.${index}.name`}
                                       // value={name}
                                       onBlur={handleBlur}
                                       onChange={handleChange}
-                                      error={
-                                        errors.number &&
-                                        touched.number &&
-                                        errors.number
-                                      }
+                                      // error={
+                                      //   errors.number &&
+                                      //   touched.number &&
+                                      //   errors.number
+                                      // }
                                     />
                                   </Col>
                                   <Col xs lg="4">
@@ -285,24 +280,36 @@ function AddProgram() {
                                       <div className="timing_block">
                                         <div className="hour">
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={startTime.hours}
+                                            name={`episodesFields.${index}.startTime.hours`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Hour</label>
                                         </div>
                                         <div className="minute">
                                           <span className="dot">:</span>
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={startTime.minutes}
+                                            name={`episodesFields.${index}.startTime.minutes`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Minute</label>
                                         </div>
                                         <div className="seconds">
                                           <span className="dot">:</span>
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={startTime.seconds}
+                                            name={`episodesFields.${index}.startTime.seconds`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Seconds</label>
                                         </div>
@@ -317,24 +324,36 @@ function AddProgram() {
                                       <div className="timing_block">
                                         <div className="hour">
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={endTime.hours}
+                                            name={`episodesFields.${index}.endTime.hours`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Hour</label>
                                         </div>
                                         <div className="minute">
                                           <span className="dot">:</span>
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={endTime.minutes}
+                                            name={`episodesFields.${index}.endTime.minutes`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Minute</label>
                                         </div>
                                         <div className="seconds">
                                           <span className="dot">:</span>
                                           <input
-                                            type="text"
+                                            type="number"
                                             value={endTime.seconds}
+                                            name={`episodesFields.${index}.endTime.seconds`}
+                                            placeholder="00"
+                                            onBlur={handleBlur}
+                                            onChange={handleChange}
                                           />
                                           <label>Seconds</label>
                                         </div>
@@ -348,7 +367,6 @@ function AddProgram() {
                         )}
                       </FieldArray>
                     </div>
-
                     <div className="radio_btns">
                       <RadioGroup
                         groupClass="course_type"
@@ -414,7 +432,7 @@ function AddProgram() {
                         title="Save"
                         type="submit"
                         className="primary_btn"
-                        onClick={onSubmitHandler}
+                        onClick={() => onSubmitHandler(values)}
                       />
                       <Button
                         title="cancel"
