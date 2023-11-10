@@ -27,8 +27,6 @@ const VideoUploader = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
 
-      document.body.appendChild(canvas);
-
       const thumbnailTimes = [0.25, 0.5, 0.75, 1];
       const thumbnails = [];
 
@@ -62,7 +60,6 @@ const VideoUploader = () => {
       }
 
       setThumbnails(thumbnails);
-      document.body.removeChild(canvas);
       video.pause();
       setLoading(false);
       setUploadProgress(0);
