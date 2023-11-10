@@ -1,18 +1,16 @@
 import React, { useCallback, useState } from "react";
 import { Image } from "react-bootstrap";
-import Dropzone, { useDropzone } from "react-dropzone";
-import { thumbnail } from "../../assets/images/admin";
 import { upload } from "../../assets/icons/admin";
+import { useDropzone } from "react-dropzone";
+import { dataURLtoFile } from "../../utility/methods";
 
-const VideoUploader = () => {
-  const [video, setVideo] = useState(null);
-  const [thumbnails, setThumbnails] = useState([]);
+const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
-    setVideo(file);
+    setFieldValue("video", file);
     setLoading(true);
 
     const videoBlob = URL.createObjectURL(file);
@@ -27,7 +25,7 @@ const VideoUploader = () => {
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
 
-      const thumbnailTimes = [0.25, 0.5, 0.75, 1];
+      const thumbnailTimes = [0.25, 0.5];
       const thumbnails = [];
 
       const captureFrame = async (time) => {
@@ -59,7 +57,7 @@ const VideoUploader = () => {
         updateProgress();
       }
 
-      setThumbnails(thumbnails);
+      setFieldValue("thumbnails", thumbnails);
       video.pause();
       setLoading(false);
       setUploadProgress(0);
@@ -103,7 +101,17 @@ const VideoUploader = () => {
           <p>Select Thumbnail</p>
           <div className="select_thumbnail_imgs">
             {thumbnails.map((thumbnail, index) => (
-              <button className="thumbnail_link" key={index}>
+              <button
+                className="thumbnail_link"
+                key={index}
+                onClick={() => {
+                  const file = dataURLtoFile(
+                    thumbnail,
+                    `Thumbnail ${index + 1}`
+                  );
+                  setFieldValue("selectedThumbnail", file);
+                }}
+              >
                 <Image src={thumbnail} alt={`Thumbnail ${index + 1}`} />
               </button>
             ))}

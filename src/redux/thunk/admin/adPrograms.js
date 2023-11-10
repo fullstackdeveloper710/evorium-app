@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adPrograms, adSearchProgram } = adminApi;
+const { adPrograms, adSearchProgram, adAddProgram } = adminApi;
 
 // get admin program list thunk
 export const getAdminProgramList = createAsyncThunk(
@@ -41,6 +41,32 @@ export const searchAdminProgram = createAsyncThunk(
       const config = {
         method: "get",
         url: `${adSearchProgram}?query=${search}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// add admin program
+export const addAdminProgram = createAsyncThunk(
+  "admin/addAdminProgram",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken, values } = data;
+    try {
+      const config = {
+        method: "post",
+        url: `${adAddProgram}`,
+        data: values,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

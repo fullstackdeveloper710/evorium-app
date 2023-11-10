@@ -3,9 +3,10 @@ const httpsClient = async (config, authToken) => {
   const configration = {
     ...config,
     baseURL: "http://api.evorium.xyz/",
-    timeout: 10000,
+    timeout: 1000 * 60 * 10,
     headers: {
       "Content-Type": "application/json",
+      ...config.headers,
     },
   };
   if (authToken) {

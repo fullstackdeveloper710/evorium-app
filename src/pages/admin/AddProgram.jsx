@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import { upload } from "../../assets/icons/admin";
 import { thumbnail, video } from "../../assets/images/admin";
@@ -17,10 +17,11 @@ import SelectBox from "../../components/common/SelectBox";
 import RadioBtn from "../../components/common/RadioBtn";
 import RadioGroup from "../../components/common/RadioGroup";
 import "../../styles/admin/addprogram.scss";
+import { addAdminProgram } from "../../redux/thunk/admin/adPrograms";
 
 function AddProgram() {
   //Redux state
-  const {} = useSelector((state) => state.adAuth);
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -41,7 +42,8 @@ function AddProgram() {
     price: "",
     episodes: [],
     video: "",
-    thumbnail: "",
+    selectedThumbnail: "",
+    thumbnails: [],
   };
 
   //Yup validation schema
@@ -72,18 +74,27 @@ function AddProgram() {
   });
 
   //Methods
-  const onSubmitHandler = (values) => {
+  const onSubmitHandler = (val) => {
     const data = {
-      ...values,
-      episodes: values.episodes.map((item) => {
-        return {
-          title: item.title,
-          start: `${item.startTime.hours}:${item.startTime.minutes}:${item.startTime.seconds}`,
-          end: `${item.endTime.hours}:${item.endTime.minutes}:${item.endTime.seconds}`,
-        };
-      }),
+      adminAuthtoken,
+      values: {
+        ...val,
+        episodes: val.episodes.map((item) => {
+          return {
+            title: item.title,
+            start: `${item.startTime.hours}:${item.startTime.minutes}:${item.startTime.seconds}`,
+            end: `${item.endTime.hours}:${item.endTime.minutes}:${item.endTime.seconds}`,
+          };
+        }),
+        thumbnail: val.selectedThumbnail,
+      },
     };
+    delete data.values.thumbnails;
+    delete data.values.selectedThumbnail;
+    delete data.values.selectedEpisode;
+
     console.log(data, "data here");
+    dispatch(addAdminProgram(data));
   };
 
   const onCancelHandler = (resetForm) => {
@@ -464,7 +475,12 @@ function AddProgram() {
                   </div>
                 </Col>
                 <Col md={5}>
-                  <VideoUploader />
+                  <VideoUploader
+                    video={values.video}
+                    setFieldValue={setFieldValue}
+                    thumbnails={values.thumbnails}
+                    selectedThumbnail={values.selectedThumbnail}
+                  />
                 </Col>
               </Row>
             </div>
