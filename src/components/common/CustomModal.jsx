@@ -1,20 +1,14 @@
 import { Modal, Button } from "react-bootstrap";
-import React, { useState } from "react";
+import React from "react";
 
-import { CheckoutForm } from "../components/common";
-
-const PaymentModal = ({ show, handleClose, handleShow,children }) => {
+const CustomModal = ({ show, handleClose, handleShow, children }) => {
   return (
     <Modal show={show} onHide={handleClose}>
-      <div style={{}}>
+      <div>
         <Modal.Header closeButton>
           <Modal.Title>Payment Screen</Modal.Title>
         </Modal.Header>
-
-        <Modal.Body>
-        {children}
-        </Modal.Body>
-
+        <Modal.Body>{children}</Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>
             Close
@@ -25,4 +19,4 @@ const PaymentModal = ({ show, handleClose, handleShow,children }) => {
   );
 };
 
-export default PaymentModal;
+export default CustomModal;
