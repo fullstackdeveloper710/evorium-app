@@ -7,36 +7,35 @@ import { upload } from "../../assets/icons/admin";
 const VideoUploader = () => {
   const [video, setVideo] = useState(null);
   const [thumbnails, setThumbnails] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
 
-  const onDrop = useCallback((acceptedFiles) => {
+  const onDrop = useCallback(async (acceptedFiles) => {
     const file = acceptedFiles[0];
     setVideo(file);
+    setLoading(true);
 
     const videoBlob = URL.createObjectURL(file);
 
     const video = document.createElement("video");
     video.src = videoBlob;
 
-    video.addEventListener("loadeddata", () => {
+    video.addEventListener("loadeddata", async () => {
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
 
-      // Set canvas dimensions
       canvas.width = video.videoWidth;
       canvas.height = video.videoHeight;
 
-      // Append canvas to the document (optional)
       document.body.appendChild(canvas);
 
-      const thumbnailTimes = [15, 70, 50, 100];
+      const thumbnailTimes = [0.25, 0.5, 0.75, 1];
       const thumbnails = [];
 
-      // Helper function to capture a frame
       const captureFrame = async (time) => {
         return await new Promise((resolve) => {
           video.currentTime = (time / 100) * video.duration;
 
-          // Wait for the video to seek to the specified time
           video.addEventListener("seeked", () => {
             context.drawImage(video, 0, 0, canvas.width, canvas.height);
             const thumbnailDataUrl = canvas.toDataURL("image/png");
@@ -44,22 +43,32 @@ const VideoUploader = () => {
             resolve();
           });
 
-          // If seeking fails (e.g., due to CORS issues), resolve immediately
           video.addEventListener("error", () => resolve());
         });
       };
 
-      // Capture frames at specified intervals
-      Promise.all(thumbnailTimes.map(captureFrame)).then(() => {
-        // Update state with generated thumbnails
-        setThumbnails(thumbnails);
+      let capturedFrames = 0;
+      const totalFrames = thumbnailTimes.length;
 
-        // Cleanup: Remove the canvas and stop the video
-        document.body.removeChild(canvas);
-        video.pause();
-      });
+      const updateProgress = () => {
+        const progress = Math.floor((capturedFrames / totalFrames) * 100);
+        setUploadProgress(progress);
+      };
+
+      for (const time of thumbnailTimes) {
+        await captureFrame(time);
+        capturedFrames++;
+        updateProgress();
+      }
+
+      setThumbnails(thumbnails);
+      document.body.removeChild(canvas);
+      video.pause();
+      setLoading(false);
+      setUploadProgress(0);
     });
   }, []);
+
   const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
@@ -79,21 +88,20 @@ const VideoUploader = () => {
             className="d-none"
             {...getInputProps()}
           />
-          <label for="video">
+          <label htmlFor="video">
             <Image src={upload} />
             <span className="upload_title">Upload Video</span>
           </label>
         </div>
 
-        <div className="uploaded_videos_wrap d-none">
+        <div className={`uploaded_videos_wrap ${loading ? "" : "d-none"}`}>
           <Image src={video} />
-          {/* video here */}
           <div className="loader_block">
-            <span className="loader">80%</span>
+            <span className="loader">{`${uploadProgress}%`}</span>
           </div>
         </div>
       </div>
-      {video && (
+      {video && !loading && (
         <div className="select_thumbnail">
           <p>Select Thumbnail</p>
           <div className="select_thumbnail_imgs">
