@@ -4,11 +4,8 @@ const userApi = {
   usrPrograms: "user/programs",
   usrForgetPass: "/user/forget_password",
   usrVerify: "/user/verify_mobile_number",
-  usrGoogleLogin:"user/login_google",
-  usrFacebookLogin:"user/login_facebook",
-
-
-
+  usrGoogleLogin: "user/login_google",
+  usrFacebookLogin: "user/login_facebook",
 
   //pending
   usrRefreshToken: "/user/refresh_token",
@@ -39,11 +36,11 @@ const adminApi = {
   adAddFaq: "/admin/add_faq",
   adSearchFaq: "admin/search_faq",
   adSearchProgram: "/admin/search_program",
+  adAddProgram: "/admin/program",
 
   //pending
   adDelProgram: "/admin/delete_program/:id",
 
-  adAddProgram: "/admin/program",
   adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
 };

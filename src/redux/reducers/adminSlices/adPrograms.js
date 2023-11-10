@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getAdminTags } from "../../thunk/admin/adTags";
 import {
+  addAdminProgram,
   getAdminProgramList,
   searchAdminProgram,
 } from "../../thunk/admin/adPrograms";
@@ -46,6 +47,20 @@ const adminProgramsSlice = createSlice({
         state.status = true;
       })
       .addCase(searchAdminProgram.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //add admin program
+    builder
+      .addCase(addAdminProgram.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(addAdminProgram.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.status = true;
+      })
+      .addCase(addAdminProgram.rejected, (state, action) => {
         state.status = false;
       });
   },
