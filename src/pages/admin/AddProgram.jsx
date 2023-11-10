@@ -464,42 +464,7 @@ function AddProgram() {
                   </div>
                 </Col>
                 <Col md={5}>
-                  <div className="video_upload_wrap">
-                    <div className="upload_input">
-                      <input type="file" id="video" className="d-none" />
-                      <label for="video">
-                        <Image src={upload} />
-                        <span className="upload_title">Upload Video</span>
-                      </label>
-                    </div>
-
-                    <div className="uploaded_videos_wrap d-none">
-                      <Image src={video} />
-                      {/* video here */}
-                      <div className="loader_block">
-                        <span className="loader">80%</span>
-                      </div>
-                    </div>
-
-                    <div className="select_thumbnail">
-                      <p>Select Thumbnail</p>
-                      <div className="select_thumbnail_imgs">
-                        <button className="thumbnail_link">
-                          <Image src={thumbnail} />
-                        </button>
-                        <button className="thumbnail_link">
-                          <Image src={thumbnail} />
-                        </button>
-                        <button className="thumbnail_link">
-                          <Image src={thumbnail} />
-                        </button>
-                        <button className="thumbnail_link">
-                          <Image src={thumbnail} />
-                        </button>
-                      </div>
-                      <button className="done_btn">Done</button>
-                    </div>
-                  </div>
+                  <VideoUploader />
                 </Col>
               </Row>
             </div>

@@ -1,64 +1,117 @@
-import React, { useState } from "react";
-import Dropzone from "react-dropzone";
+import React, { useCallback, useState } from "react";
+import { Image } from "react-bootstrap";
+import Dropzone, { useDropzone } from "react-dropzone";
+import { thumbnail } from "../../assets/images/admin";
+import { upload } from "../../assets/icons/admin";
 
 const VideoUploader = () => {
   const [video, setVideo] = useState(null);
   const [thumbnails, setThumbnails] = useState([]);
 
-  const handleVideoUpload = (acceptedFiles) => {
-    const selectedVideo = acceptedFiles[0];
-    setVideo(selectedVideo);
+  const onDrop = useCallback((acceptedFiles) => {
+    const file = acceptedFiles[0];
+    setVideo(file);
 
-    const timeIntervals = [50, 10, 15, 20, 25]; // Capture thumbnails at these time intervals
+    const videoBlob = URL.createObjectURL(file);
 
-    const videoRef = document.createElement("video");
-    videoRef.src = URL.createObjectURL(selectedVideo);
-    videoRef.load();
+    const video = document.createElement("video");
+    video.src = videoBlob;
 
-    const canvas = document.createElement("canvas");
-    canvas.width = 160;
-    canvas.height = 90;
-    const context = canvas.getContext("2d");
+    video.addEventListener("loadeddata", () => {
+      const canvas = document.createElement("canvas");
+      const context = canvas.getContext("2d");
 
-    const captureThumbnails = () => {
-      const thumbnailImages = timeIntervals.map((interval) => {
-        videoRef.currentTime = interval;
-        context.drawImage(videoRef, 0, 0, canvas.width, canvas.height);
-        return canvas.toDataURL("image/jpeg");
+      // Set canvas dimensions
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+
+      // Append canvas to the document (optional)
+      document.body.appendChild(canvas);
+
+      const thumbnailTimes = [15, 70, 50, 100];
+      const thumbnails = [];
+
+      // Helper function to capture a frame
+      const captureFrame = async (time) => {
+        return await new Promise((resolve) => {
+          video.currentTime = (time / 100) * video.duration;
+
+          // Wait for the video to seek to the specified time
+          video.addEventListener("seeked", () => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const thumbnailDataUrl = canvas.toDataURL("image/png");
+            thumbnails.push(thumbnailDataUrl);
+            resolve();
+          });
+
+          // If seeking fails (e.g., due to CORS issues), resolve immediately
+          video.addEventListener("error", () => resolve());
+        });
+      };
+
+      // Capture frames at specified intervals
+      Promise.all(thumbnailTimes.map(captureFrame)).then(() => {
+        // Update state with generated thumbnails
+        setThumbnails(thumbnails);
+
+        // Cleanup: Remove the canvas and stop the video
+        document.body.removeChild(canvas);
+        video.pause();
       });
-      console.log(thumbnailImages);
-      setThumbnails(thumbnailImages);
-    };
-
-    videoRef.addEventListener("loadeddata", captureThumbnails);
-  };
+    });
+  }, []);
+  const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
   return (
-    <div>
-      <Dropzone onDrop={handleVideoUpload}>
-        {({ getRootProps, getInputProps }) => (
-          <div {...getRootProps()} style={dropzoneStyles}>
-            <input {...getInputProps()} />
-            <p>Drag & drop a video file here, or click to select one</p>
+    <>
+      <div
+        className="video_upload_wrap"
+        {...getRootProps()}
+        onClick={(e) => {
+          e.stopPropagation();
+        }}
+        style={dropzoneStyles}
+      >
+        <div className="upload_input">
+          <input
+            type="file"
+            id="video"
+            className="d-none"
+            {...getInputProps()}
+          />
+          <label for="video">
+            <Image src={upload} />
+            <span className="upload_title">Upload Video</span>
+          </label>
+        </div>
+
+        <div className="uploaded_videos_wrap d-none">
+          <Image src={video} />
+          {/* video here */}
+          <div className="loader_block">
+            <span className="loader">80%</span>
           </div>
-        )}
-      </Dropzone>
-      {console.log(thumbnails)}
+        </div>
+      </div>
       {video && (
-        <div>
-          {thumbnails.map((thumbnail, index) => (
-            <div key={index}>
-              <img src={thumbnail} alt={`Thumbnail ${index + 1}`} />
-            </div>
-          ))}
+        <div className="select_thumbnail">
+          <p>Select Thumbnail</p>
+          <div className="select_thumbnail_imgs">
+            {thumbnails.map((thumbnail, index) => (
+              <button className="thumbnail_link" key={index}>
+                <Image src={thumbnail} alt={`Thumbnail ${index + 1}`} />
+              </button>
+            ))}
+          </div>
+          <button className="done_btn">Done</button>
         </div>
       )}
-    </div>
+    </>
   );
 };
 
 const dropzoneStyles = {
-  border: "2px dashed #ccc",
+  border: "none",
   borderRadius: "4px",
   textAlign: "center",
   padding: "20px",
@@ -66,8 +119,3 @@ const dropzoneStyles = {
 };
 
 export default VideoUploader;
-
-// <p>Uploaded Video:</p>
-// <video controls width="320">
-//   <source src={URL.createObjectURL(video)} type={video.type} />
-// </video>
