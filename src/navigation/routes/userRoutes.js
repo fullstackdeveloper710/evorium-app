@@ -101,7 +101,7 @@ export const userRoutes = [
   },
   {
     id: 11,
-    type: "private",
+    type: "public",
     path: usrPrograms,
     Component: Programs,
     Auth: true,

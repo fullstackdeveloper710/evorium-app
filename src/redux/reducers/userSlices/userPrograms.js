@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getUserProgramList } from "../../thunk/user/usrPrograms";
 
 const initialState = {
-  userPrograms: {
+  userFreePrograms: {
+    data: [],
+  },
+  userPaidPrograms: {
     data: [],
   },
 };
@@ -12,14 +15,20 @@ const userProgramsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    // get user program list
     builder
       .addCase(getUserProgramList.pending, (state) => {
         state.error = null;
         state.status = false;
       })
       .addCase(getUserProgramList.fulfilled, (state, action) => {
-        const { payload } = action;
-        state.userPrograms = payload;
+        const { meta:{arg:{values:{course_type}}}, payload } = action;
+        if (course_type === "Free") {
+          state.userFreePrograms = payload;
+          console.log(userProgramsSlice,"payload")
+        }else{
+          state.userPaidPrograms = payload;
+        }
         state.status = true;
       })
       .addCase(getUserProgramList.rejected, (state, action) => {

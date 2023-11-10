@@ -5,7 +5,7 @@ import { default as CustomModal } from "./CustomModal";
 import { default as FooterEvorium } from "./FooterEvorium";
 import { default as Header } from "./Header";
 import { default as Slider } from "./Slider";
-import { default as CheckoutForm } from "./Stripe";
+// import { default as CheckoutForm } from "./Stripe";
 
 export {
   Alert,
@@ -15,5 +15,5 @@ export {
   FooterEvorium,
   Header,
   Slider,
-  CheckoutForm,
+  
 };

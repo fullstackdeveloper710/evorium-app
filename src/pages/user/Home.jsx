@@ -40,9 +40,8 @@ function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const dispatch = useDispatch();
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userPrograms } = useSelector((state) => state.userPrograms);
-  const { data } = userPrograms;
-
+  const { userFreePrograms } = useSelector((state) => state.userPrograms);
+  const { data } = userFreePrograms;
 
 
 
@@ -61,11 +60,10 @@ function Home() {
     const data = {
       userAuthtoken,
       values: {
-        pageNo: 1,
-        pageSize: 4,
+        course_type : 'Free'
       },
     };
-    console.log("dataaa-------", data)
+  
     dispatch(getUserProgramList(data));
   }, []);
   return (
