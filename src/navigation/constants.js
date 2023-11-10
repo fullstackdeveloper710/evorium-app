@@ -20,4 +20,5 @@ export const ROUTES = {
   usrCreatePassword: "/create_new_password",
   usrOtp: "/otp",
   usrEditProfile: "/edit-profile",
+  usrVideoPlayer : "/videoplayer"
 };

@@ -8,7 +8,7 @@ import {
   Nav,
   NavDropdown,
 } from "react-bootstrap";
-import {Card} from "../../components/user";
+import { Card } from "../../components/user";
 // import {
 //   upload,
 //   monetization,
@@ -26,6 +26,8 @@ import "../../styles/user/programs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
+import { useNavigate } from "react-router";
+import moment from "moment";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -35,24 +37,42 @@ function Programs() {
   const [sorted, setSorted] = useState("all");
 
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userPrograms } = useSelector((state) => state.userPrograms);
-  const { data } = userPrograms;
+  const { userPaidPrograms, userFreePrograms } = useSelector(
+    (state) => state.userPrograms
+  );
 
+  const navigate = useNavigate();
+  const { data: paidData } = userPaidPrograms;
+  const { data: freeData } = userFreePrograms;
+
+  const { usrVideoPlayer } = ROUTES;
 
   const dispatch = useDispatch();
-// const{usrPrograms} =ROUTES
+  // const{usrPrograms} =ROUTES
   useEffect(() => {
     const data = {
-      // userAuthtoken,
+      userAuthtoken,
       values: {
-        pageNo: 1,
-        pageSize: 4,
+        course_type: "Free",
       },
     };
     // console.log
     dispatch(getUserProgramList(data));
-  },)
 
+    const data_for_Paid = {
+      userAuthtoken,
+      values: {
+        course_type: "Paid",
+      },
+    };
+
+    dispatch(getUserProgramList(data_for_Paid));
+  }, []);
+
+  useEffect(() => {
+    console.log(freeData, "free");
+    console.log(paidData, "paid");
+  }, [freeData, paidData]);
 
   // Add default value on page load
 
@@ -65,6 +85,17 @@ function Programs() {
   // });
 
   // console.log(data,"data")
+
+  function cardClick(data) {
+    navigate(usrVideoPlayer);
+  }
+
+  function convertTimeInHour(time) {
+    let duration = moment.duration(time, "seconds");
+
+    let formatted_Time = moment.utc(duration.asMilliseconds()).format("HH:mm");
+    return formatted_Time;
+  }
 
   const onSortHandler = (val) => {
     setSorted(val);
@@ -99,82 +130,78 @@ function Programs() {
               </div>
 
               <div className="platformFilter">
-              <Row>
-                <Col md={6}>
-                  <Nav className="right-nav ">
-                    <NavDropdown
-                      className="sort"
-                      title="sort by"
-                      id="collapsible-nav-dropdown"
-                    >
-                      <NavDropdown.Item
-                        href="#action/3.1"
-                        onClick={() => {
-                          onSortHandler("all");
-                        }}
+                <Row>
+                  <Col md={6}>
+                    <Nav className="right-nav ">
+                      <NavDropdown
+                        className="sort"
+                        title="sort by"
+                        id="collapsible-nav-dropdown"
                       >
-                        All
-                      </NavDropdown.Item>
-                      <NavDropdown.Item
-                        href="#action/3.2"
-                        onClick={() => {
-                          onSortHandler("free");
-                        }}
-                      >
-                        Free
-                      </NavDropdown.Item>
-                      <NavDropdown.Item
-                        href="#action/3.2"
-                        onClick={() => {
-                          onSortHandler("pro");
-                        }}
-                      >
-                        Pro
-                      </NavDropdown.Item>
-                    </NavDropdown>
+                        <NavDropdown.Item
+                          href="#action/3.1"
+                          onClick={() => {
+                            onSortHandler("all");
+                          }}
+                        >
+                          All
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href="#action/3.2"
+                          onClick={() => {
+                            onSortHandler("free");
+                          }}
+                        >
+                          Free
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href="#action/3.2"
+                          onClick={() => {
+                            onSortHandler("pro");
+                          }}
+                        >
+                          Pro
+                        </NavDropdown.Item>
+                      </NavDropdown>
 
-                    <NavDropdown
-                      title="Filter"
-                      id="collapsible-nav-dropdown"
-                      className="filter"
-                    >
-                      <NavDropdown.Item
-                        href="#action/3.1"
-                        onClick={() => {
-                          onSortHandler("pro");
-                        }}
+                      <NavDropdown
+                        title="Filter"
+                        id="collapsible-nav-dropdown"
+                        className="filter"
                       >
-                        pro
-                      </NavDropdown.Item>
-                      <NavDropdown.Item
-                        href="#action/3.2"
-                        onClick={() => {
-                          onSortHandler("free");
-                        }}
-                      >
-                        Free
-                      </NavDropdown.Item>
-                    </NavDropdown>
-                  </Nav>
-                </Col>
-                <Col md={6} className="text-end">
-                  {itemsToLoadTop < cardsData.length && (
-                   
+                        <NavDropdown.Item
+                          href="#action/3.1"
+                          onClick={() => {
+                            onSortHandler("pro");
+                          }}
+                        >
+                          pro
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href="#action/3.2"
+                          onClick={() => {
+                            onSortHandler("free");
+                          }}
+                        >
+                          Free
+                        </NavDropdown.Item>
+                      </NavDropdown>
+                    </Nav>
+                  </Col>
+                  <Col md={6} className="text-end">
+                    {itemsToLoadTop < cardsData.length && (
                       <button onClick={loadMoreTop} className="view-All-btn">
                         View All
                       </button>
-                    
-                  )}
-                  :
-                  {itemsToLoadTop > 5 && (
-                   
+                    )}
+                    :
+                    {itemsToLoadTop > 5 && (
                       <button onClick={loadMoreTop} className="view-All-btn">
                         View Less
                       </button>
-                   
-                  )}
-                </Col>
-              </Row>
+                    )}
+                  </Col>
+                </Row>
               </div>
             </Container>
           </div>
@@ -197,53 +224,59 @@ function Programs() {
                   </Col>
                   <Col md={4} className="text-end">
                     {itemsToLoad < cardsData.length && (
-                    
-                        <button onClick={loadMore} className="view-All-btn">
-                          View All
-                        </button>
-                     
+                      <button onClick={loadMore} className="view-All-btn">
+                        View All
+                      </button>
                     )}
                     :
                     {itemsToLoad > 5 && (
-                     
-                        <button onClick={loadLess} className="view-All-btn">
-                          View Less
-                        </button>
-                      
+                      <button onClick={loadLess} className="view-All-btn">
+                        View Less
+                      </button>
                     )}
                   </Col>
                 </Row>
 
                 <Row className="popular-row">
-                  {data
+                  {freeData
                     .slice(0, itemsToLoad)
                     .map(
                       (
                         {
-                          id,
+                          _id,
                           title,
                           image,
-                          duration,
-                          views,
+                          view_count,
                           description,
                           watched,
                           subsType,
                           amount,
                           url,
+                          thumbnail_url,
+                          video_duration,
+                          speaker,
+                          episodes,
+                          price,
+                          course_type
                         },
                         index
                       ) => (
                         <Card
+                        course_type={course_type}
+                          onClick={cardClick}
                           url={url}
-                          key={id}
+                          key={_id}
+                          video_id={_id}
                           title={title}
-                          img={image}
-                          duration={duration}
-                          views={views}
+                          thumbnail_url={thumbnail_url}
+                          video_duration={convertTimeInHour(video_duration)}
+                          views={view_count}
                           watched={watched}
                           description={description}
                           subsType={subsType}
-                          amount={amount}
+                          episodes={episodes}
+                          speaker={speaker}
+                          price={price}
                         />
                       )
                     )}
@@ -276,52 +309,58 @@ function Programs() {
                   </Col>
                   <Col md={4} className="text-end">
                     {itemsToLoadPro < cardsData.length && (
-                      
-                        <button onClick={loadMorePro} className="view-All-btn">
-                          View All
-                        </button>
-                     
+                      <button onClick={loadMorePro} className="view-All-btn">
+                        View All
+                      </button>
                     )}
                     :
                     {itemsToLoadPro > 5 && (
-                      
-                        <button onClick={loadLessPro} className="view-All-btn">
-                          View Less
-                        </button>
-                      
+                      <button onClick={loadLessPro} className="view-All-btn">
+                        View Less
+                      </button>
                     )}
                   </Col>
                 </Row>
                 <Row className="popular-row">
-                  {data
+                  {paidData
                     .slice(0, itemsToLoadPro)
                     .map(
                       (
                         {
-                          id,
+                          _id,
                           title,
                           image,
-                          duration,
-                          views,
+                          view_count,
                           description,
                           watched,
                           subsType,
                           amount,
                           url,
+                          thumbnail_url,
+                          video_duration,
+                          speaker,
+                          episodes,
+                          price,
+                          course_type
                         },
                         index
                       ) => (
                         <Card
+                        course_type={course_type}
+                          video_id={_id}
+                          onClick={cardClick}
                           url={url}
-                          key={id}
+                          key={_id}
                           title={title}
-                          img={image}
-                          duration={duration}
-                          views={views}
+                          thumbnail_url={thumbnail_url}
+                          video_duration={convertTimeInHour(video_duration)}
+                          views={view_count}
                           watched={watched}
-                          subsType={subsType}
-                          amount={amount}
                           description={description}
+                          subsType={subsType}
+                          episodes={episodes}
+                          speaker={speaker}
+                          price={price}
                         />
                       )
                     )}

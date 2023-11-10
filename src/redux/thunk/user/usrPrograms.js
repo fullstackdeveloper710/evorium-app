@@ -12,10 +12,11 @@ export const getUserProgramList = createAsyncThunk(
     const { dispatch } = thunkAPI;
     const { userAuthtoken, values } = data;
     console.log(data,"data here")
+    console.log(values,"values")
     try {
       const config = {
         method: "get",
-        url: `${usrPrograms}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
+        url: `${usrPrograms}?course_type=${values?.course_type}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, userAuthtoken);
@@ -27,3 +28,4 @@ export const getUserProgramList = createAsyncThunk(
     }
   }
 );
+

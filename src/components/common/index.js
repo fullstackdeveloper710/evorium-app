@@ -11,6 +11,7 @@ import { default as SearchBar } from "./SearchBar";
 import { default as RadioGroup } from "./RadioGroup";
 import { default as RadioBtn } from "./RadioGroup";
 import { default as DateFilter } from "./DateFilter";
+import { default as CheckoutForm } from "./Stripe";
 
 export {
   BtnGroup,
@@ -26,4 +27,5 @@ export {
   RadioGroup,
   RadioBtn,
   DateFilter,
+  CheckoutForm,
 };
