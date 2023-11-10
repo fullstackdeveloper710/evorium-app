@@ -7,9 +7,9 @@ import { cardsData } from "../../utility/data";
 import { Play, lockscreen } from "../../assets/icons/user";
 import { loadStripe } from "@stripe/stripe-js";
 import { video_player_thumbnail } from "../../assets/images/user";
-import { CheckoutForm } from "../../components/common";
+import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
-import PaymentModal from "../../modal/Payment";
+import PaymentModal from "../../components/common/CustomModal";
 import { useModal } from "../../utility/hooks";
 import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 
@@ -68,7 +68,7 @@ const VideoPlayer = () => {
   };
   return (
     <>
-      <PaymentModal
+      <CustomModal
         show={show}
         handleClose={handleClose}
         handleShow={handleShow}
@@ -76,7 +76,7 @@ const VideoPlayer = () => {
         <Elements stripe={stripePromise}>
           <CheckoutForm />
         </Elements>
-      </PaymentModal>
+      </CustomModal>
 
       <section
         style={{

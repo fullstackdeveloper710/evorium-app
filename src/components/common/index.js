@@ -12,6 +12,7 @@ import { default as RadioGroup } from "./RadioGroup";
 import { default as RadioBtn } from "./RadioGroup";
 import { default as DateFilter } from "./DateFilter";
 import { default as CheckoutForm } from "./Stripe";
+import { default as CustomModal } from "./CustomModal";
 
 export {
   BtnGroup,
@@ -28,4 +29,5 @@ export {
   RadioBtn,
   DateFilter,
   CheckoutForm,
+  CustomModal,
 };
