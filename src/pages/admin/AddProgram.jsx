@@ -33,7 +33,7 @@ function AddProgram() {
   //Formik initial state
   const initValues = {
     title: "",
-    email: "",
+    description: "",
     category: "",
     speaker: "",
     selectedEpisode: "",
@@ -49,7 +49,7 @@ function AddProgram() {
   //Yup validation schema
   const validationSchema = Yup.object().shape({
     title: Yup.number().required("required field"),
-    email: Yup.string().email().required("required field"),
+    description: Yup.string().required("required field"),
     category: Yup.string().required("required field"),
     speaker: Yup.string().required("required field"),
     selectedEpisode: Yup.string().required("required field"),
@@ -169,11 +169,7 @@ function AddProgram() {
         </Link>
         Add New Program
       </h3>{" "}
-      <Formik
-        initialValues={initValues}
-        // validationSchema={validationSchema}
-        onSubmit={onSubmitHandler}
-      >
+      <Formik initialValues={initValues} validationSchema={validationSchema}>
         {({
           values,
           resetForm,
@@ -193,7 +189,7 @@ function AddProgram() {
                     <Input
                       className="input_label_wrap"
                       label="Course Title"
-                      type="number"
+                      type="text"
                       placeholder="0 123 456 7890"
                       name="title"
                       value={values.title}
@@ -205,13 +201,17 @@ function AddProgram() {
                     <Input
                       className="input_label_wrap"
                       label="Description"
-                      type="email"
+                      type="description"
                       placeholder="john@gmail.com"
-                      name="email"
-                      value={values.email}
+                      name="description"
+                      value={values.description}
                       onBlur={handleBlur}
                       onChange={handleChange}
-                      error={errors.email && touched.email && errors.email}
+                      error={
+                        errors.description &&
+                        touched.description &&
+                        errors.description
+                      }
                     />
 
                     <SelectBox
@@ -407,18 +407,18 @@ function AddProgram() {
                         <RadioBtn
                           id="paid"
                           name="course_type"
-                          label="paid"
-                          checked={values.course_type === "paid"}
+                          label="Paid"
+                          checked={values.course_type === "Paid"}
                           value={values.course_type}
-                          onChange={() => setFieldValue("course_type", "paid")}
+                          onChange={() => setFieldValue("course_type", "Paid")}
                         />
                         <RadioBtn
                           id="free"
                           name="course_type"
-                          label="free"
-                          checked={values.course_type === "free"}
+                          label="Free"
+                          checked={values.course_type === "Free"}
                           value={values.course_type}
-                          onChange={() => setFieldValue("course_type", "free")}
+                          onChange={() => setFieldValue("course_type", "Free")}
                         />
                       </RadioGroup>
 

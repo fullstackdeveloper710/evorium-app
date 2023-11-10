@@ -102,9 +102,11 @@ const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
           <div className="select_thumbnail_imgs">
             {thumbnails.map((thumbnail, index) => (
               <button
+                type="button"
                 className="thumbnail_link"
                 key={index}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   const file = dataURLtoFile(
                     thumbnail,
                     `Thumbnail ${index + 1}`
