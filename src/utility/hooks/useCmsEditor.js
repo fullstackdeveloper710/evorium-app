@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const useCmsEditor = ({ action }) => {
-  const [content, setContent] = useState("");
+const useCmsEditor = ({ action,values }) => {
+  const [content, setContent] = useState(values.value);
   const dispatch = useDispatch();
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
 

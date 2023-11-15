@@ -3,7 +3,10 @@ import { CmsEditor } from "../../components/common";
 import "../../styles/admin/support.scss";
 import { useCmsEditor } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { addAdminSupport, getAdminSupport } from "../../redux/thunk/admin/adCms";
+import {
+  addAdminSupport,
+  getAdminSupport,
+} from "../../redux/thunk/admin/adCms";
 
 const Support = () => {
   //Redux state
@@ -17,6 +20,10 @@ const Support = () => {
 
   //Custom hooks
   const { content, handleChange } = useCmsEditor({
+    values: {
+      value: data?.support ?? "",
+      id: data?._id,
+    },
     action: addAdminSupport,
   });
 
@@ -28,7 +35,7 @@ const Support = () => {
     };
     dispatch(getAdminSupport(data));
   }, []);
-  
+
   return (
     <div className="support_section">
       <h3>Support</h3>
