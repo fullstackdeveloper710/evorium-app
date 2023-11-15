@@ -20,9 +20,10 @@ const SocialMedia = () => {
 
   //Custom hooks
   const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
+    key:"social_media_link",
     values: {
       value: data?.social_media_link ?? "",
-      id: data?._id,
+      _id: data?._id,
     },
     action: addAdminSocialLinks,
   });

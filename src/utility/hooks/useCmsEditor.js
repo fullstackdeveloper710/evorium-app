@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-const useCmsEditor = ({ action, values }) => {
+const useCmsEditor = ({ action, values,key }) => {
   const [content, setContent] = useState("");
   const dispatch = useDispatch();
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -16,8 +16,18 @@ const useCmsEditor = ({ action, values }) => {
 
   const handleSave = () => {
     if (content.trim() !== "") {
-      // onSave(content);
-      console.log(content);
+      const data = {
+        adminAuthtoken,
+        values: {
+          [key]:content,
+          ...values,
+        },
+      };
+      delete data.values.value
+      if (!data.values._id) {
+        delete data.values._id;
+      }
+      dispatch(action(data));
     } else {
       alert("Content cannot be empty. Please enter some text before saving.");
     }

@@ -20,9 +20,10 @@ const TermAndConditions = () => {
 
   //Custom hooks
   const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
+    key:"terms_and_conditions",
     values: {
       value: data?.terms_and_conditions ?? "",
-      id: data?._id,
+      _id: data?._id,
     },
     action: addAdminTermAndConditions,
   });

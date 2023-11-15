@@ -20,9 +20,10 @@ const AboutUs = () => {
 
   //Custom hooks
   const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
+    key:"about_us",
     values: {
       value: data?.about_us ?? "",
-      id: data?._id,
+      _id: data?._id,
     },
     action: addAdminAboutUs,
   });

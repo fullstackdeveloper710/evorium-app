@@ -20,9 +20,10 @@ const Support = () => {
 
   //Custom hooks
   const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
+    key: "support",
     values: {
       value: data?.support ?? "",
-      id: data?._id,
+      _id: data?._id,
     },
     action: addAdminSupport,
   });

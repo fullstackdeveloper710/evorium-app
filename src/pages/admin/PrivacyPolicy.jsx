@@ -20,9 +20,10 @@ const PrivacyPolicy = () => {
 
   //Custom hooks
   const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
+    key:"privacy_policy",
     values: {
       value: data?.privacy_policy ?? "",
-      id: data?._id,
+      _id: data?._id,
     },
     action: addAdminPrivacy,
   });
