@@ -19,7 +19,7 @@ const PrivacyPolicy = () => {
   const dispatch = useDispatch();
 
   //Custom hooks
-  const { content, handleChange } = useCmsEditor({
+  const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
     values: {
       value: data?.privacy_policy ?? "",
       id: data?._id,
@@ -38,7 +38,12 @@ const PrivacyPolicy = () => {
   return (
     <div className="privacy_section">
       <h3>PrivacyPolicy</h3>
-      <CmsEditor content={content} handleChange={handleChange} />
+      <CmsEditor
+        content={content}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        onCancelHandler={onCancelHandler}
+      />
     </div>
   );
 };

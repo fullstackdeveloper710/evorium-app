@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Button from "./Button";
+import BtnGroup from "./BtnGroup";
 
-const CmsEditor = ({ content, handleChange }) => {
+const CmsEditor = ({ content, handleChange, handleSave, onCancelHandler }) => {
   const modules = {
     toolbar: [
       [{ header: [1, 2, 3, 4, 5, 6, false] }],
@@ -41,6 +43,22 @@ const CmsEditor = ({ content, handleChange }) => {
         modules={modules}
         formats={formats}
       />
+      <div className="mt-4 d-flex justify-content-end">
+        <BtnGroup className="common_btns">
+          <Button
+            title={content !== "" ? "Update" : "Add"}
+            type="submit"
+            className="primary_btn"
+            onClick={handleSave}
+          />
+          <Button
+            title="cancel"
+            type="button"
+            className="secondry_btn"
+            onClick={onCancelHandler}
+          />
+        </BtnGroup>
+      </div>
     </div>
   );
 };

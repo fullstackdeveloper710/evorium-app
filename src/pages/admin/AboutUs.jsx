@@ -19,7 +19,7 @@ const AboutUs = () => {
   const dispatch = useDispatch();
 
   //Custom hooks
-  const { content, handleChange } = useCmsEditor({
+  const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
     values: {
       value: data?.about_us ?? "",
       id: data?._id,
@@ -38,7 +38,12 @@ const AboutUs = () => {
   return (
     <div className="about_us_section">
       <h3>About us</h3>
-      <CmsEditor content={content} handleChange={handleChange} />
+      <CmsEditor
+        content={content}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        onCancelHandler={onCancelHandler}
+      />
     </div>
   );
 };

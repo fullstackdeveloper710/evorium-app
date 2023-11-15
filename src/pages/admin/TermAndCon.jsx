@@ -19,7 +19,7 @@ const TermAndConditions = () => {
   const dispatch = useDispatch();
 
   //Custom hooks
-  const { content, handleChange } = useCmsEditor({
+  const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
     values: {
       value: data?.terms_and_conditions ?? "",
       id: data?._id,
@@ -39,7 +39,12 @@ const TermAndConditions = () => {
   return (
     <div className="term_condition_section">
       <h3>TermAndConditions</h3>
-      <CmsEditor content={content} handleChange={handleChange} />
+      <CmsEditor
+        content={content}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        onCancelHandler={onCancelHandler}
+      />
     </div>
   );
 };

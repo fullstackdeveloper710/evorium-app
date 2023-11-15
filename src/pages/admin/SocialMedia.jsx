@@ -19,7 +19,7 @@ const SocialMedia = () => {
   const dispatch = useDispatch();
 
   //Custom hooks
-  const { content, handleChange } = useCmsEditor({
+  const { content, handleChange, handleSave, onCancelHandler } = useCmsEditor({
     values: {
       value: data?.social_media_link ?? "",
       id: data?._id,
@@ -39,7 +39,12 @@ const SocialMedia = () => {
   return (
     <div className="social_media_section">
       <h3>SocialMedia</h3>
-      <CmsEditor content={content} handleChange={handleChange} />
+      <CmsEditor
+        content={content}
+        handleChange={handleChange}
+        handleSave={handleSave}
+        onCancelHandler={onCancelHandler}
+      />
     </div>
   );
 };
