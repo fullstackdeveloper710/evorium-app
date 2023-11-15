@@ -1,8 +1,9 @@
 import React from 'react'
+import "../../styles/admin/privacy.scss";
 
 const PrivacyPolicy = () => {
   return (
-    <div>PrivacyPolicy</div>
+    <div className='privacy_section'>PrivacyPolicy</div>
   )
 }
 

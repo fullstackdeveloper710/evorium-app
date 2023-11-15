@@ -1,8 +1,9 @@
 import React from 'react'
+import "../../styles/admin/termsAndCond.scss";
 
 const TermAndConditions = () => {
   return (
-    <div>TermAndConditions</div>
+    <div className='term_condition_section'>TermAndConditions</div>
   )
 }
 

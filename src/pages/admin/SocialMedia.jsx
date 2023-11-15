@@ -1,8 +1,9 @@
 import React from 'react'
+import "../../styles/admin/socialMedia.scss";
 
 const SocialMedia = () => {
   return (
-    <div>SocialMedia</div>
+    <div className='social_media_section'>SocialMedia</div>
   )
 }
 
