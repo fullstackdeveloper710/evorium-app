@@ -3,6 +3,7 @@ import {
   addAdminFaq,
   deleteAdminFaq,
   getAdminFaqs,
+  searchAdminFaqList,
 } from "../../thunk/admin/adFaqs";
 
 const initialState = {
@@ -62,6 +63,24 @@ const adminFaqsSlice = createSlice({
         state.status = true;
       })
       .addCase(deleteAdminFaq.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    // search admin faq
+    builder
+      .addCase(searchAdminFaqList.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(searchAdminFaqList.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.adminFaqs = {
+          ...state.adminFaqs,
+          data: payload.data,
+        };
+        state.status = true;
+      })
+      .addCase(searchAdminFaqList.rejected, (state, action) => {
         state.status = false;
       });
   },

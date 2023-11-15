@@ -7,7 +7,7 @@ import { BtnGroup, Button, ReactDataTable } from "../../components/common";
 import "../../styles/admin/faqlisting.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { dateFormater } from "../../utility/methods";
-import { deleteAdminFaq, getAdminFaqs } from "../../redux/thunk/admin/adFaqs";
+import { deleteAdminFaq, getAdminFaqs, searchAdminFaqList } from "../../redux/thunk/admin/adFaqs";
 import { useSearch } from "../../utility/hooks";
 function FaqListing() {
   //Redux state
@@ -20,7 +20,7 @@ function FaqListing() {
 
   //Custom hooks
   const { search, onSearchChange, onSearchHandler } = useSearch({
-    // action: searchAdminUserList,
+    action: searchAdminFaqList,
   });
 
   //Methods

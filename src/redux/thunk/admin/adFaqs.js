@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adDelFaq, adFaqList, adAddFaq } = adminApi;
+const { adDelFaq, adFaqList, adAddFaq,adSearchFaq } = adminApi;
 
 // get admin faq list thunk
 export const getAdminFaqs = createAsyncThunk(
@@ -69,6 +69,31 @@ export const deleteAdminFaq = createAsyncThunk(
       const config = {
         method: "delete",
         url: `${adDelFaq}/${values.id}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// search admin faq list thunk
+export const searchAdminFaqList = createAsyncThunk(
+  "admin/searchAdminFaqList",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const {
+      adminAuthtoken,
+      query: { search },
+    } = data;
+    try {
+      const config = {
+        method: "get",
+        url: `${adSearchFaq}?query=${search}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
