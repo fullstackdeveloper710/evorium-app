@@ -122,7 +122,7 @@ function Speaker() {
           <Button
             title={<Image src={trash} />}
             type="button"
-            className="action_btn"
+            className="action_btn delete_btn "
             onClick={() => {
               deleteSpeakerHandler(row._id);
             }}

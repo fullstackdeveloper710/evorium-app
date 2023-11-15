@@ -78,7 +78,7 @@ const UserProfile = () => {
     <>
       <section className="auth">
         <div className="auth__inner">
-          <h1 className="auth__title">Edit Profile</h1>
+          <h1 className="auth__title text-center">Edit Profile</h1>
           <Formik
             initialValues={initValues}
             validationSchema={validationSchema}
