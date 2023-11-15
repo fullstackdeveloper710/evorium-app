@@ -1,5 +1,6 @@
 import useSearch from "./useSearch";
 import useDateFilter from "./useDateFilter";
 import useModal from "./useModal";
+import useCmsEditor from "./useCmsEditor";
 
-export { useSearch, useDateFilter,useModal };
+export { useSearch, useDateFilter, useModal, useCmsEditor };

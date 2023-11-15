@@ -1,18 +1,19 @@
-import { default as BtnGroup } from "./BtnGroup";
-import { default as Button } from "./Button";
-import { default as RootLoader } from "./RootLoader";
-import { default as Input } from "./Input";
-import { default as Loader } from "./Loader";
-import { default as VideoUploader } from "./VideoUploader";
-import { default as ReactDataTable } from "./DataTable";
-import { default as ConfirmPopUp } from "./ConfirmPopUp";
-import { default as SelectBox } from "./SelectBox";
-import { default as SearchBar } from "./SearchBar";
-import { default as RadioGroup } from "./RadioGroup";
-import { default as RadioBtn } from "./RadioGroup";
-import { default as DateFilter } from "./DateFilter";
-import { default as CheckoutForm } from "./Stripe";
-import { default as CustomModal } from "./CustomModal";
+import BtnGroup from "./BtnGroup";
+import Button from "./Button";
+import RootLoader from "./RootLoader";
+import Input from "./Input";
+import Loader from "./Loader";
+import VideoUploader from "./VideoUploader";
+import ReactDataTable from "./DataTable";
+import ConfirmPopUp from "./ConfirmPopUp";
+import SelectBox from "./SelectBox";
+import SearchBar from "./SearchBar";
+import RadioGroup from "./RadioGroup";
+import RadioBtn from "./RadioGroup";
+import DateFilter from "./DateFilter";
+import CheckoutForm from "./Stripe";
+import CustomModal from "./CustomModal";
+import CmsEditor from "./CmsEditor";
 
 export {
   BtnGroup,
@@ -30,4 +31,5 @@ export {
   DateFilter,
   CheckoutForm,
   CustomModal,
+  CmsEditor
 };
