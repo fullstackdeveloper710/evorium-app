@@ -37,10 +37,19 @@ const adminApi = {
   adSearchFaq: "admin/search_faq",
   adSearchProgram: "/admin/search_program",
   adAddProgram: "/admin/program",
+  adAddSocialMedia: "/admin/add_social_media_links",
+  adAddAboutUs: "/admin/add_about_us",
+  adAddPrivacyPolicy: "/admin/add_privacy_policy",
+  adAddTermAndConditions: "/admin/add_terms_and_conditions",
+  adAddSupport: "/admin/add_support",
+  adGetSocialMedia: "/admin/get_social_media_links",
+  adGetAboutUs: "/admin/get_about_us",
+  adGetPrivacyPolicy: "/admin/get_privacy_policy",
+  adGetTermAndConditions: "/admin/get_terms_and_conditions",
+  adGetSupport: "/admin/get_support",
 
   //pending
   adDelProgram: "/admin/delete_program/:id",
-
   adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
 };
