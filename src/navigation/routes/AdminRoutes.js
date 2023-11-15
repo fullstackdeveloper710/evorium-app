@@ -12,6 +12,11 @@ import {
   Login,
   UserList,
   UserDetails,
+  AboutUs,
+  SocialMedia,
+  PrivacyPolicy,
+  TermAndConditions,
+  Support,
 } from "../../pages/admin";
 import { ROUTES } from "../constants";
 
@@ -28,6 +33,11 @@ const {
   adSpeaker,
   adFaq,
   adFaqList,
+  adAboutUs,
+  adSocialLinks,
+  adPrivacy,
+  adTermConditions,
+  adSupport,
 } = ROUTES;
 
 export const adminRoutes = [
@@ -124,6 +134,46 @@ export const adminRoutes = [
     type: "private",
     path: adFaqList,
     Component: FaqListing,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 12,
+    type: "private",
+    path: adAboutUs,
+    Component: AboutUs,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 13,
+    type: "private",
+    path: adSocialLinks,
+    Component: SocialMedia,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 14,
+    type: "private",
+    path: adPrivacy,
+    Component: PrivacyPolicy,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 15,
+    type: "private",
+    path: adTermConditions,
+    Component: TermAndConditions,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 16,
+    type: "private",
+    path: adSupport,
+    Component: Support,
     Auth: true,
     defaultComp: false,
   },

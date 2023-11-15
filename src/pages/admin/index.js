@@ -1,15 +1,20 @@
-import { default as UserDetails } from "./UserDetails";
-import { default as AddProgram } from "./AddProgram";
-import { default as Categories } from "./Categories";
-import { default as Dashboard } from "./Dashboard";
-import { default as FaqListing } from "./FaqListing";
-import { default as Payment } from "./Payment";
-import { default as ProgramListing } from "./ProgramListing";
-import { default as Speaker } from "./Speaker";
-import { default as Tags } from "./Tags";
-import { default as UserList } from "./UserList";
-import { default as Faq } from "./Faqs";
-import { default as Login } from "./Login";
+import UserDetails from "./UserDetails";
+import AddProgram from "./AddProgram";
+import Categories from "./Categories";
+import Dashboard from "./Dashboard";
+import FaqListing from "./FaqListing";
+import Payment from "./Payment";
+import ProgramListing from "./ProgramListing";
+import Speaker from "./Speaker";
+import Tags from "./Tags";
+import UserList from "./UserList";
+import Faq from "./Faqs";
+import Login from "./Login";
+import AboutUs from "./AboutUs";
+import SocialMedia from "./SocialMedia";
+import PrivacyPolicy from "./PrivacyPolicy";
+import TermAndConditions from "./TermAndCon";
+import Support from "./Support";
 
 export {
   UserDetails,
@@ -24,4 +29,9 @@ export {
   Tags,
   Faq,
   Login,
+  AboutUs,
+  SocialMedia,
+  PrivacyPolicy,
+  TermAndConditions,
+  Support,
 };

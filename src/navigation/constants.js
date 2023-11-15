@@ -11,6 +11,11 @@ export const ROUTES = {
   adSpeaker: "/backoffice/speaker",
   adFaq: "/backoffice/faq",
   adFaqList: "/backoffice/faq-listing",
+  adAboutUs: "/backoffice/about-us",
+  adSocialLinks: "/backoffice/social-media-links",
+  adPrivacy: "/backoffice/privacy-policy",
+  adTermConditions: "/backoffice/terms-and-conditions",
+  adSupport: "/backoffice/support",
 
   // user routes
   usrHome: "/",
@@ -20,5 +25,5 @@ export const ROUTES = {
   usrCreatePassword: "/create_new_password",
   usrOtp: "/otp",
   usrEditProfile: "/edit-profile",
-  usrVideoPlayer : "/videoplayer"
+  usrVideoPlayer: "/videoplayer",
 };
