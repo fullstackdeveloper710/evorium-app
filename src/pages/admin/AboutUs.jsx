@@ -23,7 +23,7 @@ const AboutUs = () => {
     key:"about_us",
     values: {
       value: data?.about_us ?? "",
-      _id: data?._id,
+      content_id: data?._id,
     },
     action: addAdminAboutUs,
   });

@@ -23,7 +23,7 @@ const PrivacyPolicy = () => {
     key:"privacy_policy",
     values: {
       value: data?.privacy_policy ?? "",
-      _id: data?._id,
+      content_id: data?._id,
     },
     action: addAdminPrivacy,
   });

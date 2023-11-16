@@ -24,8 +24,8 @@ const useCmsEditor = ({ action, values,key }) => {
         },
       };
       delete data.values.value
-      if (!data.values._id) {
-        delete data.values._id;
+      if (!data.values.content_id) {
+        delete data.values.content_id;
       }
       dispatch(action(data));
     } else {

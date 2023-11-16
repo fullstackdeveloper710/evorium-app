@@ -23,7 +23,7 @@ const Support = () => {
     key: "support",
     values: {
       value: data?.support ?? "",
-      _id: data?._id,
+      content_id: data?._id,
     },
     action: addAdminSupport,
   });
