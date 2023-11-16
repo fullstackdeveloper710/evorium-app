@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   forgotPassword,
-  resetPassword,
+  getMyAccount,
   userFacebookLogin,
   userGoogleLogin,
   userLogin,
@@ -98,23 +98,34 @@ const userAuth = createSlice({
         // state.error = action.payload;
       });
 
-
-
-        // FACEBOOK login reducer
+    // FACEBOOK login reducer
     builder
-    .addCase(userFacebookLogin.pending, (state) => {
-      // state.loading = true;
-      state.error = null;
-    })
-    .addCase(userFacebookLogin.fulfilled, (state, action) => {
-      const { payload } = action;
-      // state.loading = false;
-      console.log(payload, "payload");
-      state.userAuthtoken = payload.access_token;
-    })
-    .addCase(userFacebookLogin.rejected, (state, action) => {
-      // state.loading = false;
-      // state.error = action.payload;
+      .addCase(userFacebookLogin.pending, (state) => {
+        // state.loading = true;
+        state.error = null;
+      })
+      .addCase(userFacebookLogin.fulfilled, (state, action) => {
+        const { payload } = action;
+        // state.loading = false;
+        console.log(payload, "payload");
+        state.userAuthtoken = payload.access_token;
+      })
+      .addCase(userFacebookLogin.rejected, (state, action) => {
+        // state.loading = false;
+        // state.error = action.payload;
+      });
+
+    // MY ACCOUNT REDUCER----------------------------
+    builder.addCase(getMyAccount.fulfilled, (state, action) => {
+      // state.userDetails = action.payload;
+      state.status = "success";
+    });
+    builder.addCase(getMyAccount.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(getMyAccount.pending, (state) => {
+      state.status = "pending";
     });
   },
 });

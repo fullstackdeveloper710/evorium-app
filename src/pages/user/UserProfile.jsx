@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button } from "../../components/user";
 import {
@@ -10,15 +10,56 @@ import {
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import Select from "react-select";
+import { getMyAccount } from "../../redux/thunk/user/usrMain";
+import { ROUTES } from "../../navigation/constants";
+import { userEditProfile } from "../../redux/thunk/user/usrProfile";
+import { useLocation, useNavigate } from "react-router";
+import { useDispatch,useSelector } from "react-redux";
+import { Input } from "../../components/common";
 
 // import { object, string, number, date, InferType } from "yup";
 
 const UserProfile = () => {
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
   const [selectedCountry, setSelectedCountry] = useState("");
+  const location = useLocation();
+  const [show, setShow] = useState(false);
+  const navigate = useNavigate();
+  const { state } = location;
+  const dispatch = useDispatch();
+
+
+
   const handleCountryChange = (selectedCountry) => {
     console.log(selectedCountry);
     setSelectedCountry(selectedCountry);
   };
+
+
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+     
+      },
+    };
+    dispatch(getMyAccount(data));
+  }, [userAuthtoken, dispatch]);
+
+// const {usrEditProfile} =ROUTES
+
+
+const onSubmitHandler = (values) => {
+  const data = {
+    userAuthtoken,
+    values: {
+      ...values,
+    },
+    
+  };
+  dispatch(userEditProfile(data));
+};
+
 
   const CountryOptions = [
     { value: "India", label: "India" },
@@ -35,12 +76,13 @@ const UserProfile = () => {
   const passwordRefExp =
     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
   const initValues = {
-    name: "",
+    full_name: "",
     email: "",
     phone: "",
     password: "",
-    country: "",
+    country_code: "",
   };
+  
 
   const validationSchema = Yup.object().shape({
     name: Yup.string()
@@ -78,15 +120,12 @@ const UserProfile = () => {
     <>
       <section className="auth">
         <div className="auth__inner">
-          <h1 className="auth__title text-center">Edit Profile</h1>
+          <h1 className="auth__title">Edit Profile</h1>
           <Formik
             initialValues={initValues}
-            validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log(values, "values%%");
-              localStorage.setItem("login", true);
-              window.open("/programs", "_self");
-            }}
+            // validationSchema={validationSchema}
+            onSubmit={onSubmitHandler}
+
           >
             {({
               values,
@@ -106,6 +145,9 @@ const UserProfile = () => {
                           id="editUser"
                           type="file"
                           accept="image/*"
+                          value={values.profile_pic}
+
+                          
                           onChange={handleImageChange}
                         />
                         <label for="editUser">
@@ -123,16 +165,16 @@ const UserProfile = () => {
                   <Col md={12}>
                     <div className="inputRow">
                       <input
-                        name="name"
+                        name="full_name"
                         placeholder="Name"
                         type="text"
-                        value={values.name}
+                        value={values.full_name}
                         onBlur={handleBlur}
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
                         {" "}
-                        {errors.name && touched.name && errors.name}
+                        {errors.full_name && touched.full_name && errors.full_name}
                       </span>
                     </div>
                   </Col>
@@ -192,9 +234,9 @@ const UserProfile = () => {
                   </Col>
 
                   <Col md={12}>
-                    <div className="inputRow">
+                    {/* <div className="inputRow"> */}
                       {/* <div className="inputRow__icon"> */}
-                      <Select
+                      {/* <Select
                        styles={{
                         
                         control: (baseStyles, state) => ({
@@ -214,22 +256,38 @@ const UserProfile = () => {
                         // isSearchable={true}
                         options={CountryOptions}
                         name="country"
-                      />
+                      /> */}
 
-                      <span className="inputRow__iconGroup">
+                      {/* <span className="inputRow__iconGroup">
                         <DownArrow />
                       </span>
                       <span style={{ color: "red" }}>
                         {" "}
                         {errors.country && touched.country && errors.country}
                       </span>
-                    </div>
+                    </div> */}
                     {/* </div> */}
+                  </Col>
+                  <Col md={12}>
+                    <Input
+                      className="inputRow"
+                      type="text"
+                      placeholder="Country Code"
+                      name="country_code"
+                      value={values.country_code}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={
+                        errors.country_code &&
+                        touched.country_code &&
+                        errors.country_code
+                      }
+                    />
                   </Col>
                   <Col md="12">
                     <Button
                       type="submit"
-                      title={"Save Changes"}
+                      title={"Save"}
                       className="submitBtn"
                       // submit={submit}
                     />

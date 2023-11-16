@@ -129,15 +129,13 @@ const { usrVerify } = userApi;
 export const userVerifyNum = createAsyncThunk(
   "user/userVerifyNum",
   async (data, thunkAPI) => {
-    const {
-      values,
-    } = data;
+    const { values } = data;
 
     try {
       const config = {
         method: "post",
         url: `${usrVerify}`,
-        data:values
+        data: values,
 
         // data: data,
       };
@@ -153,8 +151,8 @@ export const userVerifyNum = createAsyncThunk(
   }
 );
 
-// user GOOGLE login 
-const {usrGoogleLogin} = userApi
+// user GOOGLE login
+const { usrGoogleLogin } = userApi;
 export const userGoogleLogin = createAsyncThunk(
   "user/userGoogleLogin",
   async (data, thunkAPI) => {
@@ -177,9 +175,8 @@ export const userGoogleLogin = createAsyncThunk(
   }
 );
 
-
-// user FACEBOOK login 
-const {usrFacebookLogin} = userApi
+// user FACEBOOK login
+const { usrFacebookLogin } = userApi;
 export const userFacebookLogin = createAsyncThunk(
   "user/userFacebookLogin",
   async (data, thunkAPI) => {
@@ -197,6 +194,32 @@ export const userFacebookLogin = createAsyncThunk(
       return response;
     } catch (error) {
       dispatch(hideRootLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// get my account details
+const { usrMyAccount } = userApi;
+
+export const getMyAccount = createAsyncThunk(
+  "user/getMyAccount",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { userAuthtoken, values } = data;
+    console.log(data, "data here");
+    console.log(values, "values");
+    try {
+      const config = {
+        method: "get",
+        url: usrMyAccount,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
