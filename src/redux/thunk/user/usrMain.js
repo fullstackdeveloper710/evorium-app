@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
-import { userApi } from "../../../services/apiEndpoints";
+import { commonApi, userApi } from "../../../services/apiEndpoints";
 import {
   hideLoader,
   hideRootLoader,
@@ -100,7 +100,7 @@ export const resetPassword = createAsyncThunk(
 
 // FORGET PASSWORD--------------------
 
-const { usrForgetPass } = userApi;
+const { forgetPass } = commonApi;
 
 export const forgotPassword = createAsyncThunk(
   "user/forgotPassword",
@@ -108,7 +108,7 @@ export const forgotPassword = createAsyncThunk(
     try {
       const config = {
         method: "post",
-        url: usrForgetPass,
+        url: forgetPass,
         data: data,
       };
       thunkAPI.dispatch(showLoader());

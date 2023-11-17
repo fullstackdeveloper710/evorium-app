@@ -217,7 +217,7 @@ const Signup = () => {
                   <Col md="12">
                     <Button
                       type="submit"
-                      title={"Sign In"}
+                      title={"Sign Up"}
                       className="submitBtn"
                       // submit={submit}
                     />
