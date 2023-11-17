@@ -20,7 +20,6 @@ import { Input } from "../../components/common";
 import { ROUTES } from "../../navigation/constants";
 import SocialMedia from "../common/SocialMedia";
 
-
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
   const [name, setName] = useState();
@@ -36,7 +35,6 @@ const Signup = () => {
     phone: "",
     country_code: "",
   };
-
 
   const responseGoogle = (response) => {
     console.log(response);
@@ -75,9 +73,8 @@ const Signup = () => {
     console.log(response);
     // Handle the Facebook login response here
   };
-  const { usrOtp } = ROUTES;
+  const { usrOtp, usrLogin } = ROUTES;
   const onSubmitHandler = (values) => {
-    console.log(values, "signup------------");
     const data = {
       ...values,
     };
@@ -226,9 +223,7 @@ const Signup = () => {
                   <Col md="12">
                     <p className="newUserLink">
                       Already Have an Account?
-                      <span onClick={() => window.open("/login", "_self")}>
-                        Login
-                      </span>
+                      <span onClick={() => navigate(usrLogin)}>Login</span>
                     </p>
                   </Col>
                 </Row>

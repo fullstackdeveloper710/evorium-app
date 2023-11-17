@@ -1,4 +1,4 @@
-import React, {useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button } from "../../components/user";
 import {
@@ -9,58 +9,31 @@ import {
 } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import Select from "react-select";
 import { getMyAccount } from "../../redux/thunk/user/usrMain";
 import { ROUTES } from "../../navigation/constants";
 import { userEditProfile } from "../../redux/thunk/user/usrProfile";
 import { useLocation, useNavigate } from "react-router";
-import { useDispatch,useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Input } from "../../components/common";
-
-// import { object, string, number, date, InferType } from "yup";
+import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 const UserProfile = () => {
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
   const [selectedCountry, setSelectedCountry] = useState("");
-  const location = useLocation();
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
-  const { state } = location;
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  //Redux state
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
   const dispatch = useDispatch();
 
+  //Router functions
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
 
-
-  const handleCountryChange = (selectedCountry) => {
-    console.log(selectedCountry);
-    setSelectedCountry(selectedCountry);
-  };
-
-
-  useEffect(() => {
-    const data = {
-      userAuthtoken,
-      values: {
-     
-      },
-    };
-    dispatch(getMyAccount(data));
-  }, [userAuthtoken, dispatch]);
-
-// const {usrEditProfile} =ROUTES
-
-
-const onSubmitHandler = (values) => {
-  const data = {
-    userAuthtoken,
-    values: {
-      ...values,
-    },
-    
-  };
-  dispatch(userEditProfile(data));
-};
-
-
+  //country selebox options
   const CountryOptions = [
     { value: "India", label: "India" },
     { value: "Italy", label: "Italy" },
@@ -70,11 +43,7 @@ const onSubmitHandler = (values) => {
     { value: "UK", label: "UK" },
   ];
 
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const nameRefExp = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi;
-  const passwordRefExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  //Formik initial values
   const initValues = {
     full_name: "",
     email: "",
@@ -82,8 +51,8 @@ const onSubmitHandler = (values) => {
     password: "",
     country_code: "",
   };
-  
 
+  //Formin validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(nameRefExp, "Name can only contain Latin letters.")
@@ -103,7 +72,30 @@ const onSubmitHandler = (values) => {
       ),
     country: Yup.string().required("must select country"),
   });
-  const [selectedImage, setSelectedImage] = useState(null);
+
+  //Methods
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {},
+    };
+    dispatch(getMyAccount(data));
+  }, [userAuthtoken, dispatch]);
+
+  const handleCountryChange = (selectedCountry) => {
+    console.log(selectedCountry);
+    setSelectedCountry(selectedCountry);
+  };
+
+  const onSubmitHandler = (values) => {
+    const data = {
+      userAuthtoken,
+      values: {
+        ...values,
+      },
+    };
+    dispatch(userEditProfile(data));
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -125,7 +117,6 @@ const onSubmitHandler = (values) => {
             initialValues={initValues}
             // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
-
           >
             {({
               values,
@@ -146,8 +137,6 @@ const onSubmitHandler = (values) => {
                           type="file"
                           accept="image/*"
                           value={values.profile_pic}
-
-                          
                           onChange={handleImageChange}
                         />
                         <label for="editUser">
@@ -174,7 +163,9 @@ const onSubmitHandler = (values) => {
                       />
                       <span style={{ color: "red" }}>
                         {" "}
-                        {errors.full_name && touched.full_name && errors.full_name}
+                        {errors.full_name &&
+                          touched.full_name &&
+                          errors.full_name}
                       </span>
                     </div>
                   </Col>
@@ -235,8 +226,8 @@ const onSubmitHandler = (values) => {
 
                   <Col md={12}>
                     {/* <div className="inputRow"> */}
-                      {/* <div className="inputRow__icon"> */}
-                      {/* <Select
+                    {/* <div className="inputRow__icon"> */}
+                    {/* <Select
                        styles={{
                         
                         control: (baseStyles, state) => ({
@@ -258,7 +249,7 @@ const onSubmitHandler = (values) => {
                         name="country"
                       /> */}
 
-                      {/* <span className="inputRow__iconGroup">
+                    {/* <span className="inputRow__iconGroup">
                         <DownArrow />
                       </span>
                       <span style={{ color: "red" }}>

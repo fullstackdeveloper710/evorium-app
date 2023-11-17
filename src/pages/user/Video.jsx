@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import "../../styles/user/video.scss";
 import ReactPlayer from "react-player";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
@@ -12,6 +11,7 @@ import { useLocation } from "react-router";
 import PaymentModal from "../../components/common/CustomModal";
 import { useModal } from "../../utility/hooks";
 import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import "../../styles/user/video.scss";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
@@ -20,7 +20,6 @@ const stripePromise = loadStripe(
 const VideoPlayer = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
-
 
   const [IsExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {

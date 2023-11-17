@@ -20,6 +20,7 @@ export const ROUTES = {
   // user routes
   usrHome: "/",
   usrLogin: "/login",
+  usrSignUp:'/signup',
   usrPrograms: "/Programs",
   usrResetPassword: "/reset_password",
   usrCreatePassword: "/create_new_password",

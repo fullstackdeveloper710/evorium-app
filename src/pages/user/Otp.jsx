@@ -13,28 +13,36 @@ import "../../styles/user/otp.scss";
 
 const Otp = () => {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
   const { id } = params;
-
   const { state } = location;
 
+  //Routes
+  const { usrLogin } = ROUTES;
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Formik initial values
   const initValues = {
     otp: "",
   };
 
-  function showClose() {
-    setShow(false);
-    window.open("/login", "_self");
-  }
+  //Formik validation schema
   const validationSchema = Yup.object().shape({
     // email: Yup.string().email().required("required field"),
   });
 
-  const { usrLogin } = ROUTES;
+  //Methods
+  function showClose() {
+    setShow(false);
+    window.open("/login", "_self");
+  }
 
   const onSubmitHandler = (values) => {
     const data = {

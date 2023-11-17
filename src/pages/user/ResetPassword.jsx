@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import {Button,Alert} from "../../components/user";
+import { Button, Alert } from "../../components/user";
 import { EmailIcon } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -14,10 +14,7 @@ const ResetPassword = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-
   const initValues = {
-  
     email: "",
   };
   const validationSchema = Yup.object().shape({
@@ -35,25 +32,26 @@ const ResetPassword = () => {
     window.open("/create_new_password", "_self");
   }
 
-const{usrCreatePassword}=ROUTES
+  const { usrCreatePassword,usrLogin } = ROUTES;
 
   const onSubmitHandler = (values) => {
     console.log(values, "forget  password-----------%%");
-    const data ={
-      ...values
-    }
+    const data = {
+      ...values,
+    };
     dispatch(forgotPassword(data)).then(({ payload }) => {
       if (payload.status) {
         navigate(usrCreatePassword);
       }
-    }); 
-    setShow(true); };
+    });
+    setShow(true);
+  };
 
   return (
     <>
       <Alert
         title={"Check your email"}
-        icon={<EmailIcon/>}
+        icon={<EmailIcon />}
         body={"We have sent a password recover instructions to your email."}
         btnTitle={"Done"}
         showClose={showClose}
@@ -72,7 +70,6 @@ const{usrCreatePassword}=ROUTES
             initialValues={initValues}
             validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
-
           >
             {({
               values,
@@ -84,9 +81,9 @@ const{usrCreatePassword}=ROUTES
               handleBlur,
             }) => (
               <Form onSubmit={handleSubmit}>
-          <Row>
-            <Col md={12}>
-            <div className="inputRow">
+                <Row>
+                  <Col md={12}>
+                    <div className="inputRow">
                       <input
                         name="email"
                         placeholder="E-mail"
@@ -99,33 +96,29 @@ const{usrCreatePassword}=ROUTES
                         {errors.email && touched.email && errors.email}
                       </span>
                     </div>
-            </Col>
+                  </Col>
 
-            <Col md="12">
-            <Button
+                  <Col md="12">
+                    <Button
                       type="submit"
                       title={"Save Changes"}
                       className="submitBtn"
                       // submit={submit}
                     />
-              {/* <Button title={"Send"} className="submitBtn" submit={submit} /> */}
-            </Col>
-            <Col md="12">
-              <p className="newUserLink">
-                Remember your Password?
-                <span
-                  onClick={() =>
-                    window.open("/login", "_self")
-                  }
-                >
-                  Login
-                </span>
-              </p>
-            </Col>
-          </Row>
-          </Form>
+                    {/* <Button title={"Send"} className="submitBtn" submit={submit} /> */}
+                  </Col>
+                  <Col md="12">
+                    <p className="newUserLink">
+                      Remember your Password?
+                      <span onClick={() =>  navigate(usrLogin)}>
+                        Login
+                      </span>
+                    </p>
+                  </Col>
+                </Row>
+              </Form>
             )}
-            </Formik>
+          </Formik>
         </div>
       </section>
     </>
