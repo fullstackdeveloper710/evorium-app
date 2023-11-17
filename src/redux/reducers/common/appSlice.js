@@ -4,6 +4,7 @@ import { fetchData } from "../../thunk/admin/adAuth";
 const initialState = {
   rootLoader: false,
   loader: false,
+  btnLoader: false,
 };
 
 const appSlice = createSlice({
@@ -22,9 +23,21 @@ const appSlice = createSlice({
     hideLoader: (state, action) => {
       state.loader = false;
     },
+    showBtnLoader: (state, action) => {
+      state.btnLoader = true;
+    },
+    hideBtnLoader: (state, action) => {
+      state.btnLoader = false;
+    },
   },
 });
 
-export const { showRootLoader, hideRootLoader, showLoader, hideLoader } =
-  appSlice.actions;
+export const {
+  showRootLoader,
+  hideRootLoader,
+  showLoader,
+  hideLoader,
+  showBtnLoader,
+  hideBtnLoader,
+} = appSlice.actions;
 export default appSlice.reducer;

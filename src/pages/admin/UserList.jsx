@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
@@ -7,14 +7,14 @@ import {
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
 import "../../styles/admin/user.scss";
-import { ReactDataTable } from "../../components/common";
+import { ConfirmPopUp, ReactDataTable } from "../../components/common";
 import { Image } from "react-bootstrap";
 import { demopic } from "../../assets/images/admin";
 import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
-import { useSearch, useDateFilter } from "../../utility/hooks";
+import { useSearch, useDateFilter, useConfirmation } from "../../utility/hooks";
 
 function UserList() {
   //Redux state
@@ -34,6 +34,17 @@ function UserList() {
 
   const { dateFilter, onDateChange, clearFilter } = useDateFilter({
     action: filterAdminUserbyDate,
+  });
+
+  const {
+    id,
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminUser,
   });
 
   //Methods
@@ -124,11 +135,18 @@ function UserList() {
           <button
             className="action_btn"
             onClick={() => {
-              deleteUserHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
           >
             <Image src={trash} />
           </button>
+          <ConfirmPopUp
+            confirmationMsg="Are you sure to delete?"
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
+          />
         </div>
       ),
     },
