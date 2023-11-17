@@ -1,12 +1,14 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { userEditProfile } from "../../thunk/user/usrProfile";
+import { getMyAccount } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
+  userDetails:{}
 };
 
-const userProfile = createSlice({
-  name: "userProfile",
+const userProfileSlice = createSlice({
+  name: "userProfileSlice",
   initialState: initialState,
   reducers: {
     someAsyncAction: (state, action) => {
@@ -26,8 +28,21 @@ const userProfile = createSlice({
     builder.addCase(userEditProfile.pending, (state) => {
       state.status = "pending";
     });
+
+    // MY ACCOUNT REDUCER----------------------------
+    builder.addCase(getMyAccount.fulfilled, (state, action) => {
+      state.userDetails = action.payload.user_details;
+      state.status = "success";
+    });
+    builder.addCase(getMyAccount.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(getMyAccount.pending, (state) => {
+      state.status = "pending";
+    });
   },
 });
 
-export const {} = userProfile.actions;
-export default userProfile.reducer;
+export const {} = userProfileSlice.actions;
+export default userProfileSlice.reducer;

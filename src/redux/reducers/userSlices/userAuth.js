@@ -114,19 +114,6 @@ const userAuth = createSlice({
         // state.loading = false;
         // state.error = action.payload;
       });
-
-    // MY ACCOUNT REDUCER----------------------------
-    builder.addCase(getMyAccount.fulfilled, (state, action) => {
-      // state.userDetails = action.payload;
-      state.status = "success";
-    });
-    builder.addCase(getMyAccount.rejected, (state, action) => {
-      state.error = action.payload;
-      state.status = "failed";
-    });
-    builder.addCase(getMyAccount.pending, (state) => {
-      state.status = "pending";
-    });
   },
 });
 

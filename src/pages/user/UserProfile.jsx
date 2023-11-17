@@ -24,6 +24,7 @@ const UserProfile = () => {
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userDetails } = useSelector((state) => state.userAuth);
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -45,11 +46,11 @@ const UserProfile = () => {
 
   //Formik initial values
   const initValues = {
-    full_name: "",
-    email: "",
-    phone: "",
-    password: "",
-    country_code: "",
+    full_name: userDetails?.full_name ?? "",
+    email: userDetails?.email ?? "",
+    phone: userDetails?.phone ?? "",
+    password: userDetails?.password ?? "",
+    country_code: userDetails?.country_code ?? "",
   };
 
   //Formin validation schema
