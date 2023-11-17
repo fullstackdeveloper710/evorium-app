@@ -19,7 +19,7 @@ const ConfirmPopUp = ({
         <Modal.Header closeButton>
           <Modal.Title>Confirmation</Modal.Title>
         </Modal.Header>
-        <Modal.Body>{confirmationMsg}</Modal.Body>
+        <Modal.Body>{confirmationMsg ?? "Are you sure to delete?"}</Modal.Body>
         <Modal.Footer>
           <BtnGroup className="common_btns">
             <Button

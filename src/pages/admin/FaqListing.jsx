@@ -1,14 +1,21 @@
 import React, { useEffect } from "react";
-import { Table, Image } from "react-bootstrap";
-import { trash, view } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
-import { BtnGroup, Button, ReactDataTable } from "../../components/common";
-import "../../styles/admin/faqlisting.scss";
+import { Image } from "react-bootstrap";
+import { trash } from "../../assets/icons/admin";
+import {
+  BtnGroup,
+  Button,
+  ConfirmPopUp,
+  ReactDataTable,
+} from "../../components/common";
 import { useDispatch, useSelector } from "react-redux";
 import { dateFormater } from "../../utility/methods";
-import { deleteAdminFaq, getAdminFaqs, searchAdminFaqList } from "../../redux/thunk/admin/adFaqs";
-import { useSearch } from "../../utility/hooks";
+import {
+  deleteAdminFaq,
+  getAdminFaqs,
+  searchAdminFaqList,
+} from "../../redux/thunk/admin/adFaqs";
+import { useConfirmation, useSearch } from "../../utility/hooks";
+import "../../styles/admin/faqlisting.scss";
 function FaqListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -23,6 +30,16 @@ function FaqListing() {
     action: searchAdminFaqList,
   });
 
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminFaq,
+  });
+
   //Methods
   useEffect(() => {
     const data = {
@@ -34,16 +51,6 @@ function FaqListing() {
     };
     dispatch(getAdminFaqs(data));
   }, [adminAuthtoken, dispatch]);
-
-  const deleteFaqHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminFaq(data));
-  };
 
   //Datatable columns
   const columns = [
@@ -76,8 +83,14 @@ function FaqListing() {
             type="button"
             className="action_btn delete_btn "
             onClick={() => {
-              deleteFaqHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
+          />
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
           />
         </BtnGroup>
       ),
@@ -103,76 +116,3 @@ function FaqListing() {
 }
 
 export default FaqListing;
-
-// <div className="faq_listing_table_section">
-//   <div className="comn_table">
-//     <Table striped>
-//       <thead>
-//         <tr>
-//           <th>S.No.</th>
-//           <th>Question Title</th>
-//           <th>Answer</th>
-//           <th>Created On</th>
-//           <th className="text-center">Action</th>
-//         </tr>
-//       </thead>
-//       <tbody>
-//         <tr>
-//           <td>1.</td>
-//           <td>How I can sign up ?</td>
-//           <td className="answer_td">
-//             <p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum ...</p>
-//           </td>
-//           <td>+19872345275</td>
-//           <td>
-//             <div className="delete_action">
-//               <Link to="/backoffice/faq" className="view_btn">
-//                 <Image src={view} className="" />
-//               </Link>
-//               <Link to="#" className="delete_btn">
-//                 <Image src={trash} className="" />
-//               </Link>
-//             </div>
-//           </td>
-//         </tr>
-//         <tr>
-//           <td>1.</td>
-//           <td>How I can sign up ?</td>
-//           <td className="answer_td">
-//             <p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum ...</p>
-//           </td>
-//           <td>+19872345275</td>
-//           <td>
-//             <div className="delete_action">
-//               <Link to="/backoffice/faq" className="view_btn">
-//                 <Image src={view} className="" />
-//               </Link>
-//               <Link to="#" className="delete_btn">
-//                 <Image src={trash} className="" />
-//               </Link>
-//             </div>
-//           </td>
-//         </tr>
-//         <tr>
-//           <td>1.</td>
-//           <td>How I can sign up ?</td>
-//           <td className="answer_td">
-//             <p>lorem ipsum lorem ipsum lorem ipsum lorem ipsum ...</p>
-//           </td>
-//           <td>+19872345275</td>
-//           <td>
-//             <div className="delete_action">
-//               <Link to="/backoffice/faq" className="view_btn">
-//                 <Image src={view} className="" />
-//               </Link>
-//               <Link to="#" className="delete_btn">
-//                 <Image src={trash} className="" />
-//               </Link>
-//             </div>
-//           </td>
-//         </tr>
-//       </tbody>
-//     </Table>
-//   </div>
-//   <Pagination />
-// </div>;

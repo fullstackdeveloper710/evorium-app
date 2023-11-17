@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "../../styles/admin/aboutUs.scss";
 import { CmsEditor } from "../../components/common";
 import { useCmsEditor } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,6 +6,7 @@ import {
   addAdminAboutUs,
   getAdminAboutUs,
 } from "../../redux/thunk/admin/adCms";
+import "../../styles/admin/aboutUs.scss";
 
 const AboutUs = () => {
   //Redux state
@@ -29,7 +29,6 @@ const AboutUs = () => {
   });
 
   //Methods
-
   useEffect(() => {
     const data = {
       adminAuthtoken,

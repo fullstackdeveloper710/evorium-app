@@ -16,8 +16,10 @@ import {
   BtnGroup,
   SelectBox,
   ReactDataTable,
+  ConfirmPopUp,
 } from "../../components/common";
 import "../../styles/admin/categories.scss";
+import { useConfirmation } from "../../utility/hooks";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -26,6 +28,17 @@ function Speaker() {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminSpeaker,
+  });
 
   //Formik initial state
   const initValues = {
@@ -67,16 +80,6 @@ function Speaker() {
 
   const onCancelHandler = (resetForm) => {
     resetForm();
-  };
-
-  const deleteSpeakerHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminSpeaker(data));
   };
 
   const options = [
@@ -124,8 +127,14 @@ function Speaker() {
             type="button"
             className="action_btn delete_btn "
             onClick={() => {
-              deleteSpeakerHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
+          />
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
           />
         </BtnGroup>
       ),

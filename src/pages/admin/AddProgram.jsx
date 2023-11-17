@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { Col, Row, Image } from "react-bootstrap";
-import { upload } from "../../assets/icons/admin";
-import { thumbnail, video } from "../../assets/images/admin";
+import React from "react";
+import { Col, Row } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { FieldArray, Form, Formik } from "formik";
@@ -16,8 +14,8 @@ import {
 import SelectBox from "../../components/common/SelectBox";
 import RadioBtn from "../../components/common/RadioBtn";
 import RadioGroup from "../../components/common/RadioGroup";
-import "../../styles/admin/addprogram.scss";
 import { addAdminProgram } from "../../redux/thunk/admin/adPrograms";
+import "../../styles/admin/addprogram.scss";
 
 function AddProgram() {
   //Redux state

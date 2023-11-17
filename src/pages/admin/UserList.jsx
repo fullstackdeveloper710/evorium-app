@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminUser,
@@ -6,7 +6,6 @@ import {
   getAdminUserList,
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
-import "../../styles/admin/user.scss";
 import { ConfirmPopUp, ReactDataTable } from "../../components/common";
 import { Image } from "react-bootstrap";
 import { demopic } from "../../assets/images/admin";
@@ -15,6 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
 import { useSearch, useDateFilter, useConfirmation } from "../../utility/hooks";
+import "../../styles/admin/user.scss";
 
 function UserList() {
   //Redux state
@@ -37,7 +37,6 @@ function UserList() {
   });
 
   const {
-    id,
     setId,
     showConfirm,
     handleConfirmShow,
@@ -64,16 +63,6 @@ function UserList() {
       dispatch(getAdminUserList(data));
     }
   }, [search]);
-
-  const deleteUserHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminUser(data));
-  };
 
   //Datatable columns
   const columns = [
@@ -142,7 +131,6 @@ function UserList() {
             <Image src={trash} />
           </button>
           <ConfirmPopUp
-            confirmationMsg="Are you sure to delete?"
             showConfirm={showConfirm}
             handleConfirmClose={handleConfirmClose}
             onConfirmHandler={onConfirmHandler}
