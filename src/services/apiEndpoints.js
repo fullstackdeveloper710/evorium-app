@@ -7,6 +7,9 @@ const userApi = {
   usrFacebookLogin: "user/login_facebook",
   usrMyAccount: "user/my_account",
   usrEditProfile: "user/update",
+  usrViewCount: "user/program_view_count",
+  usrRecentProgram:"user/recent_program",
+  
 
   //pending
   usrRefreshToken: "/user/refresh_token",

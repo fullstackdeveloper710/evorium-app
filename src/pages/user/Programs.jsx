@@ -14,9 +14,10 @@ import { star } from "../../assets/icons/user";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import moment from "moment";
 import "../../styles/user/programs.scss";
+import { userViewCount } from "../../redux/thunk/user/usrCount";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -26,12 +27,17 @@ function Programs() {
   const [sorted, setSorted] = useState("all");
 
   //Redux state
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const {
+    userAuthtoken,
+    userData: { user_id },
+  } = useSelector((state) => state.userAuth);
   const { userPaidPrograms, userFreePrograms } = useSelector(
     (state) => state.userPrograms
   );
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
+  const location = useLocation();
+  const { state } = location;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -48,9 +54,7 @@ function Programs() {
         course_type: "Free",
       },
     };
-    // console.log
     dispatch(getUserProgramList(data));
-
     const data_for_Paid = {
       userAuthtoken,
       values: {
@@ -61,21 +65,20 @@ function Programs() {
     dispatch(getUserProgramList(data_for_Paid));
   }, [userAuthtoken, dispatch]);
 
-  // Add default value on page load
-
-  // const data = cardsData.filter((item) => {
-  //   return item.subsType === "free";
-  // });
-
-  // const datapro = cardsData.filter((item) => {
-  //   return item.subsType === "pro";
-  // });
-
-  // console.log(data,"data")
-
-  function cardClick(data) {
-    navigate(usrVideoPlayer);
-  }
+  const onCardClick = (values) => {
+    const data = {
+      values: {
+        ...values,
+        videoId: values._id,
+        userId: user_id,
+      },
+    };
+    navigate(usrVideoPlayer, {
+      state: {
+        data2send: { ...data },
+      },
+    });
+  };
 
   function convertTimeInHour(time) {
     let duration = moment.duration(time, "seconds");
@@ -250,7 +253,25 @@ function Programs() {
                       ) => (
                         <Card
                           course_type={course_type}
-                          onClick={cardClick}
+                          onClick={(e) =>
+                            onCardClick({
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                            })
+                          }
                           url={url}
                           key={_id}
                           video_id={_id}
@@ -335,7 +356,25 @@ function Programs() {
                         <Card
                           course_type={course_type}
                           video_id={_id}
-                          onClick={cardClick}
+                          onClick={() =>
+                            onCardClick({
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                            })
+                          }
                           url={url}
                           key={_id}
                           title={title}

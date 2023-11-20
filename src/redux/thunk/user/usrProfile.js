@@ -6,7 +6,7 @@ import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 const { usrEditProfile } = userApi;
 
 export const userEditProfile = createAsyncThunk(
-  "admin/userEditProfile",
+  "user/userEditProfile",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { userAuthtoken, values } = data;

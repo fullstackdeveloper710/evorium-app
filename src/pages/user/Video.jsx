@@ -12,6 +12,8 @@ import PaymentModal from "../../components/common/CustomModal";
 import { useModal } from "../../utility/hooks";
 import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
 import "../../styles/user/video.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { userViewCount } from "../../redux/thunk/user/usrCount";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
@@ -20,6 +22,13 @@ const stripePromise = loadStripe(
 const VideoPlayer = () => {
   const [showModal, setShowModal] = useState(false);
   const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const {
+    userAuthtoken,
+    userData: { user_id },
+  } = useSelector((state) => state.userAuth);
+
+  const dispatch = useDispatch();
 
   const [IsExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {
@@ -34,16 +43,16 @@ const VideoPlayer = () => {
     thumbnail_url,
     description,
     title,
-    video_id,
+    videoId,
     speaker,
     episodes,
     price,
     course_type,
     video_duration,
     views,
-  } = data2send;
+  } = data2send.values;
+  console.log(data2send,"{data2send")
 
-  console.log("running");
   const [itemsToLoad, setItemsToLoad] = useState(5);
 
   const { show, handleClose, handleShow } = useModal();
@@ -64,6 +73,24 @@ const VideoPlayer = () => {
 
   const closeModal = () => {
     setShowModal(false);
+  };
+
+  const handlePlayPause = () => {
+    const data = {
+      userAuthtoken,
+      values: {
+        videoId: videoId,
+        userId: user_id,
+      },
+    };
+    console.log(data,"data")
+
+    dispatch(userViewCount(data)).then(({ payload }) => {
+      if (payload) {
+        setIsPlaying(!isPlaying);
+      }
+    });
+    // dispatch(userViewCount(data))
   };
   return (
     <>
@@ -94,19 +121,21 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                {console.log(course_type, "video_id")}
-
                 {course_type === "Paid" ? (
                   <Image src={thumbnail_url} className="videoImg img-fluid" />
                 ) : (
                   <ReactPlayer
+                    // onPlay={handleClick}
+                    // onStart={handlePlayPause}
                     ref={playerRef}
-                    playing={true}
+                    playing={isPlaying}
                     controls={true}
-                    url={`http://api.evorium.xyz/user/web/video_stream/${video_id}`}
+                    url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
                   />
                 )}
-
+                <button onClick={handlePlayPause}>
+                  {isPlaying ? "Pause" : "Play"}
+                </button>
                 {/* {subscriptionType[1] == 'pro' &&  <div
                   style={{
                     backgroundColor: "transparent",
@@ -166,7 +195,7 @@ const VideoPlayer = () => {
 
                     {console.log(episodes, "episodes")}
                     <div className="timecodec__list">
-                      {episodes.map((i) => {
+                      {episodes?.map((i) => {
                         return (
                           <button className="timecodecBtn">
                             <figure>
@@ -286,8 +315,8 @@ const VideoPlayer = () => {
           </div>
           <Row className="popular-row">
             {cardsData
-              .slice(0, itemsToLoad)
-              .map(
+              ?.slice(0, itemsToLoad)
+              ?.map(
                 (
                   {
                     id,

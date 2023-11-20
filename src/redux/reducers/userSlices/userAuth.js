@@ -12,6 +12,7 @@ import {
 const initialState = {
   status: false,
   userAuthtoken: null,
+  userData: { user_id: null },
 };
 
 const userAuth = createSlice({
@@ -49,6 +50,7 @@ const userAuth = createSlice({
         // state.loading = false;
         console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
+        state.userData = { ...payload };
       })
       .addCase(userLogin.rejected, (state, action) => {
         // state.loading = false;
