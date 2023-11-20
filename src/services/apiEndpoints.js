@@ -53,11 +53,11 @@ const adminApi = {
   adGetTermAndConditions: "/admin/get_terms_and_conditions",
   adGetSupport: "/admin/get_support",
   adSearchFaq: "/admin/search_faq",
+  adDelProgram: "/admin/delete_program",
 
   //pending
-  adDelProgram: "/admin/delete_program/:id",
   adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
 };
 
-export { userApi, adminApi,commonApi };
+export { userApi, adminApi, commonApi };

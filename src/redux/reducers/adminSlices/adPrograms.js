@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { getAdminTags } from "../../thunk/admin/adTags";
 import {
   addAdminProgram,
+  deleteAdminProgram,
   getAdminProgramList,
   searchAdminProgram,
 } from "../../thunk/admin/adPrograms";
@@ -61,6 +62,26 @@ const adminProgramsSlice = createSlice({
         state.status = true;
       })
       .addCase(addAdminProgram.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //delete admin program
+    builder
+      .addCase(deleteAdminProgram.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(deleteAdminProgram.fulfilled, (state, action) => {
+        const { meta } = action;
+        state.adminPrograms = {
+          ...state.adminPrograms,
+          data: state.adminPrograms.data.filter(
+            (item) => item._id !== meta.arg.query.id
+          ),
+        };
+        state.status = true;
+      })
+      .addCase(deleteAdminProgram.rejected, (state, action) => {
         state.status = false;
       });
   },

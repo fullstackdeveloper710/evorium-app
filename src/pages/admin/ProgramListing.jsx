@@ -4,13 +4,14 @@ import { Pagination } from "../../components/admin";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteAdminProgram,
   getAdminProgramList,
   searchAdminProgram,
 } from "../../redux/thunk/admin/adPrograms";
 import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
-import { Button, SearchBar } from "../../components/common";
+import { Button } from "../../components/common";
 import { useSearch } from "../../utility/hooks";
 function ProgramListing() {
   //Redux state
@@ -45,6 +46,20 @@ function ProgramListing() {
       dispatch(getAdminProgramList(data));
     }
   }, [dispatch, adminAuthtoken, search]);
+
+  const onDeleteHandler = (id) => {
+    const data = {
+      adminAuthtoken,
+      query: {
+        id,
+      },
+      pagination: {
+        pageNo: 1,
+        pageSize: 4,
+      },
+    };
+    dispatch(deleteAdminProgram(data));
+  };
 
   return (
     <div className="program_listing_section">
@@ -81,6 +96,7 @@ function ProgramListing() {
             data?.map(
               (
                 {
+                  _id,
                   speaker,
                   course_type,
                   description,
@@ -108,14 +124,11 @@ function ProgramListing() {
                             id="dropdown-basic-button"
                             title="..."
                           >
-                            <Dropdown.Item href="#/action-1">
-                              Action
+                            <Dropdown.Item onClick={() => onDeleteHandler(_id)}>
+                              Delete
                             </Dropdown.Item>
                             <Dropdown.Item href="#/action-2">
-                              Another action
-                            </Dropdown.Item>
-                            <Dropdown.Item href="#/action-3">
-                              Something else
+                              Cancel
                             </Dropdown.Item>
                           </DropdownButton>
                           {/* btn drop_dow */}
