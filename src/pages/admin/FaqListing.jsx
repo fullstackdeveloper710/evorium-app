@@ -48,15 +48,17 @@ function FaqListing() {
 
   //Methods
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminFaqs(data));
-  }, [adminAuthtoken, dispatch]);
+    if (search === "") {
+      const data = {
+        adminAuthtoken,
+        values: {
+          pageNo: 1,
+          pageSize: 4,
+        },
+      };
+      dispatch(getAdminFaqs(data));
+    }
+  }, [adminAuthtoken, dispatch, search]);
 
   //Datatable columns
   const columns = [
