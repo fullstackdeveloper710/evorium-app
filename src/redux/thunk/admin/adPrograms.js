@@ -3,7 +3,13 @@ import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adPrograms, adSearchProgram, adAddProgram, adDelProgram } = adminApi;
+const {
+  adPrograms,
+  adSearchProgram,
+  adAddProgram,
+  adDelProgram,
+  adGetProgram,
+} = adminApi;
 
 // get admin program list thunk
 export const getAdminProgramList = createAsyncThunk(
@@ -89,6 +95,28 @@ export const deleteAdminProgram = createAsyncThunk(
       const config = {
         method: "delete",
         url: `${adDelProgram}/${query.id}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// get admin program by id thunk
+export const getAdminProgramById = createAsyncThunk(
+  "admin/getAdminProgramById",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken, query } = data;
+    try {
+      const config = {
+        method: "get",
+        url: `${adGetProgram}/${query.id}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

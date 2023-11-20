@@ -4,7 +4,7 @@ import { upload } from "../../assets/icons/admin";
 import { useDropzone } from "react-dropzone";
 import { dataURLtoFile } from "../../utility/methods";
 
-const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
+const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -64,7 +64,10 @@ const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
     });
   }, []);
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+    disabled: disabled,
+  });
 
   return (
     <>

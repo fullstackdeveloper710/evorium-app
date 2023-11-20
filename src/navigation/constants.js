@@ -17,6 +17,7 @@ export const ROUTES = {
   adTermConditions: "/backoffice/terms-and-conditions",
   adSupport: "/backoffice/support",
   adAddFaq: "/backoffice/add-faq",
+  adUpdateProgram: "/backoffice/update-program",
 
   // user routes
   usrHome: "/",

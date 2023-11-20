@@ -5,6 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminProgram,
+  getAdminProgramById,
   getAdminProgramList,
   searchAdminProgram,
 } from "../../redux/thunk/admin/adPrograms";
@@ -31,7 +32,7 @@ function ProgramListing() {
   const navigate = useNavigate();
 
   //Constant routes
-  const { adAddprogram } = ROUTES;
+  const { adAddprogram, adUpdateProgram } = ROUTES;
 
   //Methods
   useEffect(() => {
@@ -47,7 +48,7 @@ function ProgramListing() {
     }
   }, [dispatch, adminAuthtoken, search]);
 
-  const onDeleteHandler = (id) => {
+  const onDeleteProgram = (id) => {
     const data = {
       adminAuthtoken,
       query: {
@@ -59,6 +60,20 @@ function ProgramListing() {
       },
     };
     dispatch(deleteAdminProgram(data));
+  };
+
+  const onEditProgram = (id) => {
+    const data = {
+      adminAuthtoken,
+      query: {
+        id,
+      },
+    };
+    navigate(adUpdateProgram, {
+      state: {
+        id: id,
+      },
+    });
   };
 
   return (
@@ -124,8 +139,11 @@ function ProgramListing() {
                             id="dropdown-basic-button"
                             title="..."
                           >
-                            <Dropdown.Item onClick={() => onDeleteHandler(_id)}>
+                            <Dropdown.Item onClick={() => onDeleteProgram(_id)}>
                               Delete
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => onEditProgram(_id)}>
+                              Edit
                             </Dropdown.Item>
                             <Dropdown.Item href="#/action-2">
                               Cancel

@@ -41,6 +41,7 @@ const {
   adTermConditions,
   adSupport,
   adAddFaq,
+  adUpdateProgram,
 } = ROUTES;
 
 export const adminRoutes = [
@@ -187,6 +188,15 @@ export const adminRoutes = [
     path: "*",
     Component: NotFound,
     Auth: false,
+    defaultComp: false,
+  },
+
+  {
+    id: 19,
+    type: "private",
+    path: adUpdateProgram,
+    Component: AddProgram,
+    Auth: true,
     defaultComp: false,
   },
 ];

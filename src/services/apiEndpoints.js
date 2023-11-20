@@ -54,9 +54,9 @@ const adminApi = {
   adGetSupport: "/admin/get_support",
   adSearchFaq: "/admin/search_faq",
   adDelProgram: "/admin/delete_program",
+  adGetProgram: "/admin/program",
 
   //pending
-  adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
 };
 
