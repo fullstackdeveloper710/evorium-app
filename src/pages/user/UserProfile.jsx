@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button } from "../../components/user";
 import {
@@ -9,17 +9,32 @@ import {
 } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import Select from "react-select";
-
-// import { object, string, number, date, InferType } from "yup";
+import { getMyAccount } from "../../redux/thunk/user/usrMain";
+import { ROUTES } from "../../navigation/constants";
+import { userEditProfile } from "../../redux/thunk/user/usrProfile";
+import { useLocation, useNavigate } from "react-router";
+import { useDispatch, useSelector } from "react-redux";
+import { Input } from "../../components/common";
+import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
-  const handleCountryChange = (selectedCountry) => {
-    console.log(selectedCountry);
-    setSelectedCountry(selectedCountry);
-  };
+  const [show, setShow] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
 
+  //Redux state
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userDetails } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+
+  //country selebox options
   const CountryOptions = [
     { value: "India", label: "India" },
     { value: "Italy", label: "Italy" },
@@ -29,19 +44,16 @@ const UserProfile = () => {
     { value: "UK", label: "UK" },
   ];
 
-  const phoneRegExp =
-    /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
-  const nameRefExp = /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi;
-  const passwordRefExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
+  //Formik initial values
   const initValues = {
-    name: "",
-    email: "",
-    phone: "",
-    password: "",
-    country: "",
+    full_name: userDetails?.full_name ?? "",
+    email: userDetails?.email ?? "",
+    phone: userDetails?.phone ?? "",
+    password: userDetails?.password ?? "",
+    country_code: userDetails?.country_code ?? "",
   };
 
+  //Formin validation schema
   const validationSchema = Yup.object().shape({
     name: Yup.string()
       .matches(nameRefExp, "Name can only contain Latin letters.")
@@ -61,7 +73,30 @@ const UserProfile = () => {
       ),
     country: Yup.string().required("must select country"),
   });
-  const [selectedImage, setSelectedImage] = useState(null);
+
+  //Methods
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {},
+    };
+    dispatch(getMyAccount(data));
+  }, [userAuthtoken, dispatch]);
+
+  const handleCountryChange = (selectedCountry) => {
+    console.log(selectedCountry);
+    setSelectedCountry(selectedCountry);
+  };
+
+  const onSubmitHandler = (values) => {
+    const data = {
+      userAuthtoken,
+      values: {
+        ...values,
+      },
+    };
+    dispatch(userEditProfile(data));
+  };
 
   const handleImageChange = (event) => {
     const file = event.target.files[0];
@@ -78,15 +113,11 @@ const UserProfile = () => {
     <>
       <section className="auth">
         <div className="auth__inner">
-          <h1 className="auth__title text-center">Edit Profile</h1>
+          <h1 className="auth__title">Edit Profile</h1>
           <Formik
             initialValues={initValues}
-            validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log(values, "values%%");
-              localStorage.setItem("login", true);
-              window.open("/programs", "_self");
-            }}
+            // validationSchema={validationSchema}
+            onSubmit={onSubmitHandler}
           >
             {({
               values,
@@ -106,6 +137,7 @@ const UserProfile = () => {
                           id="editUser"
                           type="file"
                           accept="image/*"
+                          value={values.profile_pic}
                           onChange={handleImageChange}
                         />
                         <label for="editUser">
@@ -123,16 +155,18 @@ const UserProfile = () => {
                   <Col md={12}>
                     <div className="inputRow">
                       <input
-                        name="name"
+                        name="full_name"
                         placeholder="Name"
                         type="text"
-                        value={values.name}
+                        value={values.full_name}
                         onBlur={handleBlur}
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
                         {" "}
-                        {errors.name && touched.name && errors.name}
+                        {errors.full_name &&
+                          touched.full_name &&
+                          errors.full_name}
                       </span>
                     </div>
                   </Col>
@@ -192,9 +226,9 @@ const UserProfile = () => {
                   </Col>
 
                   <Col md={12}>
-                    <div className="inputRow">
-                      {/* <div className="inputRow__icon"> */}
-                      <Select
+                    {/* <div className="inputRow"> */}
+                    {/* <div className="inputRow__icon"> */}
+                    {/* <Select
                        styles={{
                         
                         control: (baseStyles, state) => ({
@@ -214,22 +248,38 @@ const UserProfile = () => {
                         // isSearchable={true}
                         options={CountryOptions}
                         name="country"
-                      />
+                      /> */}
 
-                      <span className="inputRow__iconGroup">
+                    {/* <span className="inputRow__iconGroup">
                         <DownArrow />
                       </span>
                       <span style={{ color: "red" }}>
                         {" "}
                         {errors.country && touched.country && errors.country}
                       </span>
-                    </div>
+                    </div> */}
                     {/* </div> */}
+                  </Col>
+                  <Col md={12}>
+                    <Input
+                      className="inputRow"
+                      type="text"
+                      placeholder="Country Code"
+                      name="country_code"
+                      value={values.country_code}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      error={
+                        errors.country_code &&
+                        touched.country_code &&
+                        errors.country_code
+                      }
+                    />
                   </Col>
                   <Col md="12">
                     <Button
                       type="submit"
-                      title={"Save Changes"}
+                      title={"Save"}
                       className="submitBtn"
                       // submit={submit}
                     />

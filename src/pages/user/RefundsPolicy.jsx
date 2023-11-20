@@ -7,7 +7,6 @@ function RefundsPolicy() {
         <Container>
           <Row>
             {/* <Col md={6} sm={4}> */}
-
             <div className="text-block">
               <h1 className="auth__title">Refunds Policy</h1>
               <p className="text-white">

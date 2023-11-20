@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import { Col, Row, Table, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminTags,
@@ -16,9 +14,11 @@ import { Form, Formik } from "formik";
 import {
   BtnGroup,
   Button,
+  ConfirmPopUp,
   Input,
   ReactDataTable,
 } from "../../components/common";
+import { useConfirmation } from "../../utility/hooks";
 function Tags() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -27,6 +27,17 @@ function Tags() {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminTag,
+  });
 
   //Formik initial state
   const initValues = {
@@ -70,15 +81,6 @@ function Tags() {
     resetForm();
   };
 
-  const deleteTagHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminTag(data));
-  };
   const columns = [
     {
       name: "S.No.",
@@ -101,8 +103,14 @@ function Tags() {
             type="button"
             className="action_btn delete_btn "
             onClick={() => {
-              deleteTagHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
+          />
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
           />
         </BtnGroup>
       ),

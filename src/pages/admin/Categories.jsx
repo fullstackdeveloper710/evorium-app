@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
-import { Col, Row, Table, Image } from "react-bootstrap";
+import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminCategory,
@@ -12,9 +10,10 @@ import {
 import { dateFormater } from "../../utility/methods";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { BtnGroup, Button, Input } from "../../components/common";
-import "../../styles/admin/categories.scss";
+import { BtnGroup, Button, ConfirmPopUp, Input } from "../../components/common";
 import ReactDataTable from "../../components/common/DataTable";
+import { useConfirmation } from "../../utility/hooks";
+import "../../styles/admin/categories.scss";
 function Categories() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -23,6 +22,17 @@ function Categories() {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminCategory,
+  });
 
   //Formik initial state
   const initValues = {
@@ -66,16 +76,6 @@ function Categories() {
     resetForm();
   };
 
-  const deleteCategoryHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminCategory(data));
-  };
-
   const columns = [
     { name: "S.No.", selector: (row, index) => index + 1 },
     {
@@ -95,8 +95,14 @@ function Categories() {
             type="button"
             className="action_btn delete_btn"
             onClick={() => {
-              deleteCategoryHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
+          />
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
           />
         </BtnGroup>
       ),

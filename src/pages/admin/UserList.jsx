@@ -6,15 +6,15 @@ import {
   getAdminUserList,
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
-import "../../styles/admin/user.scss";
-import { ReactDataTable } from "../../components/common";
+import { ConfirmPopUp, ReactDataTable } from "../../components/common";
 import { Image } from "react-bootstrap";
 import { demopic } from "../../assets/images/admin";
 import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
-import { useSearch, useDateFilter } from "../../utility/hooks";
+import { useSearch, useDateFilter, useConfirmation } from "../../utility/hooks";
+import "../../styles/admin/user.scss";
 
 function UserList() {
   //Redux state
@@ -36,6 +36,16 @@ function UserList() {
     action: filterAdminUserbyDate,
   });
 
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminUser,
+  });
+
   //Methods
   const onViewHandler = (id) => {
     navigate(ROUTES.adUserDetail, { state: { id: id } });
@@ -53,16 +63,6 @@ function UserList() {
       dispatch(getAdminUserList(data));
     }
   }, [search]);
-
-  const deleteUserHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminUser(data));
-  };
 
   //Datatable columns
   const columns = [
@@ -124,11 +124,17 @@ function UserList() {
           <button
             className="action_btn"
             onClick={() => {
-              deleteUserHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
           >
             <Image src={trash} />
           </button>
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
+          />
         </div>
       ),
     },

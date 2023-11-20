@@ -3,11 +3,7 @@ import { Col, Container, Row, Image } from "react-bootstrap";
 import ReactPlayer from "react-player";
 
 import {
-  appleStore,
-  googleplay,
   bannner,
-  video,
-  card1,
   tv,
   ecobank,
   orange,
@@ -15,13 +11,9 @@ import {
   iphone,
   team1,
   video_homescreen,
-  videoImg,
 } from "../../assets/images/user";
 
 import {
-  upload,
-  monetization,
-  stream,
   downarrow,
   insta,
   UploadIcon,
@@ -30,25 +22,33 @@ import {
   PlayStore,
   Apple,
 } from "../../assets/icons/user";
-import "../../styles/user/home.scss";
 import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
+import "../../styles/user/home.scss";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
-  const dispatch = useDispatch();
+
+  //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
   const { userFreePrograms } = useSelector((state) => state.userPrograms);
   const { data } = userFreePrograms;
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
 
-
-
-  // useEffect(() => {
-  //   // dispatch(userSignUp());
-  // }, []);
+  //Methods
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+        course_type: "Free",
+      },
+    };
+    dispatch(getUserProgramList(data));
+  }, [userAuthtoken, dispatch]);
 
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
@@ -56,16 +56,7 @@ function Home() {
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
-  useEffect(() => {
-    const data = {
-      userAuthtoken,
-      values: {
-        course_type : 'Free'
-      },
-    };
-  
-    dispatch(getUserProgramList(data));
-  }, []);
+
   return (
     <>
       <section className="banner-home">
@@ -170,42 +161,41 @@ function Home() {
               </a>
             </div>
             <Row>
-          {data?.length > 0 ? (
-            data?.map(
-              (
-                {
-                  speaker,
-                  course_type,
-                  description,
-                  thumbnail_url,
-                  video_duration,
-                  view_count,
-                },
-                index
-              ) => {
-                return (
-                  <div key={index}>
-                       <Card
-                      url={thumbnail_url}
-                      // key={id}
-                      title={speaker}
-                      // img={image}
-                      duration={video_duration}
-                      views={view_count}
-                      watched={view_count}
-                      subsType={course_type}
-                      // amount={amount}
-                      description={description}
-                    />
-                  </div>
-                
-                );
-              }
-            )
-          ) : (
-            <div>No Record Found</div>
-          )}
-        </Row>
+              {data?.length > 0 ? (
+                data?.map(
+                  (
+                    {
+                      speaker,
+                      course_type,
+                      description,
+                      thumbnail_url,
+                      video_duration,
+                      view_count,
+                    },
+                    index
+                  ) => {
+                    return (
+                      <div key={index}>
+                        <Card
+                          url={thumbnail_url}
+                          // key={id}
+                          title={speaker}
+                          // img={image}
+                          duration={video_duration}
+                          views={view_count}
+                          watched={view_count}
+                          subsType={course_type}
+                          // amount={amount}
+                          description={description}
+                        />
+                      </div>
+                    );
+                  }
+                )
+              ) : (
+                <div>No Record Found</div>
+              )}
+            </Row>
             {/* <Row className="popular-row">
               {cardsData
                 .slice(0, itemsToLoad)
@@ -248,11 +238,12 @@ function Home() {
               )}
 
               {itemsToLoad > 5 && (
-                <button onClick={loadLess} className="load-more-btn" id="popular">
-                                    
-
+                <button
+                  onClick={loadLess}
+                  className="load-more-btn"
+                  id="popular"
+                >
                   Load Less
-                  
                 </button>
               )}
             </div>

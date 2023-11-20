@@ -9,25 +9,14 @@ import {
   NavDropdown,
 } from "react-bootstrap";
 import { Card } from "../../components/user";
-// import {
-//   upload,
-//   monetization,
-//   stream,
-//   downarrow,
-//   insta,
-// } from "../assets/icons/user";
 import { cardsData } from "../../utility/data";
-// import FooterEvorium from "../components/user/FooterEvorium";
-// import { AiOutlineStar } from "react-icons/ai";
-// import CustomModal from "../components/user/CustomModal";
 import { star } from "../../assets/icons/user";
-
-import "../../styles/user/programs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import moment from "moment";
+import "../../styles/user/programs.scss";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -36,19 +25,22 @@ function Programs() {
   const [showAlert, setShowAlert] = useState(false);
   const [sorted, setSorted] = useState("all");
 
+  //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
   const { userPaidPrograms, userFreePrograms } = useSelector(
     (state) => state.userPrograms
   );
-
-  const navigate = useNavigate();
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
   const { usrVideoPlayer } = ROUTES;
 
-  const dispatch = useDispatch();
-  // const{usrPrograms} =ROUTES
+  //Methods
   useEffect(() => {
     const data = {
       userAuthtoken,
@@ -67,12 +59,7 @@ function Programs() {
     };
 
     dispatch(getUserProgramList(data_for_Paid));
-  }, []);
-
-  useEffect(() => {
-    console.log(freeData, "free");
-    console.log(paidData, "paid");
-  }, [freeData, paidData]);
+  }, [userAuthtoken, dispatch]);
 
   // Add default value on page load
 
@@ -257,12 +244,12 @@ function Programs() {
                           speaker,
                           episodes,
                           price,
-                          course_type
+                          course_type,
                         },
                         index
                       ) => (
                         <Card
-                        course_type={course_type}
+                          course_type={course_type}
                           onClick={cardClick}
                           url={url}
                           key={_id}
@@ -341,12 +328,12 @@ function Programs() {
                           speaker,
                           episodes,
                           price,
-                          course_type
+                          course_type,
                         },
                         index
                       ) => (
                         <Card
-                        course_type={course_type}
+                          course_type={course_type}
                           video_id={_id}
                           onClick={cardClick}
                           url={url}

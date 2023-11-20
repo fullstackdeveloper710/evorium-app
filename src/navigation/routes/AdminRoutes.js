@@ -18,6 +18,7 @@ import {
   TermAndConditions,
   Support,
 } from "../../pages/admin";
+import NotFound from "../../pages/common/NotFound";
 import { ROUTES } from "../constants";
 
 const {
@@ -175,6 +176,14 @@ export const adminRoutes = [
     path: adSupport,
     Component: Support,
     Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 17,
+    type: "public",
+    path: "*",
+    Component: NotFound,
+    Auth: false,
     defaultComp: false,
   },
 ];

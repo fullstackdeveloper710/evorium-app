@@ -11,6 +11,7 @@ import adminDashboardSlice from "./adminSlices/adDashboard";
 import userProgramsSlice from "./userSlices/userPrograms";
 import adminFaqsSlice from "./adminSlices/adFaq";
 import adminCmsSlice from "./adminSlices/adCms"
+import userProfileSlice from "./userSlices/userProfile"
 
 const rootReducer = combineReducers({
   //common slices
@@ -29,6 +30,7 @@ const rootReducer = combineReducers({
   //User slices
   userAuth: userAuth,
   userPrograms: userProgramsSlice,
+  userProfile:userProfileSlice
 });
 
 export default rootReducer;
