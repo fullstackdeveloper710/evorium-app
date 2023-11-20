@@ -90,11 +90,11 @@ export const deleteAdminProgram = createAsyncThunk(
   "admin/deleteAdminProgram",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, query, pagination } = data;
+    const { adminAuthtoken, values, pagination } = data;
     try {
       const config = {
         method: "delete",
-        url: `${adDelProgram}/${query.id}`,
+        url: `${adDelProgram}/${values.id}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

@@ -12,8 +12,8 @@ import {
 import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
-import { Button } from "../../components/common";
-import { useSearch } from "../../utility/hooks";
+import { Button, ConfirmPopUp } from "../../components/common";
+import { useConfirmation, useSearch } from "../../utility/hooks";
 function ProgramListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -26,6 +26,17 @@ function ProgramListing() {
   //Custom hooks
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminProgram,
+  });
+
+  //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminProgram,
   });
 
   //Router functions
@@ -47,20 +58,6 @@ function ProgramListing() {
       dispatch(getAdminProgramList(data));
     }
   }, [dispatch, adminAuthtoken, search]);
-
-  const onDeleteProgram = (id) => {
-    const data = {
-      adminAuthtoken,
-      query: {
-        id,
-      },
-      pagination: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(deleteAdminProgram(data));
-  };
 
   const onEditProgram = (id) => {
     const data = {
@@ -139,7 +136,12 @@ function ProgramListing() {
                             id="dropdown-basic-button"
                             title="..."
                           >
-                            <Dropdown.Item onClick={() => onDeleteProgram(_id)}>
+                            <Dropdown.Item
+                              onClick={() => {
+                                handleConfirmShow();
+                                setId(_id);
+                              }}
+                            >
                               Delete
                             </Dropdown.Item>
                             <Dropdown.Item onClick={() => onEditProgram(_id)}>
@@ -171,6 +173,11 @@ function ProgramListing() {
             <div>No Record Found</div>
           )}
         </Row>
+        <ConfirmPopUp
+          showConfirm={showConfirm}
+          handleConfirmClose={handleConfirmClose}
+          onConfirmHandler={onConfirmHandler}
+        />
       </div>
 
       <Pagination />

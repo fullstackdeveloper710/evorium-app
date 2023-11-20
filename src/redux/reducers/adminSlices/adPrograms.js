@@ -76,7 +76,7 @@ const adminProgramsSlice = createSlice({
         state.adminPrograms = {
           ...state.adminPrograms,
           data: state.adminPrograms.data.filter(
-            (item) => item._id !== meta.arg.query.id
+            (item) => item._id !== meta.arg.values.id
           ),
         };
         state.status = true;
