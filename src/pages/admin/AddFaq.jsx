@@ -4,8 +4,9 @@ import { Col, Row } from "react-bootstrap";
 import { BtnGroup, Button, Input } from "../../components/common";
 import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
+import { addAdminFaq } from "../../redux/thunk/admin/adFaqs";
 
 const AddFaq = () => {
   //Redux state
@@ -15,44 +16,34 @@ const AddFaq = () => {
   const dispatch = useDispatch();
 
   //Router functions
+  const navigate = useNavigate();
   const { adFaqList } = ROUTES;
 
   //Formik initial state
   const initValues = {
-    title: "",
-    date: "",
+    question_title: "",
+    answer: "",
   };
 
   //Yup validation schema
   const validationSchema = Yup.object().shape({
-    title: Yup.string().required("Name field is required"),
-    date: Yup.string().required("Date field is required"),
+    question_title: Yup.string().required("Question field is required"),
+    answer: Yup.string().required("Answer field is required"),
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    // dispatch(getAdminCategories(data));
-  }, [adminAuthtoken, dispatch]);
-
   const onSubmitHandler = (values) => {
     const data = {
       adminAuthtoken,
       values: {
         ...values,
       },
-      pagination: {
-        pageNo: 1,
-        pageSize: 4,
-      },
     };
-    // dispatch(addAdminCategory(data));
+    dispatch(addAdminFaq(data)).then(({ payload }) => {
+      if (payload.status) {
+        navigate(adFaqList);
+      }
+    });
   };
 
   const onCancelHandler = (resetForm) => {
@@ -97,32 +88,32 @@ const AddFaq = () => {
               <Col md={6}>
                 <Input
                   className="input_label_wrap"
-                  label="category name"
+                  label="question title"
                   type="text"
                   placeholder="Enter text..."
-                  name="title"
-                  value={values.title}
+                  name="question_title"
+                  value={values.question_title}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  error={errors.title && touched.title && errors.title}
+                  error={
+                    errors.question_title &&
+                    touched.question_title &&
+                    errors.question_title
+                  }
                 />
                 <Input
                   className="input_label_wrap"
-                  label="date"
-                  type="date"
-                  name="date"
-                  value={values.date}
+                  label="answer"
+                  type="test"
+                  name="answer"
+                  placeholder="Enter text..."
+                  value={values.answer}
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  error={errors.date && touched.date && errors.date}
+                  error={errors.answer && touched.answer && errors.answer}
                 />
                 <BtnGroup className="common_btns">
-                  <Button
-                    title="add"
-                    type="submit"
-                    className="primary_btn"
-                    onClick={onSubmitHandler}
-                  />
+                  <Button title="add" type="submit" className="primary_btn" />
                   <Button
                     title="cancel"
                     type="button"

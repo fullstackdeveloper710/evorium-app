@@ -152,12 +152,7 @@ function Categories() {
                   error={errors.date && touched.date && errors.date}
                 />
                 <BtnGroup className="common_btns">
-                  <Button
-                    title="add"
-                    type="submit"
-                    className="primary_btn"
-                    onClick={onSubmitHandler}
-                  />
+                  <Button title="add" type="submit" className="primary_btn" />
                   <Button
                     title="cancel"
                     type="button"
