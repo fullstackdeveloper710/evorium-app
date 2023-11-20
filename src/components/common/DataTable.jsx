@@ -19,6 +19,7 @@ function ReactDataTable({
   onSearchChange,
   onDateChange,
   clearFilter,
+  addButton,
 }) {
   //Redux state
   const { loader } = useSelector((state) => state.app);
@@ -63,6 +64,7 @@ function ReactDataTable({
               )}
             </div>
           )}
+          {addButton && addButton}
         </div>
       }
       persistTableHead

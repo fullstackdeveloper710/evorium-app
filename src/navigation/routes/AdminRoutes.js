@@ -17,6 +17,7 @@ import {
   PrivacyPolicy,
   TermAndConditions,
   Support,
+  AddFaq,
 } from "../../pages/admin";
 import NotFound from "../../pages/common/NotFound";
 import { ROUTES } from "../constants";
@@ -39,6 +40,7 @@ const {
   adPrivacy,
   adTermConditions,
   adSupport,
+  adAddFaq,
 } = ROUTES;
 
 export const adminRoutes = [
@@ -125,8 +127,8 @@ export const adminRoutes = [
   {
     id: 10,
     type: "private",
-    path: adFaq,
-    Component: Faq,
+    path: adAddFaq,
+    Component: AddFaq,
     Auth: true,
     defaultComp: false,
   },
@@ -178,6 +180,7 @@ export const adminRoutes = [
     Auth: true,
     defaultComp: false,
   },
+
   {
     id: 17,
     type: "public",

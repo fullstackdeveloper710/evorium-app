@@ -16,11 +16,12 @@ export const ROUTES = {
   adPrivacy: "/backoffice/privacy-policy",
   adTermConditions: "/backoffice/terms-and-conditions",
   adSupport: "/backoffice/support",
+  adAddFaq: "/backoffice/add-faq",
 
   // user routes
   usrHome: "/",
   usrLogin: "/login",
-  usrSignUp:'/signup',
+  usrSignUp: "/signup",
   usrPrograms: "/Programs",
   usrResetPassword: "/reset_password",
   usrCreatePassword: "/create_new_password",

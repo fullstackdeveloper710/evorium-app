@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Row, DropdownButton, Dropdown} from "react-bootstrap";
+import { Row, DropdownButton, Dropdown } from "react-bootstrap";
 import { Pagination } from "../../components/admin";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -102,15 +102,24 @@ function ProgramListing() {
                           {/* <img src="" className="label-watch"/> */}
                         </div>
                         <div className="bottom-details">
-                          
-                    {/* btn drop_dow */}
-                    <DropdownButton className="btn_programs" id="dropdown-basic-button" title="...">
-                          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </DropdownButton>
-                        {/* btn drop_dow */}
-                                <p className="name">{speaker}</p>
+                          {/* btn drop_dow */}
+                          <DropdownButton
+                            className="btn_programs"
+                            id="dropdown-basic-button"
+                            title="..."
+                          >
+                            <Dropdown.Item href="#/action-1">
+                              Action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Another action
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-3">
+                              Something else
+                            </Dropdown.Item>
+                          </DropdownButton>
+                          {/* btn drop_dow */}
+                          <p className="name">{speaker}</p>
                           <Link to="#" className="link-card">
                             {description}
                           </Link>

@@ -15,6 +15,8 @@ import {
   searchAdminFaqList,
 } from "../../redux/thunk/admin/adFaqs";
 import { useConfirmation, useSearch } from "../../utility/hooks";
+import { ROUTES } from "../../navigation/constants";
+import { useNavigate } from "react-router";
 import "../../styles/admin/faqlisting.scss";
 function FaqListing() {
   //Redux state
@@ -24,6 +26,10 @@ function FaqListing() {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
+  const { adAddFaq } = ROUTES;
 
   //Custom hooks
   const { search, onSearchChange, onSearchHandler } = useSearch({
@@ -110,6 +116,14 @@ function FaqListing() {
         onSearch={onSearchHandler}
         onSearchChange={onSearchChange}
         search={search}
+        addButton={
+          <Button
+            type="button"
+            className="add_btn"
+            title="Add New"
+            onClick={() => navigate(adAddFaq)}
+          />
+        }
       />
     </div>
   );
