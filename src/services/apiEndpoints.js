@@ -52,7 +52,6 @@ const adminApi = {
   adGetPrivacyPolicy: "/admin/get_privacy_policy",
   adGetTermAndConditions: "/admin/get_terms_and_conditions",
   adGetSupport: "/admin/get_support",
-  adSearchFaq: "/admin/search_faq",
   adDelProgram: "/admin/delete_program",
   adGetProgram: "/admin/program",
   adGetPaymentList: "/admin/payments",

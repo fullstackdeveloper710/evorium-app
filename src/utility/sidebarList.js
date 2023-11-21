@@ -17,7 +17,6 @@ import {
 } from "../assets/icons/admin";
 
 const {
-  adLogin,
   adDashboard,
   adUserDetail,
   adUserList,
@@ -27,7 +26,6 @@ const {
   adTags,
   adPayment,
   adSpeaker,
-  adFaq,
   adFaqList,
   adAboutUs,
   adSocialLinks,

@@ -114,5 +114,5 @@ const userAuth = createSlice({
   },
 });
 
-export const {} = userAuth.actions;
+// export const {} = userAuth.actions;
 export default userAuth.reducer;

@@ -202,7 +202,7 @@ export const getMyAccount = createAsyncThunk(
   "user/getMyAccount",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { userAuthtoken, values } = data;
+    const { userAuthtoken } = data;
     try {
       const config = {
         method: "get",

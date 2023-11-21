@@ -86,5 +86,5 @@ const adminFaqsSlice = createSlice({
   },
 });
 
-export const {} = adminFaqsSlice.actions;
+// export const {} = adminFaqsSlice.actions;
 export default adminFaqsSlice.reducer;

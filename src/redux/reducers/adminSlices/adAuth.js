@@ -28,5 +28,5 @@ const adminAuthSlice = createSlice({
   },
 });
 
-export const {} = adminAuthSlice.actions;
+// export const {} = adminAuthSlice.actions;
 export default adminAuthSlice.reducer;

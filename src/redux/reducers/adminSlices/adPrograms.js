@@ -87,5 +87,5 @@ const adminProgramsSlice = createSlice({
   },
 });
 
-export const {} = adminProgramsSlice.actions;
+// export const {} = adminProgramsSlice.actions;
 export default adminProgramsSlice.reducer;

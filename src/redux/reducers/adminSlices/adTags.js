@@ -49,5 +49,5 @@ const adminTagsSlice = createSlice({
   },
 });
 
-export const {} = adminTagsSlice.actions;
+// export const {} = adminTagsSlice.actions;
 export default adminTagsSlice.reducer;

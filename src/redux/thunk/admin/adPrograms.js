@@ -40,7 +40,6 @@ export const searchAdminProgram = createAsyncThunk(
     const { dispatch } = thunkAPI;
     const {
       adminAuthtoken,
-      values,
       query: { search },
     } = data;
     try {
@@ -90,7 +89,7 @@ export const deleteAdminProgram = createAsyncThunk(
   "admin/deleteAdminProgram",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values, pagination } = data;
+    const { adminAuthtoken, values } = data;
     try {
       const config = {
         method: "delete",

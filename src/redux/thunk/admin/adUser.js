@@ -38,7 +38,7 @@ export const getAdminUserDetail = createAsyncThunk(
   "admin/getAdminUserDetail",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+    const { adminAuthtoken } = data;
     try {
       const config = {
         method: "get",

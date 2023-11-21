@@ -8,61 +8,64 @@ const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setFieldValue("video", file);
-    setLoading(true);
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setFieldValue("video", file);
+      setLoading(true);
 
-    const videoBlob = URL.createObjectURL(file);
+      const videoBlob = URL.createObjectURL(file);
 
-    const video = document.createElement("video");
-    video.src = videoBlob;
+      const video = document.createElement("video");
+      video.src = videoBlob;
 
-    video.addEventListener("loadeddata", async () => {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
+      video.addEventListener("loadeddata", async () => {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-      const thumbnailTimes = [0.25, 0.5];
-      const thumbnails = [];
+        const thumbnailTimes = [0.25, 0.5];
+        const thumbnails = [];
 
-      const captureFrame = async (time) => {
-        return await new Promise((resolve) => {
-          video.currentTime = (time / 100) * video.duration;
+        const captureFrame = async (time) => {
+          return await new Promise((resolve) => {
+            video.currentTime = (time / 100) * video.duration;
 
-          video.addEventListener("seeked", () => {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const thumbnailDataUrl = canvas.toDataURL("image/png");
-            thumbnails.push(thumbnailDataUrl);
-            resolve();
+            video.addEventListener("seeked", () => {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const thumbnailDataUrl = canvas.toDataURL("image/png");
+              thumbnails.push(thumbnailDataUrl);
+              resolve();
+            });
+
+            video.addEventListener("error", () => resolve());
           });
+        };
 
-          video.addEventListener("error", () => resolve());
-        });
-      };
+        let capturedFrames = 0;
+        const totalFrames = thumbnailTimes.length;
 
-      let capturedFrames = 0;
-      const totalFrames = thumbnailTimes.length;
+        const updateProgress = () => {
+          const progress = Math.floor((capturedFrames / totalFrames) * 100);
+          setUploadProgress(progress);
+        };
 
-      const updateProgress = () => {
-        const progress = Math.floor((capturedFrames / totalFrames) * 100);
-        setUploadProgress(progress);
-      };
+        for (const time of thumbnailTimes) {
+          await captureFrame(time);
+          capturedFrames++;
+          updateProgress();
+        }
 
-      for (const time of thumbnailTimes) {
-        await captureFrame(time);
-        capturedFrames++;
-        updateProgress();
-      }
-
-      setFieldValue("thumbnails", thumbnails);
-      video.pause();
-      setLoading(false);
-      setUploadProgress(0);
-    });
-  }, []);
+        setFieldValue("thumbnails", thumbnails);
+        video.pause();
+        setLoading(false);
+        setUploadProgress(0);
+      });
+    },
+    [setFieldValue]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,

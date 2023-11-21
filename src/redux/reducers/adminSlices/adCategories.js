@@ -66,5 +66,5 @@ const adminCategoriesSlice = createSlice({
   },
 });
 
-export const {} = adminCategoriesSlice.actions;
+// export const {} = adminCategoriesSlice.actions;
 export default adminCategoriesSlice.reducer;

@@ -23,7 +23,14 @@ const useSearch = ({ action, getDataAction, currentPage, itemsPerPage }) => {
       };
       dispatch(getDataAction(data));
     }
-  }, [search, dispatch]);
+  }, [
+    adminAuthtoken,
+    currentPage,
+    itemsPerPage,
+    search,
+    dispatch,
+    getDataAction,
+  ]);
 
   const onSearchChange = (e) => {
     const { value } = e.target;

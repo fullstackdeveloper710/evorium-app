@@ -43,5 +43,5 @@ const userProgramsSlice = createSlice({
   },
 });
 
-export const {} = userProgramsSlice.actions;
+// export const {} = userProgramsSlice.actions;
 export default userProgramsSlice.reducer;

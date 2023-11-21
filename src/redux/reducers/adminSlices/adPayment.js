@@ -69,5 +69,5 @@ const adminPaymentSlice = createSlice({
   },
 });
 
-export const {} = adminPaymentSlice.actions;
+// export const {} = adminPaymentSlice.actions;
 export default adminPaymentSlice.reducer;

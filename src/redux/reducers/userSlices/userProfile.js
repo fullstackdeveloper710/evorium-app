@@ -4,7 +4,7 @@ import { getMyAccount } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
-  userDetails:{}
+  userDetails: {},
 };
 
 const userProfileSlice = createSlice({
@@ -44,5 +44,5 @@ const userProfileSlice = createSlice({
   },
 });
 
-export const {} = userProfileSlice.actions;
+// export const {} = userProfileSlice.actions;
 export default userProfileSlice.reducer;

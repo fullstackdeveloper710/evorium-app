@@ -14,13 +14,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/user/header.scss";
 import { ROUTES } from "../../navigation/constants";
-import { useSelector } from "react-redux";
 
 function Header() {
   const [show, setShow] = useState(true);
-
-  //Redux state
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
 
   const navigate = useNavigate();
 

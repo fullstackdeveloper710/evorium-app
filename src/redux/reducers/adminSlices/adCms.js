@@ -168,5 +168,5 @@ const adminCmsSlice = createSlice({
   },
 });
 
-export const {} = adminCmsSlice.actions;
+// export const {} = adminCmsSlice.actions;
 export default adminCmsSlice.reducer;
