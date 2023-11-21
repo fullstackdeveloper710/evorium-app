@@ -65,8 +65,8 @@ function Header() {
                 <path
                   d="M3 7h18M3 12h18M3 17h18"
                   stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 ></path>
               </svg>
             </button>
