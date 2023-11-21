@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   forgotPassword,
-  getMyAccount,
   userFacebookLogin,
   userGoogleLogin,
   userLogin,

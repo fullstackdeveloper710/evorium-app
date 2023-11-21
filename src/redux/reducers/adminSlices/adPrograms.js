@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminTags } from "../../thunk/admin/adTags";
 import {
   addAdminProgram,
   deleteAdminProgram,
@@ -58,7 +57,6 @@ const adminProgramsSlice = createSlice({
         state.status = false;
       })
       .addCase(addAdminProgram.fulfilled, (state, action) => {
-        const { payload } = action;
         state.status = true;
       })
       .addCase(addAdminProgram.rejected, (state, action) => {
