@@ -11,6 +11,7 @@ import {
 const initialState = {
   status: false,
   userAuthtoken: null,
+  userData: { user_id: null },
 };
 
 const userAuth = createSlice({
@@ -47,6 +48,7 @@ const userAuth = createSlice({
         const { payload } = action;
         // state.loading = false;
         state.userAuthtoken = payload.access_token;
+        state.userData = { ...payload };
       })
       .addCase(userLogin.rejected, (state, action) => {
         // state.loading = false;

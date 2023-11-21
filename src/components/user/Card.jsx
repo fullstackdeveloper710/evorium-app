@@ -1,60 +1,21 @@
 import React from "react";
 import { Image } from "react-bootstrap";
 import { checked, paused } from "../../assets/icons/user";
-import { useNavigate } from "react-router";
-import { ROUTES } from "../../navigation/constants";
 
 const Card = (props) => {
   const {
     onClick,
     title,
-    img,
     video_duration,
     views,
     watched,
     description,
     subsType,
     amount,
-    url,
     thumbnail_url,
-    speaker,
-    episodes,
-    price,
-    key,
-    video_id,
-    course_type,
   } = props;
-  const navigate = useNavigate();
-
-  const data2send = {
-    video_id,
-    key,
-    title,
-    img,
-    video_duration,
-    views,
-    watched,
-    description,
-    subsType,
-    url,
-    thumbnail_url,
-    speaker,
-    episodes,
-    price,
-    course_type,
-  };
-
-  const { usrVideoPlayer } = ROUTES;
   return (
-    <div
-      onClick={() => {
-        onClick();
-        navigate(usrVideoPlayer, {
-          state: { data2send },
-        });
-      }}
-      className="subs-card free-card"
-    >
+    <div onClick={onClick} className="subs-card free-card">
       <div className="card-wrapper">
         <div className="img-wrap">
           {/* <ReactPlayer url={url} width={'100%'} light={true} className="bg-img"  /> */}

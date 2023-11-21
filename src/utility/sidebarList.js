@@ -54,7 +54,7 @@ const adminSidebarList = [
     activeFor: [adUserList, adUserDetail],
   },
   {
-    id: 3,
+    id: 3,    
     path: adSpeaker,
     title: "Speakers",
     icon: speakers,

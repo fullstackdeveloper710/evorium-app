@@ -10,12 +10,25 @@ import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { Elements } from "@stripe/react-stripe-js";
 import "../../styles/user/video.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { userViewCount } from "../../redux/thunk/user/usrCount";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
 );
 
 const VideoPlayer = () => {
+  const [showModal, setShowModal] = useState(false);
+  const [showPaymentModal, setShowPaymentModal] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const {
+    userAuthtoken,
+    userData: { user_id },
+  } = useSelector((state) => state.userAuth);
+  
+
+  const dispatch = useDispatch();
+
   const [IsExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {
     setIsExpanded(!IsExpanded);
@@ -29,17 +42,18 @@ const VideoPlayer = () => {
     thumbnail_url,
     description,
     title,
-    video_id,
+    videoId,
     speaker,
     episodes,
     price,
     course_type,
     video_duration,
     views,
-  } = data2send;
+  } = data2send.values;
+  console.log(data2send,"{data2send")
 
   const [itemsToLoad, setItemsToLoad] = useState(5);
-
+  const [startTime, setStartTime] = useState(0); // Initial start time in seconds
   const { show, handleClose, handleShow } = useModal();
   // );
   const loadMore = () => {
@@ -49,6 +63,41 @@ const VideoPlayer = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
 
+  const openModal = () => {
+    console.log("toogle workign");
+    setShowPaymentModal(!showPaymentModal);
+
+    console.log(showPaymentModal);
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+  };
+
+  const handlePlayPause = () => {
+    const data = {
+      userAuthtoken,
+      values: {
+        videoId: videoId,
+        userId: user_id,
+      },
+    };
+    console.log(data,"data")
+
+    dispatch(userViewCount(data)).then(({ payload }) => {
+      if (payload) {
+        setIsPlaying(!isPlaying);
+      }
+    });
+    // dispatch(userViewCount(data))
+  };
+  const handleSetStartTime = (timeInSeconds) => {
+    setStartTime(timeInSeconds);
+    // If the video is playing, seek to the new start time
+    if (isPlaying) {
+      playerRef.current.seekTo(timeInSeconds);
+    }
+  };
   return (
     <>
       <CustomModal
@@ -82,13 +131,19 @@ const VideoPlayer = () => {
                   <Image src={thumbnail_url} className="videoImg img-fluid" />
                 ) : (
                   <ReactPlayer
+                    // onPlay={handleClick}
+                    // onStart={handlePlayPause}
                     ref={playerRef}
-                    playing={true}
+                    playing={isPlaying}
                     controls={true}
-                    url={`http://api.evorium.xyz/user/web/video_stream/${video_id}`}
+                    url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
+                    onStart={() => playerRef.current.seekTo(startTime)} // Set initial start time
+
                   />
                 )}
-
+                <button onClick={handlePlayPause}>
+                  {isPlaying ? "Pause" : "Play"}
+                </button>
                 {/* {subscriptionType[1] == 'pro' &&  <div
                   style={{
                     backgroundColor: "transparent",
@@ -147,21 +202,58 @@ const VideoPlayer = () => {
                     <h4>Time Codes</h4>
 
                     <div className="timecodec__list">
-                      {episodes.map((i) => {
-                        return (
-                          <button className="timecodecBtn">
+                    {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+{/* 
+                      {episodes?.map((i) => {
+                        return ( */}
+                          <button className="timecodecBtn" onClick={() => handleSetStartTime(30)}>
                             <figure>
                               <Play />
                             </figure>
                             <div className="timecodecBtn__caption">
-                              <h2>{i.title}</h2>
-                              <span>{i.start}</span>
+                              {/* <h2>{i.title}</h2> */}
+                              <h2>introduction 1</h2>
+
+                              <span>30 sec</span>
                             </div>
                           </button>
-                        );
-                      })}
+                        {/* );
+                      })} */}
                     </div>
+                    <div className="timecodec__list">
+                    {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+{/* 
+                      {episodes?.map((i) => {
+                        return ( */}
+                          <button className="timecodecBtn" onClick={() => handleSetStartTime(60)}>
+                            <figure>
+                              <Play />
+                            </figure>
+                            <div className="timecodecBtn__caption">
+                              {/* <h2>{i.title}</h2> */}
+                              <h2>introduction 2</h2>
 
+                              <span>1 ,min</span>
+                            </div>
+                          </button>
+                        {/* );
+                      })} */}
+                    </div>
+                    <div className="timecodec__list">
+                 
+                          <button className="timecodecBtn" onClick={() => handleSetStartTime(90)}>
+                            <figure>
+                              <Play />
+                            </figure>
+                            <div className="timecodecBtn__caption">
+                        
+                              <h2>introduction 3</h2>
+
+                              <span>1.30 mins</span>
+                            </div>
+                          </button>
+                       
+                    </div>
                     {/* <div className="timecodec__list">
                         <button className="timecodecBtn">
                           <figure>
@@ -267,8 +359,8 @@ const VideoPlayer = () => {
           </div>
           <Row className="popular-row">
             {cardsData
-              .slice(0, itemsToLoad)
-              .map(
+              ?.slice(0, itemsToLoad)
+              ?.map(
                 (
                   {
                     id,
