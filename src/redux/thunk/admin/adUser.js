@@ -1,7 +1,12 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
-import { hideBtnLoader, hideLoader, showBtnLoader, showLoader } from "../../reducers/common/appSlice";
+import {
+  hideBtnLoader,
+  hideLoader,
+  showBtnLoader,
+  showLoader,
+} from "../../reducers/common/appSlice";
 
 const { adUserList, adUserDetail, adDelUser, adSearchUser, adFilterUser } =
   adminApi;
@@ -12,7 +17,6 @@ export const getAdminUserList = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { adminAuthtoken, values } = data;
-    console.log(data, "data");
     try {
       const config = {
         method: "get",

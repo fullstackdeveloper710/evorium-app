@@ -84,7 +84,6 @@ const UserProfile = () => {
   }, [userAuthtoken, dispatch]);
 
   const handleCountryChange = (selectedCountry) => {
-    console.log(selectedCountry);
     setSelectedCountry(selectedCountry);
   };
 
@@ -102,12 +101,6 @@ const UserProfile = () => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
   };
-  function submit() {
-    // console.log("login");
-    // setShow(true);
-    localStorage.setItem("login", true);
-    window.open("/programs", "_self");
-  }
 
   return (
     <>

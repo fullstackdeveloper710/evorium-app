@@ -47,7 +47,6 @@ const userAuth = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
       })
       .addCase(userLogin.rejected, (state, action) => {
@@ -90,7 +89,6 @@ const userAuth = createSlice({
       .addCase(userGoogleLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
       })
       .addCase(userGoogleLogin.rejected, (state, action) => {
@@ -107,7 +105,6 @@ const userAuth = createSlice({
       .addCase(userFacebookLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
       })
       .addCase(userFacebookLogin.rejected, (state, action) => {

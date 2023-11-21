@@ -86,7 +86,6 @@ function AddProgram() {
         },
       };
       dispatch(getAdminProgramById(data)).then(({ payload }) => {
-        console.log("get program by id api hit", payload);
         setInitValues((prevValues) => ({
           ...prevValues,
           ...payload.data,
@@ -114,7 +113,6 @@ function AddProgram() {
     delete data.values.selectedThumbnail;
     delete data.values.selectedEpisode;
 
-    console.log(data, "data here");
     dispatch(addAdminProgram(data));
   };
 
@@ -208,7 +206,6 @@ function AddProgram() {
           setFieldValue,
         }) => (
           <Form>
-            {console.log(values, "values")}
             <div className="add_program_form">
               <Row>
                 <Col md={7}>

@@ -18,9 +18,6 @@ const stripePromise = loadStripe(
 );
 
 const VideoPlayer = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-
   const [IsExpanded, setIsExpanded] = useState(false);
   const toggleExpand = () => {
     setIsExpanded(!IsExpanded);
@@ -43,7 +40,6 @@ const VideoPlayer = () => {
     views,
   } = data2send;
 
-  console.log("running");
   const [itemsToLoad, setItemsToLoad] = useState(5);
 
   const { show, handleClose, handleShow } = useModal();
@@ -55,16 +51,6 @@ const VideoPlayer = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
 
-  const openModal = () => {
-    console.log("toogle workign");
-    setShowPaymentModal(!showPaymentModal);
-
-    console.log(showPaymentModal);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
-  };
   return (
     <>
       <CustomModal
@@ -94,8 +80,6 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                {console.log(course_type, "video_id")}
-
                 {course_type === "Paid" ? (
                   <Image src={thumbnail_url} className="videoImg img-fluid" />
                 ) : (
@@ -164,7 +148,6 @@ const VideoPlayer = () => {
                   <div className="videoWrapper__caption__timecodec">
                     <h4>Time Codes</h4>
 
-                    {console.log(episodes, "episodes")}
                     <div className="timecodec__list">
                       {episodes.map((i) => {
                         return (

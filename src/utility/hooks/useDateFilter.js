@@ -42,7 +42,6 @@ const useDateFilter = ({ action }) => {
   };
 
   const clearFilter = () => {
-    console.log("clear filter");
     setDateFilter({
       startDate: "",
       endDate: "",

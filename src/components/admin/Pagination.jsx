@@ -25,7 +25,6 @@ function Pagination(props) {
             }`}
             onClick={() => {
               onSelectPage(index + 1);
-              console.log(props, "propsprops");
             }}
           >
             {index + 1}
