@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,8 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { BtnGroup, Button, ConfirmPopUp, Input } from "../../components/common";
 import ReactDataTable from "../../components/common/DataTable";
-import { useConfirmation } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/categories.scss";
 function Categories() {
   //Redux state
@@ -25,6 +26,16 @@ function Categories() {
 
   //Custom hooks
   const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage });
+
+  const {
     setId,
     showConfirm,
     handleConfirmShow,
@@ -33,6 +44,8 @@ function Categories() {
   } = useConfirmation({
     action: deleteAdminCategory,
   });
+
+  useFetch({ action: getAdminCategories, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {
@@ -47,16 +60,16 @@ function Categories() {
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminCategories(data));
-  }, [adminAuthtoken, dispatch]);
+  // useEffect(() => {
+  //   const data = {
+  //     adminAuthtoken,
+  //     values: {
+  //       pageNo: 1,
+  //       pageSize: 4,
+  //     },
+  //   };
+  //   dispatch(getAdminCategories(data));
+  // }, [adminAuthtoken, dispatch]);
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -152,12 +165,7 @@ function Categories() {
                   error={errors.date && touched.date && errors.date}
                 />
                 <BtnGroup className="common_btns">
-                  <Button
-                    title="add"
-                    type="submit"
-                    className="primary_btn"
-                    onClick={onSubmitHandler}
-                  />
+                  <Button title="add" type="submit" className="primary_btn" />
                   <Button
                     title="cancel"
                     type="button"
@@ -177,6 +185,15 @@ function Categories() {
         pagination={true}
         subHeader={true}
         header="Categories Logs"
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

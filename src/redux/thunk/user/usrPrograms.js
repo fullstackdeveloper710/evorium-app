@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const {usrPrograms}= userApi;
+const { usrPrograms } = userApi;
 
 // get USER categories list thunk
 export const getUserProgramList = createAsyncThunk(
@@ -11,8 +11,6 @@ export const getUserProgramList = createAsyncThunk(
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { userAuthtoken, values } = data;
-    console.log(data,"data here")
-    console.log(values,"values")
     try {
       const config = {
         method: "get",
@@ -28,4 +26,3 @@ export const getUserProgramList = createAsyncThunk(
     }
   }
 );
-

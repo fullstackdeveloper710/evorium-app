@@ -10,7 +10,7 @@ export const getAdminDashStats = createAsyncThunk(
   "admin/getAdminDashStats",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+    const { adminAuthtoken } = data;
     try {
       const config = {
         method: "get",

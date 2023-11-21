@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { Col, Row, Table, Image } from "react-bootstrap";
+import React from "react";
+import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -18,7 +18,8 @@ import {
   Input,
   ReactDataTable,
 } from "../../components/common";
-import { useConfirmation } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 function Tags() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -39,6 +40,18 @@ function Tags() {
     action: deleteAdminTag,
   });
 
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage });
+
+  useFetch({ action: getAdminTags, currentPage, itemsPerPage });
+
   //Formik initial state
   const initValues = {
     title: "",
@@ -52,16 +65,16 @@ function Tags() {
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminTags(data));
-  }, []);
+  // useEffect(() => {
+  //   const data = {
+  //     adminAuthtoken,
+  //     values: {
+  //       pageNo: 1,
+  //       pageSize: 4,
+  //     },
+  //   };
+  //   dispatch(getAdminTags(data));
+  // }, []);
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -184,6 +197,15 @@ function Tags() {
         pagination={true}
         header="Tags Logs"
         subHeader={true}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

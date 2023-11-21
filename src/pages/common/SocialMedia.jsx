@@ -47,7 +47,6 @@ const SocialMedia = () => {
   const { usrPrograms } = ROUTES;
 
   const onSubmitHandler = (values) => {
-    console.log(values, " google signup------------");
     const data = {
       values: {
         idToken: values.credential,
@@ -60,7 +59,6 @@ const SocialMedia = () => {
   };
   // facebook
   const onSubmitHandlerFacebook = (values) => {
-    console.log(values, " facebook signup------------");
     const data = {
       values: {
         access_token: values.access_token,
@@ -93,8 +91,7 @@ const SocialMedia = () => {
                   onResolve={({ provider, data }) => {
                     setProvider(provider);
                     setProfile(data);
-                    console.log(data, "data");
-                    console.log(provider, "provider");
+
                     onSubmitHandlerFacebook(data);
                   }}
                   onReject={(err) => {

@@ -25,6 +25,7 @@ const Navigation = () => {
               />
             );
           }
+          return null;
         })}
       </Route>
       {/* user routes */}
@@ -40,6 +41,7 @@ const Navigation = () => {
               />
             );
           }
+          return null;
         })}
       </Route>
 
@@ -56,6 +58,7 @@ const Navigation = () => {
               />
             );
           }
+          return null;
         })}
       </Route>
 
@@ -71,6 +74,7 @@ const Navigation = () => {
               />
             );
           }
+          return null;
         })}
       </Route>
     </Routes>

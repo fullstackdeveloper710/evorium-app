@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   deleteAdminUser,
   filterAdminUserbyDate,
@@ -13,21 +13,34 @@ import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
-import { useSearch, useDateFilter, useConfirmation } from "../../utility/hooks";
+import {
+  useSearch,
+  useDateFilter,
+  useConfirmation,
+  usePagination,
+  useFetch,
+} from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/user.scss";
 
 function UserList() {
   //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminUsers } = useSelector((state) => state.adUser);
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
 
   //Router functions
   const navigate = useNavigate();
 
   //Custom hooks
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage });
+
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminUserList,
   });
@@ -46,23 +59,12 @@ function UserList() {
     action: deleteAdminUser,
   });
 
+  useFetch({ search, action: getAdminUserList, currentPage, itemsPerPage });
+
   //Methods
   const onViewHandler = (id) => {
     navigate(ROUTES.adUserDetail, { state: { id: id } });
   };
-
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminUserList(data));
-    }
-  }, [search]);
 
   //Datatable columns
   const columns = [
@@ -156,6 +158,15 @@ function UserList() {
         // onDateFilter={onDateFilterHandler}
         clearFilter={clearFilter}
         search={search}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

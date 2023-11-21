@@ -1,25 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button } from "../../components/user";
-import {
-  UserIcon,
-  CameraIcon,
-  EyeLock,
-  DownArrow,
-} from "../../assets/icons/user";
+import { UserIcon, CameraIcon, EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { getMyAccount } from "../../redux/thunk/user/usrMain";
-import { ROUTES } from "../../navigation/constants";
 import { userEditProfile } from "../../redux/thunk/user/usrProfile";
-import { useLocation, useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
 import { Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
-  const [show, setShow] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
 
   //Redux state
@@ -28,11 +20,6 @@ const UserProfile = () => {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
-
-  //Router functions
-  const navigate = useNavigate();
-  const location = useLocation();
-  const { state } = location;
 
   //country selebox options
   const CountryOptions = [
@@ -84,7 +71,6 @@ const UserProfile = () => {
   }, [userAuthtoken, dispatch]);
 
   const handleCountryChange = (selectedCountry) => {
-    console.log(selectedCountry);
     setSelectedCountry(selectedCountry);
   };
 
@@ -102,12 +88,6 @@ const UserProfile = () => {
     const file = event.target.files[0];
     setSelectedImage(URL.createObjectURL(file));
   };
-  function submit() {
-    // console.log("login");
-    // setShow(true);
-    localStorage.setItem("login", true);
-    window.open("/programs", "_self");
-  }
 
   return (
     <>

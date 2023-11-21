@@ -48,7 +48,6 @@ function Programs() {
         course_type: "Free",
       },
     };
-    // console.log
     dispatch(getUserProgramList(data));
 
     const data_for_Paid = {
@@ -70,8 +69,6 @@ function Programs() {
   // const datapro = cardsData.filter((item) => {
   //   return item.subsType === "pro";
   // });
-
-  // console.log(data,"data")
 
   function cardClick(data) {
     navigate(usrVideoPlayer);

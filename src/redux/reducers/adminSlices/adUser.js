@@ -90,5 +90,5 @@ const adminUserSlice = createSlice({
   },
 });
 
-export const {} = adminUserSlice.actions;
+// export const {} = adminUserSlice.actions;
 export default adminUserSlice.reducer;

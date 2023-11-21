@@ -19,7 +19,6 @@ const useConfirmation = ({ action }) => {
     setShowConfirm(false);
   };
   const onConfirmHandler = () => {
-    console.log("confirmation called", id);
     const data = {
       adminAuthtoken,
       values: {

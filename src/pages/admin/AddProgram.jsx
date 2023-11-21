@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Col, Row } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { FieldArray, Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -14,22 +14,14 @@ import {
 import SelectBox from "../../components/common/SelectBox";
 import RadioBtn from "../../components/common/RadioBtn";
 import RadioGroup from "../../components/common/RadioGroup";
-import { addAdminProgram } from "../../redux/thunk/admin/adPrograms";
+import {
+  addAdminProgram,
+  getAdminProgramById,
+} from "../../redux/thunk/admin/adPrograms";
 import "../../styles/admin/addprogram.scss";
 
 function AddProgram() {
-  //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
-
-  //Router functions
-  const navigate = useNavigate();
-  const { adProgramList } = ROUTES;
-
-  //Formik initial state
-  const initValues = {
+  const [initValues, setInitValues] = useState({
     title: "",
     description: "",
     category: "",
@@ -42,7 +34,19 @@ function AddProgram() {
     video: "",
     selectedThumbnail: "",
     thumbnails: [],
-  };
+  });
+
+  //Redux state
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { state } = location;
+  const { adProgramList } = ROUTES;
 
   //Yup validation schema
   const validationSchema = Yup.object().shape({
@@ -72,6 +76,24 @@ function AddProgram() {
   });
 
   //Methods
+
+  useEffect(() => {
+    if (state?.id) {
+      const data = {
+        adminAuthtoken,
+        query: {
+          id: state.id,
+        },
+      };
+      dispatch(getAdminProgramById(data)).then(({ payload }) => {
+        setInitValues((prevValues) => ({
+          ...prevValues,
+          ...payload.data,
+          episodes: [],
+        }));
+      });
+    }
+  }, [state]);
   const onSubmitHandler = (val) => {
     const data = {
       adminAuthtoken,
@@ -91,7 +113,6 @@ function AddProgram() {
     delete data.values.selectedThumbnail;
     delete data.values.selectedEpisode;
 
-    console.log(data, "data here");
     dispatch(addAdminProgram(data));
   };
 
@@ -165,9 +186,14 @@ function AddProgram() {
             ></path>
           </svg>
         </Link>
-        Add New Program
+        {state?.id ? "Update Program" : "Add New Program"}
       </h3>{" "}
-      <Formik initialValues={initValues} validationSchema={validationSchema}>
+      <Formik
+        enableReinitialize={true}
+        initialValues={initValues}
+        validationSchema={validationSchema}
+        onSubmit={onSubmitHandler}
+      >
         {({
           values,
           resetForm,
@@ -179,7 +205,7 @@ function AddProgram() {
           handleBlur,
           setFieldValue,
         }) => (
-          <Form onSubmit={handleSubmit}>
+          <Form>
             <div className="add_program_form">
               <Row>
                 <Col md={7}>
@@ -458,10 +484,10 @@ function AddProgram() {
 
                     <BtnGroup className="common_btns">
                       <Button
-                        title="Save"
+                        title={state?.id ? "Update" : "Save"}
                         type="submit"
                         className="primary_btn"
-                        onClick={() => onSubmitHandler(values)}
+                        // onClick={() => onSubmitHandler(values)}
                       />
                       <Button
                         title="cancel"
@@ -474,6 +500,7 @@ function AddProgram() {
                 </Col>
                 <Col md={5}>
                   <VideoUploader
+                    disabled={true}
                     video={values.video}
                     setFieldValue={setFieldValue}
                     thumbnails={values.thumbnails}

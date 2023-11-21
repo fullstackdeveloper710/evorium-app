@@ -24,7 +24,6 @@ export const userSignUp = createAsyncThunk(
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
-      console.log("error", error);
       thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -91,7 +90,6 @@ export const resetPassword = createAsyncThunk(
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
-      console.log("error", error);
       thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -116,7 +114,6 @@ export const forgotPassword = createAsyncThunk(
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
-      console.log("error", error);
       thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -144,7 +141,6 @@ export const userVerifyNum = createAsyncThunk(
       thunkAPI.dispatch(hideLoader());
       return response;
     } catch (error) {
-      console.log("error", error);
       thunkAPI.dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -206,9 +202,7 @@ export const getMyAccount = createAsyncThunk(
   "user/getMyAccount",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { userAuthtoken, values } = data;
-    console.log(data, "data here");
-    console.log(values, "values");
+    const { userAuthtoken } = data;
     try {
       const config = {
         method: "get",

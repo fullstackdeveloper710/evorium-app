@@ -22,7 +22,6 @@ const ResetPassword = () => {
   });
 
   function submit() {
-    // console.log("login");
     // localStorage.setItem('login',true)
 
     setShow(true);
@@ -32,10 +31,9 @@ const ResetPassword = () => {
     window.open("/create_new_password", "_self");
   }
 
-  const { usrCreatePassword,usrLogin } = ROUTES;
+  const { usrCreatePassword, usrLogin } = ROUTES;
 
   const onSubmitHandler = (values) => {
-    console.log(values, "forget  password-----------%%");
     const data = {
       ...values,
     };
@@ -110,9 +108,7 @@ const ResetPassword = () => {
                   <Col md="12">
                     <p className="newUserLink">
                       Remember your Password?
-                      <span onClick={() =>  navigate(usrLogin)}>
-                        Login
-                      </span>
+                      <span onClick={() => navigate(usrLogin)}>Login</span>
                     </p>
                   </Col>
                 </Row>

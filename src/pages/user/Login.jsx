@@ -45,7 +45,6 @@ const Login = () => {
   //Methods
 
   const onSubmitHandler = (values) => {
-    console.log(values, "values%%");
     const data = { values };
     dispatch(userLogin(data)).then(({ payload }) => {
       if (payload.status) {

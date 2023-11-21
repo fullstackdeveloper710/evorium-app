@@ -52,12 +52,15 @@ const adminApi = {
   adGetPrivacyPolicy: "/admin/get_privacy_policy",
   adGetTermAndConditions: "/admin/get_terms_and_conditions",
   adGetSupport: "/admin/get_support",
-  adSearchFaq: "/admin/search_faq",
+  adDelProgram: "/admin/delete_program",
+  adGetProgram: "/admin/program",
+  adGetPaymentList: "/admin/payments",
+  adSearchPayment: "/admin/search_payments",
+  adFilterPayment: "admin/filter_payments",
+  adGetPaymentDetail: "",
 
   //pending
-  adDelProgram: "/admin/delete_program/:id",
-  adGetProgram: "/admin/program/id",
   adUpdateProgram: "/admin/program/id",
 };
 
-export { userApi, adminApi,commonApi };
+export { userApi, adminApi, commonApi };

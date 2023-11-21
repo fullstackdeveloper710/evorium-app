@@ -4,23 +4,22 @@ import { adminApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
 const {
-  adPrograms,
-  adSearchProgram,
-  adAddProgram,
-  adDelProgram,
-  adGetProgram,
+  adGetPaymentList,
+  adSearchPayment,
+  adFilterPayment,
+  adGetPaymentDetail,
 } = adminApi;
 
-// get admin program list thunk
-export const getAdminProgramList = createAsyncThunk(
-  "admin/getAdminProgramList",
+// get admin Payment list thunk
+export const getAdminPaymentList = createAsyncThunk(
+  "admin/getAdminPaymentList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+    const { adminAuthtoken } = data;
     try {
       const config = {
         method: "get",
-        url: `${adPrograms}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
+        url: `${adGetPaymentList}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
@@ -33,9 +32,31 @@ export const getAdminProgramList = createAsyncThunk(
   }
 );
 
-// search admin program
-export const searchAdminProgram = createAsyncThunk(
-  "admin/searchAdminProgram",
+// get admin payment detail thunk
+export const getAdminPaymentDetail = createAsyncThunk(
+  "admin/getAdminPaymentDetail",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken } = data;
+    try {
+      const config = {
+        method: "get",
+        url: `${adGetPaymentDetail}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// search admin payment list thunk
+export const searchAdminPaymentList = createAsyncThunk(
+  "admin/searchAdminPaymentList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const {
@@ -45,7 +66,7 @@ export const searchAdminProgram = createAsyncThunk(
     try {
       const config = {
         method: "get",
-        url: `${adSearchProgram}?query=${search}`,
+        url: `${adSearchPayment}?query=${search}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
@@ -58,64 +79,19 @@ export const searchAdminProgram = createAsyncThunk(
   }
 );
 
-// add admin program
-export const addAdminProgram = createAsyncThunk(
-  "admin/addAdminProgram",
+// filter admin payment list thunk
+export const filterAdminPaymentbyDate = createAsyncThunk(
+  "admin/filterAdminPaymentbyDate",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
-    try {
-      const config = {
-        method: "post",
-        url: `${adAddProgram}`,
-        data: values,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      };
-      dispatch(showLoader());
-      const response = await httpsClient(config, adminAuthtoken);
-      dispatch(hideLoader());
-      return response;
-    } catch (error) {
-      dispatch(hideLoader());
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-// delete admin program
-export const deleteAdminProgram = createAsyncThunk(
-  "admin/deleteAdminProgram",
-  async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
-    try {
-      const config = {
-        method: "delete",
-        url: `${adDelProgram}/${values.id}`,
-      };
-      dispatch(showLoader());
-      const response = await httpsClient(config, adminAuthtoken);
-      dispatch(hideLoader());
-      return response;
-    } catch (error) {
-      dispatch(hideLoader());
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-// get admin program by id thunk
-export const getAdminProgramById = createAsyncThunk(
-  "admin/getAdminProgramById",
-  async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const { adminAuthtoken, query } = data;
+    const {
+      adminAuthtoken,
+      query: { startDate, endDate },
+    } = data;
     try {
       const config = {
         method: "get",
-        url: `${adGetProgram}/${query.id}`,
+        url: `${adFilterPayment}?startDate=${startDate}&endDate=${endDate}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);

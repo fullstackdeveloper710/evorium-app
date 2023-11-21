@@ -17,7 +17,6 @@ import {
 } from "../assets/icons/admin";
 
 const {
-  adLogin,
   adDashboard,
   adUserDetail,
   adUserList,
@@ -27,13 +26,13 @@ const {
   adTags,
   adPayment,
   adSpeaker,
-  adFaq,
   adFaqList,
   adAboutUs,
   adSocialLinks,
   adPrivacy,
   adTermConditions,
   adSupport,
+  adAddFaq,
 } = ROUTES;
 
 //admin sidebar tab list
@@ -100,11 +99,11 @@ const adminSidebarList = [
     title: "FAQ’s",
     icon: faqs,
     type: "link",
-    activeFor: [adFaqList],
+    activeFor: [adFaqList, adAddFaq],
   },
   {
     id: 9,
-    path:adSocialLinks,
+    path: adSocialLinks,
     title: "Social Media Link’s",
     icon: sociallinks,
     type: "link",
@@ -112,7 +111,7 @@ const adminSidebarList = [
   },
   {
     id: 10,
-    path:adAboutUs,
+    path: adAboutUs,
     title: "About Us",
     icon: about,
     type: "link",

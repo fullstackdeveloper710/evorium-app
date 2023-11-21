@@ -19,7 +19,8 @@ import {
   ConfirmPopUp,
 } from "../../components/common";
 import "../../styles/admin/categories.scss";
-import { useConfirmation } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -31,6 +32,16 @@ function Speaker() {
 
   //Custom hooks
   const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage });
+
+  const {
     setId,
     showConfirm,
     handleConfirmShow,
@@ -39,6 +50,8 @@ function Speaker() {
   } = useConfirmation({
     action: deleteAdminSpeaker,
   });
+
+  useFetch({ action: getAdminSpeakers, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {
@@ -53,17 +66,6 @@ function Speaker() {
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminSpeakers(data));
-  }, [adminAuthtoken, dispatch]);
-
   const onSubmitHandler = (values) => {
     const data = {
       adminAuthtoken,
@@ -209,6 +211,15 @@ function Speaker() {
         pagination={true}
         header="Speakers Logs"
         subHeader={true}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

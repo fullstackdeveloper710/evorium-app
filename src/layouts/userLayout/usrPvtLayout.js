@@ -1,5 +1,5 @@
 import React from "react";
-import { FooterEvorium, Header, SideBar } from "../../components/user";
+import { Header } from "../../components/user";
 import { Navigate, Outlet } from "react-router-dom";
 import "../../styles/user/global.scss";
 import { useSelector } from "react-redux";
