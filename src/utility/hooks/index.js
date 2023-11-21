@@ -4,6 +4,7 @@ import useModal from "./useModal";
 import useCmsEditor from "./useCmsEditor";
 import usePagination from "./usePagination";
 import useConfirmation from "./useConfirmation";
+import useFetch from "./useFetch";
 
 export {
   useSearch,
@@ -12,4 +13,5 @@ export {
   useCmsEditor,
   usePagination,
   useConfirmation,
+  useFetch,
 };

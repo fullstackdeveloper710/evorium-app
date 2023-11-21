@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,7 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { BtnGroup, Button, ConfirmPopUp, Input } from "../../components/common";
 import ReactDataTable from "../../components/common/DataTable";
-import { useConfirmation, usePagination } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/categories.scss";
 function Categories() {
@@ -33,7 +33,7 @@ function Categories() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminCategories });
+  } = usePagination({ totalItems, itemsPerPage });
 
   const {
     setId,
@@ -44,6 +44,8 @@ function Categories() {
   } = useConfirmation({
     action: deleteAdminCategory,
   });
+
+  useFetch({ action: getAdminCategories, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {

@@ -34,16 +34,6 @@ const usePagination = ({ totalItems, itemsPerPage, action }) => {
     setCurrentPage(newCurrentPage);
   };
 
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: currentPage,
-        pageSize: 4,
-      },
-    };
-    dispatch(action(data));
-  }, [adminAuthtoken, currentPage, dispatch, action]);
   return {
     currentPage,
     totalPages,

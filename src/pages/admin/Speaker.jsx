@@ -19,7 +19,7 @@ import {
   ConfirmPopUp,
 } from "../../components/common";
 import "../../styles/admin/categories.scss";
-import { useConfirmation, usePagination } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 function Speaker() {
   //Redux state
@@ -39,7 +39,7 @@ function Speaker() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminSpeakers });
+  } = usePagination({ totalItems, itemsPerPage });
 
   const {
     setId,
@@ -50,6 +50,8 @@ function Speaker() {
   } = useConfirmation({
     action: deleteAdminSpeaker,
   });
+
+  useFetch({ action: getAdminSpeakers, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {
@@ -64,17 +66,6 @@ function Speaker() {
   });
 
   //Methods
-  // useEffect(() => {
-  //   const data = {
-  //     adminAuthtoken,
-  //     values: {
-  //       pageNo: 1,
-  //       pageSize: 4,
-  //     },
-  //   };
-  //   dispatch(getAdminSpeakers(data));
-  // }, [adminAuthtoken, dispatch]);
-
   const onSubmitHandler = (values) => {
     const data = {
       adminAuthtoken,

@@ -18,7 +18,7 @@ import {
   Input,
   ReactDataTable,
 } from "../../components/common";
-import { useConfirmation, usePagination } from "../../utility/hooks";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 function Tags() {
   //Redux state
@@ -48,7 +48,9 @@ function Tags() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminTags });
+  } = usePagination({ totalItems, itemsPerPage });
+
+  useFetch({ action: getAdminTags, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {

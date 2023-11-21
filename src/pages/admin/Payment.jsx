@@ -4,7 +4,12 @@ import { view } from "../../assets/icons/admin";
 import { ReactDataTable } from "../../components/common";
 import { dateFormater } from "../../utility/methods";
 import { useSelector } from "react-redux";
-import { useDateFilter, usePagination, useSearch } from "../../utility/hooks";
+import {
+  useDateFilter,
+  useFetch,
+  usePagination,
+  useSearch,
+} from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 import {
   filterAdminPaymentbyDate,
@@ -25,18 +30,17 @@ function Payment() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminPaymentList });
+  } = usePagination({ totalItems, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminPaymentList,
-    getDataAction: getAdminPaymentList,
-    currentPage,
-    itemsPerPage,
   });
 
   const { dateFilter, onDateChange, clearFilter } = useDateFilter({
     action: filterAdminPaymentbyDate,
   });
+
+  useFetch({ search, action: getAdminPaymentList, currentPage, itemsPerPage });
 
   //Datatable columns
   const columns = [

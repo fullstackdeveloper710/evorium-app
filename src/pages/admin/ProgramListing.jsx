@@ -12,7 +12,12 @@ import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
 import { Button, ConfirmPopUp } from "../../components/common";
-import { useConfirmation, usePagination, useSearch } from "../../utility/hooks";
+import {
+  useConfirmation,
+  useFetch,
+  usePagination,
+  useSearch,
+} from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 import { useSelector } from "react-redux";
 function ProgramListing() {
@@ -44,10 +49,9 @@ function ProgramListing() {
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminProgram,
-    getDataAction: getAdminProgramList,
-    currentPage,
-    itemsPerPage,
   });
+
+  useFetch({ search, action: getAdminProgramList, currentPage, itemsPerPage });
 
   //Router functions
   const navigate = useNavigate();

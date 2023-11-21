@@ -1,5 +1,5 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
+import { useSelector } from "react-redux";
 import {
   deleteAdminUser,
   filterAdminUserbyDate,
@@ -18,17 +18,14 @@ import {
   useDateFilter,
   useConfirmation,
   usePagination,
+  useFetch,
 } from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/user.scss";
 
 function UserList() {
   //Redux state
-  // const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminUsers } = useSelector((state) => state.adUser);
-
-  //Redux action dispatcher
-  // const dispatch = useDispatch();
 
   //Router functions
   const navigate = useNavigate();
@@ -42,13 +39,10 @@ function UserList() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminUserList });
+  } = usePagination({ totalItems, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminUserList,
-    getDataAction: getAdminUserList,
-    currentPage,
-    itemsPerPage,
   });
 
   const { dateFilter, onDateChange, clearFilter } = useDateFilter({
@@ -65,23 +59,12 @@ function UserList() {
     action: deleteAdminUser,
   });
 
+  useFetch({ search, action: getAdminUserList, currentPage, itemsPerPage });
+
   //Methods
   const onViewHandler = (id) => {
     navigate(ROUTES.adUserDetail, { state: { id: id } });
   };
-
-  // useEffect(() => {
-  //   if (search === "") {
-  //     const data = {
-  //       adminAuthtoken,
-  //       values: {
-  //         pageNo: currentPage,
-  //         pageSize: itemsPerPage,
-  //       },
-  //     };
-  //     dispatch(getAdminUserList(data));
-  //   }
-  // }, [search]);
 
   //Datatable columns
   const columns = [

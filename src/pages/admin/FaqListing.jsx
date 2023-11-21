@@ -14,7 +14,12 @@ import {
   getAdminFaqs,
   searchAdminFaqList,
 } from "../../redux/thunk/admin/adFaqs";
-import { useConfirmation, usePagination, useSearch } from "../../utility/hooks";
+import {
+  useConfirmation,
+  useFetch,
+  usePagination,
+  useSearch,
+} from "../../utility/hooks";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import { totalItems, itemsPerPage } from "../../utility/methods";
@@ -41,14 +46,13 @@ function FaqListing() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminFaqs });
+  } = usePagination({ totalItems, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminFaqList,
-    getDataAction: getAdminFaqs,
-    currentPage,
-    itemsPerPage,
   });
+
+  useFetch({ search, action: getAdminFaqs, currentPage, itemsPerPage });
 
   const {
     setId,
