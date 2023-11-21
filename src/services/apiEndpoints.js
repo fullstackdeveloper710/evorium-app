@@ -13,8 +13,7 @@ const userApi = {
 
   //pending
   usrRefreshToken: "/user/refresh_token",
-  // usrForgetPass: "/user/forget_password",
-  // usrResetPass: "/user/reset_password/:token",
+
 };
 
 const commonApi = {
