@@ -1,20 +1,43 @@
-import React from 'react';
-import '../../styles/admin/pagination.scss';
+import React from "react";
+import "../../styles/admin/pagination.scss";
 
-function Pagination() {
+function Pagination(props) {
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = props.paginationComponentOptions;
+
   return (
-    <div className='pagination_section'>
-       <div className='pagination_link'>
-          <button className='pre_btn'>Previous</button>
-          <button className='pagination_btn active'>1</button>
-          <button className='pagination_btn'>2</button>
-          <button className='pagination_btn'>3</button>
-          <button className='pagination_btn'>4</button>
-          <button className='next_btn'>Next</button>
-       </div>
+    <div className="pagination_section">
+      <div className="pagination_link">
+        <button className="pre_btn" onClick={prevPage}>
+          Previous
+        </button>
+        {Array.from({ length: totalPages }, (_, index) => (
+          <button
+            className={`pagination_btn ${
+              currentPage === index + 1 ? "active" : ""
+            }`}
+            onClick={() => {
+              onSelectPage(index + 1);
+              console.log(props, "propsprops");
+            }}
+          >
+            {index + 1}
+          </button>
+        ))}
+
+        <button className="next_btn" onClick={nextPage}>
+          Next
+        </button>
+      </div>
     </div>
-  )
+  );
 }
 
-export default Pagination
-
+export default Pagination;

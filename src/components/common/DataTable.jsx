@@ -20,18 +20,18 @@ function ReactDataTable({
   onDateChange,
   clearFilter,
   addButton,
+  paginationFields,
 }) {
   //Redux state
   const { loader } = useSelector((state) => state.app);
 
   //Paginations options
   const paginationComponentOptions = {
-    rowsPerPageText: "Filas por página",
-    rangeSeparatorText: "de",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "Todos",
+    ...paginationFields,
   };
 
+  // const { currentData, currentPage, totalPages, nextPage, prevPage, goToPage } =
+  //   paginationFields;
   return (
     <DataTable
       // fixedHeader
@@ -71,6 +71,9 @@ function ReactDataTable({
       paginationResetDefaultPage={true}
       paginationComponent={Pagination}
       paginationComponentOptions={paginationComponentOptions}
+      // paginationPerPage={5}
+      // paginationRowsPerPageOptions={[10, 25, 50, 100]}
+      // paginationDefaultPage={currentPage}
     />
   );
 }

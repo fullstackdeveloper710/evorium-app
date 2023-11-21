@@ -12,7 +12,8 @@ import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { BtnGroup, Button, ConfirmPopUp, Input } from "../../components/common";
 import ReactDataTable from "../../components/common/DataTable";
-import { useConfirmation } from "../../utility/hooks";
+import { useConfirmation, usePagination } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/categories.scss";
 function Categories() {
   //Redux state
@@ -24,6 +25,16 @@ function Categories() {
   const dispatch = useDispatch();
 
   //Custom hooks
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage, action: getAdminCategories });
+
   const {
     setId,
     showConfirm,
@@ -47,16 +58,16 @@ function Categories() {
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminCategories(data));
-  }, [adminAuthtoken, dispatch]);
+  // useEffect(() => {
+  //   const data = {
+  //     adminAuthtoken,
+  //     values: {
+  //       pageNo: 1,
+  //       pageSize: 4,
+  //     },
+  //   };
+  //   dispatch(getAdminCategories(data));
+  // }, [adminAuthtoken, dispatch]);
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -172,6 +183,15 @@ function Categories() {
         pagination={true}
         subHeader={true}
         header="Categories Logs"
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

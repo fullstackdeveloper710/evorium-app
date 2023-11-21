@@ -19,7 +19,8 @@ import {
   ConfirmPopUp,
 } from "../../components/common";
 import "../../styles/admin/categories.scss";
-import { useConfirmation } from "../../utility/hooks";
+import { useConfirmation, usePagination } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -30,6 +31,16 @@ function Speaker() {
   const dispatch = useDispatch();
 
   //Custom hooks
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage, action: getAdminSpeakers });
+
   const {
     setId,
     showConfirm,
@@ -53,16 +64,16 @@ function Speaker() {
   });
 
   //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminSpeakers(data));
-  }, [adminAuthtoken, dispatch]);
+  // useEffect(() => {
+  //   const data = {
+  //     adminAuthtoken,
+  //     values: {
+  //       pageNo: 1,
+  //       pageSize: 4,
+  //     },
+  //   };
+  //   dispatch(getAdminSpeakers(data));
+  // }, [adminAuthtoken, dispatch]);
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -209,6 +220,15 @@ function Speaker() {
         pagination={true}
         header="Speakers Logs"
         subHeader={true}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

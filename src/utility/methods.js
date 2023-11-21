@@ -1,5 +1,8 @@
 import moment from "moment/moment";
 
+export const totalItems = 12;
+export const itemsPerPage = 4;
+
 export const dateFormater = (value) => {
   const dateFormat = "DD/MM/YYYY";
   return moment(value).format(dateFormat);

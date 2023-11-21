@@ -13,23 +13,42 @@ import { dateFormater } from "../../utility/methods";
 import { Link, useNavigate } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { trash, view } from "../../assets/icons/admin";
-import { useSearch, useDateFilter, useConfirmation } from "../../utility/hooks";
+import {
+  useSearch,
+  useDateFilter,
+  useConfirmation,
+  usePagination,
+} from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/user.scss";
 
 function UserList() {
   //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+  // const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminUsers } = useSelector((state) => state.adUser);
 
   //Redux action dispatcher
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   //Router functions
   const navigate = useNavigate();
 
   //Custom hooks
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage, action: getAdminUserList });
+
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminUserList,
+    getDataAction: getAdminUserList,
+    currentPage,
+    itemsPerPage,
   });
 
   const { dateFilter, onDateChange, clearFilter } = useDateFilter({
@@ -51,18 +70,18 @@ function UserList() {
     navigate(ROUTES.adUserDetail, { state: { id: id } });
   };
 
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminUserList(data));
-    }
-  }, [search]);
+  // useEffect(() => {
+  //   if (search === "") {
+  //     const data = {
+  //       adminAuthtoken,
+  //       values: {
+  //         pageNo: currentPage,
+  //         pageSize: itemsPerPage,
+  //       },
+  //     };
+  //     dispatch(getAdminUserList(data));
+  //   }
+  // }, [search]);
 
   //Datatable columns
   const columns = [
@@ -156,6 +175,15 @@ function UserList() {
         // onDateFilter={onDateFilterHandler}
         clearFilter={clearFilter}
         search={search}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );
