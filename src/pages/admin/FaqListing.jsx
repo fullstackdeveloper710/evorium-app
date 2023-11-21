@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
 import {
@@ -14,9 +14,10 @@ import {
   getAdminFaqs,
   searchAdminFaqList,
 } from "../../redux/thunk/admin/adFaqs";
-import { useConfirmation, useSearch } from "../../utility/hooks";
+import { useConfirmation, usePagination, useSearch } from "../../utility/hooks";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
+import { totalItems, itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/faqlisting.scss";
 function FaqListing() {
   //Redux state
@@ -32,8 +33,21 @@ function FaqListing() {
   const { adAddFaq } = ROUTES;
 
   //Custom hooks
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage, action: getAdminFaqs });
+
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminFaqList,
+    getDataAction: getAdminFaqs,
+    currentPage,
+    itemsPerPage,
   });
 
   const {
@@ -47,18 +61,18 @@ function FaqListing() {
   });
 
   //Methods
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminFaqs(data));
-    }
-  }, [adminAuthtoken, dispatch, search]);
+  // useEffect(() => {
+  //   if (search === "") {
+  //     const data = {
+  //       adminAuthtoken,
+  //       values: {
+  //         pageNo: 1,
+  //         pageSize: 4,
+  //       },
+  //     };
+  //     dispatch(getAdminFaqs(data));
+  //   }
+  // }, [adminAuthtoken, dispatch, search]);
 
   //Datatable columns
   const columns = [
@@ -126,6 +140,15 @@ function FaqListing() {
             onClick={() => navigate(adAddFaq)}
           />
         }
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

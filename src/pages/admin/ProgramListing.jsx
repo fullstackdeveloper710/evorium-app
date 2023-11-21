@@ -1,8 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Row, DropdownButton, Dropdown } from "react-bootstrap";
 import { Pagination } from "../../components/admin";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   deleteAdminProgram,
   getAdminProgramById,
@@ -13,20 +12,14 @@ import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
 import { Button, ConfirmPopUp } from "../../components/common";
-import { useConfirmation, useSearch } from "../../utility/hooks";
+import { useConfirmation, usePagination, useSearch } from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
+import { useSelector } from "react-redux";
 function ProgramListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminPrograms } = useSelector((state) => state.adPrograms);
   const { data } = adminPrograms;
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
-
-  //Custom hooks
-  const { search, onSearchChange, onSearchHandler } = useSearch({
-    action: searchAdminProgram,
-  });
 
   //Custom hooks
   const {
@@ -39,6 +32,23 @@ function ProgramListing() {
     action: deleteAdminProgram,
   });
 
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems, itemsPerPage, action: getAdminProgramList });
+
+  const { search, onSearchChange, onSearchHandler } = useSearch({
+    action: searchAdminProgram,
+    getDataAction: getAdminProgramList,
+    currentPage,
+    itemsPerPage,
+  });
+
   //Router functions
   const navigate = useNavigate();
 
@@ -46,18 +56,6 @@ function ProgramListing() {
   const { adAddprogram, adUpdateProgram } = ROUTES;
 
   //Methods
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminProgramList(data));
-    }
-  }, [dispatch, adminAuthtoken, search]);
 
   const onEditProgram = (id) => {
     const data = {
@@ -180,7 +178,17 @@ function ProgramListing() {
         />
       </div>
 
-      <Pagination />
+      <Pagination
+        paginationComponentOptions={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
+      />
     </div>
   );
 }
