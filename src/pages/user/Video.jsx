@@ -9,32 +9,30 @@ import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { Elements } from "@stripe/react-stripe-js";
-import "../../styles/user/video.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { userViewCount } from "../../redux/thunk/user/usrCount";
+import "../../styles/user/video.scss";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
 );
 
 const VideoPlayer = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [IsExpanded, setIsExpanded] = useState(false);
+  const [itemsToLoad, setItemsToLoad] = useState(5);
+  const [startTime, setStartTime] = useState(0);
+
+  //Redux state
   const {
     userAuthtoken,
     userData: { user_id },
   } = useSelector((state) => state.userAuth);
-  
 
+  //Redux action dispatcher
   const dispatch = useDispatch();
 
-  const [IsExpanded, setIsExpanded] = useState(false);
-  const toggleExpand = () => {
-    setIsExpanded(!IsExpanded);
-  };
-  const playerRef = React.useRef();
-
+  //Router functions
   const location = useLocation();
   const { state } = location;
   const { data2send } = state;
@@ -44,34 +42,28 @@ const VideoPlayer = () => {
     title,
     videoId,
     speaker,
-    episodes,
     price,
     course_type,
     video_duration,
     views,
   } = data2send.values;
-  console.log(data2send,"{data2send")
 
-  const [itemsToLoad, setItemsToLoad] = useState(5);
-  const [startTime, setStartTime] = useState(0); // Initial start time in seconds
+  //Ref
+  const playerRef = React.useRef();
+
+  //Custom hooks
   const { show, handleClose, handleShow } = useModal();
-  // );
+
+  //Methods
+  const toggleExpand = () => {
+    setIsExpanded(!IsExpanded);
+  };
+
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
   };
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
-  };
-
-  const openModal = () => {
-    console.log("toogle workign");
-    setShowPaymentModal(!showPaymentModal);
-
-    console.log(showPaymentModal);
-  };
-
-  const closeModal = () => {
-    setShowModal(false);
   };
 
   const handlePlayPause = () => {
@@ -82,22 +74,19 @@ const VideoPlayer = () => {
         userId: user_id,
       },
     };
-    console.log(data,"data")
-
     dispatch(userViewCount(data)).then(({ payload }) => {
       if (payload) {
         setIsPlaying(!isPlaying);
       }
     });
-    // dispatch(userViewCount(data))
   };
   const handleSetStartTime = (timeInSeconds) => {
     setStartTime(timeInSeconds);
-    // If the video is playing, seek to the new start time
     if (isPlaying) {
       playerRef.current.seekTo(timeInSeconds);
     }
   };
+
   return (
     <>
       <CustomModal
@@ -138,7 +127,6 @@ const VideoPlayer = () => {
                     controls={true}
                     url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
                     onStart={() => playerRef.current.seekTo(startTime)} // Set initial start time
-
                   />
                 )}
                 <button onClick={handlePlayPause}>
@@ -202,57 +190,63 @@ const VideoPlayer = () => {
                     <h4>Time Codes</h4>
 
                     <div className="timecodec__list">
-                    {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
-{/* 
+                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+                      {/* 
                       {episodes?.map((i) => {
                         return ( */}
-                          <button className="timecodecBtn" onClick={() => handleSetStartTime(30)}>
-                            <figure>
-                              <Play />
-                            </figure>
-                            <div className="timecodecBtn__caption">
-                              {/* <h2>{i.title}</h2> */}
-                              <h2>introduction 1</h2>
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(30)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          {/* <h2>{i.title}</h2> */}
+                          <h2>introduction 1</h2>
 
-                              <span>30 sec</span>
-                            </div>
-                          </button>
-                        {/* );
+                          <span>30 sec</span>
+                        </div>
+                      </button>
+                      {/* );
                       })} */}
                     </div>
                     <div className="timecodec__list">
-                    {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
-{/* 
+                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+                      {/* 
                       {episodes?.map((i) => {
                         return ( */}
-                          <button className="timecodecBtn" onClick={() => handleSetStartTime(60)}>
-                            <figure>
-                              <Play />
-                            </figure>
-                            <div className="timecodecBtn__caption">
-                              {/* <h2>{i.title}</h2> */}
-                              <h2>introduction 2</h2>
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(60)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          {/* <h2>{i.title}</h2> */}
+                          <h2>introduction 2</h2>
 
-                              <span>1 ,min</span>
-                            </div>
-                          </button>
-                        {/* );
+                          <span>1 ,min</span>
+                        </div>
+                      </button>
+                      {/* );
                       })} */}
                     </div>
                     <div className="timecodec__list">
-                 
-                          <button className="timecodecBtn" onClick={() => handleSetStartTime(90)}>
-                            <figure>
-                              <Play />
-                            </figure>
-                            <div className="timecodecBtn__caption">
-                        
-                              <h2>introduction 3</h2>
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(90)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          <h2>introduction 3</h2>
 
-                              <span>1.30 mins</span>
-                            </div>
-                          </button>
-                       
+                          <span>1.30 mins</span>
+                        </div>
+                      </button>
                     </div>
                     {/* <div className="timecodec__list">
                         <button className="timecodecBtn">

@@ -23,21 +23,16 @@ function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
   const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
-  const [showAlert, setShowAlert] = useState(false);
   const [sorted, setSorted] = useState("all");
 
   //Redux state
-  const {
-    userAuthtoken,
-    userData: { user_id },
-  } = useSelector((state) => state.userAuth);
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
   const { userPaidPrograms, userFreePrograms } = useSelector(
     (state) => state.userPrograms
   );
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
   const location = useLocation();
-  const { state } = location;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -70,7 +65,6 @@ function Programs() {
       values: {
         ...values,
         videoId: values._id,
-        userId: user_id,
       },
     };
     navigate(usrVideoPlayer, {
