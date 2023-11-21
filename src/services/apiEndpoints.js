@@ -55,6 +55,10 @@ const adminApi = {
   adSearchFaq: "/admin/search_faq",
   adDelProgram: "/admin/delete_program",
   adGetProgram: "/admin/program",
+  adGetPaymentList: "/admin/payments",
+  adSearchPayment: "/admin/search_payments",
+  adFilterPayment: "admin/filter_payments",
+  adGetPaymentDetail: "",
 
   //pending
   adUpdateProgram: "/admin/program/id",

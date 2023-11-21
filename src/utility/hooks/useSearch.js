@@ -4,6 +4,14 @@ import { useDispatch, useSelector } from "react-redux";
 const useSearch = ({ action, getDataAction, currentPage, itemsPerPage }) => {
   const [search, setSearch] = useState("");
 
+  //Redux state
+  const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Methods
+
   useEffect(() => {
     if (search === "") {
       const data = {
@@ -15,15 +23,8 @@ const useSearch = ({ action, getDataAction, currentPage, itemsPerPage }) => {
       };
       dispatch(getDataAction(data));
     }
-  }, [search]);
+  }, [search, dispatch]);
 
-  //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
-
-  //Methods
   const onSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);
