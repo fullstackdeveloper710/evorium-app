@@ -83,7 +83,7 @@ const VideoPlayer = () => {
   const handleSetStartTime = (timeInSeconds) => {
     setStartTime(timeInSeconds);
     if (isPlaying) {
-      playerRef.current.seekTo(timeInSeconds);
+      playerRef?.current?.seekTo(timeInSeconds);
     }
   };
 
@@ -126,7 +126,7 @@ const VideoPlayer = () => {
                     playing={isPlaying}
                     controls={true}
                     url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
-                    onStart={() => playerRef.current.seekTo(startTime)} // Set initial start time
+                    onStart={() => playerRef?.current?.seekTo(startTime)} // Set initial start time
                   />
                 )}
                 <button onClick={handlePlayPause}>
