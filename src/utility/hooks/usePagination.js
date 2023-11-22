@@ -1,16 +1,12 @@
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 
-const usePagination = ({ totalItems, itemsPerPage, action }) => {
-  const totalPages = Math.ceil(totalItems / itemsPerPage);
-  //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
-
+const usePagination = ({ totalItems, itemsPerPage }) => {
   const [currentPage, setCurrentPage] = useState(1);
 
+  //Total pages
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+
+  //Methods
   const goToPage = (page) => {
     const newPage = Math.max(1, Math.min(page, totalPages));
     setCurrentPage(newPage);
