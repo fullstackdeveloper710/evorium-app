@@ -10,8 +10,8 @@ const Card = (props) => {
     views,
     watched,
     description,
-    subsType,
-    amount,
+    course_type,
+    price,
     thumbnail_url,
   } = props;
   return (
@@ -23,10 +23,10 @@ const Card = (props) => {
             <img src={thumbnail_url} alt="thumbnail" />
           </div>
 
-          {subsType === "free" ? (
-            <span className="free-btn">{subsType}</span>
+          {course_type === "free" || course_type === "Free" ? (
+            <span className="free-btn">{course_type}</span>
           ) : (
-            <span className="premium-btn">{amount}</span>
+            <span className="premium-btn">{price}</span>
           )}
 
           <Image src={watched ? checked : paused} className="label-watch" />

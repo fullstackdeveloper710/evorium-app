@@ -160,58 +160,23 @@ function Home() {
                 View All
               </a>
             </div>
-            <Row>
-              {data?.length > 0 ? (
-                data?.map(
-                  (
-                    {
-                      speaker,
-                      course_type,
-                      description,
-                      thumbnail_url,
-                      video_duration,
-                      view_count,
-                    },
-                    index
-                  ) => {
-                    return (
-                      <div key={index}>
-                        <Card
-                          url={thumbnail_url}
-                          // key={id}
-                          title={speaker}
-                          // img={image}
-                          duration={video_duration}
-                          views={view_count}
-                          watched={view_count}
-                          subsType={course_type}
-                          // amount={amount}
-                          description={description}
-                        />
-                      </div>
-                    );
-                  }
-                )
-              ) : (
-                <div>No Record Found</div>
-              )}
-            </Row>
-            {/* <Row className="popular-row">
-              {cardsData
+
+            <Row className="popular-row">
+              {data
                 .slice(0, itemsToLoad)
                 .map(
                   (
                     {
                       id,
                       title,
-                      image,
-                      duration,
+                      thumbnail_url,
+                      video_duration,
                       views,
                       description,
                       watched,
                       url,
-                      subsType,
-                      amount,
+                      course_type,
+                      price,
                     },
                     index
                   ) => (
@@ -219,17 +184,17 @@ function Home() {
                       url={url}
                       key={id}
                       title={title}
-                      img={image}
-                      duration={duration}
+                      thumbnail_url={thumbnail_url}
+                      duration={video_duration}
                       views={views}
                       watched={watched}
-                      subsType={subsType}
-                      amount={amount}
+                      course_type={course_type}
+                      price={price}
                       description={description}
                     />
                   )
                 )}
-            </Row> */}
+            </Row>
             <div className="text-center loadBtnWrap pt-5">
               {itemsToLoad < cardsData.length && (
                 <button onClick={loadMore} className="load-more-btn">
