@@ -1,23 +1,14 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  Image,
-  Row,
-  Col,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import { Container, Image, Row, Col, Nav, NavDropdown } from "react-bootstrap";
 import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { star } from "../../assets/icons/user";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
-import { useLocation, useNavigate } from "react-router";
+import { useNavigate } from "react-router";
 import moment from "moment";
 import "../../styles/user/programs.scss";
-import { userViewCount } from "../../redux/thunk/user/usrCount";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -32,7 +23,6 @@ function Programs() {
   );
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
-  const location = useLocation();
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -99,9 +89,7 @@ function Programs() {
   const loadMoreTop = () => {
     setItemsToLoadTop(cardsData.length);
   };
-  const loadLessTop = () => {
-    setItemsToLoadTop(5);
-  };
+
   return (
     <>
       <main>
@@ -283,11 +271,6 @@ function Programs() {
                       )
                     )}
                 </Row>
-                {/* <div className="text-center pt-5">
-            {itemsToLoad < cardsData.length && (
-
-              <button onClick={loadMore} className="load-more-btn">Load more</button>)}
-            </div> */}
               </Container>
             </section>
           )}
@@ -385,16 +368,6 @@ function Programs() {
                       )
                     )}
                 </Row>
-                {/* <div className="text-center pt-5">
-            {itemsToLoad < cardsData.length && (
-
-              <button onClick={loadMore} className="load-more-btn">Load more</button>)}
-            </div>
-
-            <div className="text-center pt-5">
-            {itemsToLoad > 5 && (
-              <button onClick={loadLess} className="load-more-btn">Load Less</button>)}
-            </div> */}
               </Container>
             </section>
           )}
