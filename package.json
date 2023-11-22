@@ -48,9 +48,11 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "build:staging": "react-scripts build --env=staging",
+    "build:production": "react-scripts build --env=production",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "serve":"serve -s build"
+    "serve": "serve -s build"
   },
   "eslintConfig": {
     "extends": [
