@@ -8,7 +8,11 @@ const initialState = {
 const adminAuthSlice = createSlice({
   name: "adminAuthSlice",
   initialState: initialState,
-  reducers: {},
+  reducers: {
+    adminLogout: (state, action) => {
+      state.adminAuthtoken = null;
+    },
+  },
 
   extraReducers: (builder) => {
     builder
@@ -28,5 +32,5 @@ const adminAuthSlice = createSlice({
   },
 });
 
-// export const {} = adminAuthSlice.actions;
+export const { adminLogout } = adminAuthSlice.actions;
 export default adminAuthSlice.reducer;
