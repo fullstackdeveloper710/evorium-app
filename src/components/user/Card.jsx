@@ -33,7 +33,7 @@ const Card = (props) => {
         </div>
         <div className="bottom-details">
           <p className="name">{title}</p>
-          <a href="#" className="link-card">
+          <a href="void 0" className="link-card">
             {description}
           </a>
           <div className="time-view">

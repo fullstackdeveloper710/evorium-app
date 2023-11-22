@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 import {
   bannner,
@@ -72,14 +72,14 @@ function Home() {
                   the Screeno
                 </p>
                 <div className="btns-group">
-                  <a href="#" className="try-btn">
+                  <a href="void 0" className="try-btn">
                     Try for Free
                   </a>
-                  <a href="#" target="_blank" className="aple">
+                  <a href="void 0" target="_blank" className="aple">
                     {/* <Image src={appleStore} /> */}
                     <Apple />
                   </a>
-                  <a href="#" target="_blank" className="gpay">
+                  <a href="void 0" target="_blank" className="gpay">
                     {/* <Image src={googleplay} /> */}
                     <PlayStore />
                   </a>
@@ -231,7 +231,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -251,7 +251,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -271,7 +271,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -291,7 +291,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
