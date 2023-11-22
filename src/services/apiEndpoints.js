@@ -11,7 +11,6 @@ const userApi = {
   usrRecentProgram:"user/recent_program",
   
 
-  //pending
   usrRefreshToken: "/user/refresh_token",
 
 };

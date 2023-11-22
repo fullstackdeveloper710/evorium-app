@@ -29,6 +29,7 @@ const Login = () => {
   const initValues = {
     email: "",
     password: "",
+    // refreshToken:""
   };
 
   //Formik validation schema
@@ -45,9 +46,13 @@ const Login = () => {
   //Methods
 
   const onSubmitHandler = (values) => {
+
     const data = { values };
+
+console.log (values,"valuess")
+
     dispatch(userLogin(data)).then(({ payload }) => {
-      if (payload.status) {
+      if (payload) {
         navigate(usrPrograms);
       }
     });
