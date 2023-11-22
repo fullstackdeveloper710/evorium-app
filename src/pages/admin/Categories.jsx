@@ -19,7 +19,7 @@ function Categories() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminCategories } = useSelector((state) => state.adCategories);
-  const { data } = adminCategories;
+  const { data, count } = adminCategories;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -33,7 +33,7 @@ function Categories() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   const {
     setId,

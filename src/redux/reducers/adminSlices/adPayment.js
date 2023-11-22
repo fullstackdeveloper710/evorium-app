@@ -8,6 +8,7 @@ import {
 const initialState = {
   adminPayments: {
     data: [],
+    count: 0,
   },
 };
 

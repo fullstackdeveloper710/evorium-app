@@ -24,7 +24,7 @@ function ProgramListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminPrograms } = useSelector((state) => state.adPrograms);
-  const { data } = adminPrograms;
+  const { data, count } = adminPrograms;
 
   //Custom hooks
   const {
@@ -45,7 +45,10 @@ function ProgramListing() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage, action: getAdminProgramList });
+  } = usePagination({
+    totalItems: count,
+    itemsPerPage,
+  });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminProgram,
@@ -172,7 +175,7 @@ function ProgramListing() {
               }
             )
           ) : (
-            <div>No Record Found</div>
+            <div>There are no records to display</div>
           )}
         </Row>
         <ConfirmPopUp
@@ -182,17 +185,19 @@ function ProgramListing() {
         />
       </div>
 
-      <Pagination
-        paginationComponentOptions={{
-          currentPage,
-          totalPages,
-          nextPage,
-          prevPage,
-          goToPage,
-          setItemsPerPage,
-          onSelectPage,
-        }}
-      />
+      {count > 0 && (
+        <Pagination
+          paginationComponentOptions={{
+            currentPage,
+            totalPages,
+            nextPage,
+            prevPage,
+            goToPage,
+            setItemsPerPage,
+            onSelectPage,
+          }}
+        />
+      )}
     </div>
   );
 }

@@ -9,6 +9,7 @@ import {
 const initialState = {
   adminUsers: {
     data: [],
+    count: 0,
   },
 };
 

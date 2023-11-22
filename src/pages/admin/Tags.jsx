@@ -19,12 +19,12 @@ import {
   ReactDataTable,
 } from "../../components/common";
 import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
-import { totalItems, itemsPerPage } from "../../utility/methods";
+import { itemsPerPage } from "../../utility/methods";
 function Tags() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminTags } = useSelector((state) => state.adTags);
-  const { data } = adminTags;
+  const { data, count } = adminTags;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -48,7 +48,7 @@ function Tags() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   useFetch({ action: getAdminTags, currentPage, itemsPerPage });
 
@@ -63,18 +63,6 @@ function Tags() {
     title: Yup.string().required("Name field is required"),
     date: Yup.string().required("Date field is required"),
   });
-
-  //Methods
-  // useEffect(() => {
-  //   const data = {
-  //     adminAuthtoken,
-  //     values: {
-  //       pageNo: 1,
-  //       pageSize: 4,
-  //     },
-  //   };
-  //   dispatch(getAdminTags(data));
-  // }, []);
 
   const onSubmitHandler = (values) => {
     const data = {

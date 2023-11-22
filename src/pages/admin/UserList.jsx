@@ -26,6 +26,7 @@ import "../../styles/admin/user.scss";
 function UserList() {
   //Redux state
   const { adminUsers } = useSelector((state) => state.adUser);
+  const { data, count } = adminUsers;
 
   //Router functions
   const navigate = useNavigate();
@@ -39,7 +40,7 @@ function UserList() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminUserList,
@@ -144,7 +145,7 @@ function UserList() {
   return (
     <div className="user_tab">
       <ReactDataTable
-        data={adminUsers.data}
+        data={data}
         columns={columns}
         pagination={true}
         searchBar={true}

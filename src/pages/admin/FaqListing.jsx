@@ -7,7 +7,7 @@ import {
   ConfirmPopUp,
   ReactDataTable,
 } from "../../components/common";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { dateFormater } from "../../utility/methods";
 import {
   deleteAdminFaq,
@@ -22,16 +22,12 @@ import {
 } from "../../utility/hooks";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
-import { totalItems, itemsPerPage } from "../../utility/methods";
+import { itemsPerPage } from "../../utility/methods";
 import "../../styles/admin/faqlisting.scss";
 function FaqListing() {
   //Redux state
-  const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminFaqs } = useSelector((state) => state.adFaqs);
-  const { data } = adminFaqs;
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
+  const { data, count } = adminFaqs;
 
   //Router functions
   const navigate = useNavigate();
@@ -46,7 +42,7 @@ function FaqListing() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminFaqList,

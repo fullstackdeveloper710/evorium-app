@@ -25,7 +25,7 @@ function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminSpeakers } = useSelector((state) => state.adSpeaker);
-  const { data } = adminSpeakers;
+  const { data, count } = adminSpeakers;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -39,7 +39,7 @@ function Speaker() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   const {
     setId,

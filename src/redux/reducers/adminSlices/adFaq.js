@@ -9,6 +9,7 @@ import {
 const initialState = {
   adminFaqs: {
     data: [],
+    count: 0,
   },
 };
 

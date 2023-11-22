@@ -10,6 +10,7 @@ import {
 const initialState = {
   adminPrograms: {
     data: [],
+    count: 0,
   },
 };
 

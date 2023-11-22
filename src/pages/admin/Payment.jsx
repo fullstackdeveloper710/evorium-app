@@ -20,6 +20,7 @@ import "../../styles/admin/categories.scss";
 function Payment() {
   //Redux state
   const { adminPayments } = useSelector((state) => state.adPayment);
+  const { data, count } = adminPayments;
 
   //Custom hooks
   const {
@@ -30,7 +31,7 @@ function Payment() {
     goToPage,
     setItemsPerPage,
     onSelectPage,
-  } = usePagination({ totalItems, itemsPerPage });
+  } = usePagination({ totalItems: count, itemsPerPage });
 
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminPaymentList,
@@ -78,7 +79,7 @@ function Payment() {
   return (
     <div className="categories_section payment_section">
       <ReactDataTable
-        data={adminPayments.data}
+        data={data}
         columns={columns}
         pagination={true}
         searchBar={true}

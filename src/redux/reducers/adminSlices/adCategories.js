@@ -8,6 +8,7 @@ import {
 const initialState = {
   adminCategories: {
     data: [],
+    count: 0,
   },
 };
 

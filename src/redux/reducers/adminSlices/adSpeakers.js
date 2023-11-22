@@ -8,6 +8,7 @@ import {
 const initialState = {
   adminSpeakers: {
     data: [],
+    count: 0,
   },
 };
 

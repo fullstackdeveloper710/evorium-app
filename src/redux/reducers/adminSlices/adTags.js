@@ -4,6 +4,7 @@ import { deleteAdminTag, getAdminTags } from "../../thunk/admin/adTags";
 const initialState = {
   adminTags: {
     data: [],
+    count: 0,
   },
 };
 
