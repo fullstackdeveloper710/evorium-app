@@ -1,9 +1,9 @@
 import React from "react";
-import { Header } from "../../components/user";
+import { FooterEvorium, Header } from "../../components/user";
 import { Navigate, Outlet } from "react-router-dom";
-import "../../styles/user/global.scss";
 import { useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
+import "../../styles/user/global.scss";
 
 function UsrPvtLayout() {
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -13,6 +13,7 @@ function UsrPvtLayout() {
       <div>
         <Header />
         <Outlet />
+        <FooterEvorium />
       </div>
     );
   } else {
