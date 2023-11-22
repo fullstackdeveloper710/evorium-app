@@ -3,8 +3,16 @@ import { Image } from "react-bootstrap";
 import { upload } from "../../assets/icons/admin";
 import { useDropzone } from "react-dropzone";
 import { dataURLtoFile } from "../../utility/methods";
+import ReactPlayer from "react-player";
 
-const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
+const VideoUploader = ({
+  video,
+  setFieldValue,
+  thumbnails,
+  disabled,
+  videoUrl,
+  videoTitle,
+}) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
@@ -69,10 +77,9 @@ const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
-    disabled: disabled,
   });
 
-  return (
+  return !videoUrl ? (
     <>
       <div
         className="video_upload_wrap"
@@ -87,7 +94,7 @@ const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
             type="file"
             id="video"
             className="d-none"
-            {...getInputProps()}
+            {...getInputProps({ disabled })}
           />
           <label htmlFor="video">
             <Image src={upload} />
@@ -128,6 +135,20 @@ const VideoUploader = ({ video, setFieldValue, thumbnails, disabled }) => {
         </div>
       )}
     </>
+  ) : (
+    <div className="video_upload_wrap">
+      <div className="upload_input">
+        <label htmlFor="video">
+          <ReactPlayer
+            width="100%"
+            height="100%"
+            controls={true}
+            url={videoUrl}
+          />
+          <span className="upload_title">{videoTitle}</span>
+        </label>
+      </div>
+    </div>
   );
 };
 

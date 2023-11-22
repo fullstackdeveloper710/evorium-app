@@ -9,6 +9,7 @@ const {
   adAddProgram,
   adDelProgram,
   adGetProgram,
+  adUpdateProgram,
 } = adminApi;
 
 // get admin program list thunk
@@ -117,6 +118,33 @@ export const getAdminProgramById = createAsyncThunk(
         method: "get",
         url: `${adGetProgram}/${query.id}`,
       };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// update admin program by id thunk
+export const updateAdminProgram = createAsyncThunk(
+  "admin/updateAdminProgram",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken, values, query } = data;
+    try {
+      const config = {
+        method: "put",
+        url: `${adUpdateProgram}/${query.id}`,
+        data: values,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
       dispatch(hideLoader());

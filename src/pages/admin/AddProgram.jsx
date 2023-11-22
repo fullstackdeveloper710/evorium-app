@@ -17,8 +17,10 @@ import RadioGroup from "../../components/common/RadioGroup";
 import {
   addAdminProgram,
   getAdminProgramById,
+  updateAdminProgram,
 } from "../../redux/thunk/admin/adPrograms";
 import "../../styles/admin/addprogram.scss";
+import { getStartAndEndTime } from "../../utility/methods";
 
 function AddProgram() {
   const [initValues, setInitValues] = useState({
@@ -50,7 +52,7 @@ function AddProgram() {
 
   //Yup validation schema
   const validationSchema = Yup.object().shape({
-    title: Yup.number().required("required field"),
+    title: Yup.string().required("required field"),
     description: Yup.string().required("required field"),
     category: Yup.string().required("required field"),
     speaker: Yup.string().required("required field"),
@@ -89,23 +91,19 @@ function AddProgram() {
         setInitValues((prevValues) => ({
           ...prevValues,
           ...payload.data,
-          episodes: [],
+          selectedEpisode: payload.data.episodes.length,
+          episodes: getStartAndEndTime("object", payload.data.episodes),
         }));
       });
     }
   }, [state]);
+
   const onSubmitHandler = (val) => {
     const data = {
       adminAuthtoken,
       values: {
         ...val,
-        episodes: val.episodes.map((item) => {
-          return {
-            title: item.title,
-            start: `${item.startTime.hours}:${item.startTime.minutes}:${item.startTime.seconds}`,
-            end: `${item.endTime.hours}:${item.endTime.minutes}:${item.endTime.seconds}`,
-          };
-        }),
+        episodes: getStartAndEndTime("string", val),
         thumbnail: val.selectedThumbnail,
       },
     };
@@ -113,7 +111,13 @@ function AddProgram() {
     delete data.values.selectedThumbnail;
     delete data.values.selectedEpisode;
 
-    dispatch(addAdminProgram(data));
+    if (state?.id) {
+      // dispatch(updateAdminProgram(data));
+      console.log(data, "date here in update");
+      console.log("update Admin programs");
+    } else {
+      dispatch(addAdminProgram(data));
+    }
   };
 
   const onCancelHandler = (resetForm) => {
@@ -126,12 +130,12 @@ function AddProgram() {
       label: "Select option",
     },
     {
-      value: "Cryptocurrency",
-      label: "Cryptocurrency",
+      value: "pro",
+      label: "pro",
     },
     {
-      value: "Cryptocurrency1",
-      label: "Cryptocurrency1",
+      value: "free",
+      label: "free",
     },
   ];
 
@@ -141,8 +145,8 @@ function AddProgram() {
       label: "Select option",
     },
     {
-      value: "Speaker",
-      label: "Speaker",
+      value: "Andy William",
+      label: "Andy William",
     },
     {
       value: "Speaker1",
@@ -288,6 +292,8 @@ function AddProgram() {
                             },
                           })
                         );
+
+                        console.log(newEpisodesFields, "newEpisodesFields");
                         setFieldValue("episodes", newEpisodesFields);
                       }}
                       onBlur={handleBlur}
@@ -304,7 +310,7 @@ function AddProgram() {
                         {({ insert, remove, push }) => (
                           <div>
                             {values.episodes.map(
-                              ({ label, startTime, endTime }, index) => (
+                              ({ title, label, startTime, endTime }, index) => (
                                 <Row className="episodes_wrap" key={index}>
                                   <Col xs lg="4">
                                     <Input
@@ -313,7 +319,7 @@ function AddProgram() {
                                       type="text"
                                       placeholder="Enter Episode Title"
                                       name={`episodes.${index}.title`}
-                                      // value={name}
+                                      value={title}
                                       onBlur={handleBlur}
                                       onChange={handleChange}
                                       // error={
@@ -500,7 +506,9 @@ function AddProgram() {
                 </Col>
                 <Col md={5}>
                   <VideoUploader
-                    disabled={true}
+                    videoTitle={values.title}
+                    videoUrl={values?.video_url}
+                    disabled={state?.id}
                     video={values.video}
                     setFieldValue={setFieldValue}
                     thumbnails={values.thumbnails}

@@ -25,3 +25,34 @@ export function dataURLtoFile(dataurl, filename) {
   }
   return new File([u8arr], filename, { type: mime });
 }
+
+export const getStartAndEndTime = (type, data) => {
+  if (type === "string") {
+    return data.episodes.map((item) => {
+      return {
+        title: item.title,
+        start: `${item.startTime.hours}:${item.startTime.minutes}:${item.startTime.seconds}`,
+        end: `${item.endTime.hours}:${item.endTime.minutes}:${item.endTime.seconds}`,
+      };
+    });
+  } else {
+    return data.map((item, index) => {
+      const start = item.start.trim().split(":");
+      const end = item.end.trim().split(":");
+      return {
+        title: item.title,
+        label: `episode ${index + 1}`,
+        startTime: {
+          hours: start[0],
+          minutes: start[1],
+          seconds: start[2],
+        },
+        endTime: {
+          hours: end[0],
+          minutes: end[1],
+          seconds: end[2],
+        },
+      };
+    });
+  }
+};

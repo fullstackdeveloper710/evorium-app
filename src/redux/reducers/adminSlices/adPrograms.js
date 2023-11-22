@@ -4,6 +4,7 @@ import {
   deleteAdminProgram,
   getAdminProgramList,
   searchAdminProgram,
+  updateAdminProgram,
 } from "../../thunk/admin/adPrograms";
 
 const initialState = {
@@ -80,6 +81,19 @@ const adminProgramsSlice = createSlice({
         state.status = true;
       })
       .addCase(deleteAdminProgram.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //update admin program
+    builder
+      .addCase(updateAdminProgram.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(updateAdminProgram.fulfilled, (state, action) => {
+        state.status = true;
+      })
+      .addCase(updateAdminProgram.rejected, (state, action) => {
         state.status = false;
       });
   },

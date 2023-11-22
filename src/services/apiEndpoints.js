@@ -8,12 +8,10 @@ const userApi = {
   usrMyAccount: "user/my_account",
   usrEditProfile: "user/update",
   usrViewCount: "user/program_view_count",
-  usrRecentProgram:"user/recent_program",
-  
+  usrRecentProgram: "user/recent_program",
 
   //pending
   usrRefreshToken: "/user/refresh_token",
-
 };
 
 const commonApi = {
@@ -60,9 +58,9 @@ const adminApi = {
   adSearchPayment: "/admin/search_payments",
   adFilterPayment: "admin/filter_payments",
   adGetPaymentDetail: "",
+  adUpdateProgram: "/admin/program",
 
   //pending
-  adUpdateProgram: "/admin/program/id",
 };
 
 export { userApi, adminApi, commonApi };
