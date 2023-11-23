@@ -18,8 +18,9 @@ const userAuth = createSlice({
   name: "userAuth",
   initialState: initialState,
   reducers: {
-    someAsyncAction: (state, action) => {
-      // Update your state here with the action payload
+    userLogout: (state, action) => {
+      state.userAuthtoken = null;
+      state.userData = { user_id: null };
     },
   },
   extraReducers: (builder) => {
@@ -115,5 +116,5 @@ const userAuth = createSlice({
   },
 });
 
-// export const {} = userAuth.actions;
+export const { userLogout } = userAuth.actions;
 export default userAuth.reducer;

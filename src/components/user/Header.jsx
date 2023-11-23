@@ -12,16 +12,26 @@ import {
   OpenSea,
 } from "../../assets/icons/user";
 import { Link, useNavigate } from "react-router-dom";
-import "../../styles/user/header.scss";
 import { ROUTES } from "../../navigation/constants";
+import { Button } from "../common";
+import { useDispatch, useSelector } from "react-redux";
+import { userLogout } from "../../redux/reducers/userSlices/userAuth";
+import "../../styles/user/header.scss";
 
 function Header() {
   const [show, setShow] = useState(true);
 
+  //Redux state
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
   const navigate = useNavigate();
+  const { usrHome, usrPrograms, usrEditProfile, usrLogin } = ROUTES;
 
-  const { usrHome, usrPrograms, usrEditProfile } = ROUTES;
-
+  //Methods
   useEffect(() => {
     if (window.innerWidth < 992) {
       setShow(false);
@@ -35,15 +45,15 @@ function Header() {
         setShow(true);
       }
     };
-
-    // Add event listener for window resize
     window.addEventListener("resize", handleResize);
-
-    // Cleanup the event listener on component unmount
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []); // Empty dependency array ensures that this effect runs once after the initial render
+  }, []);
+
+  const onLogouthandler = () => {
+    dispatch(userLogout());
+  };
 
   return (
     <>
@@ -124,47 +134,42 @@ function Header() {
                       Français
                     </NavDropdown.Item>
                   </NavDropdown>
-                  {localStorage.getItem("login") === "true" ? (
-                    <Nav.Link
-                      onClick={() => localStorage.removeItem("login")}
-                      href="edit-profile"
-                      className="p-0 eprofile"
-                    >
-                      <span
-                        className="headeruser"
-                        onClick={() => localStorage.removeItem("login")}
-                      >
-                        <UserIcon />
-                      </span>
-                    </Nav.Link>
+
+                  {!userAuthtoken ? (
+                    <Link to={usrLogin} className="login-btn">
+                      Login
+                    </Link>
                   ) : (
                     <>
-                      <Nav.Link href="login" className="login-btn">
-                        Login
-                      </Nav.Link>
-                      <Nav.Link
-                        onClick={() => localStorage.removeItem("login")}
-                        href="edit-profile"
-                        className="p-0 eprofile"
-                      >
+                      <Button
+                        loading={false}
+                        loadMsg={false}
+                        type="button"
+                        title="Logout"
+                        className="logout-btn "
+                        onClick={onLogouthandler}
+                      />
+                      <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
                           <UserIcon />
                         </span>
-                      </Nav.Link>
+                      </Link>
                     </>
                   )}
                 </Nav>
               </div>
             )}
 
-            <button
-              onClick={() => navigate(usrEditProfile)}
-              className="mobileLogin"
-            >
-              <span className="headeruser">
-                <UserIcon />
-              </span>
-            </button>
+            {userAuthtoken && (
+              <button
+                onClick={() => navigate(usrEditProfile)}
+                className="mobileLogin"
+              >
+                <span className="headeruser">
+                  <UserIcon />
+                </span>
+              </button>
+            )}
           </div>
         </div>
       </div>

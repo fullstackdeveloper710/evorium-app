@@ -44,9 +44,7 @@ span.headeruser {
       #ae01ff 100%
     );
   }
-  a.login-btn.nav-link {
-    margin: 0 15px;
-  }
+
   &__dropMenu {
     display: flex;
     align-items: center;
@@ -64,7 +62,27 @@ span.headeruser {
       margin-left: auto;
       display: flex;
       align-items: center;
-
+      .login-btn,
+      .logout-btn {
+        margin: 0 15px;
+      }
+      .login-btn,
+      .logout-btn {
+        background: #ae00ff;
+        border-radius: 40px;
+        padding: 10px 30px;
+        min-width: 140px;
+        text-align: center;
+        letter-spacing: 1px;
+        line-height: 26px;
+        font-family: "Mulish", sans-serif;
+        font-weight: 600;
+        transition: all 0.3s ease-in-out;
+        color: #fff !important;
+        &:hover {
+          background-color: #c266ed;
+        }
+      }
       .dropdown {
         .dropdown-menu {
           a:hover {
@@ -111,9 +129,9 @@ span.headeruser {
     }
   }
 
-  .css-13cymwt-control{
+  .css-13cymwt-control {
     background-color: transparent;
-    border: 0px ;
+    border: 0px;
   }
   &__menu {
     display: flex;
@@ -150,21 +168,6 @@ span.headeruser {
           height: 21px;
         }
       }
-    }
-  }
-  a.login-btn.nav-link {
-    background: #ae00ff;
-    border-radius: 40px;
-    padding: 10px 30px;
-    min-width: 140px;
-    text-align: center;
-    letter-spacing: 1px;
-    line-height: 26px;
-    font-family: "Mulish", sans-serif;
-    font-weight: 600;
-    transition: all 0.3s ease-in-out;
-    &:hover {
-      background-color: #c266ed;
     }
   }
 }
@@ -245,7 +248,7 @@ span.headeruser {
       background: #140622;
       flex-direction: column;
       padding: 15px;
-      
+
       .customHeader__menu {
         flex-direction: column;
         width: 100%;
@@ -275,15 +278,15 @@ span.headeruser {
         .eprofile {
           display: none;
         }
+        .login-btn,
+        .logout-btn {
+          width: 100% !important;
+          margin: 0 0 15px 0 !important;
+          border-radius: 6px !important;
+        }
       }
       .customHeader__socialIcons {
         margin-bottom: 15px;
-      }
-
-      .login-btn{
-        width: 100% !important;
-        margin: 0 0 15px 0 !important;
-        border-radius: 6px !important;
       }
     }
   }
