@@ -26,10 +26,14 @@ import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
+import { useTranslation } from "react-i18next";
 import "../../styles/user/home.scss";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
+
+  // i18n translator functions
+  const { t, i18n } = useTranslation();
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -65,15 +69,11 @@ function Home() {
           <Row>
             <Col md={5} sm={12}>
               <div className="text-block">
-                <h1>Learn crypto from beginner to Pro</h1>
-                <p>
-                  The Screeno ecosystem is designed to help you generate profit.
-                  Set up complete sales and marketing funnels with ease using
-                  the Screeno
-                </p>
+                <h1>{t("usrHomeHeading")}</h1>
+                <p>{t("usrHomeSubHeading")}</p>
                 <div className="btns-group">
                   <a href="void 0" className="try-btn">
-                    Try for Free
+                    {t("tryForFree")}
                   </a>
                   <a href="void 0" target="_blank" className="aple">
                     {/* <Image src={appleStore} /> */}
@@ -93,11 +93,8 @@ function Home() {
         <section className="platform-section">
           <Container>
             <div className="title-block">
-              <h3>All-in-one platform</h3>
-              <p>
-                You take care of the video quality and we take care of
-                everything else
-              </p>
+              <h3>{t("platformHead")}</h3>
+              <p>{t("platformSubHead")}</p>
             </div>
             <Row>
               <Col md={8}>
@@ -113,36 +110,27 @@ function Home() {
                       <span className="cardIcon">
                         <UploadIcon />
                       </span>
-                      Upload & Organize
+                      {t("uploadAndOrganize")}
                     </h4>
-                    <p>
-                      Upload in bulk, organize content in categories, add custom
-                      filters & upload extras.
-                    </p>
+                    <p>{t("uploaqInBulk")}</p>
                   </div>
                   <div className="card-all">
                     <h4>
                       <span className="cardIcon">
                         <MoneterizationIcon />
                       </span>
-                      Monetization
+                      {t("monetization")}
                     </h4>
-                    <p>
-                      Offer subscriptions or one-time purchases. Accept credit
-                      cards & PayPal.
-                    </p>
+                    <p>{t("monetizationSub")}</p>
                   </div>
                   <div className="card-all">
                     <h4>
                       <span className="cardIcon">
                         <StreamIcon />
                       </span>
-                      Stream On-Demand
+                      {t("streamOnDemand")}
                     </h4>
-                    <p>
-                      Showcase your content in a beautiful on-demand video
-                      catalog.
-                    </p>
+                    <p>{t("streamOnDemandSub")}</p>
                   </div>
                 </div>
               </Col>
@@ -154,10 +142,11 @@ function Home() {
           <Container>
             <div className="title-block">
               <h2 className="text-white" id="popular">
-                most popular <Image src={downarrow} />
+                {t("mostPopular")}
+                <Image src={downarrow} />
               </h2>
               <a href="/programs" className="view-all-link">
-                View All
+                {t("viewAll")}
               </a>
             </div>
 
@@ -198,7 +187,7 @@ function Home() {
             <div className="text-center loadBtnWrap pt-5">
               {itemsToLoad < cardsData.length && (
                 <button onClick={loadMore} className="load-more-btn">
-                  Load more
+                  {t("loadMore")}
                 </button>
               )}
 

@@ -16,10 +16,14 @@ import { ROUTES } from "../../navigation/constants";
 import { Button } from "../common";
 import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/reducers/userSlices/userAuth";
+import { useTranslation } from "react-i18next";
 import "../../styles/user/header.scss";
 
 function Header() {
   const [show, setShow] = useState(true);
+
+  // i18n translator functions
+  const { t, i18n } = useTranslation();
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -55,6 +59,9 @@ function Header() {
     dispatch(userLogout());
   };
 
+  const onLeanguageChange = (language) => {
+    i18n.changeLanguage(language);
+  };
   return (
     <>
       <div className="customHeader">
@@ -84,10 +91,10 @@ function Header() {
               <div className="customHeader__dropMenu">
                 <ul className="customHeader__menu">
                   <li>
-                    <Link to={usrHome}>Home</Link>
+                    <Link to={usrHome}>{t("home")}</Link>
                   </li>
                   <li>
-                    <Link to={usrPrograms}>Programs</Link>
+                    <Link to={usrPrograms}>{t("programs")}</Link>
                   </li>
                 </ul>
 
@@ -122,22 +129,36 @@ function Header() {
                 </ul>
 
                 <Nav className="right-nav">
-                  <NavDropdown title="English" id="collapsible-nav-dropdown">
-                    <NavDropdown.Item href="#action/3.1">
+                  <NavDropdown
+                    title={t("language")}
+                    id="collapsible-nav-dropdown"
+                  >
+                    <NavDropdown.Item
+                      onClick={() => {
+                        onLeanguageChange("en");
+                      }}
+                    >
                       English
                     </NavDropdown.Item>
-                    <NavDropdown.Item href="#action/3.2">
+                    <NavDropdown.Item
+                      onClick={() => {
+                        onLeanguageChange("es");
+                      }}
+                    >
                       Español
                     </NavDropdown.Item>
-
-                    <NavDropdown.Item href="#action/3.2">
+                    <NavDropdown.Item
+                      onClick={() => {
+                        onLeanguageChange("fr");
+                      }}
+                    >
                       Français
                     </NavDropdown.Item>
                   </NavDropdown>
 
                   {!userAuthtoken ? (
                     <Link to={usrLogin} className="login-btn">
-                      Login
+                      {t("login")}
                     </Link>
                   ) : (
                     <>
@@ -145,7 +166,7 @@ function Header() {
                         loading={false}
                         loadMsg={false}
                         type="button"
-                        title="Logout"
+                        title={t("logout")}
                         className="logout-btn "
                         onClick={onLogouthandler}
                       />
