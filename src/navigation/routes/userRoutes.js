@@ -16,13 +16,25 @@ import {
 import Otp from "../../pages/user/Otp";
 import { ROUTES } from "../constants";
 
-const { usrLogin, usrPrograms, usrResetPassword, usrCreatePassword, usrOtp } =
-  ROUTES;
+const {
+  usrLogin,
+  usrPrograms,
+  usrResetPassword,
+  usrCreatePassword,
+  usrOtp,
+  usrVideoPlayer,
+  usrHome,
+  usrPrivacy,
+  usrRefundPolicy,
+  usrTermCon,
+  usrSignUp,
+  usrEditProfile,
+} = ROUTES;
 export const userRoutes = [
   {
     id: 1,
     type: "public",
-    path: "/",
+    path: usrHome,
     Component: Home,
     Auth: false,
     defaultComp: true,
@@ -30,7 +42,7 @@ export const userRoutes = [
   {
     id: 2,
     type: "public",
-    path: "privacy-policy",
+    path: usrPrivacy,
     Component: PrivacyPolicy,
     Auth: false,
     defaultComp: false,
@@ -38,7 +50,7 @@ export const userRoutes = [
   {
     id: 3,
     type: "public",
-    path: "refunds-policy",
+    path: usrRefundPolicy,
     Component: RefundsPolicy,
     Auth: false,
     defaultComp: false,
@@ -46,7 +58,7 @@ export const userRoutes = [
   {
     id: 4,
     type: "public",
-    path: "terms-of-service",
+    path: usrTermCon,
     Component: TermsofService,
     Auth: false,
     defaultComp: false,
@@ -62,10 +74,10 @@ export const userRoutes = [
   },
   {
     id: 6,
-    type: "public",
-    path: "videoplayer",
+    type: "private",
+    path: usrVideoPlayer,
     Component: VideoPlayer,
-    Auth: false,
+    Auth: true,
     defaultComp: false,
   },
   {
@@ -79,7 +91,7 @@ export const userRoutes = [
   {
     id: 8,
     type: "public",
-    path: "signup",
+    path: usrSignUp,
     Component: Signup,
     Auth: false,
     defaultComp: false,
@@ -111,7 +123,7 @@ export const userRoutes = [
   {
     id: 12,
     type: "private",
-    path: "edit-profile",
+    path: usrEditProfile,
     Component: UserProfile,
     Auth: true,
     defaultComp: false,

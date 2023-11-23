@@ -10,14 +10,14 @@ export const getUserProgramList = createAsyncThunk(
   "user/getUserProgramList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { userAuthtoken, values } = data;
+    const { values } = data;
     try {
       const config = {
         method: "get",
         url: `${usrPrograms}?course_type=${values?.course_type}`,
       };
       dispatch(showLoader());
-      const response = await httpsClient(config, userAuthtoken);
+      const response = await httpsClient(config);
       dispatch(hideLoader());
       return response;
     } catch (error) {

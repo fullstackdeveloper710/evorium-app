@@ -34,14 +34,12 @@ function Programs() {
   //Methods
   useEffect(() => {
     const data = {
-      userAuthtoken,
       values: {
         course_type: "Free",
       },
     };
     dispatch(getUserProgramList(data));
     const data_for_Paid = {
-      userAuthtoken,
       values: {
         course_type: "Paid",
       },

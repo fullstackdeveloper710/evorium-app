@@ -6,12 +6,14 @@ import {
   TwitterIcon,
   InstagramIcon,
   FooterLogo,
-  OpenSea
+  OpenSea,
 } from "../../assets/icons/user";
 import "../../styles/user/footer.scss";
 import { Link } from "react-router-dom";
+import { ROUTES } from "../../navigation/constants";
 // import OpenSea from "../assets/icons/user/overSea.png";
 function FooterEvorium() {
+  const { usrPrivacy, usrRefundPolicy, usrTermCon } = ROUTES;
   return (
     <>
       <section className="footer">
@@ -117,13 +119,13 @@ function FooterEvorium() {
                     <h4>LEGAL INFO</h4>
                     <ul>
                       <li>
-                        <a href="terms-of-service">Terms Of Service</a>
+                        <Link to={usrTermCon}>Terms Of Service</Link>
                       </li>
                       <li>
-                        <a href="privacy-policy">Privacy Policy</a>
+                        <Link to={usrPrivacy}>Privacy Policy</Link>
                       </li>
                       <li>
-                        <a href="refunds-policy">Refunds Policy</a>
+                        <Link to={usrRefundPolicy}>Refunds Policy</Link>
                       </li>
                       <li>
                         <a href="#">Previous Collection</a>
