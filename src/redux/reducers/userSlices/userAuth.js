@@ -7,6 +7,7 @@ import {
   userSignUp,
   userVerifyNum,
 } from "../../thunk/user/usrMain";
+import { userRefreshToken } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
@@ -109,6 +110,22 @@ const userAuth = createSlice({
         state.userAuthtoken = payload.access_token;
       })
       .addCase(userFacebookLogin.rejected, (state, action) => {
+        // state.loading = false;
+        // state.error = action.payload;
+      });
+
+      builder
+      .addCase(userRefreshToken.pending, (state) => {
+        // state.loading = true;
+        state.error = null;
+      })
+      .addCase(userRefreshToken.fulfilled, (state, action) => {
+        const { payload } = action;
+        // state.loading = false;
+        state.userAuthtoken = payload.access_token;
+        state.userData = { ...payload };
+      })
+      .addCase(userRefreshToken.rejected, (state, action) => {
         // state.loading = false;
         // state.error = action.payload;
       });

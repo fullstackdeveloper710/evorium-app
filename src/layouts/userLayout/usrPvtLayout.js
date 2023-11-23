@@ -1,14 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Header } from "../../components/user";
 import { Navigate, Outlet } from "react-router-dom";
 import "../../styles/user/global.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
+import { isExpired, decodeToken } from "react-jwt";
+import { userRefreshToken } from "../../redux/thunk/user/usrMain";
+
 
 function UsrPvtLayout() {
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { usrLogin } = ROUTES;
-  if (userAuthtoken) {
+  const { userAuthtoken,userData } = useSelector((state) => state.userAuth);
+  const dispatch = useDispatch();
+
+  const { usrLogin, usrPrograms } = ROUTES;
+
+  useEffect(() => {
+    // const decoded = decodeToken(userAuthtoken);
+    // const targetTimestamp = decoded?.exp;
+    // const currentTimestamp = Math.floor(Date.now() / 1000);
+    // const timeDifference = targetTimestamp - currentTimestamp;
+
+
+    
+    // dispatch(userRefreshToken({ userAuthtoken })).then((res) =>
+    //   console.log(res)
+    // );
+
+    const timeoutId = setTimeout(() => {
+      const data = {
+        values: {
+          refresh_token:userData.refresh_token,
+        },
+      };
+      dispatch(userRefreshToken(data)).then((res) =>
+        console.log(res)
+      );
+    }, 10 * 1000);
+
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, []);
+  const isMyTokenExpired = isExpired(userAuthtoken);
+
+  // if (userAuthtoken) {
+  if (isMyTokenExpired) {
+    return <Navigate to={usrLogin} replace={true} />;
+  } else if (!isMyTokenExpired) {
     return (
       <div>
         <Header />
@@ -16,8 +54,7 @@ function UsrPvtLayout() {
       </div>
     );
   } else {
-    return <Navigate to={usrLogin} />;
-  }
+   }
 }
 
 export default UsrPvtLayout;
