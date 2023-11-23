@@ -228,7 +228,7 @@ const VideoPlayer = () => {
                           {/* <h2>{i.title}</h2> */}
                           <h2>introduction 2</h2>
 
-                          <span>1 ,min</span>
+                          <span>1 min</span>
                         </div>
                       </button>
                       {/* );
@@ -245,7 +245,7 @@ const VideoPlayer = () => {
                         <div className="timecodecBtn__caption">
                           <h2>introduction 3</h2>
 
-                          <span>1.30 mins</span>
+                          <span>1:30 mins</span>
                         </div>
                       </button>
                     </div>

@@ -49,7 +49,16 @@ export const userSignUp = createAsyncThunk(
 //     }
 //   }
 // );
-const { usrLogin } = userApi;
+const {
+  usrLogin,
+  usrResetPass,
+  forgetPass,
+  usrVerify,
+  usrGoogleLogin,
+  usrFacebookLogin,
+  usrMyAccount,
+  usrRefreshToken,
+} = userApi;
 
 export const userLogin = createAsyncThunk(
   "user/userLogin",
@@ -74,8 +83,6 @@ export const userLogin = createAsyncThunk(
 );
 // reset password
 
-const { usrResetPass } = userApi;
-
 export const resetPassword = createAsyncThunk(
   "user/resetPassword",
   async (data, thunkAPI) => {
@@ -98,8 +105,6 @@ export const resetPassword = createAsyncThunk(
 
 // FORGET PASSWORD--------------------
 
-const { forgetPass } = commonApi;
-
 export const forgotPassword = createAsyncThunk(
   "user/forgotPassword",
   async (data, thunkAPI) => {
@@ -120,8 +125,6 @@ export const forgotPassword = createAsyncThunk(
   }
 );
 // verify otp
-
-const { usrVerify } = userApi;
 
 export const userVerifyNum = createAsyncThunk(
   "user/userVerifyNum",
@@ -148,7 +151,6 @@ export const userVerifyNum = createAsyncThunk(
 );
 
 // user GOOGLE login
-const { usrGoogleLogin } = userApi;
 export const userGoogleLogin = createAsyncThunk(
   "user/userGoogleLogin",
   async (data, thunkAPI) => {
@@ -172,7 +174,7 @@ export const userGoogleLogin = createAsyncThunk(
 );
 
 // user FACEBOOK login
-const { usrFacebookLogin } = userApi;
+
 export const userFacebookLogin = createAsyncThunk(
   "user/userFacebookLogin",
   async (data, thunkAPI) => {
@@ -196,7 +198,6 @@ export const userFacebookLogin = createAsyncThunk(
 );
 
 // get my account details
-const { usrMyAccount } = userApi;
 
 export const getMyAccount = createAsyncThunk(
   "user/getMyAccount",
@@ -214,6 +215,29 @@ export const getMyAccount = createAsyncThunk(
       return response;
     } catch (error) {
       dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+export const userRefreshToken = createAsyncThunk(
+  "user/userRefreshToken",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { values, userAuthtoken } = data;
+    console.log("api hit");
+    try {
+      const config = {
+        method: "post",
+        url: usrRefreshToken,
+        data: values,
+      };
+      dispatch(showRootLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideRootLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideRootLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }

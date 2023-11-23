@@ -4,7 +4,10 @@ import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { star } from "../../assets/icons/user";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
+import {
+  getUserProgramList,
+  userFilterPrograms,
+} from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import moment from "moment";
@@ -18,11 +21,12 @@ function Programs() {
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userPaidPrograms, userFreePrograms } = useSelector(
-    (state) => state.userPrograms
-  );
+  const { userPaidPrograms, userFreePrograms, userAZPrograms, userZAPrograms } =
+    useSelector((state) => state.userPrograms);
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
+  const { data: atoz } = userAZPrograms;
+  const { data: ztoa } = userZAPrograms;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -38,6 +42,7 @@ function Programs() {
         course_type: "Free",
       },
     };
+    console.log("freeee", data);
     dispatch(getUserProgramList(data));
     const data_for_Paid = {
       values: {
@@ -46,6 +51,29 @@ function Programs() {
     };
 
     dispatch(getUserProgramList(data_for_Paid));
+  }, [userAuthtoken, dispatch]);
+
+  useEffect(() => {
+    const data_filter = {
+      userAuthtoken,
+      values: {
+        sort_by: "az",
+        categories: "new",
+        speakers: "simpson",
+      },
+    };
+    dispatch(userFilterPrograms(data_filter));
+
+    const data_filter2 = {
+      userAuthtoken,
+      values: {
+        sort_by: "za",
+        categories: "pro",
+        speakers: "Andy William",
+      },
+    };
+    console.log(data_filter2, "A to Z");
+    dispatch(userFilterPrograms(data_filter2));
   }, [userAuthtoken, dispatch]);
 
   const onCardClick = (values) => {
@@ -72,6 +100,7 @@ function Programs() {
   const onSortHandler = (val) => {
     setSorted(val);
   };
+
   const loadMore = () => {
     setItemsToLoad(cardsData.length);
   };
@@ -87,7 +116,6 @@ function Programs() {
   const loadMoreTop = () => {
     setItemsToLoadTop(cardsData.length);
   };
-
   return (
     <>
       <main>
@@ -96,7 +124,7 @@ function Programs() {
             <Container>
               <div className="title-block">
                 <h1>Programs</h1>
-                <span>({cardsData.length})</span>
+                <span>({freeData.length + paidData.length})</span>
               </div>
 
               <div className="platformFilter">
@@ -111,10 +139,18 @@ function Programs() {
                         <NavDropdown.Item
                           href="#action/3.1"
                           onClick={() => {
-                            onSortHandler("all");
+                            onSortHandler("az");
                           }}
                         >
-                          All
+                          A-Z
+                        </NavDropdown.Item>
+                        <NavDropdown.Item
+                          href="#action/3.2"
+                          onClick={() => {
+                            onSortHandler("za");
+                          }}
+                        >
+                          Z-A
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           href="#action/3.2"
@@ -122,15 +158,24 @@ function Programs() {
                             onSortHandler("free");
                           }}
                         >
-                          Free
+                          High-Low
+                        </NavDropdown.Item>
+
+                        <NavDropdown.Item
+                          href="#action/3.2"
+                          onClick={() => {
+                            onSortHandler("free");
+                          }}
+                        >
+                          Low-High
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           href="#action/3.2"
                           onClick={() => {
-                            onSortHandler("pro");
+                            onSortHandler("free");
                           }}
                         >
-                          Pro
+                          Latest
                         </NavDropdown.Item>
                       </NavDropdown>
 
@@ -145,7 +190,7 @@ function Programs() {
                             onSortHandler("pro");
                           }}
                         >
-                          pro
+                          Category
                         </NavDropdown.Item>
                         <NavDropdown.Item
                           href="#action/3.2"
@@ -153,7 +198,7 @@ function Programs() {
                             onSortHandler("free");
                           }}
                         >
-                          Free
+                          Speaker
                         </NavDropdown.Item>
                       </NavDropdown>
                     </Nav>
@@ -178,7 +223,10 @@ function Programs() {
 
           {/* free */}
 
-          {(sorted === "all" || sorted === "free") && (
+          {(sorted === "all" ||
+            sorted === "free" ||
+            sorted === "az" ||
+            sorted === "za") && (
             <section className=" program-section">
               <Container>
                 <Row className="align-items-end">
@@ -193,7 +241,7 @@ function Programs() {
                     </div>
                   </Col>
                   <Col md={4} className="text-end">
-                    {itemsToLoad < cardsData.length && (
+                    {itemsToLoad < freeData.length && (
                       <button onClick={loadMore} className="view-All-btn">
                         View All
                       </button>
@@ -274,7 +322,10 @@ function Programs() {
           )}
 
           {/* pro */}
-          {(sorted === "all" || sorted === "pro") && (
+          {(sorted === "all" ||
+            sorted === "pro" ||
+            sorted === "az" ||
+            sorted === "za") && (
             <section className="pro-section py-5">
               <Container>
                 <Row className="align-items-end">
@@ -291,7 +342,7 @@ function Programs() {
                     </div>
                   </Col>
                   <Col md={4} className="text-end">
-                    {itemsToLoadPro < cardsData.length && (
+                    {itemsToLoadPro < paidData.length && (
                       <button onClick={loadMorePro} className="view-All-btn">
                         View All
                       </button>

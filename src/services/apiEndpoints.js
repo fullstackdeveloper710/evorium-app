@@ -12,6 +12,8 @@ const userApi = {
 
   //pending
   usrRefreshToken: "/user/refresh_token",
+  usrRefreshToken: "/user/refresh_token",
+  usrFilterPrograms: "user/filter",
 };
 
 const commonApi = {

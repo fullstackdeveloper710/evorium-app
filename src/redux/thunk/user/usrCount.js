@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { usrViewCount} = userApi;
+const { usrViewCount , usrRecentProgram} = userApi;
 
 export const userViewCount = createAsyncThunk(
   "user/userViewCount",
@@ -32,7 +32,6 @@ export const userViewCount = createAsyncThunk(
 
 // RECENT PROGRAMS
 
-const { usrRecentProgram} = userApi;
 
 export const userRecentProgram = createAsyncThunk(
   "user/userRecentProgram",
