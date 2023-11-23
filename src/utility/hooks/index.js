@@ -5,6 +5,7 @@ import useCmsEditor from "./useCmsEditor";
 import usePagination from "./usePagination";
 import useConfirmation from "./useConfirmation";
 import useFetch from "./useFetch";
+import useCropper from "./useCropper";
 
 export {
   useSearch,
@@ -14,4 +15,5 @@ export {
   usePagination,
   useConfirmation,
   useFetch,
+  useCropper,
 };

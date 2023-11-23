@@ -93,6 +93,7 @@ const VideoPlayer = () => {
         show={show}
         handleClose={handleClose}
         handleShow={handleShow}
+        modalHead="Payment Screen"
       >
         <Elements stripe={stripePromise}>
           <CheckoutForm />

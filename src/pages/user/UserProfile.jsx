@@ -7,9 +7,9 @@ import * as Yup from "yup";
 import { getMyAccount } from "../../redux/thunk/user/usrMain";
 import { userEditProfile } from "../../redux/thunk/user/usrProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { CustomModal, Input } from "../../components/common";
+import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
-import { useModal } from "../../utility/hooks";
+import { useCropper, useModal } from "../../utility/hooks";
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -24,6 +24,7 @@ const UserProfile = () => {
 
   //Custom hooks
   const { show, handleClose, handleShow } = useModal();
+  const { updateCroppedImg, cancelCrop } = useCropper();
 
   //country selebox options
   const CountryOptions = [
@@ -89,9 +90,14 @@ const UserProfile = () => {
     dispatch(userEditProfile(data));
   };
 
-  const handleImageChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedImage(URL.createObjectURL(file));
+  const handleImageChange = (e, setFieldValue) => {
+    const file = e.target.files[0];
+    console.log(file, "file");
+    if (file) {
+      handleShow();
+    }
+    // setFieldValue("profile_pic", URL.createObjectURL(file));
+    // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
   };
 
   return (
@@ -112,6 +118,7 @@ const UserProfile = () => {
               handleChange,
               handleSubmit,
               handleBlur,
+              setFieldValue,
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
@@ -123,7 +130,7 @@ const UserProfile = () => {
                           type="file"
                           accept="image/*"
                           value={values.profile_pic}
-                          onChange={handleImageChange}
+                          onChange={(e) => handleImageChange(e, setFieldValue)}
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
@@ -151,8 +158,14 @@ const UserProfile = () => {
                       show={show}
                       handleClose={handleClose}
                       handleShow={handleShow}
+                      modalHead="Image cropper"
                     >
-                      Custom modal
+                      <ImageCropper
+                        updateCroppedImg={updateCroppedImg}
+                        // image={image}
+                        // file={file}
+                        cancelCrop={cancelCrop}
+                      />
                     </CustomModal>
                   </Col>
 

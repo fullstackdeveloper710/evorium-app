@@ -7,13 +7,4 @@ import { default as Header } from "./Header";
 import { default as Slider } from "./Slider";
 // import { default as CheckoutForm } from "./Stripe";
 
-export {
-  Alert,
-  Button,
-  Card,
-  CustomModal,
-  FooterEvorium,
-  Header,
-  Slider,
-  
-};
+export { Alert, Button, Card, CustomModal, FooterEvorium, Header, Slider };

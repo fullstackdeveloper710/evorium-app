@@ -14,6 +14,7 @@ import DateFilter from "./DateFilter";
 import CheckoutForm from "./Stripe";
 import CustomModal from "./CustomModal";
 import CmsEditor from "./CmsEditor";
+import ImageCropper from "./ImageCropper";
 
 export {
   BtnGroup,
@@ -31,5 +32,6 @@ export {
   DateFilter,
   CheckoutForm,
   CustomModal,
-  CmsEditor
+  CmsEditor,
+  ImageCropper,
 };

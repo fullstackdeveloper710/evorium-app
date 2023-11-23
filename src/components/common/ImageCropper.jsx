@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from "react";
 import Cropper from "react-easy-crop";
 import getCroppedImg from "../../utility/croppedImg";
-import Button from "components/Button";
-import "../../styles/imgCropper.scss";
+import Button from "./Button";
+import "../../styles/common/imgCropper.scss";
 
 const ImageCropper = ({ image, updateCroppedImg, cancelCrop, file }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 });
