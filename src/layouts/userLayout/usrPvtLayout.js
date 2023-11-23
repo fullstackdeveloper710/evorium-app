@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { isExpired } from "react-jwt";
 import "../../styles/user/global.scss";
+import { userRefreshToken } from "../../redux/thunk/user/usrMain";
 
 function UsrPvtLayout() {
   const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
