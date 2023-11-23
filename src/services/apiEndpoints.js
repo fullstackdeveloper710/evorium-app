@@ -9,9 +9,8 @@ const userApi = {
   usrEditProfile: "user/update",
   usrViewCount: "user/program_view_count",
   usrRecentProgram:"user/recent_program",
-  
-
   usrRefreshToken: "/user/refresh_token",
+  usrFilterPrograms: "user/filter"
 
 };
 
