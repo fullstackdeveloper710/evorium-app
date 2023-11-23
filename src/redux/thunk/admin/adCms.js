@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
-import { adminApi } from "../../../services/apiEndpoints";
+import { adminApi, commonApi } from "../../../services/apiEndpoints";
 import { hideRootLoader, showRootLoader } from "../../reducers/common/appSlice";
 
 const {
@@ -9,12 +9,14 @@ const {
   adAddPrivacyPolicy,
   adAddTermAndConditions,
   adAddSupport,
+} = adminApi;
+const {
   adGetSocialMedia,
   adGetAboutUs,
   adGetPrivacyPolicy,
   adGetTermAndConditions,
   adGetSupport,
-} = adminApi;
+} = commonApi;
 
 //add admin social links cms thunk
 export const addAdminSocialLinks = createAsyncThunk(

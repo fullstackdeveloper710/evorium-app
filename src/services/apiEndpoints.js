@@ -16,6 +16,12 @@ const userApi = {
 
 const commonApi = {
   forgetPass: "/forget_password",
+  adFaqList: "/faq_list",
+  adGetSocialMedia: "/social_media_links",
+  adGetAboutUs: "/about_us",
+  adGetPrivacyPolicy: "/privacy_policy",
+  adGetTermAndConditions: "/terms_and_conditions",
+  adGetSupport: "/support",
 };
 
 const adminApi = {
@@ -37,7 +43,6 @@ const adminApi = {
   adDelCategory: "/admin/delete_category",
   adDelTag: "/admin/delete_tag",
   adDelFaq: "/admin/delete_faq",
-  adFaqList: "/admin/faq_list",
   adAddFaq: "/admin/add_faq",
   adSearchFaq: "admin/search_faq",
   adSearchProgram: "/admin/search_program",
@@ -47,11 +52,6 @@ const adminApi = {
   adAddPrivacyPolicy: "/admin/add_privacy_policy",
   adAddTermAndConditions: "/admin/add_terms_and_conditions",
   adAddSupport: "/admin/add_support",
-  adGetSocialMedia: "/admin/get_social_media_links",
-  adGetAboutUs: "/admin/get_about_us",
-  adGetPrivacyPolicy: "/admin/get_privacy_policy",
-  adGetTermAndConditions: "/admin/get_terms_and_conditions",
-  adGetSupport: "/admin/get_support",
   adDelProgram: "/admin/delete_program",
   adGetProgram: "/admin/program",
   adGetPaymentList: "/admin/payments",

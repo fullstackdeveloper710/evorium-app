@@ -1,9 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
-import { adminApi } from "../../../services/apiEndpoints";
+import { adminApi, commonApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adDelFaq, adFaqList, adAddFaq,adSearchFaq } = adminApi;
+const { adDelFaq, adAddFaq, adSearchFaq } = adminApi;
+const { adFaqList } = commonApi;
 
 // get admin faq list thunk
 export const getAdminFaqs = createAsyncThunk(
