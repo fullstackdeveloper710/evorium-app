@@ -26,7 +26,7 @@ export const getUserProgramList = createAsyncThunk(
     }
   }
 );
-// filter programs 
+// filter programs
 export const userFilterPrograms = createAsyncThunk(
   "user/userFilterPrograms",
   async (data, thunkAPI) => {

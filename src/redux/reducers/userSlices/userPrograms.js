@@ -1,5 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getUserProgramList, userFilterPrograms } from "../../thunk/user/usrPrograms";
+import {
+  getUserProgramList,
+  userFilterPrograms,
+} from "../../thunk/user/usrPrograms";
 
 const initialState = {
   userFreePrograms: {
@@ -60,11 +63,9 @@ const userProgramsSlice = createSlice({
         state.status = false;
       });
 
+    // filter programs reducer
 
-      // filter programs reducer
-
-
-      builder
+    builder
       .addCase(userFilterPrograms.pending, (state) => {
         state.error = null;
         state.status = false;
@@ -73,14 +74,12 @@ const userProgramsSlice = createSlice({
         const {
           meta: {
             arg: {
-              values: { sort_by,
-                categories,
-                speakers },
+              values: { sort_by, categories, speakers },
             },
           },
           payload,
         } = action;
-        if (sort_by === "az" ) {
+        if (sort_by === "az") {
           state.userAZPrograms = payload;
         } else {
           state.userZAPrograms = payload;
@@ -101,7 +100,6 @@ const userProgramsSlice = createSlice({
       .addCase(userFilterPrograms.rejected, (state, action) => {
         state.status = false;
       });
-
   },
 });
 
