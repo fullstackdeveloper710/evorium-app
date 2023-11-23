@@ -44,6 +44,7 @@ const UserProfile = () => {
     password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
     profile_pic: null,
+    file: null,
   };
 
   //Formin validation schema
@@ -96,7 +97,7 @@ const UserProfile = () => {
     if (file) {
       handleShow();
     }
-    // setFieldValue("profile_pic", URL.createObjectURL(file));
+    setFieldValue("file", file);
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
   };
 
@@ -157,13 +158,12 @@ const UserProfile = () => {
                     <CustomModal
                       show={show}
                       handleClose={handleClose}
-                      handleShow={handleShow}
                       modalHead="Image cropper"
                     >
                       <ImageCropper
                         updateCroppedImg={updateCroppedImg}
-                        // image={image}
-                        // file={file}
+                        image={"image"}
+                        file={values.file}
                         cancelCrop={cancelCrop}
                       />
                     </CustomModal>

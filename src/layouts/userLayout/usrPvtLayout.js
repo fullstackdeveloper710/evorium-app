@@ -29,7 +29,7 @@ function UsrPvtLayout() {
           refresh_token: userData.refresh_token,
         },
       };
-      dispatch(userRefreshToken(data)).then((res) => console.log(res));
+      // dispatch(userRefreshToken(data)).then((res) => console.log(res));
     }, 10 * 1000);
 
     return () => {

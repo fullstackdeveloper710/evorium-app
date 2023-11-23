@@ -13,6 +13,8 @@ const ImageCropper = ({ image, updateCroppedImg, cancelCrop, file }) => {
     setCroppedAreaPixels(croppedAreaPixels);
   }, []);
 
+  console.log(file, "file in image cropper");
+
   const name = file?.name;
   const type = file?.type;
 

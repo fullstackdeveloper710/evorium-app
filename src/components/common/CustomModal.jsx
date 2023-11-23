@@ -1,13 +1,7 @@
 import { Modal, Button } from "react-bootstrap";
 import React from "react";
 
-const CustomModal = ({
-  modalHead,
-  show,
-  handleClose,
-  handleShow,
-  children,
-}) => {
+const CustomModal = ({ modalHead, show, handleClose, children }) => {
   return (
     <Modal show={show} onHide={handleClose}>
       <div>
