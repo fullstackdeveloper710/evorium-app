@@ -273,12 +273,14 @@ function FooterEvorium() {
               <p>© 2023 EVORIUM</p>
             </div>
             <div className="privacy-links">
-              <a href="#">Terms of Service</a>
-              <a href="#">Refunds Policy</a>
-              <a href="#">Privacy Policy</a>
+              <Link to={usrTermCon}>Terms of Service</Link>
+              <Link to={usrRefundPolicy}>Refunds Policy</Link>
+              <Link to={usrPrivacy}>Privacy Policy</Link>
             </div>
             <div className="email-div">
-              <a href="#">contact@evorium.com</a>
+              <a href="mailto:contact@evorium.com" target="_blank">
+                contact@evorium.com
+              </a>
             </div>
           </div>
         </Container>
