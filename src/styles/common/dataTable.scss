@@ -63,14 +63,24 @@
   }
 }
 
-.dqWbTW {
+
   .top_bar {
     width: 100%;
     padding-bottom: 15px;
   }
-}
-.jTPWeN {
+
+.jTPWeN,.kZOmcs {
   display: inherit !important;
+}
+.rdt_TableRow {
+  .rdt_TableCell {
+    .user_name {
+      img {
+        width: 50px;
+        height: 50px;
+      }
+    }
+  }
 }
 @media (max-width: 1550px) {
   .rdt_Table {

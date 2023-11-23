@@ -42,12 +42,12 @@
           color: #fff;
           text-decoration: none;
           cursor: pointer;
-          transition: all .30s ease-in-out;
+          transition: left .30s ease-in-out;
+          position: relative;
+          left: 0px;
           &:hover{
             color: #FF00C8;
             left: 5px;
-            position: relative;
-           
           }
         }
       }
