@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Image } from "react-bootstrap";
 import { Button } from "../../components/user";
 import { UserIcon, CameraIcon, EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
@@ -7,8 +7,9 @@ import * as Yup from "yup";
 import { getMyAccount } from "../../redux/thunk/user/usrMain";
 import { userEditProfile } from "../../redux/thunk/user/usrProfile";
 import { useDispatch, useSelector } from "react-redux";
-import { Input } from "../../components/common";
+import { CustomModal, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
+import { useModal } from "../../utility/hooks";
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -20,6 +21,9 @@ const UserProfile = () => {
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Custom hooks
+  const { show, handleClose, handleShow } = useModal();
 
   //country selebox options
   const CountryOptions = [
@@ -38,6 +42,7 @@ const UserProfile = () => {
     phone: userDetails?.phone ?? "",
     password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
+    profile_pic: null,
   };
 
   //Formin validation schema
@@ -122,14 +127,33 @@ const UserProfile = () => {
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
-                            <UserIcon />
+                            {values.profile_pic ? (
+                              <Image
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  borderRadius: "100%",
+                                }}
+                                src={values.profile_pic}
+                                alt="user_pro"
+                              />
+                            ) : (
+                              <UserIcon />
+                            )}
                           </div>
                           <div className="editUser__icon">
-                            <CameraIcon />
+                            <CameraIcon onClick={handleShow} />
                           </div>
                         </label>
                       </div>
                     </div>
+                    <CustomModal
+                      show={show}
+                      handleClose={handleClose}
+                      handleShow={handleShow}
+                    >
+                      Custom modal
+                    </CustomModal>
                   </Col>
 
                   <Col md={12}>
