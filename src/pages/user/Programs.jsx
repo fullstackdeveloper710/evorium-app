@@ -267,7 +267,7 @@ console.log(data_filter2,"A to Z")
                     </div>
                   </Col>
                   <Col md={4} className="text-end">
-                    {itemsToLoad < cardsData.length && (
+                    {itemsToLoad < freeData.length && (
                       <button onClick={loadMore} className="view-All-btn">
                         View All
                       </button>
@@ -370,7 +370,7 @@ console.log(data_filter2,"A to Z")
                     </div>
                   </Col>
                   <Col md={4} className="text-end">
-                    {itemsToLoadPro < cardsData.length && (
+                    {itemsToLoadPro < paidData.length && (
                       <button onClick={loadMorePro} className="view-All-btn">
                         View All
                       </button>
