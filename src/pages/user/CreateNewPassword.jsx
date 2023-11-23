@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import {Button} from "../../components/user";
+// import { Button } from "../../components/user";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
+import { useNavigate } from "react-router";
+import { ROUTES } from "../../navigation/constants";
+import { Button } from "../../components/common";
 
 const CreateNewPassword = () => {
   const [show, setShow] = useState(false);
 
+  //Router functions
+  const navigate = useNavigate();
+
+  //Routes
+  const { usrLogin } = ROUTES;
+
+  //Formik initial values
   const initValues = {
     password: "",
     confirmpassword: "",
   };
+
+  //Formik validation schema
   const validationSchema = Yup.object().shape({
     // password: Yup.string().required("Enter Password"),
     // confirmpassword: Yup.string().required("Confirm Password"),
-    password: Yup.string().required('Password is required'),
+    password: Yup.string().required("Password is required"),
     confirmpassword: Yup.string()
-       .oneOf([Yup.ref('password'), null], 'Passwords must match')
-       .required('Password is required'),
-  
+      .oneOf([Yup.ref("password"), null], "Passwords must match")
+      .required("Password is required"),
   });
 
-  function submit() {
-    // console.log("login");
-    localStorage.setItem('login',true)
-    window.open("/login", "_self");
+  //Methods
+  function onSubmitHandler() {
+    localStorage.setItem("login", true);
+    navigate(usrLogin);
   }
 
   return (
@@ -35,11 +46,7 @@ const CreateNewPassword = () => {
         <p className="auth__subTitle">
           Your new password must be differnet from previous used passwords.
         </p>
-        <Formik
-          initialValues={initValues}
-          validationSchema={validationSchema}
-         
-        >
+        <Formik initialValues={initValues} validationSchema={validationSchema}>
           {({
             values,
             isSubmitting,
@@ -104,9 +111,10 @@ const CreateNewPassword = () => {
 
                 <Col md="12">
                   <Button
+                    type="submit"
                     title={"Confirm"}
                     className="submitBtn"
-                    submit={submit}
+                    onClick={onSubmitHandler}
                   />
                 </Col>
               </Row>

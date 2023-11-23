@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   forgotPassword,
-  resetPassword,
   userFacebookLogin,
   userGoogleLogin,
   userLogin,
@@ -12,6 +11,7 @@ import {
 const initialState = {
   status: false,
   userAuthtoken: null,
+  userData: { user_id: null },
 };
 
 const userAuth = createSlice({
@@ -47,8 +47,8 @@ const userAuth = createSlice({
       .addCase(userLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
+        state.userData = { ...payload };
       })
       .addCase(userLogin.rejected, (state, action) => {
         // state.loading = false;
@@ -90,7 +90,6 @@ const userAuth = createSlice({
       .addCase(userGoogleLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.userAuthtoken = payload.access_token;
       })
       .addCase(userGoogleLogin.rejected, (state, action) => {
@@ -98,26 +97,23 @@ const userAuth = createSlice({
         // state.error = action.payload;
       });
 
-
-
-        // FACEBOOK login reducer
+    // FACEBOOK login reducer
     builder
-    .addCase(userFacebookLogin.pending, (state) => {
-      // state.loading = true;
-      state.error = null;
-    })
-    .addCase(userFacebookLogin.fulfilled, (state, action) => {
-      const { payload } = action;
-      // state.loading = false;
-      console.log(payload, "payload");
-      state.userAuthtoken = payload.access_token;
-    })
-    .addCase(userFacebookLogin.rejected, (state, action) => {
-      // state.loading = false;
-      // state.error = action.payload;
-    });
+      .addCase(userFacebookLogin.pending, (state) => {
+        // state.loading = true;
+        state.error = null;
+      })
+      .addCase(userFacebookLogin.fulfilled, (state, action) => {
+        const { payload } = action;
+        // state.loading = false;
+        state.userAuthtoken = payload.access_token;
+      })
+      .addCase(userFacebookLogin.rejected, (state, action) => {
+        // state.loading = false;
+        // state.error = action.payload;
+      });
   },
 });
 
-export const {} = userAuth.actions;
+// export const {} = userAuth.actions;
 export default userAuth.reducer;

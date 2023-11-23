@@ -2,7 +2,6 @@ import Button from "./Button";
 import Modal from "react-bootstrap/Modal";
 
 function Alert({ title, body, btnTitle, show, showClose, icon }) {
-  console.log(showClose);
   return (
     <>
       {show && (

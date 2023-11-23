@@ -3,70 +3,83 @@ import { Image } from "react-bootstrap";
 import { upload } from "../../assets/icons/admin";
 import { useDropzone } from "react-dropzone";
 import { dataURLtoFile } from "../../utility/methods";
+import ReactPlayer from "react-player";
 
-const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
+const VideoUploader = ({
+  video,
+  setFieldValue,
+  thumbnails,
+  disabled,
+  videoUrl,
+  videoTitle,
+}) => {
   const [loading, setLoading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
 
-  const onDrop = useCallback(async (acceptedFiles) => {
-    const file = acceptedFiles[0];
-    setFieldValue("video", file);
-    setLoading(true);
+  const onDrop = useCallback(
+    async (acceptedFiles) => {
+      const file = acceptedFiles[0];
+      setFieldValue("video", file);
+      setLoading(true);
 
-    const videoBlob = URL.createObjectURL(file);
+      const videoBlob = URL.createObjectURL(file);
 
-    const video = document.createElement("video");
-    video.src = videoBlob;
+      const video = document.createElement("video");
+      video.src = videoBlob;
 
-    video.addEventListener("loadeddata", async () => {
-      const canvas = document.createElement("canvas");
-      const context = canvas.getContext("2d");
+      video.addEventListener("loadeddata", async () => {
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
 
-      canvas.width = video.videoWidth;
-      canvas.height = video.videoHeight;
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
 
-      const thumbnailTimes = [0.25, 0.5];
-      const thumbnails = [];
+        const thumbnailTimes = [0.25, 0.5];
+        const thumbnails = [];
 
-      const captureFrame = async (time) => {
-        return await new Promise((resolve) => {
-          video.currentTime = (time / 100) * video.duration;
+        const captureFrame = async (time) => {
+          return await new Promise((resolve) => {
+            video.currentTime = (time / 100) * video.duration;
 
-          video.addEventListener("seeked", () => {
-            context.drawImage(video, 0, 0, canvas.width, canvas.height);
-            const thumbnailDataUrl = canvas.toDataURL("image/png");
-            thumbnails.push(thumbnailDataUrl);
-            resolve();
+            video.addEventListener("seeked", () => {
+              context.drawImage(video, 0, 0, canvas.width, canvas.height);
+              const thumbnailDataUrl = canvas.toDataURL("image/png");
+              thumbnails.push(thumbnailDataUrl);
+              resolve();
+            });
+
+            video.addEventListener("error", () => resolve());
           });
+        };
 
-          video.addEventListener("error", () => resolve());
-        });
-      };
+        let capturedFrames = 0;
+        const totalFrames = thumbnailTimes.length;
 
-      let capturedFrames = 0;
-      const totalFrames = thumbnailTimes.length;
+        const updateProgress = () => {
+          const progress = Math.floor((capturedFrames / totalFrames) * 100);
+          setUploadProgress(progress);
+        };
 
-      const updateProgress = () => {
-        const progress = Math.floor((capturedFrames / totalFrames) * 100);
-        setUploadProgress(progress);
-      };
+        for (const time of thumbnailTimes) {
+          await captureFrame(time);
+          capturedFrames++;
+          updateProgress();
+        }
 
-      for (const time of thumbnailTimes) {
-        await captureFrame(time);
-        capturedFrames++;
-        updateProgress();
-      }
+        setFieldValue("thumbnails", thumbnails);
+        video.pause();
+        setLoading(false);
+        setUploadProgress(0);
+      });
+    },
+    [setFieldValue]
+  );
 
-      setFieldValue("thumbnails", thumbnails);
-      video.pause();
-      setLoading(false);
-      setUploadProgress(0);
-    });
-  }, []);
+  const { getRootProps, getInputProps } = useDropzone({
+    onDrop,
+  });
 
-  const { getRootProps, getInputProps } = useDropzone({ onDrop });
-
-  return (
+  return !videoUrl ? (
     <>
       <div
         className="video_upload_wrap"
@@ -81,7 +94,7 @@ const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
             type="file"
             id="video"
             className="d-none"
-            {...getInputProps()}
+            {...getInputProps({ disabled })}
           />
           <label htmlFor="video">
             <Image src={upload} />
@@ -122,6 +135,20 @@ const VideoUploader = ({ video, setFieldValue, thumbnails }) => {
         </div>
       )}
     </>
+  ) : (
+    <div className="video_upload_wrap">
+      <div className="upload_input">
+        <label htmlFor="video">
+          <ReactPlayer
+            width="100%"
+            height="100%"
+            controls={true}
+            url={videoUrl}
+          />
+          <span className="upload_title">{videoTitle}</span>
+        </label>
+      </div>
+    </div>
   );
 };
 

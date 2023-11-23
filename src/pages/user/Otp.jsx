@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col, Alert } from "react-bootstrap";
 import { Button } from "../../components/user";
-import "../../styles/user/auth.scss";
-import "../../styles/user/otp.scss";
 import * as Yup from "yup";
 import { CheckIcon, EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
@@ -10,38 +8,47 @@ import { userVerifyNum } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate, useParams } from "react-router";
+import "../../styles/user/auth.scss";
+import "../../styles/user/otp.scss";
 
 const Otp = () => {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
   const location = useLocation();
   const params = useParams();
   const { id } = params;
-
   const { state } = location;
 
+  //Routes
+  const { usrLogin } = ROUTES;
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Formik initial values
   const initValues = {
     otp: "",
   };
 
-  function showClose() {
-    setShow(false);
-    window.open("/login", "_self");
-  }
+  //Formik validation schema
   const validationSchema = Yup.object().shape({
     // email: Yup.string().email().required("required field"),
   });
 
-  const { usrLogin } = ROUTES;
+  //Methods
+  function showClose() {
+    setShow(false);
+    window.open("/login", "_self");
+  }
 
   const onSubmitHandler = (values) => {
-    console.log(values, "values%%");
     const data = {
       values: {
         user_id: state.id,
-        otp: state.otp,
+        otp: +values.otp,
       },
     };
     dispatch(userVerifyNum(data)).then(({ payload }) => {

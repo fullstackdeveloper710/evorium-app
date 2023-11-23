@@ -4,6 +4,7 @@ import { deleteAdminTag, getAdminTags } from "../../thunk/admin/adTags";
 const initialState = {
   adminTags: {
     data: [],
+    count: 0,
   },
 };
 
@@ -49,5 +50,5 @@ const adminTagsSlice = createSlice({
   },
 });
 
-export const {} = adminTagsSlice.actions;
+// export const {} = adminTagsSlice.actions;
 export default adminTagsSlice.reducer;

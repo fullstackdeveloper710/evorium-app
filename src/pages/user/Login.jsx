@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
-import {Button} from "../../components/user";
-import "../../styles/user/auth.scss";
+import { Button } from "../../components/user";
 import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
@@ -9,22 +8,30 @@ import { userLogin } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
-
+import { Link } from "react-router-dom";
+import { passwordRegExp } from "../../utility/regax";
+import "../../styles/user/auth.scss";
 
 const Login = () => {
   const [show, setShow] = useState(false);
-  const navigate = useNavigate();
   const [showPass, setShowPass] = useState(false);
-  const dispatch = useDispatch();
-  const passwordRegExp =
-    /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/;
 
-   
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
+
+  //Routes
+  const { usrPrograms, usrResetPassword, usrSignUp } = ROUTES;
+
+  //Formik initial values
   const initValues = {
     email: "",
     password: "",
-  };  
+  };
 
+  //Formik validation schema
   const validationSchema = Yup.object().shape({
     email: Yup.string().email().required("required field"),
     // password: Yup.string()
@@ -34,16 +41,10 @@ const Login = () => {
     //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
     //   ),
   });
-  function submit() {
-    console.log("login");
-    // setShow(true);
-    localStorage.setItem("login", true);
-    window.open("/programs", "_self");
-  }
-  const { usrPrograms } = ROUTES;
+
+  //Methods
 
   const onSubmitHandler = (values) => {
-    console.log(values, "values%%");
     const data = { values };
     dispatch(userLogin(data)).then(({ payload }) => {
       if (payload.status) {
@@ -51,9 +52,6 @@ const Login = () => {
       }
     });
   };
-
-
-    
 
   return (
     <>
@@ -127,17 +125,9 @@ const Login = () => {
                         <label htmlFor="remember">Remember Me</label>
                       </div>
 
-                      <button
-                        className="forgotLink"
-                        onClick={() =>
-                          window.open(
-                            "/reset_password",
-                            "_self"
-                          )
-                        }
-                      >
+                      <Link className="forgotLink" to={usrResetPassword}>
                         Forgot Password?
-                      </button>
+                      </Link>
                     </div>
                   </Col>
 
@@ -153,16 +143,7 @@ const Login = () => {
                   <Col md="12">
                     <p className="newUserLink">
                       New user?
-                      <span
-                        onClick={() =>
-                          window.open(
-                            "/signup",
-                            "_self"
-                          )
-                        }
-                      >
-                        Signup
-                      </span>
+                      <span onClick={() => navigate(usrSignUp)}>Signup</span>
                     </p>
                   </Col>
                 </Row>

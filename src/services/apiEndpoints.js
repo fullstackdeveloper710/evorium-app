@@ -2,15 +2,20 @@ const userApi = {
   userSignup: "user/signup",
   usrLogin: "user/login",
   usrPrograms: "user/programs",
-  usrForgetPass: "/user/forget_password",
   usrVerify: "/user/verify_mobile_number",
   usrGoogleLogin: "user/login_google",
   usrFacebookLogin: "user/login_facebook",
+  usrMyAccount: "user/my_account",
+  usrEditProfile: "user/update",
+  usrViewCount: "user/program_view_count",
+  usrRecentProgram: "user/recent_program",
 
   //pending
   usrRefreshToken: "/user/refresh_token",
-  // usrForgetPass: "/user/forget_password",
-  // usrResetPass: "/user/reset_password/:token",
+};
+
+const commonApi = {
+  forgetPass: "/forget_password",
 };
 
 const adminApi = {
@@ -47,12 +52,15 @@ const adminApi = {
   adGetPrivacyPolicy: "/admin/get_privacy_policy",
   adGetTermAndConditions: "/admin/get_terms_and_conditions",
   adGetSupport: "/admin/get_support",
-  adSearchFaq:"/admin/search_faq",
+  adDelProgram: "/admin/delete_program",
+  adGetProgram: "/admin/program",
+  adGetPaymentList: "/admin/payments",
+  adSearchPayment: "/admin/search_payments",
+  adFilterPayment: "admin/filter_payments",
+  adGetPaymentDetail: "",
+  adUpdateProgram: "/admin/program",
 
   //pending
-  adDelProgram: "/admin/delete_program/:id",
-  adGetProgram: "/admin/program/id",
-  adUpdateProgram: "/admin/program/id",
 };
 
-export { userApi, adminApi };
+export { userApi, adminApi, commonApi };

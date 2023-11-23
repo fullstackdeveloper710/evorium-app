@@ -14,13 +14,9 @@ import {
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/user/header.scss";
 import { ROUTES } from "../../navigation/constants";
-import { useSelector } from "react-redux";
 
 function Header() {
   const [show, setShow] = useState(true);
-
-  //Redux state
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
 
   const navigate = useNavigate();
 
@@ -65,8 +61,8 @@ function Header() {
                 <path
                   d="M3 7h18M3 12h18M3 17h18"
                   stroke="currentColor"
-                  stroke-width="1.5"
-                  stroke-linecap="round"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
                 ></path>
               </svg>
             </button>

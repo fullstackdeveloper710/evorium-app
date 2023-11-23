@@ -23,7 +23,7 @@ const SocialMedia = () => {
     key:"social_media_link",
     values: {
       value: data?.social_media_link ?? "",
-      _id: data?._id,
+      content_id: data?._id,
     },
     action: addAdminSocialLinks,
   });

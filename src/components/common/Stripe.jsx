@@ -23,7 +23,6 @@ const CheckoutForm = () => {
     const cardElement = elements.getElement(CardNumberElement);
     try {
       const stripeToken = await stripe.createToken(cardElement);
-      console.log(stripeToken,"stripe token");
       const values = {
         // amount: amount, // Set the desired amount in cents
         // currency: "usd",
@@ -50,15 +49,12 @@ const CheckoutForm = () => {
       //             break;
       //           case "processing":
       //             // toast.info(message.paymentUnderProccess);
-      //             console.log("payment in progress");
       //             break;
       //           case "requires_payment_method":
       //             // toast.error(message.paymentRejected);
-      //             console.log("payment require action");
       //             break;
       //           default:
       //             // toast.error(message.somethingWentWrong);
-      //             console.log("default case");
       //             break;
       //         }
       //       } else {

@@ -2,7 +2,7 @@ import axiosInstance from "./axiosInstance";
 const httpsClient = async (config, authToken) => {
   const configration = {
     ...config,
-    baseURL: "http://api.evorium.xyz/",
+    baseURL: process.env.REACT_APP_BASE_URL,
     timeout: 1000 * 60 * 10,
     headers: {
       "Content-Type": "application/json",

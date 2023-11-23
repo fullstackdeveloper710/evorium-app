@@ -8,6 +8,7 @@ import {
 const initialState = {
   adminCategories: {
     data: [],
+    count: 0,
   },
 };
 
@@ -66,5 +67,5 @@ const adminCategoriesSlice = createSlice({
   },
 });
 
-export const {} = adminCategoriesSlice.actions;
+// export const {} = adminCategoriesSlice.actions;
 export default adminCategoriesSlice.reducer;

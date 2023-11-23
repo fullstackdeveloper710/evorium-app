@@ -29,5 +29,5 @@ const adminDashboardSlice = createSlice({
   },
 });
 
-export const {} = adminDashboardSlice.actions;
+// export const {} = adminDashboardSlice.actions;
 export default adminDashboardSlice.reducer;

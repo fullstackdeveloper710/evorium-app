@@ -10,7 +10,9 @@ import adminProgramsSlice from "./adminSlices/adPrograms";
 import adminDashboardSlice from "./adminSlices/adDashboard";
 import userProgramsSlice from "./userSlices/userPrograms";
 import adminFaqsSlice from "./adminSlices/adFaq";
-import adminCmsSlice from "./adminSlices/adCms"
+import adminCmsSlice from "./adminSlices/adCms";
+import userProfileSlice from "./userSlices/userProfile";
+import adminPaymentSlice from "./adminSlices/adPayment";
 
 const rootReducer = combineReducers({
   //common slices
@@ -25,10 +27,12 @@ const rootReducer = combineReducers({
   adDashboard: adminDashboardSlice,
   admin: adminMainSlice,
   adFaqs: adminFaqsSlice,
-  adCms:adminCmsSlice,
+  adCms: adminCmsSlice,
+  adPayment: adminPaymentSlice,
   //User slices
   userAuth: userAuth,
   userPrograms: userProgramsSlice,
+  userProfile: userProfileSlice,
 });
 
 export default rootReducer;

@@ -10,7 +10,6 @@ const useSearch = ({ action }) => {
   //Redux action dispatcher
   const dispatch = useDispatch();
 
-  //Methods
   const onSearchChange = (e) => {
     const { value } = e.target;
     setSearch(value);

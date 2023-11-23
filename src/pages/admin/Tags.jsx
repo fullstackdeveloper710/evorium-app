@@ -1,8 +1,6 @@
-import React, { useEffect } from "react";
-import { Col, Row, Table, Image } from "react-bootstrap";
+import React from "react";
+import { Col, Row, Image } from "react-bootstrap";
 import { trash } from "../../assets/icons/admin";
-import { Pagination } from "../../components/admin";
-import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addAdminTags,
@@ -16,17 +14,43 @@ import { Form, Formik } from "formik";
 import {
   BtnGroup,
   Button,
+  ConfirmPopUp,
   Input,
   ReactDataTable,
 } from "../../components/common";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
+import { itemsPerPage } from "../../utility/methods";
 function Tags() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminTags } = useSelector((state) => state.adTags);
-  const { data } = adminTags;
+  const { data, count } = adminTags;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
+
+  //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminTag,
+  });
+
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems: count, itemsPerPage });
+
+  useFetch({ action: getAdminTags, currentPage, itemsPerPage });
 
   //Formik initial state
   const initValues = {
@@ -39,18 +63,6 @@ function Tags() {
     title: Yup.string().required("Name field is required"),
     date: Yup.string().required("Date field is required"),
   });
-
-  //Methods
-  useEffect(() => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        pageNo: 1,
-        pageSize: 4,
-      },
-    };
-    dispatch(getAdminTags(data));
-  }, []);
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -70,15 +82,6 @@ function Tags() {
     resetForm();
   };
 
-  const deleteTagHandler = (id) => {
-    const data = {
-      adminAuthtoken,
-      values: {
-        id,
-      },
-    };
-    dispatch(deleteAdminTag(data));
-  };
   const columns = [
     {
       name: "S.No.",
@@ -101,8 +104,14 @@ function Tags() {
             type="button"
             className="action_btn delete_btn "
             onClick={() => {
-              deleteTagHandler(row._id);
+              handleConfirmShow();
+              setId(row._id);
             }}
+          />
+          <ConfirmPopUp
+            showConfirm={showConfirm}
+            handleConfirmClose={handleConfirmClose}
+            onConfirmHandler={onConfirmHandler}
           />
         </BtnGroup>
       ),
@@ -176,6 +185,15 @@ function Tags() {
         pagination={true}
         header="Tags Logs"
         subHeader={true}
+        paginationFields={{
+          currentPage,
+          totalPages,
+          nextPage,
+          prevPage,
+          goToPage,
+          setItemsPerPage,
+          onSelectPage,
+        }}
       />
     </div>
   );

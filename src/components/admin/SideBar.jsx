@@ -3,14 +3,19 @@ import { Image } from "react-bootstrap";
 import { logo } from "../../assets/images/admin";
 import { Link, useLocation } from "react-router-dom";
 import { adminSidebarList } from "../../utility/sidebarList";
+import { useDispatch } from "react-redux";
+import { adminLogout } from "../../redux/reducers/adminSlices/adAuth";
 import "../../styles/admin/sidebar.scss";
 
 function SideBar() {
   const location = useLocation();
   const { pathname } = location;
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
   const logoutHandler = () => {
-    console.log("logut function call");
+    dispatch(adminLogout());
   };
   return (
     <div className="sidebar">

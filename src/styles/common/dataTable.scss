@@ -1,4 +1,5 @@
 .rdt_Table {
+  min-height: 400px;
   .rdt_TableHead {
     .rdt_TableCol {
       background-color: #2e2753 !important;
@@ -45,6 +46,7 @@
       .user_name {
         img {
           margin-right: 10px;
+          border-radius: 100%;
         }
       }
       .actions_btns {
@@ -67,7 +69,7 @@
     padding-bottom: 15px;
   }
 }
-.jTPWeN{
+.jTPWeN {
   display: inherit !important;
 }
 @media (max-width: 1550px) {

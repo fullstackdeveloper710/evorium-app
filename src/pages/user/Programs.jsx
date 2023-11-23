@@ -1,54 +1,37 @@
 import React, { useEffect, useState } from "react";
-import {
-  Button,
-  Container,
-  Image,
-  Row,
-  Col,
-  Nav,
-  NavDropdown,
-} from "react-bootstrap";
+import { Container, Image, Row, Col, Nav, NavDropdown } from "react-bootstrap";
 import { Card } from "../../components/user";
-// import {
-//   upload,
-//   monetization,
-//   stream,
-//   downarrow,
-//   insta,
-// } from "../assets/icons/user";
 import { cardsData } from "../../utility/data";
-// import FooterEvorium from "../components/user/FooterEvorium";
-// import { AiOutlineStar } from "react-icons/ai";
-// import CustomModal from "../components/user/CustomModal";
 import { star } from "../../assets/icons/user";
-
-import "../../styles/user/programs.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import moment from "moment";
+import "../../styles/user/programs.scss";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
   const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
-  const [showAlert, setShowAlert] = useState(false);
   const [sorted, setSorted] = useState("all");
 
+  //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
   const { userPaidPrograms, userFreePrograms } = useSelector(
     (state) => state.userPrograms
   );
-
-  const navigate = useNavigate();
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
+  const navigate = useNavigate();
   const { usrVideoPlayer } = ROUTES;
 
-  const dispatch = useDispatch();
-  // const{usrPrograms} =ROUTES
+  //Methods
   useEffect(() => {
     const data = {
       userAuthtoken,
@@ -56,9 +39,7 @@ function Programs() {
         course_type: "Free",
       },
     };
-    // console.log
     dispatch(getUserProgramList(data));
-
     const data_for_Paid = {
       userAuthtoken,
       values: {
@@ -67,28 +48,21 @@ function Programs() {
     };
 
     dispatch(getUserProgramList(data_for_Paid));
-  }, []);
+  }, [userAuthtoken, dispatch]);
 
-  useEffect(() => {
-    console.log(freeData, "free");
-    console.log(paidData, "paid");
-  }, [freeData, paidData]);
-
-  // Add default value on page load
-
-  // const data = cardsData.filter((item) => {
-  //   return item.subsType === "free";
-  // });
-
-  // const datapro = cardsData.filter((item) => {
-  //   return item.subsType === "pro";
-  // });
-
-  // console.log(data,"data")
-
-  function cardClick(data) {
-    navigate(usrVideoPlayer);
-  }
+  const onCardClick = (values) => {
+    const data = {
+      values: {
+        ...values,
+        videoId: values._id,
+      },
+    };
+    navigate(usrVideoPlayer, {
+      state: {
+        data2send: { ...data },
+      },
+    });
+  };
 
   function convertTimeInHour(time) {
     let duration = moment.duration(time, "seconds");
@@ -115,9 +89,7 @@ function Programs() {
   const loadMoreTop = () => {
     setItemsToLoadTop(cardsData.length);
   };
-  const loadLessTop = () => {
-    setItemsToLoadTop(5);
-  };
+
   return (
     <>
       <main>
@@ -257,13 +229,31 @@ function Programs() {
                           speaker,
                           episodes,
                           price,
-                          course_type
+                          course_type,
                         },
                         index
                       ) => (
                         <Card
-                        course_type={course_type}
-                          onClick={cardClick}
+                          course_type={course_type}
+                          onClick={(e) =>
+                            onCardClick({
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                            })
+                          }
                           url={url}
                           key={_id}
                           video_id={_id}
@@ -281,11 +271,6 @@ function Programs() {
                       )
                     )}
                 </Row>
-                {/* <div className="text-center pt-5">
-            {itemsToLoad < cardsData.length && (
-
-              <button onClick={loadMore} className="load-more-btn">Load more</button>)}
-            </div> */}
               </Container>
             </section>
           )}
@@ -341,14 +326,32 @@ function Programs() {
                           speaker,
                           episodes,
                           price,
-                          course_type
+                          course_type,
                         },
                         index
                       ) => (
                         <Card
-                        course_type={course_type}
+                          course_type={course_type}
                           video_id={_id}
-                          onClick={cardClick}
+                          onClick={() =>
+                            onCardClick({
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                            })
+                          }
                           url={url}
                           key={_id}
                           title={title}
@@ -365,16 +368,6 @@ function Programs() {
                       )
                     )}
                 </Row>
-                {/* <div className="text-center pt-5">
-            {itemsToLoad < cardsData.length && (
-
-              <button onClick={loadMore} className="load-more-btn">Load more</button>)}
-            </div>
-
-            <div className="text-center pt-5">
-            {itemsToLoad > 5 && (
-              <button onClick={loadLess} className="load-more-btn">Load Less</button>)}
-            </div> */}
               </Container>
             </section>
           )}

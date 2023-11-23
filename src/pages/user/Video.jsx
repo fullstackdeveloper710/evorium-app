@@ -1,33 +1,38 @@
-import React, { useRef, useState } from "react";
-import "../../styles/user/video.scss";
+import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
-import { Play, lockscreen } from "../../assets/icons/user";
+import { Play } from "../../assets/icons/user";
 import { loadStripe } from "@stripe/stripe-js";
-import { video_player_thumbnail } from "../../assets/images/user";
 import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
-import PaymentModal from "../../components/common/CustomModal";
 import { useModal } from "../../utility/hooks";
-import { Elements, useElements, useStripe } from "@stripe/react-stripe-js";
+import { Elements } from "@stripe/react-stripe-js";
+import { useDispatch, useSelector } from "react-redux";
+import { userViewCount } from "../../redux/thunk/user/usrCount";
+import "../../styles/user/video.scss";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
 );
 
 const VideoPlayer = () => {
-  const [showModal, setShowModal] = useState(false);
-  const [showPaymentModal, setShowPaymentModal] = useState(false);
-
-
+  const [isPlaying, setIsPlaying] = useState(false);
   const [IsExpanded, setIsExpanded] = useState(false);
-  const toggleExpand = () => {
-    setIsExpanded(!IsExpanded);
-  };
-  const playerRef = React.useRef();
+  const [itemsToLoad, setItemsToLoad] = useState(5);
+  const [startTime, setStartTime] = useState(0);
 
+  //Redux state
+  const {
+    userAuthtoken,
+    userData: { user_id },
+  } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
   const location = useLocation();
   const { state } = location;
   const { data2send } = state;
@@ -35,20 +40,25 @@ const VideoPlayer = () => {
     thumbnail_url,
     description,
     title,
-    video_id,
+    videoId,
     speaker,
-    episodes,
     price,
     course_type,
     video_duration,
     views,
-  } = data2send;
+  } = data2send.values;
 
-  console.log("running");
-  const [itemsToLoad, setItemsToLoad] = useState(5);
+  //Ref
+  const playerRef = React.useRef();
 
+  //Custom hooks
   const { show, handleClose, handleShow } = useModal();
-  // );
+
+  //Methods
+  const toggleExpand = () => {
+    setIsExpanded(!IsExpanded);
+  };
+
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
   };
@@ -56,16 +66,27 @@ const VideoPlayer = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
 
-  const openModal = () => {
-    console.log("toogle workign");
-    setShowPaymentModal(!showPaymentModal);
-
-    console.log(showPaymentModal);
+  const handlePlayPause = () => {
+    const data = {
+      userAuthtoken,
+      values: {
+        videoId: videoId,
+        userId: user_id,
+      },
+    };
+    dispatch(userViewCount(data)).then(({ payload }) => {
+      if (payload) {
+        setIsPlaying(!isPlaying);
+      }
+    });
+  };
+  const handleSetStartTime = (timeInSeconds) => {
+    setStartTime(timeInSeconds);
+    if (isPlaying) {
+      playerRef?.current?.seekTo(timeInSeconds);
+    }
   };
 
-  const closeModal = () => {
-    setShowModal(false);
-  };
   return (
     <>
       <CustomModal
@@ -95,19 +116,22 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                {console.log(course_type, "video_id")}
-
                 {course_type === "Paid" ? (
                   <Image src={thumbnail_url} className="videoImg img-fluid" />
                 ) : (
                   <ReactPlayer
+                    // onPlay={handleClick}
+                    // onStart={handlePlayPause}
                     ref={playerRef}
-                    playing={true}
+                    playing={isPlaying}
                     controls={true}
-                    url={`http://api.evorium.xyz/user/web/video_stream/${video_id}`}
+                    url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
+                    onStart={() => playerRef?.current?.seekTo(startTime)} // Set initial start time
                   />
                 )}
-
+                <button onClick={handlePlayPause}>
+                  {isPlaying ? "Pause" : "Play"}
+                </button>
                 {/* {subscriptionType[1] == 'pro' &&  <div
                   style={{
                     backgroundColor: "transparent",
@@ -165,23 +189,65 @@ const VideoPlayer = () => {
                   <div className="videoWrapper__caption__timecodec">
                     <h4>Time Codes</h4>
 
-                    {console.log(episodes, "episodes")}
                     <div className="timecodec__list">
-                      {episodes.map((i) => {
-                        return (
-                          <button className="timecodecBtn">
-                            <figure>
-                              <Play />
-                            </figure>
-                            <div className="timecodecBtn__caption">
-                              <h2>{i.title}</h2>
-                              <span>{i.start}</span>
-                            </div>
-                          </button>
-                        );
-                      })}
-                    </div>
+                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+                      {/* 
+                      {episodes?.map((i) => {
+                        return ( */}
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(30)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          {/* <h2>{i.title}</h2> */}
+                          <h2>introduction 1</h2>
 
+                          <span>30 sec</span>
+                        </div>
+                      </button>
+                      {/* );
+                      })} */}
+                    </div>
+                    <div className="timecodec__list">
+                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
+                      {/* 
+                      {episodes?.map((i) => {
+                        return ( */}
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(60)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          {/* <h2>{i.title}</h2> */}
+                          <h2>introduction 2</h2>
+
+                          <span>1 ,min</span>
+                        </div>
+                      </button>
+                      {/* );
+                      })} */}
+                    </div>
+                    <div className="timecodec__list">
+                      <button
+                        className="timecodecBtn"
+                        onClick={() => handleSetStartTime(90)}
+                      >
+                        <figure>
+                          <Play />
+                        </figure>
+                        <div className="timecodecBtn__caption">
+                          <h2>introduction 3</h2>
+
+                          <span>1.30 mins</span>
+                        </div>
+                      </button>
+                    </div>
                     {/* <div className="timecodec__list">
                         <button className="timecodecBtn">
                           <figure>
@@ -287,8 +353,8 @@ const VideoPlayer = () => {
           </div>
           <Row className="popular-row">
             {cardsData
-              .slice(0, itemsToLoad)
-              .map(
+              ?.slice(0, itemsToLoad)
+              ?.map(
                 (
                   {
                     id,

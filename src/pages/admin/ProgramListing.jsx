@@ -1,50 +1,82 @@
-import React, { useEffect } from "react";
-import { Row, DropdownButton, Dropdown} from "react-bootstrap";
+import React from "react";
+import { Row, DropdownButton, Dropdown } from "react-bootstrap";
 import { Pagination } from "../../components/admin";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
+  deleteAdminProgram,
+  getAdminProgramById,
   getAdminProgramList,
   searchAdminProgram,
 } from "../../redux/thunk/admin/adPrograms";
 import { getMinutes } from "../../utility/methods";
 import { ROUTES } from "../../navigation/constants";
 import "../../styles/admin/programListing.scss";
-import { Button, SearchBar } from "../../components/common";
-import { useSearch } from "../../utility/hooks";
+import { Button, ConfirmPopUp } from "../../components/common";
+import {
+  useConfirmation,
+  useFetch,
+  usePagination,
+  useSearch,
+} from "../../utility/hooks";
+import { totalItems, itemsPerPage } from "../../utility/methods";
+import { useSelector } from "react-redux";
 function ProgramListing() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminPrograms } = useSelector((state) => state.adPrograms);
-  const { data } = adminPrograms;
-
-  //Redux action dispatcher
-  const dispatch = useDispatch();
+  const { data, count } = adminPrograms;
 
   //Custom hooks
+  const {
+    setId,
+    showConfirm,
+    handleConfirmShow,
+    handleConfirmClose,
+    onConfirmHandler,
+  } = useConfirmation({
+    action: deleteAdminProgram,
+  });
+
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({
+    totalItems: count,
+    itemsPerPage,
+  });
+
   const { search, onSearchChange, onSearchHandler } = useSearch({
     action: searchAdminProgram,
   });
+
+  useFetch({ search, action: getAdminProgramList, currentPage, itemsPerPage });
 
   //Router functions
   const navigate = useNavigate();
 
   //Constant routes
-  const { adAddprogram } = ROUTES;
+  const { adAddprogram, adUpdateProgram } = ROUTES;
 
   //Methods
-  useEffect(() => {
-    if (search === "") {
-      const data = {
-        adminAuthtoken,
-        values: {
-          pageNo: 1,
-          pageSize: 4,
-        },
-      };
-      dispatch(getAdminProgramList(data));
-    }
-  }, [dispatch, adminAuthtoken, search]);
+
+  const onEditProgram = (id) => {
+    const data = {
+      adminAuthtoken,
+      query: {
+        id,
+      },
+    };
+    navigate(adUpdateProgram, {
+      state: {
+        id: id,
+      },
+    });
+  };
 
   return (
     <div className="program_listing_section">
@@ -81,6 +113,7 @@ function ProgramListing() {
             data?.map(
               (
                 {
+                  _id,
                   speaker,
                   course_type,
                   description,
@@ -102,15 +135,29 @@ function ProgramListing() {
                           {/* <img src="" className="label-watch"/> */}
                         </div>
                         <div className="bottom-details">
-                          
-                    {/* btn drop_dow */}
-                    <DropdownButton className="btn_programs" id="dropdown-basic-button" title="...">
-                          <Dropdown.Item href="#/action-1">Action</Dropdown.Item>
-                          <Dropdown.Item href="#/action-2">Another action</Dropdown.Item>
-                          <Dropdown.Item href="#/action-3">Something else</Dropdown.Item>
-                        </DropdownButton>
-                        {/* btn drop_dow */}
-                                <p className="name">{speaker}</p>
+                          {/* btn drop_dow */}
+                          <DropdownButton
+                            className="btn_programs"
+                            id="dropdown-basic-button"
+                            title="..."
+                          >
+                            <Dropdown.Item
+                              onClick={() => {
+                                handleConfirmShow();
+                                setId(_id);
+                              }}
+                            >
+                              Delete
+                            </Dropdown.Item>
+                            <Dropdown.Item onClick={() => onEditProgram(_id)}>
+                              Edit
+                            </Dropdown.Item>
+                            <Dropdown.Item href="#/action-2">
+                              Cancel
+                            </Dropdown.Item>
+                          </DropdownButton>
+                          {/* btn drop_dow */}
+                          <p className="name">{speaker}</p>
                           <Link to="#" className="link-card">
                             {description}
                           </Link>
@@ -128,12 +175,29 @@ function ProgramListing() {
               }
             )
           ) : (
-            <div>No Record Found</div>
+            <div>There are no records to display</div>
           )}
         </Row>
+        <ConfirmPopUp
+          showConfirm={showConfirm}
+          handleConfirmClose={handleConfirmClose}
+          onConfirmHandler={onConfirmHandler}
+        />
       </div>
 
-      <Pagination />
+      {count > 0 && (
+        <Pagination
+          paginationComponentOptions={{
+            currentPage,
+            totalPages,
+            nextPage,
+            prevPage,
+            goToPage,
+            setItemsPerPage,
+            onSelectPage,
+          }}
+        />
+      )}
     </div>
   );
 }

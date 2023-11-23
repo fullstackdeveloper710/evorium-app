@@ -1,13 +1,15 @@
 import React from "react";
+import { useSelector } from "react-redux";
 
-const Button = ({ type, title, className, onClick }) => {
+const Button = ({ loading,loadMsg, type, title, className, onClick }) => {
+  const { btnLoader } = useSelector((state) => state.app);
   return (
     <button
       type={type}
       className={`${className} text-capitalize`}
       onClick={onClick}
     >
-      {title}
+      {btnLoader && loading ? loadMsg : title}
     </button>
   );
 };

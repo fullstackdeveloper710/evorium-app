@@ -1,3 +1,4 @@
+import NotFound from "../../pages/common/NotFound";
 import {
   CreateNewPassword,
   Home,
@@ -113,6 +114,14 @@ export const userRoutes = [
     path: "edit-profile",
     Component: UserProfile,
     Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 17,
+    type: "public",
+    path: "*",
+    Component: NotFound,
+    Auth: false,
     defaultComp: false,
   },
 ];

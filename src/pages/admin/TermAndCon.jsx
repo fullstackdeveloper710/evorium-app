@@ -23,7 +23,7 @@ const TermAndConditions = () => {
     key:"terms_and_conditions",
     values: {
       value: data?.terms_and_conditions ?? "",
-      _id: data?._id,
+      content_id: data?._id,
     },
     action: addAdminTermAndConditions,
   });

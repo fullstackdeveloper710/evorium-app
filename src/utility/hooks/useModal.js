@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 
 const useModal = () => {
   const [show, setShow] = useState(false);
-  const handleShow =()=>{
+  const handleShow = () => {
     setShow(true);
-  }
-  const handleClose =()=>{
+  };
+  const handleClose = () => {
     setShow(false);
-  }
+  };
   return {
     show,
     handleClose,
-    handleShow
-  }
+    handleShow,
+  };
 };
 
 export default useModal;

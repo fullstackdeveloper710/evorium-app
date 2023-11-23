@@ -8,6 +8,7 @@ import {
 const initialState = {
   adminSpeakers: {
     data: [],
+    count: 0,
   },
 };
 
@@ -66,5 +67,5 @@ const adminSpeakerSlice = createSlice({
   },
 });
 
-export const {} = adminSpeakerSlice.actions;
+// export const {} = adminSpeakerSlice.actions;
 export default adminSpeakerSlice.reducer;

@@ -1,13 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Col, Container, Row, Image } from "react-bootstrap";
-import ReactPlayer from "react-player";
+// import ReactPlayer from "react-player";
 
 import {
-  appleStore,
-  googleplay,
   bannner,
-  video,
-  card1,
   tv,
   ecobank,
   orange,
@@ -15,13 +11,9 @@ import {
   iphone,
   team1,
   video_homescreen,
-  videoImg,
 } from "../../assets/images/user";
 
 import {
-  upload,
-  monetization,
-  stream,
   downarrow,
   insta,
   UploadIcon,
@@ -30,25 +22,33 @@ import {
   PlayStore,
   Apple,
 } from "../../assets/icons/user";
-import "../../styles/user/home.scss";
 import { Card, Slider } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserProgramList } from "../../redux/thunk/user/usrPrograms";
+import "../../styles/user/home.scss";
 
 function Home() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
-  const dispatch = useDispatch();
+
+  //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
   const { userFreePrograms } = useSelector((state) => state.userPrograms);
   const { data } = userFreePrograms;
 
+  //Redux action dispatcher
+  const dispatch = useDispatch();
 
-
-
-  // useEffect(() => {
-  //   // dispatch(userSignUp());
-  // }, []);
+  //Methods
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+        course_type: "Free",
+      },
+    };
+    dispatch(getUserProgramList(data));
+  }, [userAuthtoken, dispatch]);
 
   const loadMore = () => {
     setItemsToLoad(itemsToLoad + 5);
@@ -56,16 +56,7 @@ function Home() {
   const loadLess = () => {
     setItemsToLoad(itemsToLoad - 5);
   };
-  useEffect(() => {
-    const data = {
-      userAuthtoken,
-      values: {
-        course_type : 'Free'
-      },
-    };
-  
-    dispatch(getUserProgramList(data));
-  }, []);
+
   return (
     <>
       <section className="banner-home">
@@ -81,14 +72,14 @@ function Home() {
                   the Screeno
                 </p>
                 <div className="btns-group">
-                  <a href="#" className="try-btn">
+                  <a href="void 0" className="try-btn">
                     Try for Free
                   </a>
-                  <a href="#" target="_blank" className="aple">
+                  <a href="void 0" target="_blank" className="aple">
                     {/* <Image src={appleStore} /> */}
                     <Apple />
                   </a>
-                  <a href="#" target="_blank" className="gpay">
+                  <a href="void 0" target="_blank" className="gpay">
                     {/* <Image src={googleplay} /> */}
                     <PlayStore />
                   </a>
@@ -169,59 +160,23 @@ function Home() {
                 View All
               </a>
             </div>
-            <Row>
-          {data?.length > 0 ? (
-            data?.map(
-              (
-                {
-                  speaker,
-                  course_type,
-                  description,
-                  thumbnail_url,
-                  video_duration,
-                  view_count,
-                },
-                index
-              ) => {
-                return (
-                  <div key={index}>
-                       <Card
-                      url={thumbnail_url}
-                      // key={id}
-                      title={speaker}
-                      // img={image}
-                      duration={video_duration}
-                      views={view_count}
-                      watched={view_count}
-                      subsType={course_type}
-                      // amount={amount}
-                      description={description}
-                    />
-                  </div>
-                
-                );
-              }
-            )
-          ) : (
-            <div>No Record Found</div>
-          )}
-        </Row>
-            {/* <Row className="popular-row">
-              {cardsData
+
+            <Row className="popular-row">
+              {data
                 .slice(0, itemsToLoad)
                 .map(
                   (
                     {
                       id,
                       title,
-                      image,
-                      duration,
+                      thumbnail_url,
+                      video_duration,
                       views,
                       description,
                       watched,
                       url,
-                      subsType,
-                      amount,
+                      course_type,
+                      price,
                     },
                     index
                   ) => (
@@ -229,17 +184,17 @@ function Home() {
                       url={url}
                       key={id}
                       title={title}
-                      img={image}
-                      duration={duration}
+                      thumbnail_url={thumbnail_url}
+                      duration={video_duration}
                       views={views}
                       watched={watched}
-                      subsType={subsType}
-                      amount={amount}
+                      course_type={course_type}
+                      price={price}
                       description={description}
                     />
                   )
                 )}
-            </Row> */}
+            </Row>
             <div className="text-center loadBtnWrap pt-5">
               {itemsToLoad < cardsData.length && (
                 <button onClick={loadMore} className="load-more-btn">
@@ -248,11 +203,12 @@ function Home() {
               )}
 
               {itemsToLoad > 5 && (
-                <button onClick={loadLess} className="load-more-btn" id="popular">
-                                    
-
+                <button
+                  onClick={loadLess}
+                  className="load-more-btn"
+                  id="popular"
+                >
                   Load Less
-                  
                 </button>
               )}
             </div>
@@ -275,7 +231,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -295,7 +251,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -315,7 +271,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>
@@ -335,7 +291,7 @@ function Home() {
                 <div className="team-card">
                   <div className="card-head">
                     <Image src={team1} className="card-imgs" />
-                    <a href="#" className="insta-link">
+                    <a href="void 0" className="insta-link">
                       <Image src={insta} />
                     </a>
                   </div>

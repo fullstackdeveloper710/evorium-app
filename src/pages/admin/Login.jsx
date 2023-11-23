@@ -10,6 +10,7 @@ import { passwordRegExp } from "../../utility/regax";
 import { adminLogin } from "../../redux/thunk/admin/adAuth";
 import { useNavigate } from "react-router";
 import { ROUTES } from "../../navigation/constants";
+import { Link } from "react-router-dom";
 
 const AdminLogin = () => {
   const [showPass, setShowPass] = useState(false);
@@ -121,12 +122,9 @@ const AdminLogin = () => {
                         <label htmlFor="remember">Remember Me</label>
                       </div>
 
-                      <button
-                        className="forgotLink"
-                        onClick={() => window.open("/reset_password", "_self")}
-                      >
+                      <Link to={"/reset_password"} className="forgotLink">
                         Forgot Password?
-                      </button>
+                      </Link>
                     </div>
                   </Col>
 

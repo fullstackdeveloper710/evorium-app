@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
-import { hideLoader, showLoader } from "../../reducers/common/appSlice";
+import { hideBtnLoader, hideLoader, showBtnLoader, showLoader } from "../../reducers/common/appSlice";
 
 const { adTagsList, adAddTags, adDelTag } = adminApi;
 
@@ -70,12 +70,12 @@ export const deleteAdminTag = createAsyncThunk(
         method: "delete",
         url: `${adDelTag}/${values.id}`,
       };
-      dispatch(showLoader());
+      dispatch(showBtnLoader());
       const response = await httpsClient(config, adminAuthtoken);
-      dispatch(hideLoader());
+      dispatch(hideBtnLoader());
       return response;
     } catch (error) {
-      dispatch(hideLoader());
+      dispatch(hideBtnLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }

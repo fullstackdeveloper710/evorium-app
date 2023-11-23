@@ -8,8 +8,12 @@ const initialState = {
 const adminAuthSlice = createSlice({
   name: "adminAuthSlice",
   initialState: initialState,
-  reducers: {},
-  
+  reducers: {
+    adminLogout: (state, action) => {
+      state.adminAuthtoken = null;
+    },
+  },
+
   extraReducers: (builder) => {
     builder
       .addCase(adminLogin.pending, (state) => {
@@ -19,7 +23,6 @@ const adminAuthSlice = createSlice({
       .addCase(adminLogin.fulfilled, (state, action) => {
         const { payload } = action;
         // state.loading = false;
-        console.log(payload, "payload");
         state.adminAuthtoken = payload.access_token;
       })
       .addCase(adminLogin.rejected, (state, action) => {
@@ -29,5 +32,5 @@ const adminAuthSlice = createSlice({
   },
 });
 
-export const {} = adminAuthSlice.actions;
+export const { adminLogout } = adminAuthSlice.actions;
 export default adminAuthSlice.reducer;

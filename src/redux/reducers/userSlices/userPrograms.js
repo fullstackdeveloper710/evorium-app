@@ -22,11 +22,17 @@ const userProgramsSlice = createSlice({
         state.status = false;
       })
       .addCase(getUserProgramList.fulfilled, (state, action) => {
-        const { meta:{arg:{values:{course_type}}}, payload } = action;
+        const {
+          meta: {
+            arg: {
+              values: { course_type },
+            },
+          },
+          payload,
+        } = action;
         if (course_type === "Free") {
           state.userFreePrograms = payload;
-          console.log(userProgramsSlice,"payload")
-        }else{
+        } else {
           state.userPaidPrograms = payload;
         }
         state.status = true;
@@ -37,5 +43,5 @@ const userProgramsSlice = createSlice({
   },
 });
 
-export const {} = userProgramsSlice.actions;
+// export const {} = userProgramsSlice.actions;
 export default userProgramsSlice.reducer;

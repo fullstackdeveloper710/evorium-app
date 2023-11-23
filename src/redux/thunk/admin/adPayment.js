@@ -1,48 +1,25 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
-import {
-  hideBtnLoader,
-  hideLoader,
-  showBtnLoader,
-  showLoader,
-} from "../../reducers/common/appSlice";
+import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { adUserList, adUserDetail, adDelUser, adSearchUser, adFilterUser } =
-  adminApi;
+const {
+  adGetPaymentList,
+  adSearchPayment,
+  adFilterPayment,
+  adGetPaymentDetail,
+} = adminApi;
 
-// get admin users list thunk
-export const getAdminUserList = createAsyncThunk(
-  "admin/getAdminUserList",
-  async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
-    try {
-      const config = {
-        method: "get",
-        url: `${adUserList}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
-      };
-      dispatch(showLoader());
-      const response = await httpsClient(config, adminAuthtoken);
-      dispatch(hideLoader());
-      return response;
-    } catch (error) {
-      dispatch(hideLoader());
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
-
-// get admin user detail thunk
-export const getAdminUserDetail = createAsyncThunk(
-  "admin/getAdminUserDetail",
+// get admin Payment list thunk
+export const getAdminPaymentList = createAsyncThunk(
+  "admin/getAdminPaymentList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { adminAuthtoken } = data;
     try {
       const config = {
         method: "get",
-        url: `${adUserDetail}/id`,
+        url: `${adGetPaymentList}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
@@ -55,31 +32,31 @@ export const getAdminUserDetail = createAsyncThunk(
   }
 );
 
-// delete admin user detail thunk
-export const deleteAdminUser = createAsyncThunk(
-  "admin/deleteAdminUser",
+// get admin payment detail thunk
+export const getAdminPaymentDetail = createAsyncThunk(
+  "admin/getAdminPaymentDetail",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+    const { adminAuthtoken } = data;
     try {
       const config = {
-        method: "delete",
-        url: `${adDelUser}/${values.id}`,
+        method: "get",
+        url: `${adGetPaymentDetail}`,
       };
-      dispatch(showBtnLoader());
+      dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
-      dispatch(hideBtnLoader());
+      dispatch(hideLoader());
       return response;
     } catch (error) {
-      dispatch(hideBtnLoader());
+      dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-// search admin users list thunk
-export const searchAdminUserList = createAsyncThunk(
-  "admin/searchAdminUserList",
+// search admin payment list thunk
+export const searchAdminPaymentList = createAsyncThunk(
+  "admin/searchAdminPaymentList",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const {
@@ -89,7 +66,7 @@ export const searchAdminUserList = createAsyncThunk(
     try {
       const config = {
         method: "get",
-        url: `${adSearchUser}?query=${search}`,
+        url: `${adSearchPayment}?query=${search}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
@@ -102,9 +79,9 @@ export const searchAdminUserList = createAsyncThunk(
   }
 );
 
-// filter admin users list thunk
-export const filterAdminUserbyDate = createAsyncThunk(
-  "admin/filterAdminUserbyDate",
+// filter admin payment list thunk
+export const filterAdminPaymentbyDate = createAsyncThunk(
+  "admin/filterAdminPaymentbyDate",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const {
@@ -114,7 +91,7 @@ export const filterAdminUserbyDate = createAsyncThunk(
     try {
       const config = {
         method: "get",
-        url: `${adFilterUser}?startDate=${startDate}&endDate=${endDate}`,
+        url: `${adFilterPayment}?startDate=${startDate}&endDate=${endDate}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, adminAuthtoken);
