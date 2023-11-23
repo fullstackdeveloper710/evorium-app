@@ -13,7 +13,15 @@ import { Link } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 // import OpenSea from "../assets/icons/user/overSea.png";
 function FooterEvorium() {
-  const { usrPrivacy, usrRefundPolicy, usrTermCon } = ROUTES;
+  const {
+    usrPrivacy,
+    usrRefundPolicy,
+    usrTermCon,
+    usrFaq,
+    usrContactUs,
+    usrAboutUs,
+    usrEditProfile,
+  } = ROUTES;
   return (
     <>
       <section className="footer">
@@ -81,7 +89,7 @@ function FooterEvorium() {
                     <h4>ABOUT US?</h4>
                     <ul>
                       <li>
-                        <a href="#">FAQ</a>
+                        <Link to={usrFaq}>FAQ</Link>
                       </li>
                       <li>
                         <a href="#">Track Your Order</a>
@@ -90,7 +98,7 @@ function FooterEvorium() {
                         <a href="#">Quadplay</a>
                       </li>
                       <li>
-                        <a href="#">Contact Us</a>
+                        <Link to={usrContactUs}>Contact Us</Link>
                       </li>
                     </ul>
                   </div>
@@ -100,7 +108,7 @@ function FooterEvorium() {
                     <h4>EVORIUM FAM'</h4>
                     <ul>
                       <li>
-                        <a href="#">About us </a>
+                        <Link to={usrAboutUs}>About us </Link>
                       </li>
                       <li>
                         <a href="#">Rewards & Loyalty</a>
@@ -109,7 +117,7 @@ function FooterEvorium() {
                         <a href="#">Affiliation Club</a>
                       </li>
                       <li>
-                        <a href="#">My Account</a>
+                        <Link to={usrEditProfile}>My Account</Link>
                       </li>
                     </ul>
                   </div>

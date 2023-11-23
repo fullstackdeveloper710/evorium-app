@@ -9,6 +9,9 @@ import { default as Signup } from "./Signup";
 import { default as TermsofService } from "./TermsofService";
 import { default as UserProfile } from "./UserProfile";
 import { default as VideoPlayer } from "./Video";
+import AboutUs from "./AboutUs";
+import Faq from "./Faq";
+import ContactUs from "./ContactUs";
 
 export {
   CreateNewPassword,
@@ -22,4 +25,7 @@ export {
   TermsofService,
   UserProfile,
   VideoPlayer,
+  AboutUs,
+  Faq,
+  ContactUs,
 };

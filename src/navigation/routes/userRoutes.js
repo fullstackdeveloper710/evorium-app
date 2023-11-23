@@ -7,11 +7,13 @@ import {
   Programs,
   RefundsPolicy,
   ResetPassword,
-  Sigup,
   TermsofService,
   UserProfile,
   VideoPlayer,
   Signup,
+  AboutUs,
+  Faq,
+  ContactUs,
 } from "../../pages/user";
 import Otp from "../../pages/user/Otp";
 import { ROUTES } from "../constants";
@@ -29,6 +31,9 @@ const {
   usrTermCon,
   usrSignUp,
   usrEditProfile,
+  usrAboutUs,
+  usrContactUs,
+  usrFaq,
 } = ROUTES;
 export const userRoutes = [
   {
@@ -129,7 +134,31 @@ export const userRoutes = [
     defaultComp: false,
   },
   {
-    id: 17,
+    id: 13,
+    type: "public",
+    path: usrAboutUs,
+    Component: AboutUs,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 14,
+    type: "public",
+    path: usrContactUs,
+    Component: ContactUs,
+    Auth: true,
+    defaultComp: false,
+  },
+  {
+    id: 15,
+    type: "public",
+    path: usrFaq,
+    Component: Faq,
+    Auth: false,
+    defaultComp: false,
+  },
+  {
+    id: 16,
     type: "public",
     path: "*",
     Component: NotFound,

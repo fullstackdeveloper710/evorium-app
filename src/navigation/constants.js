@@ -33,5 +33,7 @@ export const ROUTES = {
   usrRefundPolicy: "/refunds-policy",
   usrTermCon: "/terms-of-service",
   usrSignUp: "/signup",
-  usrEditProfile: "edit-profile",
+  usrAboutUs: "/about-us",
+  usrContactUs: "/contact-us",
+  usrFaq: "/faq",
 };
