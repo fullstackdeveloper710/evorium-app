@@ -8,7 +8,7 @@ const Slider = () => {
     <section className="road-map-section">   
    <Container> 
       <div className='title-block'>
-         <h2>Roadmap</h2>
+         <h2 className='text-center'>Roadmap</h2>
         </div>
 
          {/* slider */}
