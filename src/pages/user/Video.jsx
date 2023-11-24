@@ -4,18 +4,12 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { Play } from "../../assets/icons/user";
-import { loadStripe } from "@stripe/stripe-js";
 import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
-import { Elements } from "@stripe/react-stripe-js";
 import { useDispatch, useSelector } from "react-redux";
 import { userViewCount } from "../../redux/thunk/user/usrCount";
 import "../../styles/user/video.scss";
-
-const stripePromise = loadStripe(
-  "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
-);
 
 const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -95,9 +89,7 @@ const VideoPlayer = () => {
         handleShow={handleShow}
         modalHead="Payment Screen"
       >
-        <Elements stripe={stripePromise}>
-          <CheckoutForm />
-        </Elements>
+        <CheckoutForm />
       </CustomModal>
 
       <section
@@ -127,33 +119,12 @@ const VideoPlayer = () => {
                     playing={isPlaying}
                     controls={true}
                     url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
-                    onStart={() => playerRef?.current?.seekTo(startTime)} // Set initial start time
+                    onStart={() => playerRef?.current?.seekTo(startTime)}
                   />
                 )}
                 <button onClick={handlePlayPause}>
                   {isPlaying ? "Pause" : "Play"}
                 </button>
-                {/* {subscriptionType[1] == 'pro' &&  <div
-                  style={{
-                    backgroundColor: "transparent",
-                    height: "100%",
-                    width: "100%",
-                    color: "white",
-                    position: "absolute",
-                    top: 0,
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                > */}
-                {/* <Image
-                    src={lockscreen}
-                    style={{
-                      height: 70,
-                      width: 70,
-                      color: "red",
-                    }}
-                  /> */}
               </div>
             </Col>
 
@@ -165,12 +136,7 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__descp">
                     <h4>Description</h4>
-                    <p>
-                      {description}
-                      {/* {IsExpanded
-                          ? "In this video we will learn how to create landing page for  cryptocurrency apps"
-                          : "In this video we will learn how to create..."} */}
-                    </p>
+                    <p>{description}</p>
                     <button onClick={toggleExpand}>
                       {IsExpanded ? "Read Less" : "Read More"}
                     </button>
@@ -191,10 +157,6 @@ const VideoPlayer = () => {
                     <h4>Time Codes</h4>
 
                     <div className="timecodec__list">
-                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
-                      {/* 
-                      {episodes?.map((i) => {
-                        return ( */}
                       <button
                         className="timecodecBtn"
                         onClick={() => handleSetStartTime(30)}
@@ -203,20 +165,12 @@ const VideoPlayer = () => {
                           <Play />
                         </figure>
                         <div className="timecodecBtn__caption">
-                          {/* <h2>{i.title}</h2> */}
                           <h2>introduction 1</h2>
-
                           <span>30 sec</span>
                         </div>
                       </button>
-                      {/* );
-                      })} */}
                     </div>
                     <div className="timecodec__list">
-                      {/* <button onClick={() => handleSetStartTime(50)}>Play from 50s</button> */}
-                      {/* 
-                      {episodes?.map((i) => {
-                        return ( */}
                       <button
                         className="timecodecBtn"
                         onClick={() => handleSetStartTime(60)}
@@ -225,14 +179,10 @@ const VideoPlayer = () => {
                           <Play />
                         </figure>
                         <div className="timecodecBtn__caption">
-                          {/* <h2>{i.title}</h2> */}
                           <h2>introduction 2</h2>
-
                           <span>1 min</span>
                         </div>
                       </button>
-                      {/* );
-                      })} */}
                     </div>
                     <div className="timecodec__list">
                       <button
@@ -249,74 +199,11 @@ const VideoPlayer = () => {
                         </div>
                       </button>
                     </div>
-                    {/* <div className="timecodec__list">
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-
-                        <button className="timecodecBtn">
-                          <figure>
-                            <Play />
-                          </figure>
-                          <div className="timecodecBtn__caption">
-                            <h2>Introduction</h2>
-                            <span>02:10</span>
-                          </div>
-                        </button>
-                      </div> */}
                   </div>
-                  {/* <button onClick={() => setShow(true)} className="buyBtn">Buy For $1.0</button> */}
                   <div>
                     <button className="buyBtn" onClick={handleShow}>
                       Buy For ${parseInt(price) / 100}
                     </button>
-                    {/* <CheckoutForm show={showModal} handleClose={closeModal} /> */}
                   </div>
                 </div>
               </div>

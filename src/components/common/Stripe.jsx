@@ -1,8 +1,5 @@
 import React, { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import {
-  PaymentElement,
-  Elements,
   useStripe,
   useElements,
   CardNumberElement,
@@ -85,7 +82,6 @@ const CheckoutForm = () => {
   };
   return (
     <form onSubmit={onSubmitHandler}>
-      {/* <PaymentElement /> */}
       <CardNumberElement id="card-number-element" options={options} />
       <CardCvcElement id="card-cvc-element" options={options} />
       <CardExpiryElement id="card-expiry-element" options={options} />
@@ -93,11 +89,6 @@ const CheckoutForm = () => {
       <Button type="submit" className="btn btn-primary">
         Pay
       </Button>
-
-      {/* <button type="submit" disabled={!stripe || !elements}>
-        Pay
-      </button> */}
-      {/* Show error message to your customers */}
       {errorMessage && <div>{errorMessage}</div>}
     </form>
   );
