@@ -8,7 +8,7 @@ import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { userViewCount } from "../../redux/thunk/user/usrCount";
+import { userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
 
 const VideoPlayer = () => {

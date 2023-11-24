@@ -2,8 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getUserProgramList,
   userFilterPrograms,
+  userViewCount,
 } from "../../thunk/user/usrPrograms";
-import { userViewCount } from "../../thunk/user/usrCount";
 
 const initialState = {
   userFreePrograms: {
