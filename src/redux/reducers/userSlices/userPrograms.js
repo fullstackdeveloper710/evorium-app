@@ -3,7 +3,7 @@ import {
   getUserProgramList,
   userFilterPrograms,
 } from "../../thunk/user/usrPrograms";
-import { userRecentProgram, userViewCount } from "../../thunk/user/usrCount";
+import { userViewCount } from "../../thunk/user/usrCount";
 
 const initialState = {
   userFreePrograms: {

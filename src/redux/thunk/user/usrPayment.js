@@ -1,12 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
-import {
-  hideBtnLoader,
-  hideLoader,
-  showBtnLoader,
-  showLoader,
-} from "../../reducers/common/appSlice";
+import { hideBtnLoader, showBtnLoader } from "../../reducers/common/appSlice";
 
 const { usrMakePayment, usrPaymentConfirm } = userApi;
 
@@ -35,7 +30,7 @@ export const userMakePayment = createAsyncThunk(
 export const userPaymentConfirm = createAsyncThunk(
   "user/userPaymentConfirm",
   async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
+    // const { dispatch } = thunkAPI;
     const { userAuthtoken, values, cb } = data;
     try {
       const config = {

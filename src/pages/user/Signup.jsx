@@ -1,33 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button, Alert } from "../../components/user";
-import "../../styles/user/auth.scss";
-import {
-  AppleIcon,
-  CheckIcon,
-  EmailIcon,
-  EyeLock,
-  FacebookIcon,
-  GoogleIcon,
-} from "../../assets/icons/user";
-import { Link, useNavigate } from "react-router-dom";
+import { CheckIcon, EyeLock } from "../../assets/icons/user";
+import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import { userSignUp } from "../../redux/thunk/user/usrMain";
 import { useDispatch } from "react-redux";
 import { Input } from "../../components/common";
-
 import { ROUTES } from "../../navigation/constants";
 import SocialMedia from "../common/SocialMedia";
+import "../../styles/user/auth.scss";
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
-  const [name, setName] = useState();
-
-  const dispatch = useDispatch();
   const [show, setShow] = useState(false);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Router functions
   const navigate = useNavigate();
 
+  //Formik initial state
   const initValues = {
     full_name: "",
     email: "",
