@@ -7,11 +7,18 @@ import {
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
 import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { userMakePayment } from "../../redux/thunk/user/usrPayment";
 
-const CheckoutForm = () => {
+const CheckoutForm = ({ amount, programId }) => {
   const stripe = useStripe();
   const elements = useElements();
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
 
   const makePaymentHandler = async (billingAddress) => {
     if (!stripe || !elements) {
@@ -21,60 +28,51 @@ const CheckoutForm = () => {
     try {
       const stripeToken = await stripe.createToken(cardElement);
       const values = {
-        // amount: amount, // Set the desired amount in cents
-        // currency: "usd",
-        // stripe_token: stripeToken.token.id,
-        // order_temp_id: order_temp_id,
-        // ...billingAddress,
+        amount: amount,
+        token: stripeToken.token.id,
+        program_id: programId,
       };
 
-      //   dispatch(stripePayment({ values, token })).then(async ({ payload }) => {
-      //     if (
-      //       payload.response.status === "requires_action" &&
-      //       payload.response.next_action.type === "use_stripe_sdk"
-      //     ) {
-      //       const { paymentIntent, error } = await stripe.confirmCardPayment(
-      //         payload.response.client_secret
-      //       );
-      //       const values = {
-      //         charge: paymentIntent,
-      //         order_temp_id: order_temp_id,
-      //       };
-      //       if (!error) {
-      //         switch (paymentIntent.status) {
-      //           case "succeeded":
-      //             break;
-      //           case "processing":
-      //             // toast.info(message.paymentUnderProccess);
-      //             break;
-      //           case "requires_payment_method":
-      //             // toast.error(message.paymentRejected);
-      //             break;
-      //           default:
-      //             // toast.error(message.somethingWentWrong);
-      //             break;
-      //         }
-      //       } else {
-      //         toast.error(message.paymentfailed);
-      //       }
-      //     } else {
-      //       console.log("else block");
-      //     }
-      //   });
+      dispatch(userMakePayment({ values, userAuthtoken })).then(
+        async ({ payload }) => {
+          if (
+            payload.responseData.status === "requires_action" &&
+            payload.responseData.next_action.type === "use_stripe_sdk"
+          ) {
+            const { paymentIntent, error } = await stripe.confirmCardPayment(
+              payload.responseData.client_secret
+            );
+            const values = {
+              charge: paymentIntent,
+            };
+            if (!error) {
+              switch (paymentIntent.status) {
+                case "succeeded":
+                  break;
+                case "processing":
+                  // toast.info(message.paymentUnderProccess);
+                  break;
+                case "requires_payment_method":
+                  // toast.error(message.paymentRejected);
+                  break;
+                default:
+                  // toast.error(message.somethingWentWrong);
+                  break;
+              }
+            } else {
+              // toast.error(message.paymentfailed);
+            }
+          } else {
+            console.log("else block");
+          }
+        }
+      );
     } catch (error) {
       console.log("an eror occured");
     }
   };
 
-  const options = {
-    mode: "payment",
-    amount: 1099,
-    currency: "usd",
-    // Fully customizable with appearance API.
-    appearance: {
-      /*...*/
-    },
-  };
+  const options = {};
 
   const onSubmitHandler = (e) => {
     e.preventDefault();

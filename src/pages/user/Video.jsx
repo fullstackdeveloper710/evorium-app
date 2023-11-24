@@ -89,7 +89,7 @@ const VideoPlayer = () => {
         handleShow={handleShow}
         modalHead="Payment Screen"
       >
-        <CheckoutForm />
+        <CheckoutForm amount={price} programId={videoId} />
       </CustomModal>
 
       <section
