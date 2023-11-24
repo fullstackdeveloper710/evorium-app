@@ -88,6 +88,7 @@ const VideoPlayer = () => {
         handleClose={handleClose}
         handleShow={handleShow}
         modalHead="Payment Screen"
+        className="user_modal"
       >
         <CheckoutForm
           amount={price}

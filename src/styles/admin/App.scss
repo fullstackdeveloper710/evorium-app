@@ -200,13 +200,15 @@ h3.title {
 
 .modal-content {
   min-width: 350px;
-  .modal-footer{
-    .common_btns button {
-      padding: 10px 29px;
-      width: auto;
-      font-size: 15px;
+
+    .common_btns{
+      button {
+        padding: 10px 29px;
+        width: auto;
+        font-size: 15px;
+      }
     }
-  }
+  
 }
 @media (max-width: 767px) {
   h3.title {
