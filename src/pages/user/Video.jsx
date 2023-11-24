@@ -273,11 +273,6 @@ const VideoPlayer = () => {
                 )
               )}
           </Row>
-          {/* <div className="text-center pt-5">
-            {itemsToLoad < cardsData.length && (
-
-              <button onClick={loadMore} className="load-more-btn">Load more</button>)}
-            </div> */}
         </Container>
       </section>
     </>
