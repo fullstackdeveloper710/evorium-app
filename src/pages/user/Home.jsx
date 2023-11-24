@@ -209,10 +209,9 @@ function Home() {
         <section className="our-star-team-section circle-right">
           <Container>
             <div className="title-block text-center text-white">
-              <h3>Our star team</h3>
+              <h3>{t("starTeam")}</h3>
               <p>
-                Consistent quality and experience across all platforms and
-                devices.
+              {t("starTeamDescription")}
               </p>
             </div>
             <Row className="row-team pt-5">
@@ -226,12 +225,11 @@ function Home() {
                   </div>
                   <div className="card-bottom text-center text-white">
                     <h5>
-                      Name
-                      <br /> Surname
+                      {t("starTeamName")}
+                      <br /> {t("starTeamSurname")}
                     </h5>
                     <p>
-                      Showcase your content in a beautiful on-demand video
-                      catalog.
+                     {t("starTeamContent")}
                     </p>
                   </div>
                 </div>
@@ -246,12 +244,11 @@ function Home() {
                   </div>
                   <div className="card-bottom text-center text-white">
                     <h5>
-                      Name
-                      <br /> Surname
+                    {t("starTeamName")}
+                      <br /> {t("starTeamSurname")}
                     </h5>
                     <p>
-                      Showcase your content in a beautiful on-demand video
-                      catalog.
+                    {t("starTeamContent")}
                     </p>
                   </div>
                 </div>
@@ -266,12 +263,11 @@ function Home() {
                   </div>
                   <div className="card-bottom text-center text-white">
                     <h5>
-                      Name
-                      <br /> Surname
+                    {t("starTeamName")}
+                      <br /> {t("starTeamSurname")}
                     </h5>
                     <p>
-                      Showcase your content in a beautiful on-demand video
-                      catalog.
+                    {t("starTeamContent")}
                     </p>
                   </div>
                 </div>
@@ -286,12 +282,11 @@ function Home() {
                   </div>
                   <div className="card-bottom text-center text-white">
                     <h5>
-                      Name
-                      <br /> Surname
+                    {t("starTeamName")}
+                      <br /> {t("starTeamSurname")}
                     </h5>
                     <p>
-                      Showcase your content in a beautiful on-demand video
-                      catalog.
+                    {t("starTeamContent")}
                     </p>
                   </div>
                 </div>
@@ -302,10 +297,9 @@ function Home() {
         <section className="our-partners-section">
           <Container>
             <div className="title-block text-center">
-              <h2 className="text-white">Our partners</h2>
+              <h2 className="text-white">{t("ourPartners")}</h2>
               <p className="text-white">
-                Consistent quality and experience across all platforms and
-                devices.
+               {t("ourPartnersDescription")}
               </p>
             </div>
             <div className="row align-items-center pt-5">

@@ -15,6 +15,8 @@ import "../../styles/user/video.scss";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
+
+
 );
 
 const VideoPlayer = () => {
