@@ -18,6 +18,7 @@ const ImageCropper = ({ image, updateCroppedImg, cancelCrop, file }) => {
   const name = file?.name;
   const type = file?.type;
 
+  
   const showCroppedImage = useCallback(async () => {
     try {
       const croppedImage = await getCroppedImg(

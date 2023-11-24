@@ -1,6 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { userEditProfile } from "../../thunk/user/usrProfile";
-import { getMyAccount } from "../../thunk/user/usrMain";
+import { getMyAccount, userEditProfile } from "../../thunk/user/usrProfile";
 
 const initialState = {
   status: false,

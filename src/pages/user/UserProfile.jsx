@@ -4,8 +4,10 @@ import { Button } from "../../components/user";
 import { UserIcon, CameraIcon, EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
-import { getMyAccount } from "../../redux/thunk/user/usrMain";
-import { userEditProfile } from "../../redux/thunk/user/usrProfile";
+import {
+  getMyAccount,
+  userEditProfile,
+} from "../../redux/thunk/user/usrProfile";
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
@@ -16,9 +18,10 @@ const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   //Redux state
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userDetails } = useSelector((state) => state.userAuth);
+  const [Initialvalues, setInitialvalues] = useState(false);
 
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userDetails } = useSelector((state) => state.userProfile);
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -41,7 +44,7 @@ const UserProfile = () => {
     full_name: userDetails?.full_name ?? "",
     email: userDetails?.email ?? "",
     phone: userDetails?.phone ?? "",
-    password: userDetails?.password ?? "",
+    // password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
     profile_pic: null,
     file: null,
@@ -72,8 +75,11 @@ const UserProfile = () => {
   useEffect(() => {
     const data = {
       userAuthtoken,
-      values: {},
+      values: {
+        full_name: userDetails?.full_name,
+      },
     };
+    console.log("first", data);
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
@@ -88,6 +94,8 @@ const UserProfile = () => {
         ...values,
       },
     };
+    console.log("first", values);
+
     dispatch(userEditProfile(data));
   };
 
@@ -96,6 +104,7 @@ const UserProfile = () => {
     console.log(file, "file");
     if (file) {
       handleShow();
+      
     }
     setFieldValue("file", file);
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
@@ -107,6 +116,7 @@ const UserProfile = () => {
         <div className="auth__inner">
           <h1 className="auth__title text-center">Edit Profile</h1>
           <Formik
+            enableReinitialize={true}
             initialValues={initValues}
             // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
@@ -132,6 +142,7 @@ const UserProfile = () => {
                           accept="image/*"
                           value={values.profile_pic}
                           onChange={(e) => handleImageChange(e, setFieldValue)}
+                          
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
@@ -146,7 +157,8 @@ const UserProfile = () => {
                                 alt="user_pro"
                               />
                             ) : (
-                              <UserIcon />
+                              <UserIcon 
+                              role="img"/>
                             )}
                           </div>
                           <div className="editUser__icon">
@@ -220,28 +232,7 @@ const UserProfile = () => {
                     </div>
                   </Col>
 
-                  <Col md={12}>
-                    <div className="inputRow">
-                      <div className="inputRow__icon">
-                        <input
-                          name="password"
-                          placeholder="Enter Password"
-                          type="password"
-                          value={values.password}
-                          onBlur={handleBlur}
-                          onChange={handleChange}
-                        />
-
-                        <span className="inputRow__iconGroup">
-                          <EyeLock />
-                        </span>
-                      </div>
-                      <span style={{ color: "red" }}>
-                        {errors.password && touched.password && errors.password}
-                      </span>
-                    </div>
-                  </Col>
-
+                 
                   <Col md={12}>
                     {/* <div className="inputRow"> */}
                     {/* <div className="inputRow__icon"> */}

@@ -197,28 +197,6 @@ export const userFacebookLogin = createAsyncThunk(
   }
 );
 
-// get my account details
-
-export const getMyAccount = createAsyncThunk(
-  "user/getMyAccount",
-  async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const { userAuthtoken } = data;
-    try {
-      const config = {
-        method: "get",
-        url: usrMyAccount,
-      };
-      dispatch(showLoader());
-      const response = await httpsClient(config, userAuthtoken);
-      dispatch(hideLoader());
-      return response;
-    } catch (error) {
-      dispatch(hideLoader());
-      return thunkAPI.rejectWithValue(error.message);
-    }
-  }
-);
 
 export const userRefreshToken = createAsyncThunk(
   "user/userRefreshToken",
