@@ -101,7 +101,7 @@ const Signup = () => {
 
       <section className="auth">
         <div className="auth__inner">
-          <h1 className="auth__title">Sign Up to your account</h1>
+          <h1 className="auth__title text-center">Sign Up to your account</h1>
 
           <Formik
             initialValues={initValues}

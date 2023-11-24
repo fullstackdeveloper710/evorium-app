@@ -39,6 +39,13 @@
     }
 
     &__descp {
+      button{
+       background-color: transparent;
+       border: 0px;
+       padding: 0px;
+       color: #fff;
+       text-decoration: underline;
+      }
       margin-top: 20px;
       h4 {
         color: #fff;
@@ -80,7 +87,7 @@
       }
 
       button.mid--btn {
-        color: #bdb3c7;
+        color: rgba(189, 179, 199, 0.6117647059);
         font-size: 18px;
         font-style: normal;
         font-weight: 400;
@@ -89,9 +96,15 @@
         border: 0;
         &:hover {
           color: #fff !important;
+          svg {
+            g{
+              opacity: 1 !important;
+            }
+          }
         }
         &:nth-child(2) {
           margin-left: 8px;
+          color: #bdb3c7;
         }
       }
     }

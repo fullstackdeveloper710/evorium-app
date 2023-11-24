@@ -38,7 +38,7 @@
   .platformFilter {
     margin-bottom: 60px;
     padding-bottom: 60px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
 
   .title-block{
@@ -97,6 +97,7 @@
 }
 .filter .dropdown-toggle {
   background-image: url(../../assets/icons/user/filter.png) !important;
-  background-position: 85% 12px;
+  background-position: 21% 20px !important;
   background-repeat: no-repeat;
+  padding-left: 35px !important;
 }

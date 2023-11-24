@@ -64,13 +64,14 @@ function Home() {
   return (
     <>
       <section className="banner-home">
-        <Image src={bannner} className="bannerImg img-fluid" />
+        <Image src={bannner} className="bannerImg img-fluid d-none d-md-block" />
         <Container>
           <Row>
-            <Col md={5} sm={12}>
+            <Col md={6} sm={12}>
               <div className="text-block">
                 <h1>{t("usrHomeHeading")}</h1>
                 <p>{t("usrHomeSubHeading")}</p>
+                <img src={bannner} class="bannerImg img-fluid d-block d-md-none mb-4"></img>
                 <div className="btns-group">
                   <a href="void 0" className="try-btn">
                     {t("tryForFree")}

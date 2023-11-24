@@ -2,7 +2,10 @@
 
 .banner-home {
   position: relative;
-
+  height: 570px;
+  .bannerImg {
+    width: 45% !important;
+}
   &:after {
     content: "";
     background: linear-gradient(
@@ -225,6 +228,7 @@
           color: #b7b9d2;
           margin-bottom: 10px;
           letter-spacing: 2px;
+          min-height: 38px;
         }
         .link-card {
           font-family: "Aeonik Medium";
@@ -378,7 +382,7 @@
 
 .circle-right {
   position: relative;
-
+  z-index: 1;
   &:after {
     content: "";
     position: absolute;
