@@ -64,14 +64,20 @@ function Home() {
   return (
     <>
       <section className="banner-home">
-        <Image src={bannner} className="bannerImg img-fluid d-none d-md-block" />
+        <Image
+          src={bannner}
+          className="bannerImg img-fluid d-none d-md-block"
+        />
         <Container>
           <Row>
             <Col md={6} sm={12}>
               <div className="text-block">
                 <h1>{t("usrHomeHeading")}</h1>
                 <p>{t("usrHomeSubHeading")}</p>
-                <img src={bannner} class="bannerImg img-fluid d-block d-md-none mb-4"></img>
+                <img
+                  src={bannner}
+                  class="bannerImg img-fluid d-block d-md-none mb-4"
+                ></img>
                 <div className="btns-group">
                   <a href="void 0" className="try-btn">
                     {t("tryForFree")}
@@ -139,71 +145,73 @@ function Home() {
           </Container>
         </section>
 
-        <section className="popular-section">
-          <Container>
-            <div className="title-block">
-              <h2 className="text-white" id="popular">
-                {t("mostPopular")}
-                <Image src={downarrow} />
-              </h2>
-              <a href="/programs" className="view-all-link">
-                {t("viewAll")}
-              </a>
-            </div>
+        {data?.length > 0 && (
+          <section className="popular-section">
+            <Container>
+              <div className="title-block">
+                <h2 className="text-white" id="popular">
+                  {t("mostPopular")}
+                  <Image src={downarrow} />
+                </h2>
+                <a href="/programs" className="view-all-link">
+                  {t("viewAll")}
+                </a>
+              </div>
 
-            <Row className="popular-row">
-              {data
-                .slice(0, itemsToLoad)
-                .map(
-                  (
-                    {
-                      id,
-                      title,
-                      thumbnail_url,
-                      video_duration,
-                      views,
-                      description,
-                      watched,
-                      url,
-                      course_type,
-                      price,
-                    },
-                    index
-                  ) => (
-                    <Card
-                      url={url}
-                      key={id}
-                      title={title}
-                      thumbnail_url={thumbnail_url}
-                      duration={video_duration}
-                      views={views}
-                      watched={watched}
-                      course_type={course_type}
-                      price={price}
-                      description={description}
-                    />
-                  )
+              <Row className="popular-row">
+                {data
+                  .slice(0, itemsToLoad)
+                  .map(
+                    (
+                      {
+                        id,
+                        title,
+                        thumbnail_url,
+                        video_duration,
+                        views,
+                        description,
+                        watched,
+                        url,
+                        course_type,
+                        price,
+                      },
+                      index
+                    ) => (
+                      <Card
+                        url={url}
+                        key={id}
+                        title={title}
+                        thumbnail_url={thumbnail_url}
+                        duration={video_duration}
+                        views={views}
+                        watched={watched}
+                        course_type={course_type}
+                        price={price}
+                        description={description}
+                      />
+                    )
+                  )}
+              </Row>
+              <div className="text-center loadBtnWrap pt-5">
+                {itemsToLoad < data.length && (
+                  <button onClick={loadMore} className="load-more-btn">
+                    {t("loadMore")}
+                  </button>
                 )}
-            </Row>
-            <div className="text-center loadBtnWrap pt-5">
-              {itemsToLoad < cardsData.length && (
-                <button onClick={loadMore} className="load-more-btn">
-                  {t("loadMore")}
-                </button>
-              )}
 
-              {itemsToLoad > 5 && (
-                <button
-                  onClick={loadLess}
-                  className="load-more-btn"
-                  id="popular"
-                >
-                  Load Less
-                </button>
-              )}
-            </div>
-          </Container>
-        </section>
+                {itemsToLoad > 5 && (
+                  <button
+                    onClick={loadLess}
+                    className="load-more-btn"
+                    id="popular"
+                  >
+                    Load Less
+                  </button>
+                )}
+              </div>
+            </Container>
+          </section>
+        )}
 
         {/* slider here */}
         <Slider />
