@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { usrPrograms, usrFilterPrograms } = userApi;
+const { usrPrograms, usrFilterPrograms,usrMyAccount } = userApi;
 
 // get USER categories list thunk
 export const getUserProgramList = createAsyncThunk(
@@ -26,6 +26,7 @@ export const getUserProgramList = createAsyncThunk(
     }
   }
 );
+
 // filter programs
 export const userFilterPrograms = createAsyncThunk(
   "user/userFilterPrograms",
