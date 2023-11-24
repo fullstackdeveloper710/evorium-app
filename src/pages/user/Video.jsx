@@ -89,7 +89,11 @@ const VideoPlayer = () => {
         handleShow={handleShow}
         modalHead="Payment Screen"
       >
-        <CheckoutForm amount={price} programId={videoId} />
+        <CheckoutForm
+          amount={price}
+          programId={videoId}
+          onCancel={() => handleClose()}
+        />
       </CustomModal>
 
       <section

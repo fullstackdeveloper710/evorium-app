@@ -10,6 +10,7 @@ const userApi = {
   usrViewCount: "user/program_view_count",
   usrRecentProgram: "user/recent_program",
   usrMakePayment: "/user/payment_intilization",
+  usrPaymentConfirm: "/user/payment_confirmation",
 
   //pending
   usrRefreshToken: "/user/refresh_token",

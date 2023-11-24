@@ -9,11 +9,6 @@ const CustomModal = ({ modalHead, show, handleClose, children }) => {
           <Modal.Title>{modalHead}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </div>
     </Modal>
   );
