@@ -9,6 +9,7 @@ const userApi = {
   usrEditProfile: "user/update",
   usrViewCount: "user/program_view_count",
   usrRecentProgram: "user/recent_program",
+  usrMakePayment: "/user/payment_intilization",
 
   //pending
   usrRefreshToken: "/user/refresh_token",
