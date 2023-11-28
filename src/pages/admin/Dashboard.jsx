@@ -14,7 +14,10 @@ import "../../styles/admin/dashboard.scss";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminDashStats } from "../../redux/thunk/admin/adDashboard";
-import { getAdminNotifications } from "../../redux/thunk/admin/adNotification";
+import { getAdminNotifications , deleteNotification, deleteNotifications } from "../../redux/thunk/admin/adNotification";
+
+
+
 
 function Dashboard() {
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
@@ -164,33 +167,19 @@ function Dashboard() {
               <h3 className="title">Notifications</h3>
               <ul className="notification_list">
 
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                  <Image src={trash} />
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                  <Image src={trash} />
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                  <Image src={trash} />
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                  <Image src={trash} />
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                  <Image src={trash} />
-                </li>
-
+           
                 {notification_data?.map((i) => (
-                  <li>{i.notification_text}</li>
+
+                  
+                  <li key={i._id}>{i.notification_text}
+                   <Image key={i._id} src={trash} onClick={() => dispatch(deleteNotification({adminAuthtoken : adminAuthtoken, value: i._id}))}/>
+                  </li>
                 ))}
 
               </ul>
-              <button className="clear_btn">Clear All</button>
+
+              {notification_data.length === 0 ? <div>No Notification</div> :  <button className="clear_btn" onClick={() => dispatch(deleteNotifications({adminAuthtoken: adminAuthtoken}))}>Clear All</button>}
+             
             </div>
           </Col>
         </Row>
