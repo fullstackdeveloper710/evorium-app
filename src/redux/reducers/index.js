@@ -14,6 +14,8 @@ import userAuth from "./userSlices/userAuth";
 import userProfileSlice from "./userSlices/userProfile";
 import userProgramsSlice from "./userSlices/userPrograms";
 import userPaymentSlice from "./userSlices/userPayment";
+import adminNotificationSlice from "./adminSlices/adNotification"
+
 
 const rootReducer = combineReducers({
   //common slices
@@ -30,6 +32,7 @@ const rootReducer = combineReducers({
   adFaqs: adminFaqsSlice,
   adCms: adminCmsSlice,
   adPayment: adminPaymentSlice,
+  adNotification : adminNotificationSlice,
   //User slices
   userAuth: userAuth,
   userPrograms: userProgramsSlice,

@@ -62,6 +62,7 @@ const adminApi = {
   adFilterPayment: "admin/filter_payments",
   adGetPaymentDetail: "",
   adUpdateProgram: "/admin/program",
+  adNotification : "/admin/notification"
 
   //pending
 };
