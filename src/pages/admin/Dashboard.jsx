@@ -158,20 +158,26 @@ function Dashboard() {
               <ul className="notification_list">
                 <li>
                   <b>Wade Warren</b> created a new account.
+                  <Image src={trash} />
                 </li>
                 <li>
                   <b>Wade Warren</b> created a new account.
+                  <Image src={trash} />
                 </li>
                 <li>
                   <b>Wade Warren</b> created a new account.
+                  <Image src={trash} />
                 </li>
                 <li>
                   <b>Wade Warren</b> created a new account.
+                  <Image src={trash} />
                 </li>
                 <li>
                   <b>Wade Warren</b> created a new account.
+                  <Image src={trash} />
                 </li>
               </ul>
+              <button className="clear_btn">Clear All</button>
             </div>
           </Col>
         </Row>

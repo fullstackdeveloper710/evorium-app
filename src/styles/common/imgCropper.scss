@@ -36,6 +36,16 @@ body {
   display: flex;
   justify-content: center;
   width: 100%;
+  button{
+    padding: 10px 25px;
+    border: 0px;
+    background-color: #AE00FF;
+    border-radius: 5px;
+    color: #fff;
+    &:first-child{
+      background-color: red;
+    }
+  }
 }
 .slider {
   padding: 22px 0px;

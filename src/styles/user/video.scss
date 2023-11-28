@@ -133,9 +133,9 @@
           align-items: flex-start;
           text-align: left;
           padding: 12px;
-          width: 32%;
+          width: 100%;
           word-break: break-all;
-
+          
           figure {
             width: 30px;
             flex: 0 0 30px;
@@ -190,6 +190,9 @@
   &:hover {
     background-color: #fff;
     color: #333 !important;
+  }
+  & + .view-All-btn{
+    margin-left: 10px;
   }
 }
 

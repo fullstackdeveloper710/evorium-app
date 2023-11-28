@@ -127,9 +127,9 @@ const VideoPlayer = () => {
                     onStart={() => playerRef?.current?.seekTo(startTime)}
                   />
                 )}
-                <button onClick={handlePlayPause}>
+                {/* <button onClick={handlePlayPause}>
                   {isPlaying ? "Pause" : "Play"}
-                </button>
+                </button> */}
               </div>
             </Col>
 

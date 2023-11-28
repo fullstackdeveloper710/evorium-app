@@ -4,12 +4,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background: #280249;
   .not_found_container {
     display: flex;
     justify-content: center;
     flex-direction: column;
     h1 {
-      color: gray;
+      font-size: 35px;
+      color: #fff;
       margin-bottom: 20px;
     }
     .not_found_btn {

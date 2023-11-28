@@ -146,7 +146,37 @@ h3.title {
      width: calc(100% - 300px);
     }
   }
-
+  .comn_table table {
+    border-collapse: separate;
+    border-spacing: 0 10px;
+    thead {
+      tr {
+        th {
+          background-color: #2e2753 !important;
+          padding: 15px 5px;
+          color: #fff;
+          vertical-align: middle;
+          font-size: 18px;
+          font-weight: 500;
+        }
+        
+      }
+    }
+    tbody {
+      tr {
+        td {
+          color: #2e2753;
+          border-top: 1px solid #ecedf2;
+          vertical-align: middle;
+          padding: 17px 10px;
+          font-family: "Poppins", sans-serif;
+          font-size: 17px;
+          font-weight: 600;
+          
+        }
+      }
+    }
+  }
 }
 
 .right_section {
@@ -208,6 +238,8 @@ h3.title {
         font-size: 15px;
       }
     }
+
+   
   
 }
 @media (max-width: 767px) {
