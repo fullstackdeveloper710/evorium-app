@@ -142,7 +142,28 @@
                         padding-top: 4px;
                         top: 10px;
                     }
+                    img{
+                        display: none;
+                        position: absolute;
+                        right: 10px;
+                        top: 20px;
+                        cursor: pointer;
+                        transition: all 0.3s ease-in-out;
+                        will-change: display;
+                    }
+                    &:hover{
+                        img{
+                            display: block;
+                        }
+                    }
                 }
+            }
+            button.clear_btn{
+                padding: 0px;
+                background-color: transparent;
+                border: 0px;
+                display: inline-block;
+                margin-left: auto;
             }
         }
 }

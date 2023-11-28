@@ -88,6 +88,7 @@ const VideoPlayer = () => {
         handleClose={handleClose}
         handleShow={handleShow}
         modalHead="Payment Screen"
+        className="user_modal"
       >
         <CheckoutForm
           amount={price}
@@ -126,9 +127,9 @@ const VideoPlayer = () => {
                     onStart={() => playerRef?.current?.seekTo(startTime)}
                   />
                 )}
-                <button onClick={handlePlayPause}>
+                {/* <button onClick={handlePlayPause}>
                   {isPlaying ? "Pause" : "Play"}
-                </button>
+                </button> */}
               </div>
             </Col>
 

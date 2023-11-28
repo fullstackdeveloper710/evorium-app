@@ -187,28 +187,28 @@ body main{
     }
 
     .virtualworld_img {
-      width: 236px !important;
-      top: 65%;
+      width: 350px !important;
+      // top: 65%;
     }
   }
 
   .popular-section {
-    .title-block {
-      h2 {
-        font-size: 42px;
-        position: relative;
-        padding-right: 60px;
-        line-height: 42px;
-        margin: 0;
-        max-width: fit-content;
-        img {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 30px;
-        }
-      }
-    }
+    // .title-block {
+    //   h2 {
+    //     font-size: 42px;
+    //     position: relative;
+    //     padding-right: 60px;
+    //     line-height: 42px;
+    //     margin: 0;
+    //     max-width: fit-content;
+    //     img {
+    //       position: absolute;
+    //       right: 0;
+    //       bottom: 0;
+    //       width: 30px;
+    //     }
+    //   }
+    // }
 
     .popular-row.row {
       .subs-card {
@@ -286,12 +286,6 @@ body main{
     .platformPage__top {
       .title-block {
         margin-bottom: 30px;
-        h1 {
-          font-size: 52px;
-        }
-        span {
-          font-size: 52px;
-        }
       }
     }
   }
