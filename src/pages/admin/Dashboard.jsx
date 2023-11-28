@@ -14,12 +14,18 @@ import "../../styles/admin/dashboard.scss";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminDashStats } from "../../redux/thunk/admin/adDashboard";
+import { getAdminNotifications } from "../../redux/thunk/admin/adNotification";
 
 function Dashboard() {
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
   const {
     adminDashboard: { data },
   } = useSelector((state) => state.adDashboard);
+
+  const {
+    adminNotification: { data: notification_data },
+  } = useSelector((state) => state.adNotification);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,6 +33,7 @@ function Dashboard() {
       adminAuthtoken,
     };
     dispatch(getAdminDashStats(data));
+    dispatch(getAdminNotifications(data));
   }, [dispatch, adminAuthtoken]);
   return (
     <>
@@ -156,6 +163,7 @@ function Dashboard() {
             <div className="notification_block">
               <h3 className="title">Notifications</h3>
               <ul className="notification_list">
+
                 <li>
                   <b>Wade Warren</b> created a new account.
                   <Image src={trash} />
@@ -176,6 +184,11 @@ function Dashboard() {
                   <b>Wade Warren</b> created a new account.
                   <Image src={trash} />
                 </li>
+
+                {notification_data?.map((i) => (
+                  <li>{i.notification_text}</li>
+                ))}
+
               </ul>
               <button className="clear_btn">Clear All</button>
             </div>
