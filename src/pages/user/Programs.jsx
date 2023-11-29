@@ -184,6 +184,8 @@ function Programs() {
                         id="collapsible-nav-dropdown"
                         className="filter"
                       >
+                        <ul className="filter_ul">
+                          <li className="list_item">
                         <NavDropdown.Item
                           href="#action/3.1"
                           onClick={() => {
@@ -192,6 +194,14 @@ function Programs() {
                         >
                           Category
                         </NavDropdown.Item>
+                        <div className="drop_item">
+                          <a href="#">link1</a>
+                          <a href="#">link2</a>
+                          <a href="#">link1</a>
+                          <a href="#">link2</a>
+                        </div>
+                        </li>
+                        <li className="list_item">
                         <NavDropdown.Item
                           href="#action/3.2"
                           onClick={() => {
@@ -200,7 +210,16 @@ function Programs() {
                         >
                           Speaker
                         </NavDropdown.Item>
+                        <div className="drop_item">
+                          <a href="#">link3</a>
+                          <a href="#">link4</a>
+                          <a href="#">link3</a>
+                          <a href="#">link4</a>
+                        </div>
+                        </li>
+                        </ul>
                       </NavDropdown>
+                     
                     </Nav>
                   </Col>
                   <Col md={6} className="text-end">

@@ -97,7 +97,51 @@
 }
 .filter .dropdown-toggle {
   background-image: url(../../assets/icons/user/filter.png) !important;
-  background-position: 21% 20px !important;
+  background-position: 21% 50% !important;
   background-repeat: no-repeat;
   padding-left: 35px !important;
+}
+
+
+
+.filter_ul {
+    list-style: none;
+    padding: 0px;
+    position: relative;
+    .list_item{
+      .dropdown-item{
+        position: relative;
+      }
+      .dropdown-item::after{
+        content: '';
+        position: absolute;
+        right: 10px;
+        top: 15px;
+        width: 0;
+        height: 0;
+        border-top: 5px solid transparent;
+        border-left: 10px solid #ccc;
+        border-bottom: 5px solid transparent;
+      }
+   
+    &:hover {
+      .drop_item {
+        display: block;
+    }
+    }
+    .drop_item {
+      position: absolute;
+      right: -130px;
+      padding: 15px;
+      background: #fff;
+      width: 130px;
+      top: 0px;
+      display: none;
+      a {
+        display: block;
+        text-decoration: none;
+        color: #000;
+    }
+  }
+}
 }
