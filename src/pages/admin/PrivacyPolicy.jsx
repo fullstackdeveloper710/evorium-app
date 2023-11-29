@@ -38,7 +38,7 @@ const PrivacyPolicy = () => {
   }, []);
   return (
     <div className="privacy_section">
-      <h3>PrivacyPolicy</h3>
+      <h3>Privacy Policy</h3>
       <CmsEditor
         content={content}
         handleChange={handleChange}

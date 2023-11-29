@@ -37,7 +37,7 @@ const AboutUs = () => {
   }, []);
   return (
     <div className="about_us_section">
-      <h3>About us</h3>
+      <h3>About Us</h3>
       <CmsEditor
         content={content}
         handleChange={handleChange}

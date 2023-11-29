@@ -39,7 +39,7 @@ const SocialMedia = () => {
 
   return (
     <div className="social_media_section">
-      <h3>SocialMedia</h3>
+      <h3>Social Media</h3>
       <CmsEditor
         content={content}
         handleChange={handleChange}

@@ -39,7 +39,7 @@ const TermAndConditions = () => {
 
   return (
     <div className="term_condition_section">
-      <h3>TermAndConditions</h3>
+      <h3>Term And Conditions</h3>
       <CmsEditor
         content={content}
         handleChange={handleChange}
