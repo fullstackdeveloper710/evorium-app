@@ -11,6 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
 
+
+const stripePromise = loadStripe(
+  "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
+
+
+);
+
+
 const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [IsExpanded, setIsExpanded] = useState(false);
