@@ -11,6 +11,9 @@ const userApi = {
   usrRecentProgram: "user/recent_program",
   usrMakePayment: "/user/payment_intilization",
   usrPaymentConfirm: "/user/payment_confirmation",
+  usrMyPrograms : "/user/my_programs",
+  usrCategories : "/categories?all=true",
+  usrSpeakers : "/speakers?all=true",
 
   //pending
   usrRefreshToken: "/user/refresh_token",

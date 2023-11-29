@@ -3,7 +3,7 @@ import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { usrPrograms, usrFilterPrograms, usrViewCount, usrRecentProgram } =
+const { usrPrograms, usrFilterPrograms, usrViewCount, usrRecentProgram , usrMyPrograms} =
   userApi;
 
 // get USER categories list thunk
@@ -27,6 +27,32 @@ export const getUserProgramList = createAsyncThunk(
     }
   }
 );
+
+//my purchased program list
+export const getMyProrgamsList = createAsyncThunk(
+  "user/MyProgramList",
+  async (data , thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const {userAuthtoken} = data;
+
+    console.log(userAuthtoken,"datahshshsh")
+
+    try {
+      const config = {
+        method: "get",
+        url: `${usrMyPrograms}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+
+  }
+)
 
 // filter programs
 export const userFilterPrograms = createAsyncThunk(

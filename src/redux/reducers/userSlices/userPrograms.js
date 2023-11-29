@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
+  getMyProrgamsList,
   getUserProgramList,
   userFilterPrograms,
   userViewCount,
@@ -28,6 +29,9 @@ const initialState = {
     data: [],
   },
   userSpeakers2Programs: {
+    data: [],
+  },
+  userMyPrograms: {
     data: [],
   },
 };
@@ -60,6 +64,22 @@ const userProgramsSlice = createSlice({
         state.status = true;
       })
       .addCase(getUserProgramList.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //my program reducer
+
+    builder
+      .addCase(getMyProrgamsList.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(getMyProrgamsList.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.userMyPrograms = payload;
+        state.status = true;
+      })
+      .addCase(getMyProrgamsList.rejected, (state, action) => {
         state.status = false;
       });
 
