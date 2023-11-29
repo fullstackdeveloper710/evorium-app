@@ -10,6 +10,8 @@ import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
+import { loadStripe } from "@stripe/stripe-js";
+
 
 
 const stripePromise = loadStripe(
