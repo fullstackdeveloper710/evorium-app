@@ -5,6 +5,7 @@ import { cardsData } from "../../utility/data";
 import { star } from "../../assets/icons/user";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getMyProrgamsList,
   getUserProgramList,
   userFilterPrograms,
 } from "../../redux/thunk/user/usrPrograms";
@@ -12,6 +13,8 @@ import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import moment from "moment";
 import "../../styles/user/programs.scss";
+import { getProgramCategoriesList } from "../../redux/thunk/user/usrCategories";
+import { getProgramSpeakersList } from "../../redux/thunk/user/usrSpeakers";
 
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
@@ -21,10 +24,24 @@ function Programs() {
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userPaidPrograms, userFreePrograms, userAZPrograms, userZAPrograms } =
-    useSelector((state) => state.userPrograms);
+  const {
+    userPaidPrograms,
+    userFreePrograms,
+    userAZPrograms,
+    userZAPrograms,
+    userMyPrograms,
+  } = useSelector((state) => state.userPrograms);
+
+  const { programsCategories, programsSpeakers } = useSelector(
+    (state) => state.userCategoriesSpeakers
+  );
+  const { data: categoriesList } = programsCategories;
+  const { data: speakerList } = programsSpeakers;
+
   const { data: paidData } = userPaidPrograms;
   const { data: freeData } = userFreePrograms;
+  const { data: myPrograms } = userMyPrograms;
+
   const { data: atoz } = userAZPrograms;
   const { data: ztoa } = userZAPrograms;
 
@@ -43,12 +60,18 @@ function Programs() {
       },
     };
     console.log("freeee", data);
+
     dispatch(getUserProgramList(data));
     const data_for_Paid = {
       values: {
         course_type: "Paid",
       },
     };
+
+    if (userAuthtoken !== null) {
+      // dispatch(getMyProrgamsList(data))
+      dispatch(getMyProrgamsList({ userAuthtoken: userAuthtoken }));
+    }
 
     dispatch(getUserProgramList(data_for_Paid));
   }, [userAuthtoken, dispatch]);
@@ -75,6 +98,20 @@ function Programs() {
     console.log(data_filter2, "A to Z");
     dispatch(userFilterPrograms(data_filter2));
   }, [userAuthtoken, dispatch]);
+
+  function getCategories(e) {
+    e.stopPropagation();
+    onSortHandler("pro");
+
+    dispatch(getProgramCategoriesList());
+  }
+
+  function getSpeakers(e) {
+    e.stopPropagation();
+    onSortHandler("pro");
+
+    dispatch(getProgramSpeakersList());
+  }
 
   const onCardClick = (values) => {
     const data = {
@@ -186,46 +223,66 @@ function Programs() {
                       >
                         <ul className="filter_ul">
                           <li className="list_item">
-                        <NavDropdown.Item
-                          href="#action/3.1"
-                          onClick={() => {
-                            onSortHandler("pro");
-                          }}
-                        >
-                          Category
-                        </NavDropdown.Item>
-                        <div className="drop_item">
-                          <a href="#">link1</a>
-                          <a href="#">link2</a>
-                          <a href="#">link1</a>
-                          <a href="#">link2</a>
-                        </div>
-                        </li>
-                        <li className="list_item">
-                        <NavDropdown.Item
-                          href="#action/3.2"
-                          onClick={() => {
-                            onSortHandler("free");
-                          }}
-                        >
-                          Speaker
-                        </NavDropdown.Item>
-                        <div className="drop_item">
-                          <a href="#">link3</a>
-                          <a href="#">link4</a>
-                          <a href="#">link3</a>
-                          <a href="#">link4</a>
-                        </div>
-                        </li>
+                            <NavDropdown.Item
+                              href="#action/3.1"
+                              onMouseOver={(e) => {
+                                getCategories(e);
+                              }}
+                            >
+                              Category
+                            </NavDropdown.Item>
+                            <div className="drop_item">
+                              {categoriesList?.map((i) => (
+                                <>
+                                  <label>{i.title}</label>
+                                  <input
+                                    style={{
+                                      backgroundColor: "red",
+                                    }}
+                                    type="checkbox"
+                                    id={i._id}
+                                    name={i.title}
+                                    value={i.title}
+                                  />
+                                  <br />
+                                </>
+                              ))}
+                            </div>
+                          </li>
+                          <li className="list_item">
+                            <NavDropdown.Item
+                              href="#action/3.2"
+                              onMouseOver={(e) => {
+                                getSpeakers(e);
+                              }}
+                            >
+                              Speaker
+                            </NavDropdown.Item>
+                            <div className="drop_item">
+                              {speakerList?.map((i) => (
+
+                                <>
+                                 <label>{i.name}</label>
+                                 <input
+                                  type="checkbox"
+                                  id={i._id}
+                                  name={i.name}
+                                  value={i.name}
+                                />
+                                <br />
+                                </>
+                               
+                              ))}
+                            </div>
+                          </li>
                         </ul>
                       </NavDropdown>
-                     
                     </Nav>
                   </Col>
                   <Col md={6} className="text-end">
                     {itemsToLoadTop < cardsData.length && (
                       <button onClick={loadMoreTop} className="view-All-btn">
-                        View All
+                        Apply
                       </button>
                     )}
                     :
@@ -239,9 +296,7 @@ function Programs() {
               </div>
             </Container>
           </div>
-
           {/* free */}
-
           {(sorted === "all" ||
             sorted === "free" ||
             sorted === "az" ||
@@ -339,7 +394,6 @@ function Programs() {
               </Container>
             </section>
           )}
-
           {/* pro */}
           {(sorted === "all" ||
             sorted === "pro" ||
@@ -376,6 +430,102 @@ function Programs() {
                 </Row>
                 <Row className="popular-row">
                   {paidData
+                    .slice(0, itemsToLoadPro)
+                    .map(
+                      (
+                        {
+                          _id,
+                          title,
+                          image,
+                          view_count,
+                          description,
+                          watched,
+                          subsType,
+                          amount,
+                          url,
+                          thumbnail_url,
+                          video_duration,
+                          speaker,
+                          episodes,
+                          price,
+                          course_type,
+                        },
+                        index
+                      ) => (
+                        <Card
+                          course_type={course_type}
+                          video_id={_id}
+                          onClick={() =>
+                            onCardClick({
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                            })
+                          }
+                          url={url}
+                          key={_id}
+                          title={title}
+                          thumbnail_url={thumbnail_url}
+                          video_duration={convertTimeInHour(video_duration)}
+                          views={view_count}
+                          watched={watched}
+                          description={description}
+                          subsType={subsType}
+                          episodes={episodes}
+                          speaker={speaker}
+                          price={price}
+                        />
+                      )
+                    )}
+                </Row>
+              </Container>
+            </section>
+          )}
+          //my account
+          {userAuthtoken !== null && (
+            <section className="pro-section py-5">
+              <Container>
+                <Row className="align-items-end">
+                  <Col md={8}>
+                    <div className="title-block">
+                      <h2 className="text-white">
+                        My Programs <Image src={star} />
+                      </h2>
+                      <p className="text-white">
+                        The Screeno ecosystem is designed to help you generate
+                        profit.Setup complete sales and marketing funnels with
+                        ease using the Screeno
+                      </p>
+                    </div>
+                  </Col>
+                  <Col md={4} className="text-end">
+                    {itemsToLoadPro < paidData.length && (
+                      <button onClick={loadMorePro} className="view-All-btn">
+                        View All
+                      </button>
+                    )}
+                    :
+                    {itemsToLoadPro > 5 && (
+                      <button onClick={loadLessPro} className="view-All-btn">
+                        View Less
+                      </button>
+                    )}
+                  </Col>
+                </Row>
+                <Row className="popular-row">
+                  {myPrograms
                     .slice(0, itemsToLoadPro)
                     .map(
                       (

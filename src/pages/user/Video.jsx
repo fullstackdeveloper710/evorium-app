@@ -211,9 +211,13 @@ const VideoPlayer = () => {
                     </div>
                   </div>
                   <div>
-                    <button className="buyBtn" onClick={handleShow}>
-                      Buy For ${parseInt(price) / 100}
-                    </button>
+
+                    {course_type === "Paid" &&
+                     <button className="buyBtn" onClick={handleShow}>
+                     Buy For ${parseInt(price) / 100}
+                   </button>
+                    }
+                   
                   </div>
                 </div>
               </div>
