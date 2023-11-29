@@ -4,13 +4,14 @@ import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { Play } from "../../assets/icons/user";
-import { CheckoutForm, CustomModal } from "../../components/common";
+import { CheckoutForm, CustomModal, Input } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { userViewCount } from "../../redux/thunk/user/usrPrograms";
+import { getUserProgramList, userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
 import { loadStripe } from "@stripe/stripe-js";
+import { FieldArray } from "formik";
 
 
 
@@ -50,6 +51,7 @@ const VideoPlayer = () => {
     course_type,
     video_duration,
     views,
+    episodes
   } = data2send.values;
 
   //Ref
@@ -83,6 +85,8 @@ const VideoPlayer = () => {
         setIsPlaying(!isPlaying);
       }
     });
+    // dispatch(getUserProgramList(data));
+  
   };
   const handleSetStartTime = (timeInSeconds) => {
     setStartTime(timeInSeconds);
@@ -137,9 +141,9 @@ const VideoPlayer = () => {
                     onStart={() => playerRef?.current?.seekTo(startTime)}
                   />
                 )}
-                {/* <button onClick={handlePlayPause}>
+                <button onClick={handlePlayPause}>
                   {isPlaying ? "Pause" : "Play"}
-                </button> */}
+                </button>
               </div>
             </Col>
 
@@ -175,8 +179,32 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__timecodec">
                     <h4>Time Codes</h4>
+                    <FieldArray name="episodes">
+                        {({ insert, remove, push }) => (
+                          <div>
+                            {episodes.map(
+                              ({ title, label, startTime, endTime }, index) => (
+                                <div className="timecodec__list">
+                                <button
+                                  className="timecodecBtn"
+                                  onClick={() => handleSetStartTime(30)}
+                                >
+                                  <figure>
+                                    <Play />
+                                  </figure>
+                                  <div className="timecodecBtn__caption">
+                                    <h2>{title}</h2>
+                                    <span>{startTime}</span>
+                                  </div>
+                                </button>
+                              </div>
+                              )
+                            )}
+                          </div>
+                        )}
+                      </FieldArray>
 
-                    <div className="timecodec__list">
+                    {/* <div className="timecodec__list">
                       <button
                         className="timecodecBtn"
                         onClick={() => handleSetStartTime(30)}
@@ -185,7 +213,7 @@ const VideoPlayer = () => {
                           <Play />
                         </figure>
                         <div className="timecodecBtn__caption">
-                          <h2>introduction 1</h2>
+                          <h2>{data2send?.title}</h2>
                           <span>30 sec</span>
                         </div>
                       </button>
@@ -218,7 +246,7 @@ const VideoPlayer = () => {
                           <span>1:30 mins</span>
                         </div>
                       </button>
-                    </div>
+                    </div> */}
                   </div>
                   <div>
 
