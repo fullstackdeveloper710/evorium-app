@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
@@ -8,7 +8,7 @@ import { CheckoutForm, CustomModal } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { userViewCount } from "../../redux/thunk/user/usrPrograms";
+import { getRecommendedPrograms, userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
 import { loadStripe } from "@stripe/stripe-js";
 
@@ -36,6 +36,8 @@ const VideoPlayer = () => {
   //Redux action dispatcher
   const dispatch = useDispatch();
 
+
+
   //Router functions
   const location = useLocation();
   const { state } = location;
@@ -50,7 +52,28 @@ const VideoPlayer = () => {
     course_type,
     video_duration,
     views,
+    category
   } = data2send.values;
+
+  const {
+    userRecommendedPrograms
+  } = useSelector((state) => state.userPrograms);
+
+  const { data: recommendedList } = userRecommendedPrograms;
+
+  const data = {
+    categories : category,
+    userAuthtoken
+  }
+
+  console.log(data2send)
+  
+  console.log(data)
+  
+    useEffect(() => {
+  dispatch(getRecommendedPrograms(data))
+  
+    },[])
 
   //Ref
   const playerRef = React.useRef();
@@ -128,10 +151,11 @@ const VideoPlayer = () => {
                   <Image src={thumbnail_url} className="videoImg img-fluid" />
                 ) : (
                   <ReactPlayer
+                  playing={true} 
                     // onPlay={handleClick}
                     // onStart={handlePlayPause}
                     ref={playerRef}
-                    playing={isPlaying}
+                    // playing={isPlaying}
                     controls={true}
                     url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
                     onStart={() => playerRef?.current?.seekTo(startTime)}
@@ -264,7 +288,8 @@ const VideoPlayer = () => {
             </div>
           </div>
           <Row className="popular-row">
-            {cardsData
+            {console.log(recommendedList,'recomendedlist')}
+            {recommendedList
               ?.slice(0, itemsToLoad)
               ?.map(
                 (
@@ -279,14 +304,17 @@ const VideoPlayer = () => {
                     url,
                     subsType,
                     amount,
+                    thumbnail_url
                   },
                   index
                 ) => (
+
+                  
                   <Card
                     url={url}
                     key={id}
                     title={title}
-                    img={image}
+                    thumbnail_url={thumbnail_url}
                     duration={duration}
                     views={views}
                     watched={watched}

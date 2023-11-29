@@ -5,6 +5,7 @@ import { cardsData } from "../../utility/data";
 import { star } from "../../assets/icons/user";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  getFilteredPrograms,
   getMyProrgamsList,
   getUserProgramList,
   userFilterPrograms,
@@ -21,6 +22,13 @@ function Programs() {
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
   const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
   const [sorted, setSorted] = useState("all");
+  const [filter, setFilter] = useState({
+    sort_by: "",
+    categories: "",
+    price: "",
+    speakers: "",
+  });
+  console.log(filter);
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -120,12 +128,38 @@ function Programs() {
         videoId: values._id,
       },
     };
+
     navigate(usrVideoPlayer, {
       state: {
         data2send: { ...data },
       },
     });
   };
+  const updateSortBy = (type, selectedValue) => {
+    if (type === "category") {
+      console.log("coming in category type");
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        categories: `${prevFilter.categories?prevFilter.categories +',':""}${selectedValue}`,
+      }));
+    } else if (type === "speaker") {
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        speakers: `${prevFilter.speakers?prevFilter.speakers +',':""}${selectedValue}`,
+      }));
+    }
+  };
+  function handleCategoryFilter(e) {
+    const newCategories = e.target.value;
+    updateSortBy("category", newCategories);
+  }
+
+  function handleSpeakerFilter(e) {
+    console.log(e.target.value, "handle speaker");
+    const newSpeaker = e.target.value;
+    console.log(newSpeaker, "newsoeajd");
+    updateSortBy("speaker", newSpeaker);
+  }
 
   function convertTimeInHour(time) {
     let duration = moment.duration(time, "seconds");
@@ -150,9 +184,15 @@ function Programs() {
   const loadLessPro = () => {
     setItemsToLoadPro(5);
   };
+  let data = {
+    userAuthtoken,
+    filter : filter
+  }
   const loadMoreTop = () => {
-    setItemsToLoadTop(cardsData.length);
+    // setItemsToLoadTop(cardsData.length);
+    dispatch(getFilteredPrograms(data))
   };
+  const filterNotEmpty = Object.values(filter).every(value => value === "");
   return (
     <>
       <main>
@@ -236,13 +276,11 @@ function Programs() {
                                 <>
                                   <label>{i.title}</label>
                                   <input
-                                    style={{
-                                      backgroundColor: "red",
-                                    }}
                                     type="checkbox"
                                     id={i._id}
                                     name={i.title}
                                     value={i.title}
+                                    onChange={handleCategoryFilter}
                                   />
                                   <br />
                                 </>
@@ -260,18 +298,17 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {speakerList?.map((i) => (
-
                                 <>
-                                 <label>{i.name}</label>
-                                 <input
-                                  type="checkbox"
-                                  id={i._id}
-                                  name={i.name}
-                                  value={i.name}
-                                />
-                                <br />
+                                  <label>{i.name}</label>
+                                  <input
+                                    type="checkbox"
+                                    id={i._id}
+                                    name={i.name}
+                                    value={i.name}
+                                    onChange={handleSpeakerFilter}
+                                  />
+                                  <br />
                                 </>
-                               
                               ))}
                             </div>
                           </li>
@@ -280,15 +317,10 @@ function Programs() {
                     </Nav>
                   </Col>
                   <Col md={6} className="text-end">
-                    {itemsToLoadTop < cardsData.length && (
+                  
+                  {!filterNotEmpty && (
                       <button onClick={loadMoreTop} className="view-All-btn">
                         Apply
-                      </button>
-                    )}
-                    :
-                    {itemsToLoadTop > 5 && (
-                      <button onClick={loadMoreTop} className="view-All-btn">
-                        View Less
                       </button>
                     )}
                   </Col>
@@ -350,6 +382,7 @@ function Programs() {
                           episodes,
                           price,
                           course_type,
+                          category,
                         },
                         index
                       ) => (
@@ -372,6 +405,7 @@ function Programs() {
                               episodes,
                               price,
                               course_type,
+                              category,
                             })
                           }
                           url={url}
@@ -449,6 +483,7 @@ function Programs() {
                           episodes,
                           price,
                           course_type,
+                          category,
                         },
                         index
                       ) => (
@@ -472,6 +507,7 @@ function Programs() {
                               episodes,
                               price,
                               course_type,
+                              category,
                             })
                           }
                           url={url}
@@ -545,6 +581,7 @@ function Programs() {
                           episodes,
                           price,
                           course_type,
+                          category,
                         },
                         index
                       ) => (
@@ -568,6 +605,7 @@ function Programs() {
                               episodes,
                               price,
                               course_type,
+                              category,
                             })
                           }
                           url={url}
