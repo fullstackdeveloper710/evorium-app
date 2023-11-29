@@ -14,12 +14,21 @@ import "../../styles/admin/dashboard.scss";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminDashStats } from "../../redux/thunk/admin/adDashboard";
+import { getAdminNotifications , deleteNotification, deleteNotifications } from "../../redux/thunk/admin/adNotification";
+
+
+
 
 function Dashboard() {
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
+
   const {
     adminDashboard: { data },
   } = useSelector((state) => state.adDashboard);
+
+  const {
+    adminNotification: { data: notification_data },
+  } = useSelector((state) => state.adNotification);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -27,6 +36,7 @@ function Dashboard() {
       adminAuthtoken,
     };
     dispatch(getAdminDashStats(data));
+    dispatch(getAdminNotifications(data));
   }, [dispatch, adminAuthtoken]);
   return (
     <>
@@ -156,22 +166,20 @@ function Dashboard() {
             <div className="notification_block">
               <h3 className="title">Notifications</h3>
               <ul className="notification_list">
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                </li>
-                <li>
-                  <b>Wade Warren</b> created a new account.
-                </li>
+
+           
+                {notification_data?.map((i) => (
+
+                  
+                  <li key={i._id}>{i.notification_text}
+                   <Image key={i._id} src={trash} onClick={() => dispatch(deleteNotification({adminAuthtoken : adminAuthtoken, value: i._id}))}/>
+                  </li>
+                ))}
+
               </ul>
+
+              {notification_data.length === 0 ? <div>No Notification</div> :  <button className="clear_btn" onClick={() => dispatch(deleteNotifications({adminAuthtoken: adminAuthtoken}))}>Clear All</button>}
+             
             </div>
           </Col>
         </Row>

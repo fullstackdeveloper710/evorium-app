@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import {
   getUserProgramList,
   userFilterPrograms,
+  userViewCount,
 } from "../../thunk/user/usrPrograms";
 
 const initialState = {
@@ -11,7 +12,6 @@ const initialState = {
   userPaidPrograms: {
     data: [],
   },
-
   userAZPrograms: {
     data: [],
   },
@@ -100,6 +100,32 @@ const userProgramsSlice = createSlice({
       .addCase(userFilterPrograms.rejected, (state, action) => {
         state.status = false;
       });
+
+    // Edit view count
+    builder.addCase(userViewCount.fulfilled, (state, action) => {
+      // state.userDetails = action.payload;
+      state.status = "success";
+    });
+    builder.addCase(userViewCount.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(userViewCount.pending, (state) => {
+      state.status = "pending";
+    });
+
+    // Edit recent programs reducer
+    // builder.addCase(userRecentProgram.fulfilled, (state, action) => {
+    //   // state.userDetails = action.payload;
+    //   state.status = "success";
+    // });
+    // builder.addCase(userRecentProgram.rejected, (state, action) => {
+    //   state.error = action.payload;
+    //   state.status = "failed";
+    // });
+    // builder.addCase(userRecentProgram.pending, (state) => {
+    //   state.status = "pending";
+    // });
   },
 });
 

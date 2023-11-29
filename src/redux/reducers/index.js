@@ -1,18 +1,21 @@
 import { combineReducers } from "redux";
-import userAuth from "./userSlices/userAuth";
+import appSlice from "./common/appSlice";
 import adminMainSlice from "./adminSlices/adAuth";
 import adminUserSlice from "./adminSlices/adUser";
 import adminSpeakerSlice from "./adminSlices/adSpeakers";
-import appSlice from "./common/appSlice";
 import adminCategoriesSlice from "./adminSlices/adCategories";
 import adminTagsSlice from "./adminSlices/adTags";
 import adminProgramsSlice from "./adminSlices/adPrograms";
 import adminDashboardSlice from "./adminSlices/adDashboard";
-import userProgramsSlice from "./userSlices/userPrograms";
 import adminFaqsSlice from "./adminSlices/adFaq";
 import adminCmsSlice from "./adminSlices/adCms";
-import userProfileSlice from "./userSlices/userProfile";
 import adminPaymentSlice from "./adminSlices/adPayment";
+import userAuth from "./userSlices/userAuth";
+import userProfileSlice from "./userSlices/userProfile";
+import userProgramsSlice from "./userSlices/userPrograms";
+import userPaymentSlice from "./userSlices/userPayment";
+import adminNotificationSlice from "./adminSlices/adNotification"
+
 
 const rootReducer = combineReducers({
   //common slices
@@ -29,10 +32,12 @@ const rootReducer = combineReducers({
   adFaqs: adminFaqsSlice,
   adCms: adminCmsSlice,
   adPayment: adminPaymentSlice,
+  adNotification : adminNotificationSlice,
   //User slices
   userAuth: userAuth,
   userPrograms: userProgramsSlice,
   userProfile: userProfileSlice,
+  userPayment: userPaymentSlice,
 });
 
 export default rootReducer;

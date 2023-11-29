@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
-import { commonApi, userApi } from "../../../services/apiEndpoints";
+import { userApi } from "../../../services/apiEndpoints";
 import {
   hideLoader,
   hideRootLoader,

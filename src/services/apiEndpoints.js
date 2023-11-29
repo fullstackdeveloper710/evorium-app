@@ -9,9 +9,10 @@ const userApi = {
   usrEditProfile: "user/update",
   usrViewCount: "user/program_view_count",
   usrRecentProgram: "user/recent_program",
+  usrMakePayment: "/user/payment_intilization",
+  usrPaymentConfirm: "/user/payment_confirmation",
 
   //pending
-  usrRefreshToken: "/user/refresh_token",
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
 };
@@ -61,6 +62,9 @@ const adminApi = {
   adFilterPayment: "admin/filter_payments",
   adGetPaymentDetail: "",
   adUpdateProgram: "/admin/program",
+  adNotification : "/admin/notification",
+  adDeleteNotification : "/admin/notification",
+  adDeleteNotifications : "/admin/notifications"
 
   //pending
 };

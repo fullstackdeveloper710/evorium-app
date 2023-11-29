@@ -1,19 +1,15 @@
-import { Modal, Button } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import React from "react";
+import "../../styles/common/customModal.scss"
 
-const CustomModal = ({ modalHead, show, handleClose, children }) => {
+const CustomModal = ({ modalHead, show, handleClose, children,className }) => {
   return (
-    <Modal show={show} onHide={handleClose}>
+    <Modal show={show} onHide={handleClose} className={className}>
       <div>
         <Modal.Header closeButton>
           <Modal.Title>{modalHead}</Modal.Title>
         </Modal.Header>
         <Modal.Body>{children}</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleClose}>
-            Close
-          </Button>
-        </Modal.Footer>
       </div>
     </Modal>
   );

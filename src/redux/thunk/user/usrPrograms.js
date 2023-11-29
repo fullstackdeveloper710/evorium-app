@@ -3,7 +3,8 @@ import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
 import { hideLoader, showLoader } from "../../reducers/common/appSlice";
 
-const { usrPrograms, usrFilterPrograms,usrMyAccount } = userApi;
+const { usrPrograms, usrFilterPrograms, usrViewCount, usrRecentProgram } =
+  userApi;
 
 // get USER categories list thunk
 export const getUserProgramList = createAsyncThunk(
@@ -37,6 +38,53 @@ export const userFilterPrograms = createAsyncThunk(
       const config = {
         method: "get",
         url: `${usrFilterPrograms}?categories=${values?.categories}&speakers=${values.speakers}&sort_by=${values.sort_by}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+//User view count thunk
+export const userViewCount = createAsyncThunk(
+  "user/userViewCount",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { userAuthtoken, values } = data;
+    try {
+      const config = {
+        method: "post",
+        url: usrViewCount,
+        data: values,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+// Recent programs thunk
+
+export const userRecentProgram = createAsyncThunk(
+  "user/userRecentProgram",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { userAuthtoken, values } = data;
+    try {
+      const config = {
+        method: "post",
+        url: usrRecentProgram,
+        data: values,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, userAuthtoken);

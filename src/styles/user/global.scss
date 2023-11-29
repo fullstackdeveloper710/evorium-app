@@ -68,7 +68,10 @@ body main{
 }
 
 // AlertModal Scss
-
+.loadBtnWrap {
+  position: relative;
+  z-index: 1;
+}
 .AlertModal {
   .modal-body {
     padding: 60px;
@@ -138,11 +141,12 @@ body main{
 
 @media screen and (max-width: 1366px) {
   .banner-home {
+    height: 350px;
     .bannerImg {
       width: 50% !important;
     }
     .text-block {
-      padding: 0 0 30px 0 !important;
+      padding: 35px 0 30px 0 !important;
       h1 {
         font-size: 42px !important;
         line-height: 42px !important;
@@ -156,11 +160,10 @@ body main{
         flex-wrap: wrap;
         justify-content: flex-start;
         .try-btn {
-          width: 100%;
           text-align: center;
         }
         a.aple {
-          width: 110px !important;
+          width: 113px !important;
           svg {
             width: 100% !important;
             height: 100% !important;
@@ -184,28 +187,28 @@ body main{
     }
 
     .virtualworld_img {
-      width: 236px !important;
-      top: 65%;
+      width: 350px !important;
+      // top: 65%;
     }
   }
 
   .popular-section {
-    .title-block {
-      h2 {
-        font-size: 42px;
-        position: relative;
-        padding-right: 60px;
-        line-height: 42px;
-        margin: 0;
-        max-width: fit-content;
-        img {
-          position: absolute;
-          right: 0;
-          bottom: 0;
-          width: 30px;
-        }
-      }
-    }
+    // .title-block {
+    //   h2 {
+    //     font-size: 42px;
+    //     position: relative;
+    //     padding-right: 60px;
+    //     line-height: 42px;
+    //     margin: 0;
+    //     max-width: fit-content;
+    //     img {
+    //       position: absolute;
+    //       right: 0;
+    //       bottom: 0;
+    //       width: 30px;
+    //     }
+    //   }
+    // }
 
     .popular-row.row {
       .subs-card {
@@ -283,12 +286,6 @@ body main{
     .platformPage__top {
       .title-block {
         margin-bottom: 30px;
-        h1 {
-          font-size: 52px;
-        }
-        span {
-          font-size: 52px;
-        }
       }
     }
   }
@@ -530,6 +527,7 @@ body main{
   .banner-home {
     display: flex;
     flex-direction: column;
+    height: auto;
 
     .bannerImg {
       order: 2;
@@ -970,5 +968,10 @@ body main{
 
   .platformPage{
     padding-top: 0 !important;
+  }
+}
+@media (max-width:767px) {
+  .banner-home .text-block .btns-group{
+    justify-content: center;
   }
 }

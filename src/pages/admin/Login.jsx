@@ -54,7 +54,7 @@ const AdminLogin = () => {
     <>
       <section className="auth">
         <div className="auth__inner">
-          <h1 className="auth__title">Login into the account</h1>
+          <h1 className="auth__title text-center">Login into the account</h1>
           <Formik
             initialValues={initValues}
             validationSchema={validationSchema}

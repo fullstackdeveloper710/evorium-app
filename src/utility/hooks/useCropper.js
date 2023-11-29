@@ -1,5 +1,3 @@
-import { useState } from "react";
-
 const useCropper = () => {
   const updateCroppedImg = (croppedImage) => {
     // setFormData((prev) => {

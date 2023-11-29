@@ -9,6 +9,7 @@ const Slider = () => {
     <section className="road-map-section">   
    <Container> 
       <div className='title-block'>
+
          <h2>{t("roadmap")}</h2>
         </div>
 

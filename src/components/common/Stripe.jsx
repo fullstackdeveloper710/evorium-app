@@ -1,22 +1,35 @@
 import React, { useState } from "react";
-import { loadStripe } from "@stripe/stripe-js";
 import {
-  PaymentElement,
-  Elements,
   useStripe,
   useElements,
   CardNumberElement,
   CardCvcElement,
   CardExpiryElement,
 } from "@stripe/react-stripe-js";
-import { Button } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  userMakePayment,
+  userPaymentConfirm,
+} from "../../redux/thunk/user/usrPayment";
+import { toast } from "react-toastify";
+import BtnGroup from "./BtnGroup";
+import Button from "./Button";
 
-const CheckoutForm = () => {
-  const stripe = useStripe();
-  const elements = useElements();
+const CheckoutForm = ({ amount, programId, onCancel }) => {
   const [errorMessage, setErrorMessage] = useState(null);
 
-  const makePaymentHandler = async (billingAddress) => {
+  //Redux state
+  const { userAuthtoken } = useSelector((state) => state.userAuth);
+
+  //Redux action dispatcher
+  const dispatch = useDispatch();
+
+  //Stripe functions
+  const stripe = useStripe();
+  const elements = useElements();
+
+  //Methods
+  const makePaymentHandler = async () => {
     if (!stripe || !elements) {
       return;
     }
@@ -24,80 +37,113 @@ const CheckoutForm = () => {
     try {
       const stripeToken = await stripe.createToken(cardElement);
       const values = {
-        // amount: amount, // Set the desired amount in cents
-        // currency: "usd",
-        // stripe_token: stripeToken.token.id,
-        // order_temp_id: order_temp_id,
-        // ...billingAddress,
+        amount: amount,
+        token: stripeToken.token.id,
+        program_id: programId,
       };
 
-      //   dispatch(stripePayment({ values, token })).then(async ({ payload }) => {
-      //     if (
-      //       payload.response.status === "requires_action" &&
-      //       payload.response.next_action.type === "use_stripe_sdk"
-      //     ) {
-      //       const { paymentIntent, error } = await stripe.confirmCardPayment(
-      //         payload.response.client_secret
-      //       );
-      //       const values = {
-      //         charge: paymentIntent,
-      //         order_temp_id: order_temp_id,
-      //       };
-      //       if (!error) {
-      //         switch (paymentIntent.status) {
-      //           case "succeeded":
-      //             break;
-      //           case "processing":
-      //             // toast.info(message.paymentUnderProccess);
-      //             break;
-      //           case "requires_payment_method":
-      //             // toast.error(message.paymentRejected);
-      //             break;
-      //           default:
-      //             // toast.error(message.somethingWentWrong);
-      //             break;
-      //         }
-      //       } else {
-      //         toast.error(message.paymentfailed);
-      //       }
-      //     } else {
-      //       console.log("else block");
-      //     }
-      //   });
+      dispatch(userMakePayment({ values, userAuthtoken })).then(
+        async ({ payload }) => {
+          if (
+            payload.responseData.status === "requires_action" &&
+            payload.responseData.next_action.type === "use_stripe_sdk"
+          ) {
+            const { paymentIntent, error } = await stripe.confirmCardPayment(
+              payload.responseData.client_secret
+            );
+            const data = {
+              userAuthtoken,
+              values: {
+                payment_intent_id: paymentIntent?.id,
+                program_id: programId,
+              },
+              cb: onCancel,
+            };
+            if (!error) {
+              switch (paymentIntent.status) {
+                case "succeeded":
+                  dispatch(userPaymentConfirm(data));
+                  break;
+                case "processing":
+                  toast.info("Payment is under process.");
+                  break;
+                case "requires_payment_method":
+                  toast.error("Your payment is rejected.");
+                  break;
+                default:
+                  toast.error("Something went wrong.");
+                  break;
+              }
+            } else {
+              toast.error("Your payment is faild please try again.");
+              setErrorMessage("An error occured please try again.");
+            }
+          } else {
+            const data = {
+              userAuthtoken,
+              values: {
+                payment_intent_id: payload.responseData.paymentIntent.id,
+                program_id: programId,
+              },
+            };
+            dispatch(userPaymentConfirm(data));
+          }
+        }
+      );
     } catch (error) {
-      console.log("an eror occured");
+      setErrorMessage("An error occured please try again.");
     }
   };
 
   const options = {
-    mode: "payment",
-    amount: 1099,
-    currency: "usd",
-    // Fully customizable with appearance API.
-    appearance: {
-      /*...*/
+    style: {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4",
+        },
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a",
+      },
     },
+    hidePostalCode: true, // You can customize this option to show or hide the postal code field
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
     makePaymentHandler();
   };
+
+  const onCancelHandler = () => {
+    onCancel();
+  };
   return (
     <form onSubmit={onSubmitHandler}>
-      {/* <PaymentElement /> */}
       <CardNumberElement id="card-number-element" options={options} />
       <CardCvcElement id="card-cvc-element" options={options} />
       <CardExpiryElement id="card-expiry-element" options={options} />
-      <Button className="btn btn-dark text-white me-2">Cancel</Button>
-      <Button type="submit" className="btn btn-primary">
-        Pay
-      </Button>
+      <BtnGroup className="common_btns">
+        <Button
+          disable={!stripe || !elements}
+          loading={true}
+          loadMsg={"pay..."}
+          title={"Pay"}
+          type="submit"
+          className="primary_btn"
+        />
+        <Button
+          title="cancel"
+          type="button"
+          className="secondry_btn"
+          onClick={onCancelHandler}
+        />
+      </BtnGroup>
 
-      {/* <button type="submit" disabled={!stripe || !elements}>
-        Pay
-      </button> */}
-      {/* Show error message to your customers */}
       {errorMessage && <div>{errorMessage}</div>}
     </form>
   );

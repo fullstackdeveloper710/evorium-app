@@ -1,57 +1,49 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
-import { hideLoader, showLoader } from "../../reducers/common/appSlice";
+import { hideBtnLoader, showBtnLoader } from "../../reducers/common/appSlice";
 
-const { usrViewCount , usrRecentProgram} = userApi;
+const { usrMakePayment, usrPaymentConfirm } = userApi;
 
-export const userViewCount = createAsyncThunk(
-  "user/userViewCount",
+export const userMakePayment = createAsyncThunk(
+  "user/userMakePayment",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
     const { userAuthtoken, values } = data;
     try {
       const config = {
         method: "post",
-        url: usrViewCount,
+        url: usrMakePayment,
         data: values,
       };
-      dispatch(showLoader());
+      dispatch(showBtnLoader());
       const response = await httpsClient(config, userAuthtoken);
-      dispatch(hideLoader());
+      dispatch(hideBtnLoader());
       return response;
-  
     } catch (error) {
-      dispatch(hideLoader());
+      dispatch(hideBtnLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 
-
-
-// RECENT PROGRAMS
-
-
-export const userRecentProgram = createAsyncThunk(
-  "user/userRecentProgram",
+export const userPaymentConfirm = createAsyncThunk(
+  "user/userPaymentConfirm",
   async (data, thunkAPI) => {
-    const { dispatch } = thunkAPI;
-    const { userAuthtoken, values } = data;
+    // const { dispatch } = thunkAPI;
+    const { userAuthtoken, values, cb } = data;
     try {
       const config = {
         method: "post",
-        url: usrRecentProgram,
+        url: usrPaymentConfirm,
         data: values,
-        
       };
-      dispatch(showLoader());
       const response = await httpsClient(config, userAuthtoken);
-      dispatch(hideLoader());
+      if (response.status) {
+        cb();
+      }
       return response;
-  
     } catch (error) {
-      dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }
