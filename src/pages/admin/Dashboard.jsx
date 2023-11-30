@@ -178,7 +178,7 @@ function Dashboard() {
 
               </ul>
 
-              {notification_data.length === 0 ? <div>No Notification</div> :  <button className="clear_btn" onClick={() => dispatch(deleteNotifications({adminAuthtoken: adminAuthtoken}))}>Clear All</button>}
+              {notification_data.length === 0 ? <div className="no_notification"><span>No Notification</span></div> :  <button className="clear_btn" onClick={() => dispatch(deleteNotifications({adminAuthtoken: adminAuthtoken}))}>Clear All</button>}
              
             </div>
           </Col>

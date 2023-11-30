@@ -308,7 +308,7 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {categoriesList?.map((i) => (
-                                <>
+                                
                                   <label>{i.title}</label>
                                   <input
                                     type="checkbox"
@@ -317,7 +317,8 @@ function Programs() {
                                     value={i.title}
                                     onChange={handleCategoryFilter}
                                   />
-                                  <br />
+                                  <label>{i.title}</label>
+                                  </div>
                                 </>
                               ))}
                             </div>
