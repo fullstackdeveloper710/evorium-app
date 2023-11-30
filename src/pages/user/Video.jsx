@@ -3,13 +3,69 @@ import ReactPlayer from "react-player";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
-import { Play } from "../../assets/icons/user";
+import { Play, lockscreen } from "../../assets/icons/user";
 import { CheckoutForm, CustomModal, Input } from "../../components/common";
 import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
-import { getRecommendedPrograms, getUserProgramList ,userViewCount } from "../../redux/thunk/user/usrPrograms";
-
+import {
+  getRecommendedPrograms,
+  getUserProgramList,
+  userViewCount,
+} from "../../redux/thunk/user/usrPrograms";
+import {
+  EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookMessengerIcon,
+  FacebookMessengerShareButton,
+  FacebookShareButton,
+  FacebookShareCount,
+  GabIcon,
+  GabShareButton,
+  HatenaIcon,
+  HatenaShareButton,
+  HatenaShareCount,
+  InstapaperIcon,
+  InstapaperShareButton,
+  LineIcon,
+  LineShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  LivejournalIcon,
+  LivejournalShareButton,
+  MailruIcon,
+  MailruShareButton,
+  OKIcon,
+  OKShareButton,
+  OKShareCount,
+  PinterestIcon,
+  PinterestShareButton,
+  PinterestShareCount,
+  PocketIcon,
+  PocketShareButton,
+  RedditIcon,
+  RedditShareButton,
+  RedditShareCount,
+  TelegramIcon,
+  TelegramShareButton,
+  TumblrIcon,
+  TumblrShareButton,
+  TumblrShareCount,
+  TwitterShareButton,
+  ViberIcon,
+  ViberShareButton,
+  VKIcon,
+  VKShareButton,
+  VKShareCount,
+  WeiboIcon,
+  WeiboShareButton,
+  WhatsappIcon,
+  WhatsappShareButton,
+  WorkplaceIcon,
+  WorkplaceShareButton,
+  XIcon,
+} from "react-share";
 import "../../styles/user/video.scss";
 import { loadStripe } from "@stripe/stripe-js";
 import { FieldArray } from "formik";
@@ -33,8 +89,6 @@ const VideoPlayer = () => {
   //Redux action dispatcher
   const dispatch = useDispatch();
 
-
-
   //Router functions
   const location = useLocation();
   const { state } = location;
@@ -50,34 +104,41 @@ const VideoPlayer = () => {
     video_duration,
     views,
     episodes,
-    category
+    category,
   } = data2send.values;
 
-  const {
-    userRecommendedPrograms
-  } = useSelector((state) => state.userPrograms);
+  const { userRecommendedPrograms } = useSelector(
+    (state) => state.userPrograms
+  );
 
   const { data: recommendedList } = userRecommendedPrograms;
 
   const data = {
-    categories : category,
-    userAuthtoken
-  }
+    categories: category,
+    userAuthtoken,
+  };
 
-  console.log(data2send)
-  
-  console.log(data)
-  
-    useEffect(() => {
-  dispatch(getRecommendedPrograms(data))
-  
-    },[])
+  console.log(data2send);
+  let shareUrl = window.location();
+
+  console.log(shareUrl);
+
+  useEffect(() => {
+    dispatch(getRecommendedPrograms(data));
+  }, []);
 
   //Ref
   const playerRef = React.useRef();
 
   //Custom hooks
-  const { show, handleClose, handleShow } = useModal();
+  const {
+    show,
+    handleClose,
+    handleShow,
+    shareShow,
+    handleShareClose,
+    handleShareShow,
+  } = useModal();
 
   //Methods
   const toggleExpand = () => {
@@ -113,7 +174,6 @@ const VideoPlayer = () => {
     const midpoint = startTime;
     return Number.isFinite(midpoint) ? midpoint : startTime;
   };
-  
 
   const handleSetStartTime = (start) => {
     console.log("Setting start time to:", start);
@@ -135,34 +195,45 @@ const VideoPlayer = () => {
     setStartTime(start);
   };
   const handleSetTimeRange = (start, end) => {
-    console.log('Setting time range:', start, 'to', end);
-  
+    console.log("Setting time range:", start, "to", end);
+
     // Convert start and end to seconds
     const startTimeInSeconds = convertTimeStringToSeconds(start);
     const endTimeInSeconds = convertTimeStringToSeconds(end);
-  
-    if (isPlaying && Number.isFinite(startTimeInSeconds) && Number.isFinite(endTimeInSeconds)) {
-      console.log('Seeking to time range:', startTimeInSeconds, 'to', endTimeInSeconds);
-      
+
+    if (
+      isPlaying &&
+      Number.isFinite(startTimeInSeconds) &&
+      Number.isFinite(endTimeInSeconds)
+    ) {
+      console.log(
+        "Seeking to time range:",
+        startTimeInSeconds,
+        "to",
+        endTimeInSeconds
+      );
+
       // Seek to the start time
       playerRef?.current?.seekTo(startTimeInSeconds);
-  
+
       // You may also want to play the video here
       // playerRef?.current?.seekTo(startTimeInSeconds, 'seconds');
       // playerRef?.current?.play();
-  
+
       // You can set up an event listener to pause the video when it reaches the end time
-    
     } else {
-      console.error('Invalid time values or video is not playing:', start, end, isPlaying);
+      console.error(
+        "Invalid time values or video is not playing:",
+        start,
+        end,
+        isPlaying
+      );
     }
-  
+
     // Set the start time in the state
     setStartTime(start);
   };
-  
- 
-  
+
   // Function to convert time string (e.g., "00:10") to seconds
   const convertTimeStringToSeconds = (timeString) => {
     const [minutes, seconds] = timeString.split(":").map(Number);
@@ -170,9 +241,8 @@ const VideoPlayer = () => {
   };
   const handleVideoProgress = (progress) => {
     // Your logic based on the progress object
-    console.log('Current played seconds:', progress.playedSeconds);
+    console.log("Current played seconds:", progress.playedSeconds);
   };
-  
 
   return (
     <>
@@ -208,10 +278,13 @@ const VideoPlayer = () => {
                 }}
               >
                 {course_type === "Paid" ? (
-                  <Image src={thumbnail_url} className="videoImg img-fluid" />
+                  <>
+                    <Image src={lockscreen} className="lock-screen" />
+                    <Image src={thumbnail_url} className="videoImg img-fluid" />
+                  </>
                 ) : (
                   <ReactPlayer
-                  playing={true} 
+                    playing={true}
                     // onPlay={handleClick}
                     // onStart={handlePlayPause}
                     ref={playerRef}
@@ -220,12 +293,11 @@ const VideoPlayer = () => {
                     url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
                     onStart={() => playerRef?.current?.seekTo(startTime)}
                     // onProgress={(progress) => handleVideoProgress(progress)}
-
                   />
                 )}
-                <button onClick={handlePlayPause}>
+                {/* <button onClick={handlePlayPause}>
                   {isPlaying ? "Pause" : "Play"}
-                </button>
+                </button> */}
               </div>
             </Col>
 
@@ -269,7 +341,107 @@ const VideoPlayer = () => {
                         </svg>
                         Download
                       </button>
-                      <button className="mid--btn">Share</button>
+                      <button className="mid--btn" onClick={handleShareShow}>
+                        Share
+                      </button>
+
+                      <CustomModal
+                        show={shareShow}
+                        handleShow={handleShareShow}
+                        handleClose={handleShareClose}
+                        modalHead="Share"
+                        className="user_modal"
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            height :'200px',
+                            
+                          gap:20
+                          }}
+                          className="Demo__container"
+                        >
+                          <div className="Demo__some-network">
+                            <FacebookShareButton
+                              url={shareUrl}
+                              className="Demo__some-network__share-button"
+                            >
+                              <FacebookIcon size={32} round />
+                            </FacebookShareButton>
+
+                            <div>
+                              <FacebookShareCount
+                                url={shareUrl}
+                                className="Demo__some-network__share-count"
+                              >
+                                {(count) => count}
+                              </FacebookShareCount>
+                            </div>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <FacebookMessengerShareButton
+                              url={shareUrl}
+                              appId="521270401588372"
+                              className="Demo__some-network__share-button"
+                            >
+                              <FacebookMessengerIcon size={32} round />
+                            </FacebookMessengerShareButton>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <TwitterShareButton
+                              url={shareUrl}
+                              title={title}
+                              className="Demo__some-network__share-button"
+                            >
+                              <XIcon size={32} round />
+                            </TwitterShareButton>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <WhatsappShareButton
+                              url={shareUrl}
+                              title={title}
+                              separator=":: "
+                              className="Demo__some-network__share-button"
+                            >
+                              <WhatsappIcon size={32} round />
+                            </WhatsappShareButton>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <LinkedinShareButton
+                              url={shareUrl}
+                              className="Demo__some-network__share-button"
+                            >
+                              <LinkedinIcon size={32} round />
+                            </LinkedinShareButton>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <MailruShareButton
+                              url={shareUrl}
+                              title={title}
+                              className="Demo__some-network__share-button"
+                            >
+                              <MailruIcon size={32} round />
+                            </MailruShareButton>
+                          </div>
+
+                          <div className="Demo__some-network">
+                            <EmailShareButton
+                              url={shareUrl}
+                              subject={title}
+                              body="body"
+                              className="Demo__some-network__share-button"
+                            >
+                              <EmailIcon size={32} round />
+                            </EmailShareButton>
+                          </div>
+                        </div>
+                      </CustomModal>
                     </div>
                   </div>
 
@@ -292,14 +464,11 @@ const VideoPlayer = () => {
                               <h2>{title}</h2>
                               <span>{start}</span>
                               <span>{end}</span>
-
-
                             </div>
                           </button>
                         </div>
                       ))}
                     </div>
-                
                   </div>
                   <div>
                     {course_type === "Paid" && (
@@ -343,7 +512,7 @@ const VideoPlayer = () => {
             </div>
           </div>
           <Row className="popular-row">
-            {console.log(recommendedList,'recomendedlist')}
+            {console.log(recommendedList, "recomendedlist")}
             {recommendedList
               ?.slice(0, itemsToLoad)
               ?.map(
@@ -359,12 +528,10 @@ const VideoPlayer = () => {
                     url,
                     subsType,
                     amount,
-                    thumbnail_url
+                    thumbnail_url,
                   },
                   index
                 ) => (
-
-                  
                   <Card
                     url={url}
                     key={id}
