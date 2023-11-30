@@ -234,17 +234,15 @@ function Programs() {
                             <div className="drop_item">
                               {categoriesList?.map((i) => (
                                 <>
-                                  <label>{i.title}</label>
-                                  <input
-                                    style={{
-                                      backgroundColor: "red",
-                                    }}
+                                <div className="checkbox_list">
+                                <input
                                     type="checkbox"
                                     id={i._id}
                                     name={i.title}
                                     value={i.title}
                                   />
-                                  <br />
+                                  <label>{i.title}</label>
+                                  </div>
                                 </>
                               ))}
                             </div>
@@ -262,14 +260,15 @@ function Programs() {
                               {speakerList?.map((i) => (
 
                                 <>
-                                 <label>{i.name}</label>
-                                 <input
+                                  <div className="checkbox_list">
+                                  <input
                                   type="checkbox"
                                   id={i._id}
                                   name={i.name}
                                   value={i.name}
                                 />
-                                <br />
+                                 <label>{i.name}</label>
+                               </div>
                                 </>
                                
                               ))}

@@ -88,7 +88,7 @@ function FooterEvorium() {
                 </Col>
                 <Col md={3}>
                   <div className="links-wraper">
-                    <h4>{t("aboutus")}</h4>
+                    <h4>{t("Need help?")}</h4>
                     <ul>
                       <li>
                         <Link to={usrFaq}>{t("FAQ")}</Link>
