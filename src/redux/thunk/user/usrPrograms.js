@@ -19,7 +19,6 @@ export const getFilteredPrograms = createAsyncThunk(
     const { dispatch } = thunkAPI;
     const { userAuthtoken , filter } = data;
     console.log(filter,"data")
-
  
     try {
       const config = {
