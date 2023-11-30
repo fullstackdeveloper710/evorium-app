@@ -10,6 +10,16 @@ import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import { userViewCount } from "../../redux/thunk/user/usrPrograms";
 import "../../styles/user/video.scss";
+import { loadStripe } from "@stripe/stripe-js";
+
+
+
+const stripePromise = loadStripe(
+  "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
+
+
+);
+
 
 const VideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -211,9 +221,13 @@ const VideoPlayer = () => {
                     </div>
                   </div>
                   <div>
-                    <button className="buyBtn" onClick={handleShow}>
-                      Buy For ${parseInt(price) / 100}
-                    </button>
+
+                    {course_type === "Paid" &&
+                     <button className="buyBtn" onClick={handleShow}>
+                     Buy For ${parseInt(price) / 100}
+                   </button>
+                    }
+                   
                   </div>
                 </div>
               </div>

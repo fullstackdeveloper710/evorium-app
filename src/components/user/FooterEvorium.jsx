@@ -11,8 +11,10 @@ import {
 import "../../styles/user/footer.scss";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
+import { useTranslation } from "react-i18next";
 // import OpenSea from "../assets/icons/user/overSea.png";
 function FooterEvorium() {
+  const { t, i18n } = useTranslation();
   const {
     usrPrivacy,
     usrRefundPolicy,
@@ -67,76 +69,76 @@ function FooterEvorium() {
               <Row className="right-widget desktop-menu">
                 <Col md={3}>
                   <div className="links-wraper">
-                    <h4>NAVIGATION</h4>
+                    <h4>{t("navigation")}</h4>
                     <ul>
                       <li>
-                        <a href="#">All Products</a>
+                        <a href="#">{t("AllProducts")}</a>
                       </li>
                       <li>
-                        <a href="#">Value Kits</a>
+                        <a href="#">{t("ValueKits")}</a>
                       </li>
                       <li>
-                        <a href="#">Bestsellers</a>
+                        <a href="#">{t("Bestsellers")}</a>
                       </li>
                       <li>
-                        <a href="#">Previous Collection</a>
+                        <a href="#">{t("PreviousCollection")}</a>
                       </li>
                     </ul>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="links-wraper">
-                    <h4>ABOUT US?</h4>
+                    <h4>{t("aboutus")}</h4>
                     <ul>
                       <li>
-                        <Link to={usrFaq}>FAQ</Link>
+                        <Link to={usrFaq}>{t("FAQ")}</Link>
                       </li>
                       <li>
-                        <a href="#">Track Your Order</a>
+                        <a href="#">{t("TrackOrder")}</a>
                       </li>
                       <li>
-                        <a href="#">Quadplay</a>
+                        <a href="#">{t("Quadplay")}</a>
                       </li>
                       <li>
-                        <Link to={usrContactUs}>Contact Us</Link>
+                        <Link to={usrContactUs}>{t("ContactUs")}</Link>
                       </li>
                     </ul>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="links-wraper">
-                    <h4>EVORIUM FAM'</h4>
+                    <h4>{t("evoriumfam")}</h4>
                     <ul>
                       <li>
-                        <Link to={usrAboutUs}>About us </Link>
+                        <Link to={usrAboutUs}>{t("About")} </Link>
                       </li>
                       <li>
-                        <a href="#">Rewards & Loyalty</a>
+                        <a href="#">{t("Rewards")}</a>
                       </li>
                       <li>
-                        <a href="#">Affiliation Club</a>
+                        <a href="#">{t("Affiliation")}</a>
                       </li>
                       <li>
-                        <Link to={usrEditProfile}>My Account</Link>
+                        <Link to={usrEditProfile}>{t("MyAccount")}</Link>
                       </li>
                     </ul>
                   </div>
                 </Col>
                 <Col md={3}>
                   <div className="links-wraper">
-                    <h4>LEGAL INFO</h4>
+                    <h4>{t("legalinfo")}</h4>
                     <ul>
                       <li>
-                        <Link to={usrTermCon}>Terms Of Service</Link>
+                        <Link to={usrTermCon}>{t("terms")}</Link>
                       </li>
                       <li>
-                        <Link to={usrPrivacy}>Privacy Policy</Link>
+                        <Link to={usrPrivacy}>{t("privacy")}</Link>
                       </li>
                       <li>
-                        <Link to={usrRefundPolicy}>Refunds Policy</Link>
+                        <Link to={usrRefundPolicy}>{t("refunds")}</Link>
                       </li>
                       <li>
-                        <a href="#">Previous Collection</a>
+                        <a href="#">{t("previouscollection")}</a>
                       </li>
                     </ul>
                   </div>
@@ -273,9 +275,9 @@ function FooterEvorium() {
               <p>© 2023 EVORIUM</p>
             </div>
             <div className="privacy-links">
-              <Link to={usrTermCon}>Terms of Service</Link>
-              <Link to={usrRefundPolicy}>Refunds Policy</Link>
-              <Link to={usrPrivacy}>Privacy Policy</Link>
+              <Link to={usrTermCon}>{t("terms")}</Link>
+              <Link to={usrRefundPolicy}>{t("refunds")}</Link>
+              <Link to={usrPrivacy}>{t("privacy")}</Link>
             </div>
             <div className="email-div">
               <a href="mailto:contact@evorium.com" target="_blank">
