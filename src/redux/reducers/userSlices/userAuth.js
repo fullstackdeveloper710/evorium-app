@@ -8,6 +8,7 @@ import {
   userVerifyNum,
 } from "../../thunk/user/usrMain";
 import { userRefreshToken } from "../../thunk/user/usrMain";
+import { userLanguageUpdate } from "../../thunk/user/usrProfile";
 
 const initialState = {
   status: false,
@@ -25,6 +26,27 @@ const userAuth = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //update language
+    builder
+      .addCase(userLanguageUpdate.fulfilled, (state, action) => {
+        const {
+          meta: {
+            arg: { values },
+          },
+        } = action;
+        state.userData = {
+          ...state.userData,
+          language: values,
+        };
+        state.status = "success";
+      })
+      .addCase(userLanguageUpdate.rejected, (state, action) => {
+        state.error = action.payload;
+        state.status = "failed";
+      })
+      .addCase(userLanguageUpdate.pending, (state, action) => {
+        state.status = "pending";
+      });
     builder
       .addCase(userSignUp.pending, (state) => {
         state.loading = true;
@@ -115,7 +137,7 @@ const userAuth = createSlice({
         // state.error = action.payload;
       });
 
-      builder
+    builder
       .addCase(userRefreshToken.pending, (state) => {
         // state.loading = true;
         state.error = null;
