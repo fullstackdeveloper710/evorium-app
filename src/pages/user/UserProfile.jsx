@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import { Button } from "../../components/user";
-import { UserIcon, CameraIcon, EyeLock } from "../../assets/icons/user";
+import {
+  UserIcon,
+  CameraIcon,
+  EyeLock,
+  DownArrow,
+} from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
 import {
@@ -104,7 +109,6 @@ const UserProfile = () => {
     console.log(file, "file");
     if (file) {
       handleShow();
-      
     }
     setFieldValue("file", file);
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
@@ -142,7 +146,6 @@ const UserProfile = () => {
                           accept="image/*"
                           value={values.profile_pic}
                           onChange={(e) => handleImageChange(e, setFieldValue)}
-                          
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
@@ -157,8 +160,7 @@ const UserProfile = () => {
                                 alt="user_pro"
                               />
                             ) : (
-                              <UserIcon 
-                              role="img"/>
+                              <UserIcon role="img" />
                             )}
                           </div>
                           <div className="editUser__icon">
@@ -232,43 +234,45 @@ const UserProfile = () => {
                     </div>
                   </Col>
 
-                 
                   <Col md={12}>
-                    {/* <div className="inputRow"> */}
-                    {/* <div className="inputRow__icon"> */}
-                    {/* <Select
-                       styles={{
-                        
-                        control: (baseStyles, state) => ({
-                          ...baseStyles,
-                          color : state.isFocused ? 'black' : "black",
-                        
-                          backgroundColor: state.isFocused ? 'white' : 'white'
-                        }),}}
-                        placeholder="Country"
-                        onBlur={handleBlur}
-                        value={selectedCountry}
-                        onChange={(selectedOption) => {
-                          handleCountryChange(selectedOption);
+  <div className="inputRow">
+    <div className="inputRow__icon">
+      <select
+        style={{
+          color: values.isFocused ? 'black' : 'black',
+          backgroundColor: values.isFocused ? 'white' : 'white',
+          // Add any other styles you need
+        }}
+        name="country"
+        onBlur={handleBlur}
+        value={values.country_code}
+        onChange={(e) => {
+          handleCountryChange(e.target.value);
+          handleChange("country_code")(e.target.value);
+        }}
+      >
+        {CountryOptions.map((country) => (
+          <option key={country.value} value={country.value}>
+            {country.label}
+          </option>
+        ))}
+      </select>
 
-                          handleChange("country")(selectedOption.value);
-                        }}
-                        // isSearchable={true}
-                        options={CountryOptions}
-                        name="country"
-                      /> */}
+      {/* Down arrow icon */}
+      <span className="inputRow__iconGroup">
+        <DownArrow />
+      </span>
 
-                    {/* <span className="inputRow__iconGroup">
-                        <DownArrow />
-                      </span>
-                      <span style={{ color: "red" }}>
-                        {" "}
-                        {errors.country && touched.country && errors.country}
-                      </span>
-                    </div> */}
-                    {/* </div> */}
-                  </Col>
-                  <Col md={12}>
+      {/* Error message for country code */}
+      <span style={{ color: "red" }}>
+        {errors.country_code && touched.country_code && errors.country_code}
+      </span>
+    </div>
+  </div>
+</Col>
+
+
+                  {/* <Col md={12}>
                     <Input
                       className="inputRow"
                       type="text"
@@ -283,7 +287,7 @@ const UserProfile = () => {
                         errors.country_code
                       }
                     />
-                  </Col>
+                  </Col> */}
                   <Col md="12">
                     <Button
                       type="submit"
