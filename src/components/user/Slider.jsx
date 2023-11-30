@@ -10,7 +10,7 @@ const Slider = () => {
    <Container> 
       <div className='title-block'>
 
-         <h2>{t("roadmap")}</h2>
+         <h2 className='text-center'>{t("roadmap")}</h2>
         </div>
 
          {/* slider */}

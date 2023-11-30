@@ -245,7 +245,7 @@ const VideoPlayer = () => {
   };
 
   return (
-    <>
+     <>
       <CustomModal
         show={show}
         handleClose={handleClose}
@@ -549,7 +549,7 @@ const VideoPlayer = () => {
           </Row>
         </Container>
       </section>
-    </>
+     </>
   );
 };
 export default VideoPlayer;

@@ -308,8 +308,7 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {categoriesList?.map((i) => (
-                                
-                                  <label>{i.title}</label>
+                                <div className="checkbox_list">
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -319,7 +318,7 @@ function Programs() {
                                   />
                                   <label>{i.title}</label>
                                   </div>
-                                </>
+                                
                               ))}
                             </div>
                           </li>
@@ -334,8 +333,7 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {speakerList?.map((i) => (
-                                <>
-                                  <label>{i.name}</label>
+                                <div className="checkbox_list">
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -343,8 +341,8 @@ function Programs() {
                                     value={i.name}
                                     onChange={handleSpeakerFilter}
                                   />
-                                  <br />
-                                </>
+                                   <label>{i.name}</label>
+                                  </div>
                               ))}
                             </div>
                           </li>
