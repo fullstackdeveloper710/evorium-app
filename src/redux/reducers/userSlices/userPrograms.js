@@ -39,9 +39,9 @@ const initialState = {
   userRecommendedPrograms: {
     data: [],
   },
-  userFilteredProgram : {
-    data : []
-  }
+  userFilteredProgram: {
+    data: [],
+  },
 };
 
 const userProgramsSlice = createSlice({
@@ -49,10 +49,9 @@ const userProgramsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-
-
-      //get filtered programs
-      builder
+    
+    //get filtered programs
+    builder
       .addCase(getFilteredPrograms.pending, (state) => {
         state.error = null;
         state.status = false;
@@ -68,11 +67,8 @@ const userProgramsSlice = createSlice({
         state.status = false;
       });
 
-
-
-
-      //get programs with a specific category
-      builder
+    //get programs with a specific category
+    builder
       .addCase(getRecommendedPrograms.pending, (state) => {
         state.error = null;
         state.status = false;
@@ -87,7 +83,6 @@ const userProgramsSlice = createSlice({
       .addCase(getRecommendedPrograms.rejected, (state, action) => {
         state.status = false;
       });
-  
 
     // get user program list
     builder

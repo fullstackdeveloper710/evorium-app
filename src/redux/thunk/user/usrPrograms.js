@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { userApi } from "../../../services/apiEndpoints";
-import { hideLoader, showLoader } from "../../reducers/common/appSlice";
+import { hideLoader, hideRootLoader, showLoader, showRootLoader } from "../../reducers/common/appSlice";
 
 const {
   usrPrograms,
@@ -26,12 +26,12 @@ export const getFilteredPrograms = createAsyncThunk(
         method: "get",
         url: `${usrFilterPrograms}?categories=${filter.categories}?speakers=${filter.speakers}`,
       };
-      dispatch(showLoader());
+      dispatch(showRootLoader());
       const response = await httpsClient(config, userAuthtoken);
-      dispatch(hideLoader());
+      dispatch(hideRootLoader());
       return response;
     } catch (error) {
-      dispatch(hideLoader());
+      dispatch(hideRootLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }

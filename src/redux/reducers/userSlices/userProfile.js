@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyAccount, userEditProfile } from "../../thunk/user/usrProfile";
+import { getMyAccount, userEditProfile, userLanguageUpdate } from "../../thunk/user/usrProfile";
 
 const initialState = {
   status: false,
@@ -15,6 +15,7 @@ const userProfileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+   
     // EDIT PROFILE REDUCER----------------------------
     builder.addCase(userEditProfile.fulfilled, (state, action) => {
       // state.userDetails = action.payload;
