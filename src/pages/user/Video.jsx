@@ -88,13 +88,56 @@ const VideoPlayer = () => {
     // dispatch(getUserProgramList(data));
   
   };
-  const handleSetStartTime = (timeInSeconds) => {
-    setStartTime(timeInSeconds);
-    if (isPlaying) {
-      playerRef?.current?.seekTo(timeInSeconds);
-    }
-  };
 
+  const calculateSeekTime = (start) => {
+    const startTime = start || start;
+    console.log('Seeking to time:', startTime);
+    const midpoint = startTime ;
+    return Number.isFinite(midpoint) ? midpoint : startTime;
+  };
+  // const handleSetStartTime = (start) => {
+  //   setStartTime(start);
+  //   // if (isPlaying) {
+  //   //   console.log('Seeking to time:', timeInSeconds);
+
+  //   //   playerRef?.current?.seekTo(timeInSeconds);
+  //   // }
+  //   if (isPlaying) {
+  //     if (Number.isFinite(start)) {
+  //       console.log('Seeking to time:', start);
+  //       playerRef?.current?.seekTo(start);
+  //     } else {
+  //       console.error('Invalid time value:', start);
+  //     }
+  //   }
+  // };
+
+
+ 
+
+
+  const handleSetStartTime = (start) => {
+    console.log('Setting start time to:', start);
+  
+    // Convert start to seconds
+    const startTimeInSeconds = convertTimeStringToSeconds(start);
+  
+    if (isPlaying && Number.isFinite(startTimeInSeconds)) {
+      console.log('Seeking to time:', startTimeInSeconds);
+      playerRef?.current?.seekTo(startTimeInSeconds);
+    } else {
+      console.error('Invalid time value or video is not playing:', start, isPlaying);
+    }
+  
+    setStartTime(start);
+  };
+  
+  // Function to convert time string (e.g., "00:10") to seconds
+  const convertTimeStringToSeconds = (timeString) => {
+    const [minutes, seconds] = timeString.split(':').map(Number);
+    return minutes * 60 + seconds;
+  };
+  
   return (
     <>
       <CustomModal
@@ -179,30 +222,32 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__timecodec">
                     <h4>Time Codes</h4>
-                    <FieldArray name="episodes">
-                        {({ insert, remove, push }) => (
+                    {/* <FieldArray name="episodes"> */}
+                        {/* {({ insert, remove, push }) => ( */}
                           <div>
                             {episodes.map(
-                              ({ title, label, startTime, endTime }, index) => (
-                                <div className="timecodec__list">
+                              ({ title, start, end }) => (
+                                <div className="timecodec__list" key={title}>
                                 <button
                                   className="timecodecBtn"
-                                  onClick={() => handleSetStartTime(30)}
+                                  onClick={() => handleSetStartTime(start)}
+                                  // onClick={() => playerRef?.current?.seekTo(start)}
+
                                 >
                                   <figure>
                                     <Play />
                                   </figure>
                                   <div className="timecodecBtn__caption">
                                     <h2>{title}</h2>
-                                    <span>{startTime}</span>
+                                    <span>{start}</span>
                                   </div>
                                 </button>
                               </div>
                               )
                             )}
                           </div>
-                        )}
-                      </FieldArray>
+                        {/* )} */}
+                      {/* </FieldArray> */}
 
                     {/* <div className="timecodec__list">
                       <button
