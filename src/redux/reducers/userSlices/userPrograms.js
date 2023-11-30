@@ -4,6 +4,8 @@ import {
   getUserProgramList,
   userFilterPrograms,
   userViewCount,
+  getRecommendedPrograms,
+  getFilteredPrograms,
 } from "../../thunk/user/usrPrograms";
 
 const initialState = {
@@ -34,6 +36,12 @@ const initialState = {
   userMyPrograms: {
     data: [],
   },
+  userRecommendedPrograms: {
+    data: [],
+  },
+  userFilteredProgram: {
+    data: [],
+  },
 };
 
 const userProgramsSlice = createSlice({
@@ -41,6 +49,41 @@ const userProgramsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
+    
+    //get filtered programs
+    builder
+      .addCase(getFilteredPrograms.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(getFilteredPrograms.fulfilled, (state, action) => {
+        const { payload } = action;
+
+        state.userFilteredProgram = payload;
+
+        state.status = true;
+      })
+      .addCase(getFilteredPrograms.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //get programs with a specific category
+    builder
+      .addCase(getRecommendedPrograms.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(getRecommendedPrograms.fulfilled, (state, action) => {
+        const { payload } = action;
+
+        state.userRecommendedPrograms = payload;
+
+        state.status = true;
+      })
+      .addCase(getRecommendedPrograms.rejected, (state, action) => {
+        state.status = false;
+      });
+
     // get user program list
     builder
       .addCase(getUserProgramList.pending, (state) => {
