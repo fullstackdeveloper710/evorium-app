@@ -236,7 +236,13 @@ function Programs() {
             <Container>
               <div className="title-block">
                 <h1>Programs</h1>
-                <span>({filterResults.length > 0 ? filterResults.length :freeData.length + paidData.length})</span>
+                <span>
+                  (
+                  {filterResults.length > 0
+                    ? filterResults.length
+                    : freeData.length + paidData.length}
+                  )
+                </span>
               </div>
 
               <div className="platformFilter">
@@ -308,8 +314,7 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {categoriesList?.map((i) => (
-                                
-                                  <label>{i.title}</label>
+                                <div className="checkbox_list">
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -318,8 +323,7 @@ function Programs() {
                                     onChange={handleCategoryFilter}
                                   />
                                   <label>{i.title}</label>
-                                  </div>
-                                </>
+                                </div>
                               ))}
                             </div>
                           </li>
@@ -334,7 +338,7 @@ function Programs() {
                             </NavDropdown.Item>
                             <div className="drop_item">
                               {speakerList?.map((i) => (
-                                <>
+                                <div className="checkbox_list">
                                   <label>{i.name}</label>
                                   <input
                                     type="checkbox"
@@ -343,8 +347,7 @@ function Programs() {
                                     value={i.name}
                                     onChange={handleSpeakerFilter}
                                   />
-                                  <br />
-                                </>
+                                </div>
                               ))}
                             </div>
                           </li>
@@ -363,322 +366,322 @@ function Programs() {
               </div>
             </Container>
           </div>
-         
-          {filterResults.length === 0 ? (
-             <>
-             {(sorted === "all" ||
-               sorted === "free" ||
-               sorted === "az" ||
-               sorted === "za") && (
-               <section className=" program-section">
-                 <Container>
-                   <Row className="align-items-end">
-                     <Col md={8}>
-                       <div className="title-block">
-                         <h2 className="text-white">Free</h2>
-                         <p className="text-white">
-                           The Screeno ecosystem is designed to help you
-                           generate profit.Setup complete sales and marketing
-                           funnels with ease using the Screeno
-                         </p>
-                       </div>
-                     </Col>
-                     <Col md={4} className="text-end">
-                       {itemsToLoad < freeData.length && (
-                         <button onClick={loadMore} className="view-All-btn">
-                           View All
-                         </button>
-                       )}
-                       :
-                       {itemsToLoad > 5 && (
-                         <button onClick={loadLess} className="view-All-btn">
-                           View Less
-                         </button>
-                       )}
-                     </Col>
-                   </Row>
 
-                   <Row className="popular-row">
-                     {freeData
-                       .slice(0, itemsToLoad)
-                       .map(
-                         (
-                           {
-                             _id,
-                             title,
-                             image,
-                             view_count,
-                             description,
-                             watched,
-                             subsType,
-                             amount,
-                             url,
-                             thumbnail_url,
-                             video_duration,
-                             speaker,
-                             episodes,
-                             price,
-                             course_type,
-                             category,
-                           },
-                           index
-                         ) => (
-                           <Card
-                             course_type={course_type}
-                             onClick={(e) =>
-                               onCardClick({
-                                 _id,
-                                 title,
-                                 image,
-                                 view_count,
-                                 description,
-                                 watched,
-                                 subsType,
-                                 amount,
-                                 url,
-                                 thumbnail_url,
-                                 video_duration,
-                                 speaker,
-                                 episodes,
-                                 price,
-                                 course_type,
-                                 category,
-                               })
-                             }
-                             url={url}
-                             key={_id}
-                             video_id={_id}
-                             title={title}
-                             thumbnail_url={thumbnail_url}
-                             video_duration={convertTimeInHour(video_duration)}
-                             views={view_count}
-                             watched={watched}
-                             description={description}
-                             subsType={subsType}
-                             episodes={episodes}
-                             speaker={speaker}
-                             price={price}
-                           />
-                         )
-                       )}
-                   </Row>
-                 </Container>
-               </section>
-             )}
-             {/* pro */}
-             {(sorted === "all" ||
-               sorted === "pro" ||
-               sorted === "az" ||
-               sorted === "za") && (
-               <section className="pro-section py-5">
-                 <Container>
-                   <Row className="align-items-end">
-                     <Col md={8}>
-                       <div className="title-block">
-                         <h2 className="text-white">
-                           Pro <Image src={star} />
-                         </h2>
-                         <p className="text-white">
-                           The Screeno ecosystem is designed to help you
-                           generate profit.Setup complete sales and marketing
-                           funnels with ease using the Screeno
-                         </p>
-                       </div>
-                     </Col>
-                     <Col md={4} className="text-end">
-                       {itemsToLoadPro < paidData.length && (
-                         <button
-                           onClick={loadMorePro}
-                           className="view-All-btn"
-                         >
-                           View All
-                         </button>
-                       )}
-                       :
-                       {itemsToLoadPro > 5 && (
-                         <button
-                           onClick={loadLessPro}
-                           className="view-All-btn"
-                         >
-                           View Less
-                         </button>
-                       )}
-                     </Col>
-                   </Row>
-                   <Row className="popular-row">
-                     {paidData
-                       .slice(0, itemsToLoadPro)
-                       .map(
-                         (
-                           {
-                             _id,
-                             title,
-                             image,
-                             view_count,
-                             description,
-                             watched,
-                             subsType,
-                             amount,
-                             url,
-                             thumbnail_url,
-                             video_duration,
-                             speaker,
-                             episodes,
-                             price,
-                             course_type,
-                             category,
-                           },
-                           index
-                         ) => (
-                           <Card
-                             course_type={course_type}
-                             video_id={_id}
-                             onClick={() =>
-                               onCardClick({
-                                 _id,
-                                 title,
-                                 image,
-                                 view_count,
-                                 description,
-                                 watched,
-                                 subsType,
-                                 amount,
-                                 url,
-                                 thumbnail_url,
-                                 video_duration,
-                                 speaker,
-                                 episodes,
-                                 price,
-                                 course_type,
-                                 category,
-                               })
-                             }
-                             url={url}
-                             key={_id}
-                             title={title}
-                             thumbnail_url={thumbnail_url}
-                             video_duration={convertTimeInHour(video_duration)}
-                             views={view_count}
-                             watched={watched}
-                             description={description}
-                             subsType={subsType}
-                             episodes={episodes}
-                             speaker={speaker}
-                             price={price}
-                           />
-                         )
-                       )}
-                   </Row>
-                 </Container>
-               </section>
-             )}
-          
-             {userAuthtoken !== null && (
-               <section className="pro-section py-5">
-                 <Container>
-                   <Row className="align-items-end">
-                     <Col md={8}>
-                       <div className="title-block">
-                         <h2 className="text-white">
-                           My Programs <Image src={star} />
-                         </h2>
-                         <p className="text-white">
-                           The Screeno ecosystem is designed to help you
-                           generate profit.Setup complete sales and marketing
-                           funnels with ease using the Screeno
-                         </p>
-                       </div>
-                     </Col>
-                     <Col md={4} className="text-end">
-                       {itemsToLoadPro < paidData.length && (
-                         <button
-                           onClick={loadMorePro}
-                           className="view-All-btn"
-                         >
-                           View All
-                         </button>
-                       )}
-                       :
-                       {itemsToLoadPro > 5 && (
-                         <button
-                           onClick={loadLessPro}
-                           className="view-All-btn"
-                         >
-                           View Less
-                         </button>
-                       )}
-                     </Col>
-                   </Row>
-                   <Row className="popular-row">
-                     {myPrograms
-                       .slice(0, itemsToLoadPro)
-                       .map(
-                         (
-                           {
-                             _id,
-                             title,
-                             image,
-                             view_count,
-                             description,
-                             watched,
-                             subsType,
-                             amount,
-                             url,
-                             thumbnail_url,
-                             video_duration,
-                             speaker,
-                             episodes,
-                             price,
-                             course_type,
-                             category,
-                           },
-                           index
-                         ) => (
-                           <Card
-                             course_type={course_type}
-                             video_id={_id}
-                             onClick={() =>
-                               onCardClick({
-                                 _id,
-                                 title,
-                                 image,
-                                 view_count,
-                                 description,
-                                 watched,
-                                 subsType,
-                                 amount,
-                                 url,
-                                 thumbnail_url,
-                                 video_duration,
-                                 speaker,
-                                 episodes,
-                                 price,
-                                 course_type,
-                                 category,
-                               })
-                             }
-                             url={url}
-                             key={_id}
-                             title={title}
-                             thumbnail_url={thumbnail_url}
-                             video_duration={convertTimeInHour(video_duration)}
-                             views={view_count}
-                             watched={watched}
-                             description={description}
-                             subsType={subsType}
-                             episodes={episodes}
-                             speaker={speaker}
-                             price={price}
-                           />
-                         )
-                       )}
-                   </Row>
-                 </Container>
-               </section>
-             )}
-           </>
+          {filterResults.length === 0 ? (
+            <>
+              {(sorted === "all" ||
+                sorted === "free" ||
+                sorted === "az" ||
+                sorted === "za") && (
+                <section className=" program-section">
+                  <Container>
+                    <Row className="align-items-end">
+                      <Col md={8}>
+                        <div className="title-block">
+                          <h2 className="text-white">Free</h2>
+                          <p className="text-white">
+                            The Screeno ecosystem is designed to help you
+                            generate profit.Setup complete sales and marketing
+                            funnels with ease using the Screeno
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={4} className="text-end">
+                        {itemsToLoad < freeData.length && (
+                          <button onClick={loadMore} className="view-All-btn">
+                            View All
+                          </button>
+                        )}
+                        :
+                        {itemsToLoad > 5 && (
+                          <button onClick={loadLess} className="view-All-btn">
+                            View Less
+                          </button>
+                        )}
+                      </Col>
+                    </Row>
+
+                    <Row className="popular-row">
+                      {freeData
+                        .slice(0, itemsToLoad)
+                        .map(
+                          (
+                            {
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                              category,
+                            },
+                            index
+                          ) => (
+                            <Card
+                              course_type={course_type}
+                              onClick={(e) =>
+                                onCardClick({
+                                  _id,
+                                  title,
+                                  image,
+                                  view_count,
+                                  description,
+                                  watched,
+                                  subsType,
+                                  amount,
+                                  url,
+                                  thumbnail_url,
+                                  video_duration,
+                                  speaker,
+                                  episodes,
+                                  price,
+                                  course_type,
+                                  category,
+                                })
+                              }
+                              url={url}
+                              key={_id}
+                              video_id={_id}
+                              title={title}
+                              thumbnail_url={thumbnail_url}
+                              video_duration={convertTimeInHour(video_duration)}
+                              views={view_count}
+                              watched={watched}
+                              description={description}
+                              subsType={subsType}
+                              episodes={episodes}
+                              speaker={speaker}
+                              price={price}
+                            />
+                          )
+                        )}
+                    </Row>
+                  </Container>
+                </section>
+              )}
+              {/* pro */}
+              {(sorted === "all" ||
+                sorted === "pro" ||
+                sorted === "az" ||
+                sorted === "za") && (
+                <section className="pro-section py-5">
+                  <Container>
+                    <Row className="align-items-end">
+                      <Col md={8}>
+                        <div className="title-block">
+                          <h2 className="text-white">
+                            Pro <Image src={star} />
+                          </h2>
+                          <p className="text-white">
+                            The Screeno ecosystem is designed to help you
+                            generate profit.Setup complete sales and marketing
+                            funnels with ease using the Screeno
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={4} className="text-end">
+                        {itemsToLoadPro < paidData.length && (
+                          <button
+                            onClick={loadMorePro}
+                            className="view-All-btn"
+                          >
+                            View All
+                          </button>
+                        )}
+                        :
+                        {itemsToLoadPro > 5 && (
+                          <button
+                            onClick={loadLessPro}
+                            className="view-All-btn"
+                          >
+                            View Less
+                          </button>
+                        )}
+                      </Col>
+                    </Row>
+                    <Row className="popular-row">
+                      {paidData
+                        .slice(0, itemsToLoadPro)
+                        .map(
+                          (
+                            {
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                              category,
+                            },
+                            index
+                          ) => (
+                            <Card
+                              course_type={course_type}
+                              video_id={_id}
+                              onClick={() =>
+                                onCardClick({
+                                  _id,
+                                  title,
+                                  image,
+                                  view_count,
+                                  description,
+                                  watched,
+                                  subsType,
+                                  amount,
+                                  url,
+                                  thumbnail_url,
+                                  video_duration,
+                                  speaker,
+                                  episodes,
+                                  price,
+                                  course_type,
+                                  category,
+                                })
+                              }
+                              url={url}
+                              key={_id}
+                              title={title}
+                              thumbnail_url={thumbnail_url}
+                              video_duration={convertTimeInHour(video_duration)}
+                              views={view_count}
+                              watched={watched}
+                              description={description}
+                              subsType={subsType}
+                              episodes={episodes}
+                              speaker={speaker}
+                              price={price}
+                            />
+                          )
+                        )}
+                    </Row>
+                  </Container>
+                </section>
+              )}
+
+              {userAuthtoken !== null && (
+                <section className="pro-section py-5">
+                  <Container>
+                    <Row className="align-items-end">
+                      <Col md={8}>
+                        <div className="title-block">
+                          <h2 className="text-white">
+                            My Programs <Image src={star} />
+                          </h2>
+                          <p className="text-white">
+                            The Screeno ecosystem is designed to help you
+                            generate profit.Setup complete sales and marketing
+                            funnels with ease using the Screeno
+                          </p>
+                        </div>
+                      </Col>
+                      <Col md={4} className="text-end">
+                        {itemsToLoadPro < paidData.length && (
+                          <button
+                            onClick={loadMorePro}
+                            className="view-All-btn"
+                          >
+                            View All
+                          </button>
+                        )}
+                        :
+                        {itemsToLoadPro > 5 && (
+                          <button
+                            onClick={loadLessPro}
+                            className="view-All-btn"
+                          >
+                            View Less
+                          </button>
+                        )}
+                      </Col>
+                    </Row>
+                    <Row className="popular-row">
+                      {myPrograms
+                        .slice(0, itemsToLoadPro)
+                        .map(
+                          (
+                            {
+                              _id,
+                              title,
+                              image,
+                              view_count,
+                              description,
+                              watched,
+                              subsType,
+                              amount,
+                              url,
+                              thumbnail_url,
+                              video_duration,
+                              speaker,
+                              episodes,
+                              price,
+                              course_type,
+                              category,
+                            },
+                            index
+                          ) => (
+                            <Card
+                              course_type={course_type}
+                              video_id={_id}
+                              onClick={() =>
+                                onCardClick({
+                                  _id,
+                                  title,
+                                  image,
+                                  view_count,
+                                  description,
+                                  watched,
+                                  subsType,
+                                  amount,
+                                  url,
+                                  thumbnail_url,
+                                  video_duration,
+                                  speaker,
+                                  episodes,
+                                  price,
+                                  course_type,
+                                  category,
+                                })
+                              }
+                              url={url}
+                              key={_id}
+                              title={title}
+                              thumbnail_url={thumbnail_url}
+                              video_duration={convertTimeInHour(video_duration)}
+                              views={view_count}
+                              watched={watched}
+                              description={description}
+                              subsType={subsType}
+                              episodes={episodes}
+                              speaker={speaker}
+                              price={price}
+                            />
+                          )
+                        )}
+                    </Row>
+                  </Container>
+                </section>
+              )}
+            </>
           ) : (
-           <section className="pro-section py-5">
+            <section className="pro-section py-5">
               <Container>
                 <Row className="align-items-end">
                   <Col md={8}>

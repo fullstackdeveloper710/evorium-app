@@ -118,10 +118,7 @@ const VideoPlayer = () => {
     userAuthtoken,
   };
 
-  console.log(data2send);
-  let shareUrl = window.location();
-
-  console.log(shareUrl);
+  let shareUrl = window.location;
 
   useEffect(() => {
     dispatch(getRecommendedPrograms(data));
@@ -356,9 +353,9 @@ const VideoPlayer = () => {
                           style={{
                             display: "flex",
                             flexDirection: "row",
-                            height :'200px',
-                            
-                          gap:20
+                            height: "200px",
+
+                            gap: 20,
                           }}
                           className="Demo__container"
                         >

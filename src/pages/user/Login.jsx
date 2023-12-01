@@ -5,16 +5,23 @@ import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import { userLogin } from "../../redux/thunk/user/usrMain";
-import { useDispatch } from "react-redux";
+import { useDispatch , useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { passwordRegExp } from "../../utility/regax";
 import "../../styles/user/auth.scss";
+import userCredentials, {
+  clearCredentials,
+  saveCredentials,
+} from "../../redux/reducers/userSlices/userCredentials";
 
 const Login = () => {
   const [show, setShow] = useState(false);
   const [showPass, setShowPass] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
+
+  const {rememberMe : rememberFlag, email : rememberedEmail, password: rememberedPassword } = useSelector((state) => state.userCredentials)
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -27,8 +34,8 @@ const Login = () => {
 
   //Formik initial values
   const initValues = {
-    email: "",
-    password: "",
+    email: rememberFlag ? rememberedEmail : "",
+    password: rememberFlag ? rememberedPassword : "",
     // refreshToken:""
   };
 
@@ -46,13 +53,17 @@ const Login = () => {
   //Methods
 
   const onSubmitHandler = (values) => {
-
     const data = { values };
-
-console.log (values,"valuess")
 
     dispatch(userLogin(data)).then(({ payload }) => {
       if (payload) {
+        if (rememberMe) {
+          dispatch(
+            saveCredentials({ email: values.email, password: values.password })
+          );
+        } else {
+          dispatch(clearCredentials());
+        }
         navigate(usrPrograms);
       }
     });
@@ -126,7 +137,12 @@ console.log (values,"valuess")
                   <Col md={12}>
                     <div className="authRemember">
                       <div className="remember-text">
-                        <input type="checkbox" id="remember" />
+                        <input
+                          type="checkbox"
+                          id="remember"
+                          checked={rememberFlag}
+                          onChange={(e) => setRememberMe(e.target.checked)}
+                        />
                         <label htmlFor="remember">Remember Me</label>
                       </div>
 

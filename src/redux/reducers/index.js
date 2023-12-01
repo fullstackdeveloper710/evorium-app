@@ -17,6 +17,7 @@ import userPaymentSlice from "./userSlices/userPayment";
 import adminNotificationSlice from "./adminSlices/adNotification"
 import userProgramCategoriesList from "./userSlices/userProgramCategories&SpeakersList";
 import userProgramCategoriesSpeakersList from "./userSlices/userProgramCategories&SpeakersList";
+import userCredentials from "./userSlices/userCredentials";
 
 
 
@@ -42,7 +43,8 @@ const rootReducer = combineReducers({
   userPrograms: userProgramsSlice,
   userProfile: userProfileSlice,
   userPayment: userPaymentSlice,
-  userCategoriesSpeakers: userProgramCategoriesSpeakersList
+  userCategoriesSpeakers: userProgramCategoriesSpeakersList,
+  userCredentials : userCredentials
 });
 
 export default rootReducer;

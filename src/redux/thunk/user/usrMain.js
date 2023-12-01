@@ -202,8 +202,10 @@ export const userRefreshToken = createAsyncThunk(
   "user/userRefreshToken",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
+     console.log("api hit", data);
     const { values, userAuthtoken } = data;
-    console.log("api hit");
+    console.log(values,'values')
+   
     try {
       const config = {
         method: "post",

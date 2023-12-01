@@ -80,6 +80,7 @@ const UserProfile = () => {
       },
     };
     console.log("first", data);
+    console.log(data,'DATA IN MY ACCOUNT')
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
