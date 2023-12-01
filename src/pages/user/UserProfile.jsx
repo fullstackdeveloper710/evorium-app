@@ -13,6 +13,8 @@ import {
   getMyAccount,
   userEditProfile,
 } from "../../redux/thunk/user/usrProfile";
+import { FlagIcon } from 'react-flag-kit';
+
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
@@ -34,7 +36,7 @@ const UserProfile = () => {
   const { show, handleClose, handleShow } = useModal();
   const { updateCroppedImg, cancelCrop } = useCropper();
 
-  //country selebox options
+  // country selebox options
   const CountryOptions = [
     { value: "India", label: "India" },
     { value: "Italy", label: "Italy" },
@@ -43,7 +45,13 @@ const UserProfile = () => {
     { value: "Canada", label: "Canada" },
     { value: "UK", label: "UK" },
   ];
-
+  // const CountryOptions = [
+  //   { value: "India", label: "India", country_code: "+91" },
+  //   { value: "Italy", label: "Italy", country_code: "+39" },
+  //   { value: "USA", label: "USA", country_code: "+1" },
+  //   // ... other country options
+  // ];
+  
   //Formik initial values
   const initValues = {
     full_name: userDetails?.full_name ?? "",
@@ -53,6 +61,7 @@ const UserProfile = () => {
     country_code: userDetails?.country_code ?? "",
     profile_pic: null,
     file: null,
+    address:userDetails?.address ?? "",
   };
 
   //Formin validation schema
@@ -78,13 +87,15 @@ const UserProfile = () => {
 
   //Methods
   useEffect(() => {
+    
     const data = {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
+        // email: userDetails?.email,
       },
     };
-    console.log("first", data);
+    console.log("my account ", data);
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
@@ -233,8 +244,23 @@ const UserProfile = () => {
                       </span>
                     </div>
                   </Col>
+                  {/* <Col md={12}>
+                    <div className="inputRow">
+                      <input
+                        name="address"
+                        placeholder="Address"
+                        type="text"
+                        value={values.address}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                      />
+                      <span style={{ color: "red" }}>
+                        {errors.address && touched.address && errors.address}
+                      </span>
+                    </div>
+                  </Col> */}
 
-                  <Col md={12}>
+{/* <Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
@@ -243,51 +269,56 @@ const UserProfile = () => {
           backgroundColor: values.isFocused ? 'white' : 'white',
           // Add any other styles you need
         }}
-        name="country"
+        name="address"
         onBlur={handleBlur}
-        value={values.country_code}
+        value={values.address}  // Set the selected value
         onChange={(e) => {
           handleCountryChange(e.target.value);
-          handleChange("country_code")(e.target.value);
+          handleChange("address")(e.target.value);
         }}
       >
+        <option value="" disabled>
+          Select a country
+        </option>
         {CountryOptions.map((country) => (
           <option key={country.value} value={country.value}>
+            <FlagIcon countryCode={country.value} />
             {country.label}
           </option>
         ))}
       </select>
 
-      {/* Down arrow icon */}
+      Down arrow icon
       <span className="inputRow__iconGroup">
         <DownArrow />
       </span>
 
-      {/* Error message for country code */}
+      Error message for country code
       <span style={{ color: "red" }}>
-        {errors.country_code && touched.country_code && errors.country_code}
+        {errors.address && touched.address && errors.address}
       </span>
     </div>
   </div>
-</Col>
+</Col> */}
 
 
-                  {/* <Col md={12}>
+
+                  <Col md={12}>
                     <Input
                       className="inputRow"
                       type="text"
-                      placeholder="Country Code"
-                      name="country_code"
-                      value={values.country_code}
+                      placeholder="Address"
+                      name="address"
+                      value={values.address}
                       onBlur={handleBlur}
                       onChange={handleChange}
                       error={
-                        errors.country_code &&
-                        touched.country_code &&
-                        errors.country_code
+                        errors.address &&
+                        touched.address &&
+                        errors.address
                       }
                     />
-                  </Col> */}
+                  </Col>
                   <Col md="12">
                     <Button
                       type="submit"
