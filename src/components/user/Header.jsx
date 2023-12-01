@@ -18,6 +18,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/reducers/userSlices/userAuth";
 import { useTranslation } from "react-i18next";
 import "../../styles/user/header.scss";
+import { userLanguageUpdate } from "../../redux/thunk/user/usrProfile";
 
 function Header() {
   const [show, setShow] = useState(true);
@@ -26,7 +27,10 @@ function Header() {
   const { t, i18n } = useTranslation();
 
   //Redux state
-  const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const {
+    userAuthtoken,
+    userData: { language },
+  } = useSelector((state) => state.userAuth);
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -59,7 +63,16 @@ function Header() {
     dispatch(userLogout());
   };
 
+
+  useEffect(() => {
+    i18n.changeLanguage(language);
+    console.log(language, "language coming from db");
+  }, []);
+
   const onLeanguageChange = (language) => {
+   
+
+    dispatch(userLanguageUpdate({userAuthtoken,values : language}))
     i18n.changeLanguage(language);
   };
   return (
@@ -130,7 +143,14 @@ function Header() {
 
                 <Nav className="right-nav">
                   <NavDropdown
-                    title={t("language")}
+                    title={
+                      language === "es"
+                        ? t("Español")
+                        : language === "fr"
+                        ? t("Français")
+                        : t("English")
+                    }
+                    // title={t("language")}
                     id="collapsible-nav-dropdown"
                   >
                     <NavDropdown.Item

@@ -11,9 +11,10 @@ const userApi = {
   usrRecentProgram: "user/recent_program",
   usrMakePayment: "/user/payment_intilization",
   usrPaymentConfirm: "/user/payment_confirmation",
-  usrMyPrograms : "/user/my_programs",
-  usrCategories : "/categories?all=true",
-  usrSpeakers : "/speakers?all=true",
+  usrMyPrograms: "/user/my_programs",
+  usrCategories: "/categories?all=true",
+  usrSpeakers: "/speakers?all=true",
+  usrUpdateLanguage: "/user/language",
 
   //pending
   usrRefreshToken: "/user/refresh_token",
@@ -65,9 +66,9 @@ const adminApi = {
   adFilterPayment: "admin/filter_payments",
   adGetPaymentDetail: "",
   adUpdateProgram: "/admin/program",
-  adNotification : "/admin/notification",
-  adDeleteNotification : "/admin/notification",
-  adDeleteNotifications : "/admin/notifications"
+  adNotification: "/admin/notification",
+  adDeleteNotification: "/admin/notification",
+  adDeleteNotifications: "/admin/notifications",
 
   //pending
 };
