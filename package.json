@@ -40,6 +40,7 @@
     "react-router-dom": "^6.17.0",
     "react-scripts": "5.0.1",
     "react-select": "^5.7.7",
+    "react-select-country-list": "^2.2.3",
     "react-share": "^5.0.3",
     "react-social-login-buttons": "^3.9.1",
     "react-toastify": "^9.1.3",

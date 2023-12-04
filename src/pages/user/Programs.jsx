@@ -20,7 +20,7 @@ import { getProgramSpeakersList } from "../../redux/thunk/user/usrSpeakers";
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
-  const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
+  const [itemsToLoadResult, setItemsToLoadResult] = useState(5);
   const [sorted, setSorted] = useState("all");
   const [selectedItem, setSelectedItem] = useState(null);
   const [filter, setFilter] = useState({
@@ -29,7 +29,6 @@ function Programs() {
     price: "",
     speakers: "",
   });
-
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -190,27 +189,33 @@ function Programs() {
     }
   }
 
-
-
-
   const handleSelect = (eventKey) => {
-
-    console.log(eventKey,"eventKey")
+    console.log(eventKey, "eventKey");
     // Do something with the selected value
-    setSelectedItem(eventKey);
+    // setSelectedItem(eventKey);
 
-
-    //  setFilter((prevFilter) => ({
+    // setFilter((prevFilter) => ({
     //   ...prevFilter,
     //   categories: `${
     //     prevFilter.categories ? prevFilter.categories + "," : ""
     //   }${selectedValue}`,
-    //})
-    //);
+    // }));
 
+    if (eventKey === "az" || eventKey === "za" || eventKey === "latest") {
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        sort_by: `${eventKey}`,
+        price: "",
+      }));
+    }
 
-
-
+    if (eventKey === "HighToLow" || eventKey === "LowToHigh") {
+      setFilter((prevFilter) => ({
+        ...prevFilter,
+        sort_by: "",
+        price: `${eventKey}`,
+      }));
+    }
   };
 
   function handleSpeakerFilter(e) {
@@ -257,6 +262,8 @@ function Programs() {
     // }));
   }
   const loadMoreTop = () => {
+    console.log(data, "data");
+    console.log(filter, "filter state");
     // setItemsToLoadTop(cardsData.length);
     dispatch(getFilteredPrograms(data));
   };
@@ -283,14 +290,14 @@ function Programs() {
                   <Col md={6}>
                     <Nav className="right-nav ">
                       <NavDropdown
-                       activeKey={selectedItem} onSelect={handleSelect}
+                        activeKey={selectedItem}
+                        onSelect={handleSelect}
                         className="sort"
                         title="sort by"
                         id="collapsible-nav-dropdown"
-                        
                       >
                         <NavDropdown.Item
-                        eventKey="az"
+                          eventKey="az"
                           href="#action/3.1"
                           onClick={() => {
                             onSortHandler("az");
@@ -299,7 +306,7 @@ function Programs() {
                           A-Z
                         </NavDropdown.Item>
                         <NavDropdown.Item
-                        eventKey="za"
+                          eventKey="za"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("za");
@@ -308,7 +315,7 @@ function Programs() {
                           Z-A
                         </NavDropdown.Item>
                         <NavDropdown.Item
-                         eventKey="HighToLow"
+                          eventKey="HighToLow"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");
@@ -318,7 +325,7 @@ function Programs() {
                         </NavDropdown.Item>
 
                         <NavDropdown.Item
-                         eventKey="LowToHigh"
+                          eventKey="LowToHigh"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");
@@ -327,7 +334,7 @@ function Programs() {
                           Low-High
                         </NavDropdown.Item>
                         <NavDropdown.Item
-                         eventKey="latest"
+                          eventKey="latest"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");
@@ -426,7 +433,7 @@ function Programs() {
                           </p>
                         </div>
                       </Col>
-                      <Col md={4} className="text-end">
+                      {/* <Col md={4} className="text-end">
                         {itemsToLoad < freeData.length && (
                           <button onClick={loadMore} className="view-All-btn">
                             View All
@@ -438,7 +445,7 @@ function Programs() {
                             View Less
                           </button>
                         )}
-                      </Col>
+                      </Col> */}
                     </Row>
 
                     <Row className="popular-row">
@@ -504,6 +511,14 @@ function Programs() {
                             />
                           )
                         )}
+                      <button
+                        onClick={() =>
+                          setItemsToLoad((prevState) => prevState + 5)
+                        }
+                        className="view-All-btn"
+                      >
+                        View More
+                      </button>
                     </Row>
                   </Container>
                 </section>
@@ -528,7 +543,7 @@ function Programs() {
                           </p>
                         </div>
                       </Col>
-                      <Col md={4} className="text-end">
+                      {/* <Col md={4} className="text-end">
                         {itemsToLoadPro < paidData.length && (
                           <button
                             onClick={loadMorePro}
@@ -546,7 +561,7 @@ function Programs() {
                             View Less
                           </button>
                         )}
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row className="popular-row">
                       {paidData
@@ -611,6 +626,17 @@ function Programs() {
                             />
                           )
                         )}
+
+                      {itemsToLoadPro < paidData.length && (
+                        <button
+                          onClick={() =>
+                            setItemsToLoadPro((prevState) => prevState + 5)
+                          }
+                          className="view-All-btn"
+                        >
+                          View More
+                        </button>
+                      )}
                     </Row>
                   </Container>
                 </section>
@@ -632,7 +658,7 @@ function Programs() {
                           </p>
                         </div>
                       </Col>
-                      <Col md={4} className="text-end">
+                      {/* <Col md={4} className="text-end">
                         {itemsToLoadPro < paidData.length && (
                           <button
                             onClick={loadMorePro}
@@ -650,7 +676,7 @@ function Programs() {
                             View Less
                           </button>
                         )}
-                      </Col>
+                      </Col> */}
                     </Row>
                     <Row className="popular-row">
                       {myPrograms
@@ -715,6 +741,19 @@ function Programs() {
                             />
                           )
                         )}
+
+
+                  {itemsToLoadResult < filterResults.length && (
+                    <button
+                      onClick={() =>
+                        setItemsToLoadResult((prevState) => prevState + 5)
+                      }
+                      className="view-All-btn"
+                    >
+                      View More
+                    </button>
+                  )}
+
                     </Row>
                   </Container>
                 </section>
@@ -736,23 +775,23 @@ function Programs() {
                       </p>
                     </div>
                   </Col>
-                  <Col md={4} className="text-end">
-                    {itemsToLoadPro < paidData.length && (
+                  {/* <Col md={4} className="text-end">
+                    {itemsToLoadResult < filterResults.length && (
                       <button onClick={loadMorePro} className="view-All-btn">
                         View All
                       </button>
                     )}
                     :
-                    {itemsToLoadPro > 5 && (
+                    {itemsToLoadResult > 5 && (
                       <button onClick={loadLessPro} className="view-All-btn">
                         View Less
                       </button>
                     )}
-                  </Col>
+                  </Col> */}
                 </Row>
                 <Row className="popular-row">
                   {filterResults
-                    .slice(0, itemsToLoadPro)
+                    .slice(0, itemsToLoadResult)
                     .map(
                       (
                         {
@@ -813,6 +852,17 @@ function Programs() {
                         />
                       )
                     )}
+
+                  {itemsToLoadResult < filterResults.length && (
+                    <button
+                      onClick={() =>
+                        setItemsToLoadResult((prevState) => prevState + 5)
+                      }
+                      className="view-All-btn"
+                    >
+                      View More
+                    </button>
+                  )}
                 </Row>
               </Container>
             </section>
