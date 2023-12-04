@@ -22,13 +22,14 @@ function Programs() {
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
   const [itemsToLoadTop, setItemsToLoadTop] = useState(5);
   const [sorted, setSorted] = useState("all");
+  const [selectedItem, setSelectedItem] = useState(null);
   const [filter, setFilter] = useState({
     sort_by: "",
     categories: "",
     price: "",
     speakers: "",
   });
-  console.log(filter);
+
 
   //Redux state
   const { userAuthtoken } = useSelector((state) => state.userAuth);
@@ -189,6 +190,29 @@ function Programs() {
     }
   }
 
+
+
+
+  const handleSelect = (eventKey) => {
+
+    console.log(eventKey,"eventKey")
+    // Do something with the selected value
+    setSelectedItem(eventKey);
+
+
+    //  setFilter((prevFilter) => ({
+    //   ...prevFilter,
+    //   categories: `${
+    //     prevFilter.categories ? prevFilter.categories + "," : ""
+    //   }${selectedValue}`,
+    //})
+    //);
+
+
+
+
+  };
+
   function handleSpeakerFilter(e) {
     console.log(e.target.value, "handle speaker");
     const newSpeaker = e.target.value;
@@ -223,6 +247,15 @@ function Programs() {
     userAuthtoken,
     filter: filter,
   };
+
+  function handleSort() {
+    // setFilter((prevFilter) => ({
+    //   ...prevFilter,
+    //   categories: `${
+    //     prevFilter.categories ? prevFilter.categories + "," : ""
+    //   }${selectedValue}`,
+    // }));
+  }
   const loadMoreTop = () => {
     // setItemsToLoadTop(cardsData.length);
     dispatch(getFilteredPrograms(data));
@@ -250,11 +283,14 @@ function Programs() {
                   <Col md={6}>
                     <Nav className="right-nav ">
                       <NavDropdown
+                       activeKey={selectedItem} onSelect={handleSelect}
                         className="sort"
                         title="sort by"
                         id="collapsible-nav-dropdown"
+                        
                       >
                         <NavDropdown.Item
+                        eventKey="az"
                           href="#action/3.1"
                           onClick={() => {
                             onSortHandler("az");
@@ -263,6 +299,7 @@ function Programs() {
                           A-Z
                         </NavDropdown.Item>
                         <NavDropdown.Item
+                        eventKey="za"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("za");
@@ -271,6 +308,7 @@ function Programs() {
                           Z-A
                         </NavDropdown.Item>
                         <NavDropdown.Item
+                         eventKey="HighToLow"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");
@@ -280,6 +318,7 @@ function Programs() {
                         </NavDropdown.Item>
 
                         <NavDropdown.Item
+                         eventKey="LowToHigh"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");
@@ -288,6 +327,7 @@ function Programs() {
                           Low-High
                         </NavDropdown.Item>
                         <NavDropdown.Item
+                         eventKey="latest"
                           href="#action/3.2"
                           onClick={() => {
                             onSortHandler("free");

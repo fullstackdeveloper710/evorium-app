@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button } from "../../components/user";
 import * as Yup from "yup";
 import { EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
 import { userLogin } from "../../redux/thunk/user/usrMain";
-import { useDispatch , useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
@@ -14,6 +14,7 @@ import "../../styles/user/auth.scss";
 import userCredentials, {
   clearCredentials,
   saveCredentials,
+  changeRememberMe
 } from "../../redux/reducers/userSlices/userCredentials";
 
 const Login = () => {
@@ -21,7 +22,11 @@ const Login = () => {
   const [showPass, setShowPass] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
 
-  const {rememberMe : rememberFlag, email : rememberedEmail, password: rememberedPassword } = useSelector((state) => state.userCredentials)
+  const {
+    rememberMe: rememberFlag,
+    email: rememberedEmail,
+    password: rememberedPassword,
+  } = useSelector((state) => state.userCredentials);
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -68,6 +73,23 @@ const Login = () => {
       }
     });
   };
+
+  function handleChangeRemember(e) {
+    setRememberMe(e.target.checked);
+
+    if (e.target.checked) {
+
+      dispatch(changeRememberMe(e.target.checked))
+    } else if (e.target.checked === false) {
+
+      dispatch(changeRememberMe(e.target.checked))
+    }
+  }
+
+  useEffect(() => {
+
+
+  },[rememberFlag])
 
   return (
     <>
@@ -141,7 +163,8 @@ const Login = () => {
                           type="checkbox"
                           id="remember"
                           checked={rememberFlag}
-                          onChange={(e) => setRememberMe(e.target.checked)}
+                          value={rememberFlag}
+                          onChange={(e) => handleChangeRemember(e)}
                         />
                         <label htmlFor="remember">Remember Me</label>
                       </div>

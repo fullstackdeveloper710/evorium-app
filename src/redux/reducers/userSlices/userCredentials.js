@@ -10,9 +10,15 @@ const credentialsSlice = createSlice({
   },
   reducers: {
     saveCredentials: (state, action) => {
-      state.rememberMe = true;
-      state.email = action.payload.email;
-      state.password = action.payload.password;
+        state.rememberMe = true;
+        state.email = action.payload.email;
+        state.password = action.payload.password;
+    },
+    changeRememberMe : (state , action) => {
+      state.email = state.email
+      state.password = state.password
+      state.rememberMe = action.payload
+
     },
     clearCredentials: (state) => {
       state.rememberMe = false;
@@ -23,7 +29,7 @@ const credentialsSlice = createSlice({
 });
 
 // Export the action creators
-export const { saveCredentials, clearCredentials } = credentialsSlice.actions;
+export const { saveCredentials, clearCredentials , changeRememberMe} = credentialsSlice.actions;
 
 // Export the reducer
 export default credentialsSlice.reducer;

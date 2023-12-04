@@ -8,7 +8,7 @@ import "../../styles/user/global.scss";
 import { userRefreshToken } from "../../redux/thunk/user/usrMain";
 
 function UsrPvtLayout() {
-  const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
+  const { userAuthtoken ,  userData } = useSelector((state) => state.userAuth);
 
   const dispatch = useDispatch();
 
@@ -49,12 +49,13 @@ function UsrPvtLayout() {
     //   clearTimeout(timeoutId);
     // };
   }, []);
-  const isMyTokenExpired = isExpired(userAuthtoken);
-
+  const isMyRefreshTokenExpired = isExpired(userData.refresh_token);
+  console.log(userData.refresh_token)
+console.log(isMyRefreshTokenExpired,'isMyRefreshTokenExpired')
   // if (userAuthtoken) {
-  if (isMyTokenExpired) {
+  if (isMyRefreshTokenExpired) {
     return <Navigate to={usrLogin} replace={true} />;
-  } else if (!isMyTokenExpired) {
+  } else if (!isMyRefreshTokenExpired) {
     return (
       <div>
         <Header />
