@@ -69,6 +69,7 @@ import {
 import "../../styles/user/video.scss";
 import { loadStripe } from "@stripe/stripe-js";
 import { FieldArray } from "formik";
+import { userDownloadProgram } from "../../redux/thunk/user/usrMain";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
@@ -118,13 +119,10 @@ const VideoPlayer = () => {
     userAuthtoken,
   };
 
-  console.log(data2send);
-  let shareUrl = window.location();
-
-  console.log(shareUrl);
+  let shareUrl = window.location;
 
   useEffect(() => {
-    dispatch(getRecommendedPrograms(data));
+    dispatch(getRecommendedPrograms());
   }, []);
 
   //Ref
@@ -321,7 +319,7 @@ const VideoPlayer = () => {
                       <span className="videoViews">{views} views</span>
                     </div>
                     <div className="midbuttons__right">
-                      <button className="mid--btn">
+                      <button className="mid--btn" onClick={() => dispatch(userDownloadProgram({userAuthtoken,videoId: videoId}))}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
@@ -356,9 +354,9 @@ const VideoPlayer = () => {
                           style={{
                             display: "flex",
                             flexDirection: "row",
-                            height :'200px',
-                            
-                          gap:20
+                            height: "200px",
+
+                            gap: 20,
                           }}
                           className="Demo__container"
                         >

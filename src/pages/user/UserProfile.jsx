@@ -24,6 +24,8 @@ const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const [imageFile,setImageFile] = useState(null)
+
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
 
@@ -57,11 +59,12 @@ const UserProfile = () => {
     full_name: userDetails?.full_name ?? "",
     email: userDetails?.email ?? "",
     phone: userDetails?.phone ?? "",
-    // password: userDetails?.password ?? "",
+    //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
+    profile_pic_ : userDetails?.profile_pic,
     profile_pic: null,
-    file: null,
-    address:userDetails?.address ?? "",
+
+
   };
 
   //Formin validation schema
@@ -95,7 +98,7 @@ const UserProfile = () => {
         // email: userDetails?.email,
       },
     };
-    console.log("my account ", data);
+
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
@@ -107,10 +110,10 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
       values: {
-        ...values,
+        profile_pic : imageFile
       },
     };
-    console.log("first", values);
+    
 
     dispatch(userEditProfile(data));
   };
@@ -121,8 +124,13 @@ const UserProfile = () => {
     if (file) {
       handleShow();
     }
-    setFieldValue("file", file);
+    // console.log(file)
+
+    setImageFile(file)
+    setFieldValue("profile_pic", file);
+    // setFieldValue("profile_pic_", URL.createObjectURL(file));
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
+     
   };
 
   return (
@@ -155,23 +163,25 @@ const UserProfile = () => {
                           id="editUser"
                           type="file"
                           accept="image/*"
-                          value={values.profile_pic}
+                         
                           onChange={(e) => handleImageChange(e, setFieldValue)}
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
-                            {values.profile_pic ? (
+                            {values.profile_pic_ ? (
                               <Image
                                 style={{
                                   width: "100%",
                                   height: "100%",
                                   borderRadius: "100%",
                                 }}
-                                src={values.profile_pic}
+                                src={values.profile_pic_}
                                 alt="user_pro"
                               />
                             ) : (
+
                               <UserIcon role="img" />
+
                             )}
                           </div>
                           <div className="editUser__icon">
@@ -180,7 +190,7 @@ const UserProfile = () => {
                         </label>
                       </div>
                     </div>
-                    <CustomModal
+                    {/* <CustomModal
                       show={show}
                       handleClose={handleClose}
                       modalHead="Image cropper"
@@ -191,7 +201,7 @@ const UserProfile = () => {
                         file={values.file}
                         cancelCrop={cancelCrop}
                       />
-                    </CustomModal>
+                    </CustomModal> */}
                   </Col>
 
                   <Col md={12}>
