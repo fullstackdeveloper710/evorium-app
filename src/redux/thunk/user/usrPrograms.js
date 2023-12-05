@@ -23,7 +23,8 @@ export const getFilteredPrograms = createAsyncThunk(
     try {
       const config = {
         method: "get",
-        url: `${usrFilterPrograms}?categories=${filter.categories}?speakers=${filter.speakers}`,
+        url: `${usrFilterPrograms}?categories=${filter.categories}&speakers=${filter.speakers}&price=${filter.price}&sort_by=${filter.sort_by}`,
+        
       };
       dispatch(showRootLoader());
       const response = await httpsClient(config, userAuthtoken);

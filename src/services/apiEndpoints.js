@@ -19,6 +19,7 @@ const userApi = {
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
+  userDownloadVideo : "/user/generate_Video_link/"
 };
 
 const commonApi = {
