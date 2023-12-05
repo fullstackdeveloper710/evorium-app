@@ -119,7 +119,9 @@ const VideoPlayer = () => {
     userAuthtoken,
   };
 
+
   let shareUrl = window.location;
+
 
   useEffect(() => {
     dispatch(getRecommendedPrograms());
@@ -243,7 +245,7 @@ const VideoPlayer = () => {
   };
 
   return (
-    <>
+     <>
       <CustomModal
         show={show}
         handleClose={handleClose}
@@ -350,16 +352,9 @@ const VideoPlayer = () => {
                         modalHead="Share"
                         className="user_modal"
                       >
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            height: "200px",
 
-                            gap: 20,
-                          }}
-                          className="Demo__container"
-                        >
+                        <div  className="Demo__container" >
+
                           <div className="Demo__some-network">
                             <FacebookShareButton
                               url={shareUrl}
@@ -438,6 +433,13 @@ const VideoPlayer = () => {
                               <EmailIcon size={32} round />
                             </EmailShareButton>
                           </div>
+                        </div>
+
+                        <div className="video_copy_block">
+                          <div className="input_copy_wraper">
+                         <input type="text"/>
+                         <button>Copy</button>
+                         </div>
                         </div>
                       </CustomModal>
                     </div>
@@ -547,7 +549,7 @@ const VideoPlayer = () => {
           </Row>
         </Container>
       </section>
-    </>
+     </>
   );
 };
 export default VideoPlayer;
