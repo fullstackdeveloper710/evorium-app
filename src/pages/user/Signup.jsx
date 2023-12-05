@@ -81,7 +81,6 @@ const Signup = () => {
           state: {
             id: payload.user_id,
             otp: payload.otp,
-            address:payload.address,
           },
         });
       }

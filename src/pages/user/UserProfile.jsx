@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import { Button } from "../../components/user";
 import {
@@ -35,6 +35,21 @@ const UserProfile = () => {
   //Custom hooks
   const { show, handleClose, handleShow } = useModal();
   const { updateCroppedImg, cancelCrop } = useCropper();
+  const cropperRef = useRef(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+
+  const handleCrop = () => {
+    if (cropperRef.current) {
+      // Get the cropped image data
+      const croppedDataUrl = cropperRef.current.getCroppedCanvas().toDataURL();
+
+      // Update the state with the cropped image data
+      setCroppedImage(croppedDataUrl);
+
+      // Call the parent component's function to handle the cropped image
+      updateCroppedImg(croppedDataUrl);
+    }
+  };
 
   // country selebox options
   const CountryOptions = [
@@ -59,8 +74,8 @@ const UserProfile = () => {
     phone: userDetails?.phone ?? "",
     // password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
-    profile_pic: null,
-    file: null,
+    profile_pic:  userDetails?.profile_pic ?? "",
+    file: userDetails?.file ?? "",
     address:userDetails?.address ?? "",
   };
 
@@ -115,16 +130,30 @@ const UserProfile = () => {
     dispatch(userEditProfile(data));
   };
 
+  // const handleImageChange = (e, setFieldValue) => {
+  //   const file = e.target.files[0];
+  //   console.log(file, "file");
+  //   if (file) {
+  //     handleShow();
+  //   }
+  //   setFieldValue("file", file);
+  //   // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
+  // };
   const handleImageChange = (e, setFieldValue) => {
     const file = e.target.files[0];
-    console.log(file, "file");
+  
     if (file) {
-      handleShow();
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        // Update the Formik values with the selected image
+        setFieldValue("profile_pic", reader.result);
+      };
+  
+      reader.readAsDataURL(file);
     }
-    setFieldValue("file", file);
-    // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
   };
-
+  
   return (
     <>
       <section className="auth">
@@ -148,51 +177,55 @@ const UserProfile = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md={12}>
-                    <div className="inputRow">
-                      <div className="editProfileUser">
-                        <input
-                          id="editUser"
-                          type="file"
-                          accept="image/*"
-                          value={values.profile_pic}
-                          onChange={(e) => handleImageChange(e, setFieldValue)}
-                        />
-                        <label for="editUser">
-                          <div className="editUser__figure">
-                            {values.profile_pic ? (
-                              <Image
-                                style={{
-                                  width: "100%",
-                                  height: "100%",
-                                  borderRadius: "100%",
-                                }}
-                                src={values.profile_pic}
-                                alt="user_pro"
-                              />
-                            ) : (
-                              <UserIcon role="img" />
-                            )}
-                          </div>
-                          <div className="editUser__icon">
-                            <CameraIcon onClick={handleShow} />
-                          </div>
-                        </label>
-                      </div>
-                    </div>
-                    <CustomModal
-                      show={show}
-                      handleClose={handleClose}
-                      modalHead="Image cropper"
-                    >
-                      <ImageCropper
-                        updateCroppedImg={updateCroppedImg}
-                        image={"image"}
-                        file={values.file}
-                        cancelCrop={cancelCrop}
-                      />
-                    </CustomModal>
-                  </Col>
+                <Col md={12}>
+  <div className="inputRow">
+    <div className="editProfileUser">
+      {/* Input for selecting an image */}
+      <input
+        id="editUser"
+        type="file"
+        accept="image/*"
+        onChange={(e) => handleImageChange(e, setFieldValue)}
+      />
+
+      <label htmlFor="editUser">
+        <div className="editUser__figure">
+          {/* Display the selected image or default UserIcon */}
+          {values.profile_pic ? (
+            <Image
+              style={{
+                width: "100%",
+                height: "100%",
+                borderRadius: "100%",
+              }}
+              src={values.profile_pic}
+              alt="user_pro"
+            />
+          ) : (
+            <UserIcon role="img" />
+          )}
+        </div>
+        <div className="editUser__icon">
+          <CameraIcon onClick={handleShow} />
+        </div>
+      </label>
+    </div>
+  </div>
+  <CustomModal
+    show={show}
+    handleClose={handleClose}
+    modalHead="Image cropper"
+  >
+    {/* Pass the selected image to ImageCropper */}
+    <ImageCropper
+      updateCroppedImg={updateCroppedImg}
+      image={values.profile_pic}
+      file={values.file}
+      cancelCrop={cancelCrop}
+    />
+  </CustomModal>
+</Col>
+
 
                   <Col md={12}>
                     <div className="inputRow">
@@ -260,7 +293,7 @@ const UserProfile = () => {
                     </div>
                   </Col> */}
 
-{/* <Col md={12}>
+<Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
@@ -293,17 +326,17 @@ const UserProfile = () => {
         <DownArrow />
       </span>
 
-      Error message for country code
+      {/* Error message for country code */}
       <span style={{ color: "red" }}>
         {errors.address && touched.address && errors.address}
       </span>
     </div>
   </div>
-</Col> */}
+</Col>
 
 
 
-                  <Col md={12}>
+                  {/* <Col md={12}>
                     <Input
                       className="inputRow"
                       type="text"
@@ -318,7 +351,7 @@ const UserProfile = () => {
                         errors.address
                       }
                     />
-                  </Col>
+                  </Col> */}
                   <Col md="12">
                     <Button
                       type="submit"
