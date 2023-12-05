@@ -319,7 +319,18 @@ const VideoPlayer = () => {
                       <span className="videoViews">{views} views</span>
                     </div>
                     <div className="midbuttons__right">
-                      <button className="mid--btn" onClick={() => dispatch(userDownloadProgram({userAuthtoken,videoId: videoId}))}>
+                      <button className="mid--btn" onClick={
+                        
+                        
+                        () => dispatch(userDownloadProgram({userAuthtoken,videoId: videoId})
+
+                        // dispatch(addAdminFaq(data)).then(({ payload }) => {
+                        //   if (payload.status) {
+                        //     navigate(adFaqList);
+                        //   }
+                        // });
+                        
+                        ).then(({payload}) => console.log(payload.link,"payload"))}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
