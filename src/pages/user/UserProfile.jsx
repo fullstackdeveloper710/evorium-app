@@ -24,6 +24,8 @@ const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const [imageFile,setImageFile] = useState(null)
+
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
 
@@ -72,11 +74,17 @@ const UserProfile = () => {
     full_name: userDetails?.full_name ?? "",
     email: userDetails?.email ?? "",
     phone: userDetails?.phone ?? "",
-    // password: userDetails?.password ?? "",
+    //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
-    profile_pic:  userDetails?.profile_pic ?? "",
-    file: userDetails?.file ?? "",
+
+
     address:userDetails?.address ?? "",
+
+    profile_pic_ : userDetails?.profile_pic,
+    profile_pic: null,
+
+
+
   };
 
   //Formin validation schema
@@ -110,7 +118,7 @@ const UserProfile = () => {
         // email: userDetails?.email,
       },
     };
-    console.log("my account ", data);
+
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
@@ -122,10 +130,10 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
       values: {
-        ...values,
+        profile_pic : imageFile
       },
     };
-    console.log("first", values);
+    
 
     dispatch(userEditProfile(data));
   };
@@ -152,6 +160,15 @@ const UserProfile = () => {
   
       reader.readAsDataURL(file);
     }
+
+    // console.log(file)
+
+    setImageFile(file)
+    setFieldValue("profile_pic", file);
+    // setFieldValue("profile_pic_", URL.createObjectURL(file));
+    // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
+     
+
   };
   
   return (
@@ -177,54 +194,57 @@ const UserProfile = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
-                <Col md={12}>
-  <div className="inputRow">
-    <div className="editProfileUser">
-      {/* Input for selecting an image */}
-      <input
-        id="editUser"
-        type="file"
-        accept="image/*"
-        onChange={(e) => handleImageChange(e, setFieldValue)}
-      />
 
-      <label htmlFor="editUser">
-        <div className="editUser__figure">
-          {/* Display the selected image or default UserIcon */}
-          {values.profile_pic ? (
-            <Image
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "100%",
-              }}
-              src={values.profile_pic}
-              alt="user_pro"
-            />
-          ) : (
-            <UserIcon role="img" />
-          )}
-        </div>
-        <div className="editUser__icon">
-          <CameraIcon onClick={handleShow} />
-        </div>
-      </label>
-    </div>
-  </div>
-  <CustomModal
-    show={show}
-    handleClose={handleClose}
-    modalHead="Image cropper"
-  >
-    {/* Pass the selected image to ImageCropper */}
-    <ImageCropper
-      updateCroppedImg={updateCroppedImg}
-      image={values.profile_pic}
-      file={values.file}
-      cancelCrop={cancelCrop}
-    />
-  </CustomModal>
-</Col>
+ 
+
+
+                  <Col md={12}>
+                    <div className="inputRow">
+                      <div className="editProfileUser">
+                        <input
+                          id="editUser"
+                          type="file"
+                          accept="image/*"
+                         
+                          onChange={(e) => handleImageChange(e, setFieldValue)}
+                        />
+                        <label for="editUser">
+                          <div className="editUser__figure">
+                            {values.profile_pic_ ? (
+                              <Image
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  borderRadius: "100%",
+                                }}
+                                src={values.profile_pic_}
+                                alt="user_pro"
+                              />
+                            ) : (
+
+                              <UserIcon role="img" />
+
+                            )}
+                          </div>
+                          <div className="editUser__icon">
+                            <CameraIcon onClick={handleShow} />
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                    {/* <CustomModal
+                      show={show}
+                      handleClose={handleClose}
+                      modalHead="Image cropper"
+                    >
+                      <ImageCropper
+                        updateCroppedImg={updateCroppedImg}
+                        image={"image"}
+                        file={values.file}
+                        cancelCrop={cancelCrop}
+                      />
+                    </CustomModal> */}
+                  </Col>
 
 
                   <Col md={12}>

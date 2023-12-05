@@ -145,3 +145,54 @@
   }
 }
 }
+
+.checkbox_list{
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding-bottom: 5px;
+  label{
+    font-size: 13px;
+  }
+  input{
+    appearance: none;
+    padding: 5px;
+    border: 1px solid #2E2753;
+    border-radius: 50%;
+    &:checked{
+      background-color: #2E2753;
+      cursor: pointer
+    }
+  }
+}
+.dropdown-item.active, .dropdown-item:active{
+  background-color: #ae00ff;
+}
+@media (max-width:500px) {
+  .filter_ul {
+    .list_item{
+      position: relative;
+      .filter_ul .list_item .dropdown-item::after {
+        right: 15px;
+        top: 17px;
+        border-top: 3px solid transparent;
+        border-left: 7px solid #ccc;
+        border-bottom: 3px solid transparent;
+        transform: rotate(90deg);
+    }
+    .drop_item {
+      right: 0px;
+      padding: 15px;
+      width: 130px;
+      top:30px;
+      z-index: 1;
+  }
+}
+}
+.checkbox_list{
+  gap: 5px;
+  label{
+    font-size: 13px;
+  }
+}
+}

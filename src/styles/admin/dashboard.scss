@@ -165,6 +165,9 @@
                 display: inline-block;
                 margin-left: auto;
             }
+            ul.notification_list:empty{
+                border-top: 1px solid #ccc;
+            }
         }
 }
 
@@ -178,4 +181,14 @@
 
 .videoWrapper,.popular-section1{
 background-color: #1f043b;
+}
+.no_notification{
+    display: flex;
+    justify-content: center;
+    padding: 50px 0px;
+    span{
+        font-size: 25px;
+        font-weight: 500;
+        font-style: italic;
+    }
 }

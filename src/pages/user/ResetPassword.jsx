@@ -24,11 +24,11 @@ const ResetPassword = () => {
   function submit() {
     // localStorage.setItem('login',true)
 
-    setShow(true);
+    // setShow(true);
   }
   function showClose() {
     setShow(false);
-    window.open("/create_new_password", "_self");
+    // window.open("/create_new_password", "_self");
   }
 
   const { usrCreatePassword, usrLogin } = ROUTES;
@@ -38,9 +38,9 @@ const ResetPassword = () => {
       ...values,
     };
     dispatch(forgotPassword(data)).then(({ payload }) => {
-      if (payload.status) {
-        navigate(usrCreatePassword);
-      }
+      // if (payload.status) {
+      //   navigate(usrCreatePassword);
+      // }
     });
     setShow(true);
   };
@@ -101,7 +101,7 @@ const ResetPassword = () => {
                       type="submit"
                       title={"Save Changes"}
                       className="submitBtn"
-                      // submit={submit}
+                       submit={onSubmitHandler}
                     />
                     {/* <Button title={"Send"} className="submitBtn" submit={submit} /> */}
                   </Col>

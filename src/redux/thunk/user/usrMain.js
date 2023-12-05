@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
-import { userApi } from "../../../services/apiEndpoints";
+import { commonApi, userApi } from "../../../services/apiEndpoints";
 import {
   hideLoader,
   hideRootLoader,
@@ -52,13 +52,15 @@ export const userSignUp = createAsyncThunk(
 const {
   usrLogin,
   usrResetPass,
-  forgetPass,
+  
   usrVerify,
   usrGoogleLogin,
   usrFacebookLogin,
   usrMyAccount,
   usrRefreshToken,
+  userDownloadVideo
 } = userApi;
+const { forgetPass} = commonApi;
 
 export const userLogin = createAsyncThunk(
   "user/userLogin",
@@ -202,8 +204,10 @@ export const userRefreshToken = createAsyncThunk(
   "user/userRefreshToken",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
+     console.log("api hit", data);
     const { values, userAuthtoken } = data;
-    console.log("api hit");
+    console.log(values,'values')
+   
     try {
       const config = {
         method: "post",
@@ -220,3 +224,34 @@ export const userRefreshToken = createAsyncThunk(
     }
   }
 );
+
+// {{production_url}}/user/generate_Video_link/65434096e3196d71bf121418
+
+export const userDownloadProgram = createAsyncThunk(
+  "user/userDownloadProgram",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+   
+    const { videoId, userAuthtoken } = data;
+   
+    // console.log(data,'valuesss')
+   
+    try {
+      const config = {
+        method: "post",
+        url: `${userDownloadVideo}${videoId}`,
+        data: data
+      };
+      dispatch(showRootLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideRootLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideRootLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+
+

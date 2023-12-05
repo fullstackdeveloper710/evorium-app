@@ -8,7 +8,7 @@ const NotFound = () => {
   return (
     <div className="not_found_section">
       <div className="not_found_container">
-        <h1>NotFound</h1>
+        <h1>Not Found</h1>
         <Button
           className="not_found_btn"
           title="Go Back"
