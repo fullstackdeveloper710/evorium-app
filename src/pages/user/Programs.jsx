@@ -370,7 +370,10 @@ function Programs() {
                                     onChange={handleCategoryFilter}
                                   />
                                   <label>{i.title}</label>
-                                </div>
+
+                                  </div>
+                                
+
                               ))}
                             </div>
                           </li>
@@ -386,7 +389,9 @@ function Programs() {
                             <div className="drop_item">
                               {speakerList?.map((i) => (
                                 <div className="checkbox_list">
+
                                   <label>{i.name}</label>
+
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -394,7 +399,12 @@ function Programs() {
                                     value={i.name}
                                     onChange={handleSpeakerFilter}
                                   />
+
+                                   <label>{i.name}</label>
+                                  </div>
+
                                 </div>
+
                               ))}
                             </div>
                           </li>

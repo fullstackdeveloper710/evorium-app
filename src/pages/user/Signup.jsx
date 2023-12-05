@@ -11,6 +11,9 @@ import { Input } from "../../components/common";
 import { ROUTES } from "../../navigation/constants";
 import SocialMedia from "../common/SocialMedia";
 import "../../styles/user/auth.scss";
+import PhoneInput from 'react-phone-number-input'
+import parsePhoneNumber from 'libphonenumber-js';
+
 
 const Signup = () => {
   const [showPass, setShowPass] = useState(false);
@@ -59,9 +62,18 @@ const Signup = () => {
   }
 
   const onSubmitHandler = (values) => {
+    const phoneNumber = parsePhoneNumber(values.phone, {
+      defaultCountry: "US",
+    }); // Change 'US' to your default country code
+    const country_code = phoneNumber
+      ? `+${phoneNumber.countryCallingCode}`
+      : "";
+
     const data = {
       ...values,
+      country_code,
     };
+
     dispatch(userSignUp(data)).then(({ payload }) => {
       if (payload) {
         setShow(true);
@@ -74,6 +86,17 @@ const Signup = () => {
       }
     });
   };
+
+  // const handlePhoneChange = (value) => {
+  //   // setPhoneNumber(value);
+
+  //   try {
+  //     const phoneNumberObject = parsePhoneNumber(value);
+  //     console.log('Country Code:', phoneNumberObject.countryCallingCode);
+  //   } catch (error) {
+  //     console.error('Invalid phone number:', error.message);
+  //   }
+  // };
 
   return (
     <>
@@ -92,7 +115,7 @@ const Signup = () => {
 
           <Formik
             initialValues={initValues}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -164,33 +187,44 @@ const Signup = () => {
                     </div>
                   </Col>
 
+              
+
+ 
+   
+
                   <Col md={12}>
-                    <Input
-                      className="inputRow"
-                      type="text"
-                      placeholder="Country Code"
-                      name="country_code"
-                      value={values.country_code}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      error={
-                        errors.country_code &&
-                        touched.country_code &&
-                        errors.country_code
-                      }
-                    />
-                  </Col>
-                  <Col md={12}>
-                    <Input
-                      className="inputRow"
-                      type="text"
-                      placeholder="Phone Number"
-                      name="phone"
-                      value={values.phone}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      error={errors.phone && touched.phone && errors.phone}
-                    />
+                    <div className="inputRow">
+                      <PhoneInput
+                        placeholder="Phone Number"
+                        value={values.phone}
+                        country={values.country_code}
+                        onChange={(value, country) => {
+                          handleChange({ target: { name: "phone", value } });
+
+                          // Check if country is available before accessing its properties
+                          if (country && country.countryCallingCode) {
+                            const updatedCountryCode = `+${country.countryCallingCode}`;
+                            handleChange({
+                              target: {
+                                name: "country_code",
+                                value: updatedCountryCode,
+                              },
+                            });
+                          } else {
+                            handleChange({
+                              target: {
+                                name: "country_code",
+                                value: values.country_code,
+                              },
+                            });
+                          }
+                        }}
+                      />
+
+                      <span style={{ color: "red" }}>
+                        {errors.phone && touched.phone && errors.phone}
+                      </span>
+                    </div>
                   </Col>
 
                   <Col md="12">
