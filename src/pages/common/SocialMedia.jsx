@@ -16,8 +16,10 @@ import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 // import GoogleLogin from "@leecheuk/react-google-login";
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
 import { decodeJwt } from "jose";
+import axios from "axios";
+
 
 const REDIRECT_URI = "http://localhost:3000";
 
@@ -29,6 +31,19 @@ const SocialMedia = () => {
   const location = useLocation();
 
   const { state } = location;
+
+  const google_login = useGoogleLogin({
+    onSuccess: async (tokenResponse) => {
+      const userInfo = await axios
+      .get('https://www.googleapis.com/oauth2/v3/userinfo', {
+        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+      })
+      .then(res => res.data);
+  
+    console.log(userInfo);
+      console.log(tokenResponse)},
+
+  });
 
   const onLoginStart = useCallback((profile) => {
     const val = "";
@@ -104,64 +119,9 @@ const SocialMedia = () => {
               </li>
 
               <li>
-                {" "}
-                <GoogleOAuthProvider clientId="821353603223-d3vutqm04fu88jl0jmju9ts19a5kp290.apps.googleusercontent.com">
-                  <GoogleLogin
-                    // clientId="821353603223-d3vutqm04fu88jl0jmju9ts19a5kp290.apps.googleusercontent.com"
-                    onSuccess={(credentialResponse, data) => {
-                      const { credential } = credentialResponse;
-                      const payload = credential
-                        ? decodeJwt(credential)
-                        : undefined;
-                      if (payload) {
-                        console.log(payload, "payload-----------------");
-                      }
-                      console.log(
-                        credentialResponse,
-                        data,
-                        "credentialResponse"
-                      );
-                      setIDToken(credentialResponse);
-
-                      onSubmitHandler(credentialResponse, data);
-                    }}
-                    cookiePolicy={"single_host_origin"}
-                    onError={() => {
-                      console.log("Login Failed");
-                    }}
-                    // redirect_uri={REDIRECT_URI}
-                  />
-                </GoogleOAuthProvider>
-                {/* <GoogleOAuthProvider
-                            
-
-                  clientId="821353603223-d3vutqm04fu88jl0jmju9ts19a5kp290.apps.googleusercontent.com">  */}
-                {/* <GoogleLogin
-                  // ref={googleRef}
-                  clientId={"821353603223-ue9aberp764eb2tjsd8ikau2bm4hsldg.apps.googleusercontent.com"}
-                  onLogoutFailure={onLogoutFailure}
-                  
-                  onLoginStart={onLoginStart}
-                  onLogoutSuccess={onLogoutSuccess}
-                  onResolve={({ provider, data, idToken }) => {
-                    console.log(idToken,"data dda")
-                    setProvider(provider);
-                    setProfile(data);
-                    console.log(data, "data here from google");
-                    console.log(provider, "provider");
-                    onSubmitHandler(data);
-                  }}
-                  onReject={(err) => {
-                    console.log("hbhbdhd", err);
-                  }}
-                  redirect_uri={REDIRECT_URI}
-                >
-                  <GoogleLoginButton
-                  text=""
-                  />
-                 
-                </GoogleLogin>  */}
-                {/* </GoogleOAuthProvider> */}
+              <button onClick={() => {
+                    google_login()
+                  }}> Google Login</button>      
               </li>
             </ul>
           </div>

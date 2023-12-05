@@ -127,11 +127,13 @@ const UserProfile = () => {
   };
 
   const onSubmitHandler = (values) => {
+    console.log(values,'values')
     const data = {
       userAuthtoken,
-      values: {
-        profile_pic : imageFile
-      },
+      values : values
+      // values: {
+      //   profile_pic : imageFile
+      // },
     };
     
 
