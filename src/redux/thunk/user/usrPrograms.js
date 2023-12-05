@@ -9,6 +9,8 @@ const {
   usrViewCount,
   usrRecentProgram,
   usrMyPrograms,
+  usrDownloadProgram,
+  usrProgramStatus
 } = userApi;
 
 //get filtered programs results
@@ -178,3 +180,46 @@ export const userRecentProgram = createAsyncThunk(
     }
   }
 );
+
+export const downloadProgram = createAsyncThunk(
+  "user/donwloadProgram",
+  async (data, thunkAPI) => {
+    const{dispatch } = thunkAPI;
+    const {userAuthtoken, program_id} = data;
+    try {
+      const config = {
+        method: "get",
+        url: `${usrDownloadProgram}/${program_id}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+)
+
+export const programPaidStatus = createAsyncThunk(
+  "user/programPaidStatus",
+  async (data, thunkAPI) => {
+    const{dispatch } = thunkAPI;
+    const {userAuthtoken, program_id} = data;
+    try {
+      const config = {
+        method: "post",
+        url: `${usrProgramStatus}`,
+        data : {program_id: program_id} 
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+)

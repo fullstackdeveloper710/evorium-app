@@ -10,6 +10,8 @@ import { userRefreshToken } from "../../redux/thunk/user/usrMain";
 function UsrPvtLayout() {
   const { userAuthtoken ,  userData } = useSelector((state) => state.userAuth);
 
+  console.log(userData,'userdata')
+
   const dispatch = useDispatch();
 
   const { usrLogin } = ROUTES;

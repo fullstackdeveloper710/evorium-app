@@ -69,7 +69,9 @@ const userAuth = createSlice({
         state.error = null;
       })
       .addCase(userLogin.fulfilled, (state, action) => {
+     
         const { payload } = action;
+        console.log(payload,'   console.log(payload)')
         // state.loading = false;
         state.userAuthtoken = payload.access_token;
         state.userData = { ...payload };
