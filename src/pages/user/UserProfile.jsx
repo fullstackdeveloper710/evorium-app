@@ -14,6 +14,9 @@ import {
   userEditProfile,
 } from "../../redux/thunk/user/usrProfile";
 import { FlagIcon } from 'react-flag-kit';
+import Select from 'react-select';
+import CountryFlag from 'react-country-flag';
+import countryList from 'react-select-country-list';
 
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
@@ -37,6 +40,7 @@ const UserProfile = () => {
   const { updateCroppedImg, cancelCrop } = useCropper();
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
+  const countries = countryList().getData();
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -292,47 +296,84 @@ const UserProfile = () => {
                       </span>
                     </div>
                   </Col> */}
-
+{/* 
 <Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
-      <select
-        style={{
-          color: values.isFocused ? 'black' : 'black',
-          backgroundColor: values.isFocused ? 'white' : 'white',
-          // Add any other styles you need
+      <Select
+        id="countrySelect" // You can remove this if not needed
+        styles={{
+          control: (styles) => ({
+            ...styles,
+            color: values.isFocused ? 'black' : 'black',
+            backgroundColor: values.isFocused ? 'white' : 'white',
+          }),
         }}
         name="address"
         onBlur={handleBlur}
-        value={values.address}  // Set the selected value
-        onChange={(e) => {
-          handleCountryChange(e.target.value);
-          handleChange("address")(e.target.value);
+        value={CountryOptions.find((option) => option.value === values.address)}
+        options={CountryOptions}
+        onChange={(selectedOption) => {
+          handleCountryChange(selectedOption.value);
+          handleChange("address")(selectedOption.value);
         }}
-      >
-        <option value="" disabled>
-          Select a country
-        </option>
-        {CountryOptions.map((country) => (
-          <option key={country.value} value={country.value}>
-            <FlagIcon countryCode={country.value} />
-            {country.label}
-          </option>
-        ))}
-      </select>
+        components={{
+          Option: ({ innerProps, label, data }) => (
+            <div {...innerProps}>
+              <CountryFlag
+                countryCode={data.value}
+                style={{ marginRight: '8px' }}
+                svg
+              />
+              {label}
+            </div>
+          ),
+        }}
+      />
 
-      Down arrow icon
-      <span className="inputRow__iconGroup">
-        <DownArrow />
-      </span>
-
-      {/* Error message for country code */}
       <span style={{ color: "red" }}>
         {errors.address && touched.address && errors.address}
       </span>
     </div>
   </div>
-</Col>
+</Col> */}
+
+<Col md={12}>
+      <div className="inputRow">
+        <div className="inputRow__icon">
+          {/* Country Select Dropdown */}
+          <Select
+            id="countrySelect"
+            name="address"
+            onBlur={handleBlur}
+            value={countries.find((option) => option.value === values.address)}
+            options={countries}
+            onChange={(selectedOption) => {
+              // handleCountryChange and handleChange should be updating the state appropriately
+              handleCountryChange(selectedOption.value);
+              handleChange('address')(selectedOption.value);
+
+              // Log the selected country code to check if it's correct
+              const countryCode = selectedOption.value;
+              console.log('Selected Country Code:', countryCode);
+            }}
+            components={{
+              Option: ({ innerProps, label, data }) => (
+                <div {...innerProps}>
+                  <CountryFlag countryCode={data.value} style={{ marginRight: '8px' }} svg />
+                  {label}
+                </div>
+              ),
+            }}
+          />
+
+          {/* Error message for country code */}
+          <span style={{ color: 'red' }}>
+            {errors.address && touched.address && errors.address}
+          </span>
+        </div>
+      </div>
+    </Col>
 
 
 
