@@ -319,11 +319,10 @@ const UserProfile = () => {
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
-        style={{
-          color: values.isFocused ? 'black' : 'black',
-          backgroundColor: values.isFocused ? 'white' : 'white',
-          // Add any other styles you need
-        }}
+        // style={{
+        //   color: values.isFocused ? 'black' : 'black',
+        //   backgroundColor: values.isFocused ? 'white' : 'white',
+        // }}
         name="address"
         onBlur={handleBlur}
         value={values.address}  // Set the selected value
@@ -343,7 +342,6 @@ const UserProfile = () => {
         ))}
       </select>
 
-      Down arrow icon
       <span className="inputRow__iconGroup">
         <DownArrow />
       </span>
