@@ -6,6 +6,8 @@ import {
   userViewCount,
   getRecommendedPrograms,
   getFilteredPrograms,
+  downloadProgram,
+  programPaidStatus,
 } from "../../thunk/user/usrPrograms";
 
 const initialState = {
@@ -49,7 +51,43 @@ const userProgramsSlice = createSlice({
   initialState: initialState,
   reducers: {},
   extraReducers: (builder) => {
-    
+    //purchased status of video
+
+
+    builder
+      .addCase(programPaidStatus.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(programPaidStatus.fulfilled, (state, action) => {
+        const { payload } = action;
+
+        console.log(payload);
+
+        state.status = true;
+      })
+      .addCase(programPaidStatus.rejected, (state, action) => {
+        state.status = false;
+      });
+
+    //get download program
+
+    builder
+      .addCase(downloadProgram.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(downloadProgram.fulfilled, (state, action) => {
+        const { payload } = action;
+
+        console.log(payload);
+
+        state.status = true;
+      })
+      .addCase(downloadProgram.rejected, (state, action) => {
+        state.status = false;
+      });
+
     //get filtered programs
     builder
       .addCase(getFilteredPrograms.pending, (state) => {

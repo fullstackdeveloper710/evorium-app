@@ -22,6 +22,17 @@ const userProfileSlice = createSlice({
   extraReducers: (builder) => {
     // EDIT PROFILE REDUCER----------------------------
     builder.addCase(userEditProfile.fulfilled, (state, action) => {
+      console.log(action,'action')
+      const {payload} = action;
+      
+      
+      state.userData = {
+        ...state.userData,
+        verified: payload.verified,
+      };
+      state.status = "success";
+
+
       // state.userDetails = action.payload;
       state.status = "success";
     });

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Row, Col, Image } from "react-bootstrap";
 import { Button } from "../../components/user";
 import {
@@ -37,6 +37,21 @@ const UserProfile = () => {
   //Custom hooks
   const { show, handleClose, handleShow } = useModal();
   const { updateCroppedImg, cancelCrop } = useCropper();
+  const cropperRef = useRef(null);
+  const [croppedImage, setCroppedImage] = useState(null);
+
+  const handleCrop = () => {
+    if (cropperRef.current) {
+      // Get the cropped image data
+      const croppedDataUrl = cropperRef.current.getCroppedCanvas().toDataURL();
+
+      // Update the state with the cropped image data
+      setCroppedImage(croppedDataUrl);
+
+      // Call the parent component's function to handle the cropped image
+      updateCroppedImg(croppedDataUrl);
+    }
+  };
 
   // country selebox options
   const CountryOptions = [
@@ -61,8 +76,13 @@ const UserProfile = () => {
     phone: userDetails?.phone ?? "",
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
+
+
+    address:userDetails?.address ?? "",
+
     profile_pic_ : userDetails?.profile_pic,
     profile_pic: null,
+
 
 
   };
@@ -107,23 +127,42 @@ const UserProfile = () => {
   };
 
   const onSubmitHandler = (values) => {
+    console.log(values,'values')
     const data = {
       userAuthtoken,
-      values: {
-        profile_pic : imageFile
-      },
+      values : values
+      // values: {
+      //   profile_pic : imageFile
+      // },
     };
     
 
     dispatch(userEditProfile(data));
   };
 
+  // const handleImageChange = (e, setFieldValue) => {
+  //   const file = e.target.files[0];
+  //   console.log(file, "file");
+  //   if (file) {
+  //     handleShow();
+  //   }
+  //   setFieldValue("file", file);
+  //   // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
+  // };
   const handleImageChange = (e, setFieldValue) => {
     const file = e.target.files[0];
-    console.log(file, "file");
+  
     if (file) {
-      handleShow();
+      const reader = new FileReader();
+  
+      reader.onloadend = () => {
+        // Update the Formik values with the selected image
+        setFieldValue("profile_pic", reader.result);
+      };
+  
+      reader.readAsDataURL(file);
     }
+
     // console.log(file)
 
     setImageFile(file)
@@ -131,8 +170,9 @@ const UserProfile = () => {
     // setFieldValue("profile_pic_", URL.createObjectURL(file));
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
      
-  };
 
+  };
+  
   return (
     <>
       <section className="auth">
@@ -156,6 +196,10 @@ const UserProfile = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
+
+ 
+
+
                   <Col md={12}>
                     <div className="inputRow">
                       <div className="editProfileUser">
@@ -203,6 +247,7 @@ const UserProfile = () => {
                       />
                     </CustomModal> */}
                   </Col>
+
 
                   <Col md={12}>
                     <div className="inputRow">
@@ -270,7 +315,7 @@ const UserProfile = () => {
                     </div>
                   </Col> */}
 
-{/* <Col md={12}>
+<Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
@@ -303,17 +348,17 @@ const UserProfile = () => {
         <DownArrow />
       </span>
 
-      Error message for country code
+      {/* Error message for country code */}
       <span style={{ color: "red" }}>
         {errors.address && touched.address && errors.address}
       </span>
     </div>
   </div>
-</Col> */}
+</Col>
 
 
 
-                  <Col md={12}>
+                  {/* <Col md={12}>
                     <Input
                       className="inputRow"
                       type="text"
@@ -328,7 +373,7 @@ const UserProfile = () => {
                         errors.address
                       }
                     />
-                  </Col>
+                  </Col> */}
                   <Col md="12">
                     <Button
                       type="submit"

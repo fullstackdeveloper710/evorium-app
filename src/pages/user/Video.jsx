@@ -9,8 +9,10 @@ import { useLocation } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import {
+  downloadProgram,
   getRecommendedPrograms,
   getUserProgramList,
+  programPaidStatus,
   userViewCount,
 } from "../../redux/thunk/user/usrPrograms";
 import {
@@ -71,6 +73,7 @@ import { loadStripe } from "@stripe/stripe-js";
 import { FieldArray } from "formik";
 import { userDownloadProgram } from "../../redux/thunk/user/usrMain";
 
+
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
 );
@@ -80,6 +83,8 @@ const VideoPlayer = () => {
   const [IsExpanded, setIsExpanded] = useState(false);
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [startTime, setStartTime] = useState(0);
+  const [downloadUrl, setDownloadUrl] = useState(null);
+  const [paymentStatus, setPaymentStatus] = useState(false)
 
   //Redux state
   const {
@@ -108,6 +113,8 @@ const VideoPlayer = () => {
     category,
   } = data2send.values;
 
+  
+
   const { userRecommendedPrograms } = useSelector(
     (state) => state.userPrograms
   );
@@ -123,8 +130,24 @@ const VideoPlayer = () => {
   let shareUrl = window.location;
 
 
+  function getDownloadLink() {
+    dispatch(
+      userDownloadProgram({
+        userAuthtoken,
+        videoId: videoId,
+      })
+    ).then(({ payload }) => {
+      setDownloadUrl(payload.link);
+    });
+  }
+
+
   useEffect(() => {
-    dispatch(getRecommendedPrograms());
+    dispatch(getRecommendedPrograms(data));
+    getDownloadLink();
+    dispatch(programPaidStatus({program_id: videoId, userAuthtoken})).then(({payload}) => {
+      setPaymentStatus(payload.program_payment_status)
+    })
   }, []);
 
   //Ref
@@ -244,6 +267,51 @@ const VideoPlayer = () => {
     console.log("Current played seconds:", progress.playedSeconds);
   };
 
+  async function handleDownload() {
+    try {
+      const response = await fetch(
+        `https://api.evorium.xyz/user/download_video_link/${videoId}`,
+        {
+          method: "GET",
+          headers: {
+            // Include any necessary headers, such as authorization headers or others
+            Authorization: `Bearer ${userAuthtoken}`,
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      // Get the filename from the Content-Disposition header, if needed
+      const contentDisposition = response.headers.get("Content-Disposition");
+      const filename = contentDisposition
+        ? contentDisposition.split("filename=")[1]
+        : "downloaded-file.mp4";
+
+      // Create a Blob from the response data
+      const blob = await response.blob();
+
+      // Create a temporary URL for the Blob
+      const url = window.URL.createObjectURL(blob);
+
+      // Create a link element to trigger the download
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = filename;
+
+      // Append the link to the document and trigger the download
+      document.body.appendChild(link);
+      link.click();
+
+      // Remove the link element from the document
+      document.body.removeChild(link);
+    } catch (error) {
+      console.error("Error during file download:", error);
+    }
+  }
+
   return (
      <>
       <CustomModal
@@ -277,7 +345,7 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                {course_type === "Paid" ? (
+                {paymentStatus === false ? (
                   <>
                     <Image src={lockscreen} className="lock-screen" />
                     <Image src={thumbnail_url} className="videoImg img-fluid" />
@@ -321,7 +389,10 @@ const VideoPlayer = () => {
                       <span className="videoViews">{views} views</span>
                     </div>
                     <div className="midbuttons__right">
-                      <button className="mid--btn" onClick={() => dispatch(userDownloadProgram({userAuthtoken,videoId: videoId}))}>
+                      <button
+                        onClick={() => handleDownload()}
+                        className="mid--btn"
+                      >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="20"
@@ -471,11 +542,16 @@ const VideoPlayer = () => {
                     </div>
                   </div>
                   <div>
-                    {course_type === "Paid" && (
+                    {console.log(price,'checking payment status', paymentStatus === false)}
+                    {paymentStatus === false ? (
                       <button className="buyBtn" onClick={handleShow}>
                         Buy For ${parseInt(price) / 100}
                       </button>
-                    )}
+                    ) :  
+                    
+                    <button className="buyBtn" onClick={handleShow}>
+                    Purchased
+                  </button> }
                   </div>
                 </div>
               </div>
