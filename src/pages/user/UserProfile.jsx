@@ -93,15 +93,15 @@ const UserProfile = () => {
 
   //Formin validation schema
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .matches(nameRefExp, "Name can only contain Latin letters.")
+    full_name: Yup.string()
+      .matches(nameRefExp, "*Name can only contain Latin letters.")
       .max(50)
-      .required("required field"),
-    email: Yup.string().email().required("required field"),
+      .required("*Enter Your Full Name"),
+    email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
-      .matches(phoneRegExp, "Enter a valid Phone Number")
+      .matches(phoneRegExp, "*Enter a valid Phone Number")
       .max(12)
-      .required("Enter a valid Phone Number"),
+      .required("*Enter a valid Phone Number"),
 
     password: Yup.string()
       .required("required field")
@@ -109,7 +109,7 @@ const UserProfile = () => {
         passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
-    country: Yup.string().required("must select country"),
+    address: Yup.string().required("must select country"),
   });
 
   //Methods
@@ -134,7 +134,9 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
       values: {
-        profile_pic : imageFile
+        profile_pic : imageFile,
+        full_name: userDetails?.full_name,
+
       },
     };
     
@@ -183,7 +185,7 @@ const UserProfile = () => {
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -236,18 +238,18 @@ const UserProfile = () => {
                         </label>
                       </div>
                     </div>
-                    {/* <CustomModal
+                    <CustomModal
                       show={show}
                       handleClose={handleClose}
                       modalHead="Image cropper"
                     >
                       <ImageCropper
                         updateCroppedImg={updateCroppedImg}
-                        image={"image"}
+                        image={values.profile_pic}
                         file={values.file}
                         cancelCrop={cancelCrop}
                       />
-                    </CustomModal> */}
+                    </CustomModal>
                   </Col>
 
 
@@ -262,13 +264,10 @@ const UserProfile = () => {
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
-                        {" "}
-                        {errors.full_name &&
-                          touched.full_name &&
-                          errors.full_name}
+                        {errors.full_name && touched.full_name && errors.full_name}
                       </span>
                     </div>
-                  </Col>/
+                  </Col>
 
 
  
