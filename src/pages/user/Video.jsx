@@ -160,6 +160,9 @@ const VideoPlayer = () => {
     handleShareShow,
   } = useModal();
 
+
+  
+
   //Methods
   const toggleExpand = () => {
     setIsExpanded(!IsExpanded);
