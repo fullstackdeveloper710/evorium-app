@@ -99,13 +99,13 @@ const UserProfile = () => {
       .max(12)
       .required("*Enter a valid Phone Number"),
 
-    password: Yup.string()
-      .required("required field")
-      .matches(
-        passwordRefExp,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
-    address: Yup.string().required("must select country"),
+    // password: Yup.string()
+    //   .required("required field")
+    //   .matches(
+    //     passwordRefExp,
+    //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    //   ),
+    // address: Yup.string().required("must select country"),
   });
 
   //Methods
