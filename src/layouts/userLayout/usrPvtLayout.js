@@ -18,8 +18,10 @@ function UsrPvtLayout() {
   const { usrLogin, usrOtp } = ROUTES;
 
   useEffect(() => {
-    if( userAuthtoken !== null && userData?.verified === false ) {
-      alert('this is private route')
+
+
+    if(userAuthtoken !== null && userData?.verified === false) {
+  
       navigate(usrOtp)
       
     }

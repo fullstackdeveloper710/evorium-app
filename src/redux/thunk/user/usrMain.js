@@ -52,6 +52,7 @@ export const userSignUp = createAsyncThunk(
 const {
   usrLogin,
   usrResetPass,
+  usrResendOtp,
   
   usrVerify,
   usrGoogleLogin,
@@ -132,6 +133,7 @@ export const userVerifyNum = createAsyncThunk(
   "user/userVerifyNum",
   async (data, thunkAPI) => {
     const { values } = data;
+    console.log(values,'valuess')
 
     try {
       const config = {
@@ -140,6 +142,32 @@ export const userVerifyNum = createAsyncThunk(
         data: values,
 
         // data: data,
+      };
+      thunkAPI.dispatch(showLoader());
+      const response = await httpsClient(config);
+      thunkAPI.dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      thunkAPI.dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+//resend otp
+
+export const userResendOtp = createAsyncThunk(
+  "user/userResendOtp",
+  async (data, thunkAPI) => {
+    const { values } = data;
+
+    console.log(values,'valuesss')
+    try {
+      const config = {
+        method: "post",
+        url: `${usrResendOtp}`,
+        data: values,
+
       };
       thunkAPI.dispatch(showLoader());
       const response = await httpsClient(config);

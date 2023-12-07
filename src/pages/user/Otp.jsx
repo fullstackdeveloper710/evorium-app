@@ -4,8 +4,8 @@ import { Button } from "../../components/user";
 import * as Yup from "yup";
 import { CheckIcon, EyeLock } from "../../assets/icons/user";
 import { Form, Formik } from "formik";
-import { userVerifyNum } from "../../redux/thunk/user/usrMain";
-import { useDispatch } from "react-redux";
+import { userResendOtp, userVerifyNum } from "../../redux/thunk/user/usrMain";
+import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate, useParams } from "react-router";
 import "../../styles/user/auth.scss";
@@ -14,6 +14,8 @@ import "../../styles/user/otp.scss";
 const Otp = () => {
   const [show, setShow] = useState(false);
   const [showPass, setShowPass] = useState(false);
+
+  const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
 
   //Router functions
   const navigate = useNavigate();
@@ -45,9 +47,10 @@ const Otp = () => {
   }
 
   const onSubmitHandler = (values) => {
+    
     const data = {
       values: {
-        user_id: state.id,
+        user_id: userData?.user_id,
         otp: +values.otp,
       },
     };
@@ -130,8 +133,12 @@ const Otp = () => {
                   <Col md="12">
                     <p className="newUserLink">
                       New user?
-                      <span onClick={() => window.open("/signup", "_self")}>
-                        Signup
+                      <span
+                        onClick={() =>
+                          dispatch(userResendOtp({values: {user_id: userData?.user_id}}))
+                        }
+                      >
+                        Resend Otp
                       </span>
                     </p>
                   </Col>
