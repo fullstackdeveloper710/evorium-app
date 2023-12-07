@@ -13,10 +13,10 @@ import {
   getMyAccount,
   userEditProfile,
 } from "../../redux/thunk/user/usrProfile";
-import { FlagIcon } from 'react-flag-kit';
-import Select from 'react-select';
-import CountryFlag from 'react-country-flag';
-import countryList from 'react-select-country-list';
+import { FlagIcon } from "react-flag-kit";
+import Select from "react-select";
+import CountryFlag from "react-country-flag";
+import countryList from "react-select-country-list";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
@@ -27,7 +27,7 @@ const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const [imageFile,setImageFile] = useState(null)
+  const [imageFile, setImageFile] = useState(null);
 
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
@@ -72,7 +72,7 @@ const UserProfile = () => {
   //   { value: "USA", label: "USA", country_code: "+1" },
   //   // ... other country options
   // ];
-  
+
   //Formik initial values
   const initValues = {
     full_name: userDetails?.full_name ?? "",
@@ -81,14 +81,10 @@ const UserProfile = () => {
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
 
+    address: userDetails?.address ?? "",
 
-    address:userDetails?.address ?? "",
-
-    profile_pic_ : userDetails?.profile_pic,
+    profile_pic_: userDetails?.profile_pic,
     profile_pic: null,
-
-
-
   };
 
   //Formin validation schema
@@ -114,7 +110,6 @@ const UserProfile = () => {
 
   //Methods
   useEffect(() => {
-    
     const data = {
       userAuthtoken,
       values: {
@@ -134,12 +129,10 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
       values: {
-        profile_pic : imageFile,
+        profile_pic: imageFile,
         full_name: userDetails?.full_name,
-
       },
     };
-    
 
     dispatch(userEditProfile(data));
   };
@@ -155,28 +148,26 @@ const UserProfile = () => {
   // };
   const handleImageChange = (e, setFieldValue) => {
     const file = e.target.files[0];
-  
+
     if (file) {
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
         // Update the Formik values with the selected image
         setFieldValue("profile_pic", reader.result);
       };
-  
+
       reader.readAsDataURL(file);
     }
 
     // console.log(file)
 
-    setImageFile(file)
+    setImageFile(file);
     setFieldValue("profile_pic", file);
     // setFieldValue("profile_pic_", URL.createObjectURL(file));
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
-     
-
   };
-  
+
   return (
     <>
       <section className="auth">
@@ -200,10 +191,6 @@ const UserProfile = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
-
- 
-
-
                   <Col md={12}>
                     <div className="inputRow">
                       <div className="editProfileUser">
@@ -211,7 +198,6 @@ const UserProfile = () => {
                           id="editUser"
                           type="file"
                           accept="image/*"
-                         
                           onChange={(e) => handleImageChange(e, setFieldValue)}
                         />
                         <label for="editUser">
@@ -227,9 +213,7 @@ const UserProfile = () => {
                                 alt="user_pro"
                               />
                             ) : (
-
                               <UserIcon role="img" />
-
                             )}
                           </div>
                           <div className="editUser__icon">
@@ -252,7 +236,6 @@ const UserProfile = () => {
                     </CustomModal>
                   </Col>
 
-
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -264,13 +247,13 @@ const UserProfile = () => {
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
-                        {errors.full_name && touched.full_name && errors.full_name}
+                        {errors.full_name &&
+                          touched.full_name &&
+                          errors.full_name}
                       </span>
                     </div>
                   </Col>
 
-
- 
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -318,47 +301,48 @@ const UserProfile = () => {
                     </div>
                   </Col> */}
                   <Col md={12}>
-  <div className="inputRow">
-    <div className="inputRow__icon">
-      <select
-        style={{
-          color: values.isFocused ? 'black' : 'black',
-          backgroundColor: values.isFocused ? 'white' : 'white',
-          // Add any other styles you need
-        }}
-        name="address"
-        onBlur={handleBlur}
-        value={values.address}  // Set the selected value
-        onChange={(e) => {
-          handleCountryChange(e.target.value);
-          handleChange("address")(e.target.value);
-        }}
-      >
-        <option value="" disabled>
-          Select a country
-        </option>
-        {CountryOptions.map((country) => (
-          <option key={country.value} value={country.value}>
-            <FlagIcon countryCode={country.value} />
-            {country.label}
-          </option>
-        ))}
-      </select>
+                    <div className="inputRow">
+                      <div className="inputRow__icon">
+                        <select
+                          style={{
+                            color: values.isFocused ? "black" : "black",
+                            backgroundColor: values.isFocused
+                              ? "white"
+                              : "white",
+                            // Add any other styles you need
+                          }}
+                          name="address"
+                          onBlur={handleBlur}
+                          value={values.address} // Set the selected value
+                          onChange={(e) => {
+                            handleCountryChange(e.target.value);
+                            handleChange("address")(e.target.value);
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select a country
+                          </option>
+                          {CountryOptions.map((country) => (
+                            <option key={country.value} value={country.value}>
+                              <FlagIcon countryCode={country.value} />
+                              {country.label}
+                            </option>
+                          ))}
+                        </select>
 
-      <span className="inputRow__iconGroup">
-        <DownArrow />
-      </span>
+                        <span className="inputRow__iconGroup">
+                          <DownArrow />
+                        </span>
 
-      {/* Error message for country code */}
-      <span style={{ color: "red" }}>
-        {errors.address && touched.address && errors.address}
-      </span>
-    </div>
-  </div>
-</Col>
+                        {/* Error message for country code */}
+                        <span style={{ color: "red" }}>
+                          {errors.address && touched.address && errors.address}
+                        </span>
+                      </div>
+                    </div>
+                  </Col>
 
-
-{/* <Col md={12}>
+                  {/* <Col md={12}>
       <div className="inputRow">
         <div className="inputRow__icon">
           <Select
@@ -393,8 +377,6 @@ const UserProfile = () => {
         </div>
       </div>
     </Col> */}
-
-
 
                   {/* <Col md={12}>
                     <Input

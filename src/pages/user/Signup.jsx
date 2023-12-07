@@ -13,6 +13,7 @@ import SocialMedia from "../common/SocialMedia";
 import "../../styles/user/auth.scss";
 import PhoneInput from 'react-phone-number-input'
 import parsePhoneNumber from 'libphonenumber-js';
+import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 
 const Signup = () => {
@@ -38,21 +39,22 @@ const Signup = () => {
   //Formik validation schema
   const validationSchema = Yup.object().shape({
     full_name: Yup.string()
-      .matches(
-        /^([A-Za-z\u00C0-\u00D6\u00D8-\u00f6\u00f8-\u00ff\s]*)$/gi,
-        "Name can only contain Latin letters."
-      )
+      .matches(nameRefExp, "*Name can only contain Latin letters.")
       .max(50)
-      .required("Required field"),
-    email: Yup.string().email().required("Required field"),
+      .required("*Enter Your Full Name"),
+    email: Yup.string().email().required("*Enter your E-mail"),
+    phone: Yup.string()
+      .matches(phoneRegExp, "*Enter a valid Phone Number")
+      .max(12)
+      .required("*Enter a valid Phone Number"),
+
     password: Yup.string()
+      .required("required field")
       .matches(
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      )
-      .required("Required field"),
-    phone: Yup.string().required("Required field"),
-    country_code: Yup.string().required("Required field"),
+      ),
+    country_code: Yup.string().required("must select country"),
   });
 
   //Methods
@@ -115,7 +117,7 @@ const Signup = () => {
 
           <Formik
             initialValues={initValues}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
