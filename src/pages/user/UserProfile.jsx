@@ -14,6 +14,9 @@ import {
   userEditProfile,
 } from "../../redux/thunk/user/usrProfile";
 import { FlagIcon } from 'react-flag-kit';
+import Select from 'react-select';
+import CountryFlag from 'react-country-flag';
+import countryList from 'react-select-country-list';
 
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
@@ -39,6 +42,7 @@ const UserProfile = () => {
   const { updateCroppedImg, cancelCrop } = useCropper();
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
+  const countries = countryList().getData();
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -89,15 +93,15 @@ const UserProfile = () => {
 
   //Formin validation schema
   const validationSchema = Yup.object().shape({
-    name: Yup.string()
-      .matches(nameRefExp, "Name can only contain Latin letters.")
+    full_name: Yup.string()
+      .matches(nameRefExp, "*Name can only contain Latin letters.")
       .max(50)
-      .required("required field"),
-    email: Yup.string().email().required("required field"),
+      .required("*Enter Your Full Name"),
+    email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
-      .matches(phoneRegExp, "Enter a valid Phone Number")
+      .matches(phoneRegExp, "*Enter a valid Phone Number")
       .max(12)
-      .required("Enter a valid Phone Number"),
+      .required("*Enter a valid Phone Number"),
 
     password: Yup.string()
       .required("required field")
@@ -105,7 +109,7 @@ const UserProfile = () => {
         passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
-    country: Yup.string().required("must select country"),
+    address: Yup.string().required("must select country"),
   });
 
   //Methods
@@ -130,10 +134,18 @@ const UserProfile = () => {
     console.log(values,'values')
     const data = {
       userAuthtoken,
+
+      values: {
+        profile_pic : imageFile,
+        full_name: userDetails?.full_name,
+
+      },
+
       values : values
       // values: {
       //   profile_pic : imageFile
       // },
+
     };
     
 
@@ -181,7 +193,7 @@ const UserProfile = () => {
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
-            // validationSchema={validationSchema}
+            validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -234,18 +246,18 @@ const UserProfile = () => {
                         </label>
                       </div>
                     </div>
-                    {/* <CustomModal
+                    <CustomModal
                       show={show}
                       handleClose={handleClose}
                       modalHead="Image cropper"
                     >
                       <ImageCropper
                         updateCroppedImg={updateCroppedImg}
-                        image={"image"}
+                        image={values.profile_pic}
                         file={values.file}
                         cancelCrop={cancelCrop}
                       />
-                    </CustomModal> */}
+                    </CustomModal>
                   </Col>
 
 
@@ -260,14 +272,13 @@ const UserProfile = () => {
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
-                        {" "}
-                        {errors.full_name &&
-                          touched.full_name &&
-                          errors.full_name}
+                        {errors.full_name && touched.full_name && errors.full_name}
                       </span>
                     </div>
                   </Col>
 
+
+ 
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -314,8 +325,7 @@ const UserProfile = () => {
                       </span>
                     </div>
                   </Col> */}
-
-<Col md={12}>
+                  <Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
@@ -353,6 +363,43 @@ const UserProfile = () => {
     </div>
   </div>
 </Col>
+
+
+{/* <Col md={12}>
+      <div className="inputRow">
+        <div className="inputRow__icon">
+          <Select
+            id="countrySelect"
+            name="address"
+            value={values.address}  // Set the selected value
+
+            onBlur={handleBlur}
+            options={countries}
+            onChange={(selectedOption) => {
+              // handleCountryChange and handleChange should be updating the state appropriately
+              handleCountryChange(selectedOption.value);
+              handleChange('address')(selectedOption.value);
+
+              // Log the selected country code to check if it's correct
+              const countryCode = selectedOption.value;
+              console.log('Selected Country Code:', countryCode);
+            }}
+            components={{
+              Option: ({ innerProps, label, data }) => (
+                <div {...innerProps}>
+                  <CountryFlag countryCode={data.value} style={{ marginRight: '8px' }} svg />
+                  {label}
+                </div>
+              ),
+            }}
+          />
+
+          <span style={{ color: 'red' }}>
+            {errors.address && touched.address && errors.address}
+          </span>
+        </div>
+      </div>
+    </Col> */}
 
 
 

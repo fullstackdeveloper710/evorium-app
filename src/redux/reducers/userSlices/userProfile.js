@@ -20,29 +20,7 @@ const userProfileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    // EDIT PROFILE REDUCER----------------------------
-    builder.addCase(userEditProfile.fulfilled, (state, action) => {
-      console.log(action,'action')
-      const {payload} = action;
-      
-      
-      state.userData = {
-        ...state.userData,
-        verified: payload.verified,
-      };
-      state.status = "success";
-
-
-      // state.userDetails = action.payload;
-      state.status = "success";
-    });
-    builder.addCase(userEditProfile.rejected, (state, action) => {
-      state.error = action.payload;
-      state.status = "failed";
-    });
-    builder.addCase(userEditProfile.pending, (state) => {
-      state.status = "pending";
-    });
+  
 
     // MY ACCOUNT REDUCER----------------------------
     builder.addCase(getMyAccount.fulfilled, (state, action) => {
@@ -58,7 +36,6 @@ const userProfileSlice = createSlice({
     });
     builder.addCase(userDownloadProgram.fulfilled, (state, action) => {
       state.status = "success";
-      
     });
     builder.addCase(userDownloadProgram.rejected, (state, action) => {
       state.status = "rejected";

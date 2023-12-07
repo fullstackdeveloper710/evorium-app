@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { FooterEvorium, Header } from "../../components/user";
-import { Navigate, Outlet } from "react-router-dom";
+import { Navigate, Outlet, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { ROUTES } from "../../navigation/constants";
 import { isExpired } from "react-jwt";
@@ -8,15 +8,23 @@ import "../../styles/user/global.scss";
 import { userRefreshToken } from "../../redux/thunk/user/usrMain";
 
 function UsrPvtLayout() {
-  const { userAuthtoken ,  userData } = useSelector((state) => state.userAuth);
-
-  console.log(userData,'userdata')
+  const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
 
   const dispatch = useDispatch();
+ const navigate = useNavigate();
+ 
 
-  const { usrLogin } = ROUTES;
+
+  const { usrLogin, usrOtp } = ROUTES;
 
   useEffect(() => {
+
+
+    if(userAuthtoken !== null && userData?.verified === false) {
+  
+      navigate(usrOtp)
+      
+    }
     let data = {
       values: {
         refresh_token: userData.refresh_token,
@@ -50,10 +58,12 @@ function UsrPvtLayout() {
     // return () => {
     //   clearTimeout(timeoutId);
     // };
+ 
+   
   }, []);
   const isMyRefreshTokenExpired = isExpired(userData.refresh_token);
-  console.log(userData.refresh_token)
-console.log(isMyRefreshTokenExpired,'isMyRefreshTokenExpired')
+  console.log(userData.refresh_token);
+  console.log(isMyRefreshTokenExpired, "isMyRefreshTokenExpired");
   // if (userAuthtoken) {
   if (isMyRefreshTokenExpired) {
     return <Navigate to={usrLogin} replace={true} />;
@@ -61,7 +71,10 @@ console.log(isMyRefreshTokenExpired,'isMyRefreshTokenExpired')
     return (
       <div>
         <Header />
-        <Outlet />
+     
+       
+          <Outlet />
+        
         <FooterEvorium />
       </div>
     );
