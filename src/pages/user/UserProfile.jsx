@@ -43,6 +43,8 @@ const UserProfile = () => {
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const countries = countryList().getData();
+  const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -90,7 +92,12 @@ const UserProfile = () => {
   //Formin validation schema
   const validationSchema = Yup.object().shape({
     full_name: Yup.string()
-      .matches(nameRefExp, "*Name can only contain Latin letters.")
+    .matches(nameRefExp, "*Name can only contain Latin letters.")
+    .test('full_name', 'Please enter both first and last names', value => {
+      // Check if both first and last names are present
+      const names = value.split(' ');
+      return names.length === 2 && names.every(name => name.trim() !== '');
+    })
       .max(50)
       .required("*Enter Your Full Name"),
     email: Yup.string().email().required("*Enter your E-mail"),
@@ -114,6 +121,7 @@ const UserProfile = () => {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
+
         // email: userDetails?.email,
       },
     };
@@ -197,6 +205,7 @@ const UserProfile = () => {
               handleBlur,
               setFieldValue,
             }) => (
+              
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col md={12}>
@@ -244,7 +253,7 @@ const UserProfile = () => {
                     </CustomModal>
                   </Col>
 
-                  <Col md={12}>
+                  {/* <Col md={12}>
                     <div className="inputRow">
                       <input
                         name="full_name"
@@ -260,7 +269,36 @@ const UserProfile = () => {
                           errors.full_name}
                       </span>
                     </div>
-                  </Col>
+                  </Col> */}
+   <Col md={12}>
+  <div className="inputRow">
+    <input
+      name="full_name"
+      placeholder="Name"
+      type="text"
+      value={values.full_name}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      className={
+        touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'invalid-input')
+      }
+    />
+    <span style={{ color: 'red' }}>
+      {touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'Invalid full name')}
+    </span>
+  </div>
+</Col>
+
 
                   <Col md={12}>
                     <div className="inputRow">
