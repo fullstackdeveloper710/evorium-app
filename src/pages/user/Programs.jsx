@@ -236,31 +236,24 @@ function Programs() {
     setSorted(val);
   };
 
-  const loadMore = () => {
-    setItemsToLoad(cardsData.length);
-  };
-  const loadLess = () => {
-    setItemsToLoad(5);
-  };
-  const loadMorePro = () => {
-    setItemsToLoadPro(cardsData.length);
-  };
-  const loadLessPro = () => {
-    setItemsToLoadPro(5);
-  };
+  // const loadMore = () => {
+  //   setItemsToLoad(cardsData.length);
+  // };
+  // const loadLess = () => {
+  //   setItemsToLoad(5);
+  // };
+  // const loadMorePro = () => {
+  //   setItemsToLoadPro(cardsData.length);
+  // };
+  // const loadLessPro = () => {
+  //   setItemsToLoadPro(5);
+  // };
   let data = {
     userAuthtoken,
     filter: filter,
   };
 
-  function handleSort() {
-    // setFilter((prevFilter) => ({
-    //   ...prevFilter,
-    //   categories: `${
-    //     prevFilter.categories ? prevFilter.categories + "," : ""
-    //   }${selectedValue}`,
-    // }));
-  }
+
   const loadMoreTop = () => {
     console.log(data, "data");
     console.log(filter, "filter state");
@@ -370,10 +363,7 @@ function Programs() {
                                     onChange={handleCategoryFilter}
                                   />
                                   <label>{i.title}</label>
-
-                                  </div>
-                                
-
+                                </div>
                               ))}
                             </div>
                           </li>
@@ -390,7 +380,9 @@ function Programs() {
                               {speakerList?.map((i) => (
                                 <div className="checkbox_list">
 
-                                  
+                                  <label>{i.name}</label>
+
+
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -399,11 +391,14 @@ function Programs() {
                                     onChange={handleSpeakerFilter}
                                   />
 
+
                                    <label>{i.name}</label>
                                   </div>
 
                             
 
+
+                                // </div>
                               ))}
                             </div>
                           </li>
@@ -758,6 +753,18 @@ function Programs() {
                         )}
 
 
+                      {itemsToLoadResult < filterResults.length && (
+                        <button
+                          onClick={() =>
+                            setItemsToLoadResult((prevState) => prevState + 5)
+                          }
+                          className="view-All-btn"
+                        >
+                          View More
+                        </button>
+                      )}
+
+
                   {itemsToLoadResult < filterResults.length && (
                     <div className="btn_program2">
                     <button
@@ -770,6 +777,7 @@ function Programs() {
                     </button>
                     </div>
                   )}
+
 
                     </Row>
                   </Container>

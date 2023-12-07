@@ -192,6 +192,7 @@ function Header() {
                       />
                       <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
+                          <img src="" alt="" />
                           <UserIcon />
                         </span>
                       </Link>
