@@ -50,7 +50,7 @@ const Signup = () => {
       .required("*Enter a valid Phone Number"),
 
     password: Yup.string()
-      .required("required field")
+      .required("Enter Password")
       .matches(
         passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
