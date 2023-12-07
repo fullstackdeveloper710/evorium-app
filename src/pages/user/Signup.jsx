@@ -13,6 +13,7 @@ import SocialMedia from "../common/SocialMedia";
 import "../../styles/user/auth.scss";
 import PhoneInput from 'react-phone-number-input'
 import parsePhoneNumber from 'libphonenumber-js';
+import 'react-phone-number-input/style.css'
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 

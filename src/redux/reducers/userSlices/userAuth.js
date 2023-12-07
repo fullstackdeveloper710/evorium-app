@@ -4,11 +4,15 @@ import {
   userFacebookLogin,
   userGoogleLogin,
   userLogin,
+  userResendOtp,
   userSignUp,
   userVerifyNum,
 } from "../../thunk/user/usrMain";
 import { userRefreshToken } from "../../thunk/user/usrMain";
-import { userLanguageUpdate } from "../../thunk/user/usrProfile";
+import {
+  userEditProfile,
+  userLanguageUpdate,
+} from "../../thunk/user/usrProfile";
 
 const initialState = {
   status: false,
@@ -70,6 +74,7 @@ const userAuth = createSlice({
       })
       .addCase(userLogin.fulfilled, (state, action) => {
         const { payload } = action;
+        console.log(payload, "   console.log(payload)");
         // state.loading = false;
         state.userAuthtoken = payload.access_token;
         state.userData = { ...payload };
@@ -94,7 +99,12 @@ const userAuth = createSlice({
 
     // USER VERIFY REDUCER----------------------------
     builder.addCase(userVerifyNum.fulfilled, (state, action) => {
-      // state.userDetails = action.payload;
+
+      state.userDetails = action.payload;
+      state.userData = {
+        ...state.userData,
+        verified: true,
+      };
       state.status = "success";
     });
     builder.addCase(userVerifyNum.rejected, (state, action) => {
@@ -102,6 +112,44 @@ const userAuth = createSlice({
       state.status = "failed";
     });
     builder.addCase(userVerifyNum.pending, (state) => {
+      state.status = "pending";
+    });
+
+    // EDIT PROFILE REDUCER----------------------------
+    builder.addCase(userEditProfile.fulfilled, (state, action) => {
+      console.log(action, "action");
+      const { payload } = action;
+
+      state.userData = {
+        ...state.userData,
+        verified: payload.verified,
+      };
+      state.status = "success";
+    });
+    builder.addCase(userEditProfile.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(userEditProfile.pending, (state) => {
+      state.status = "pending";
+    });
+
+    // USER RESEND OTP REDUCER-------------------------
+    builder.addCase(userResendOtp.fulfilled, (state, action) => {
+      const { payload } = action;
+
+      // state.userData = {
+      //   ...state.userData,
+      //   verified: payload.verified,
+      // };
+      // state.userDetails = action.payload;
+      state.status = "success";
+    });
+    builder.addCase(userResendOtp.rejected, (state, action) => {
+      state.error = action.payload;
+      state.status = "failed";
+    });
+    builder.addCase(userResendOtp.pending, (state) => {
       state.status = "pending";
     });
 

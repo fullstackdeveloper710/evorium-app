@@ -126,12 +126,20 @@ const UserProfile = () => {
   };
 
   const onSubmitHandler = (values) => {
+    console.log(values,'values')
     const data = {
       userAuthtoken,
+
       values: {
         profile_pic: imageFile,
         full_name: userDetails?.full_name,
       },
+
+      values : values
+      // values: {
+      //   profile_pic : imageFile
+      // },
+
     };
 
     dispatch(userEditProfile(data));

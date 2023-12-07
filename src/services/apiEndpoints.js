@@ -15,7 +15,9 @@ const userApi = {
   usrCategories: "/categories?all=true",
   usrSpeakers: "/speakers?all=true",
   usrUpdateLanguage: "/user/language",
-
+  usrDownloadProgram: '/user/download_video_link',
+  usrProgramStatus: '/user/my_program_payment_status',
+  usrResendOtp : "/user/resend_otp",
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",

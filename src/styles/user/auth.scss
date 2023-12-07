@@ -261,3 +261,29 @@
     }
   }
 }
+
+.inputRow{
+  .PhoneInput {
+    position: relative;
+    .PhoneInputCountry {
+      position: absolute;
+      left: 8px;
+      top: 23px;
+  }
+  .PhoneInputInput {
+    width: 100%;
+    height: 60px;
+    padding: 15px 15px 15px 48px;
+    border-radius: 6px;
+    background: #261148;
+    border: 1px solid transparent;
+    box-shadow: 0 0 0 !important;
+    outline: none !important;
+    color: #bdb3c7;
+    font-size: 18px;
+    font-family: "AeonikTRIAL Regular";
+    appearance: none;
+    -webkit-appearance: none;
+}
+}
+}

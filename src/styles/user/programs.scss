@@ -168,6 +168,11 @@
 .dropdown-item.active, .dropdown-item:active{
   background-color: #ae00ff;
 }
+.btn_program2 {
+  button.view-All-btn{
+    float: none;
+  }
+}
 @media (max-width:500px) {
   .filter_ul {
     .list_item{

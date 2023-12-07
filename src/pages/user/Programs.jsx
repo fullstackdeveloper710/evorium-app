@@ -379,7 +379,9 @@ function Programs() {
                             <div className="drop_item">
                               {speakerList?.map((i) => (
                                 <div className="checkbox_list">
+
                                   <label>{i.name}</label>
+
 
                                   <input
                                     type="checkbox"
@@ -389,8 +391,12 @@ function Programs() {
                                     onChange={handleSpeakerFilter}
                                   />
 
-                                  <label>{i.name}</label>
-                                </div>
+
+                                   <label>{i.name}</label>
+                                  </div>
+
+                            
+
 
                                 // </div>
                               ))}
@@ -509,6 +515,8 @@ function Programs() {
                             />
                           )
                         )}
+                        <Col md={12} className="text-center btn_program2">
+                          
                       <button
                         onClick={() =>
                           setItemsToLoad((prevState) => prevState + 5)
@@ -517,6 +525,8 @@ function Programs() {
                       >
                         View More
                       </button>
+                  
+                      </Col>
                     </Row>
                   </Container>
                 </section>
@@ -626,6 +636,7 @@ function Programs() {
                         )}
 
                       {itemsToLoadPro < paidData.length && (
+                        <div className="btn_program2">
                         <button
                           onClick={() =>
                             setItemsToLoadPro((prevState) => prevState + 5)
@@ -634,6 +645,7 @@ function Programs() {
                         >
                           View More
                         </button>
+                        </div>
                       )}
                     </Row>
                   </Container>
@@ -740,6 +752,7 @@ function Programs() {
                           )
                         )}
 
+
                       {itemsToLoadResult < filterResults.length && (
                         <button
                           onClick={() =>
@@ -750,6 +763,22 @@ function Programs() {
                           View More
                         </button>
                       )}
+
+
+                  {itemsToLoadResult < filterResults.length && (
+                    <div className="btn_program2">
+                    <button
+                      onClick={() =>
+                        setItemsToLoadResult((prevState) => prevState + 5)
+                      }
+                      className="view-All-btn"
+                    >
+                      View More
+                    </button>
+                    </div>
+                  )}
+
+
                     </Row>
                   </Container>
                 </section>
@@ -850,6 +879,7 @@ function Programs() {
                     )}
 
                   {itemsToLoadResult < filterResults.length && (
+                    <div className="btn_program2">
                     <button
                       onClick={() =>
                         setItemsToLoadResult((prevState) => prevState + 5)
@@ -858,6 +888,7 @@ function Programs() {
                     >
                       View More
                     </button>
+                    </div>
                   )}
                 </Row>
               </Container>
