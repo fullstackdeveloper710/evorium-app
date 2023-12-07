@@ -25,7 +25,7 @@ const Otp = () => {
   const { state } = location;
 
   //Routes
-  const { usrLogin } = ROUTES;
+  const { usrLogin , usrEditProfile } = ROUTES;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -56,7 +56,9 @@ const Otp = () => {
     };
     dispatch(userVerifyNum(data)).then(({ payload }) => {
       if (payload.status) {
-        navigate(usrLogin);
+        // debugger;
+        console.log(payload.status , 'payload status')
+        navigate(usrEditProfile);
       }
     });
   };

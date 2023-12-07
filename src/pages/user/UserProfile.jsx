@@ -22,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 import { useCropper, useModal } from "../../utility/hooks";
+import { CountryOptions } from "../../utility/CountryList";
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -58,21 +59,15 @@ const UserProfile = () => {
   };
 
   // country selebox options
-  const CountryOptions = [
-    { value: "India", label: "India" },
-    { value: "Italy", label: "Italy" },
-    { value: "USA", label: "USA" },
-    { value: "China", label: "China" },
-    { value: "Canada", label: "Canada" },
-    { value: "UK", label: "UK" },
-  ];
   // const CountryOptions = [
-  //   { value: "India", label: "India", country_code: "+91" },
-  //   { value: "Italy", label: "Italy", country_code: "+39" },
-  //   { value: "USA", label: "USA", country_code: "+1" },
-  //   // ... other country options
+  //   { value: "India", label: "India" },
+  //   { value: "Italy", label: "Italy" },
+  //   { value: "USA", label: "USA" },
+  //   { value: "China", label: "China" },
+  //   { value: "Canada", label: "Canada" },
+  //   { value: "UK", label: "UK" },
   // ];
-  
+
   //Formik initial values
   const initValues = {
     full_name: userDetails?.full_name ?? "",
@@ -80,15 +75,9 @@ const UserProfile = () => {
     phone: userDetails?.phone ?? "",
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
-
-
     address:userDetails?.address ?? "",
-
     profile_pic_ : userDetails?.profile_pic,
     profile_pic: null,
-
-
-
   };
 
   //Formin validation schema
@@ -119,6 +108,7 @@ const UserProfile = () => {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
+        
         // email: userDetails?.email,
       },
     };
@@ -131,16 +121,23 @@ const UserProfile = () => {
   };
 
   const onSubmitHandler = (values) => {
-    console.log(values,'values')
+    const { full_name , email , phone } = values;
+    if(values.phone === userDetails.phone){
+      delete values.phone
+    }
+    console.log(values,'valuesssss')
+    
+
     const data = {
       userAuthtoken,
 
-      values: {
-        profile_pic : imageFile,
-        full_name: userDetails?.full_name,
+      // values: {
+      //   profile_pic : imageFile,
+      //   full_name: userDetails?.full_name,
 
-      },
+      // },
 
+    
       values : values
       // values: {
       //   profile_pic : imageFile
@@ -193,7 +190,7 @@ const UserProfile = () => {
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -329,11 +326,7 @@ const UserProfile = () => {
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
-        style={{
-          color: values.isFocused ? 'black' : 'black',
-          backgroundColor: values.isFocused ? 'white' : 'white',
-          // Add any other styles you need
-        }}
+       
         name="address"
         onBlur={handleBlur}
         value={values.address}  // Set the selected value
