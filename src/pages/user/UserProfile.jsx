@@ -122,19 +122,20 @@ const UserProfile = () => {
 
   const onSubmitHandler = (values) => {
     const { full_name , email , phone } = values;
-
-  
-
+    if(values.phone === userDetails.phone){
+      delete values.phone
+    }
+    console.log(values,'valuesssss')
     
-    console.log(values,'values')
+
     const data = {
       userAuthtoken,
 
-      values: {
-        profile_pic : imageFile,
-        full_name: userDetails?.full_name,
+      // values: {
+      //   profile_pic : imageFile,
+      //   full_name: userDetails?.full_name,
 
-      },
+      // },
 
     
       values : values
