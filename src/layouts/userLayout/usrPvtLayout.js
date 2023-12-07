@@ -8,12 +8,25 @@ import "../../styles/user/global.scss";
 import { userRefreshToken } from "../../redux/thunk/user/usrMain";
 
 function UsrPvtLayout() {
-  const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
+  const { userAuthtoken ,  userData } = useSelector((state) => state.userAuth);
+
   const dispatch = useDispatch();
 
   const { usrLogin } = ROUTES;
 
   useEffect(() => {
+    let data = {
+      values: {
+        refresh_token: userData.refresh_token,
+      },
+    };
+
+    const isMyTokenExpired = isExpired(userAuthtoken);
+
+    if (isMyTokenExpired) {
+      dispatch(userRefreshToken(data));
+    }
+
     // const decoded = decodeToken(userAuthtoken);
     // const targetTimestamp = decoded?.exp;
     // const currentTimestamp = Math.floor(Date.now() / 1000);
@@ -23,25 +36,26 @@ function UsrPvtLayout() {
     //   console.log(res)
     // );
 
-    const timeoutId = setTimeout(() => {
-      const data = {
-        values: {
-          refresh_token: userData.refresh_token,
-        },
-      };
-      // dispatch(userRefreshToken(data)).then((res) => console.log(res));
-    }, 10 * 1000);
+    // const timeoutId = setTimeout(() => {
+    //   const data = {
+    //     values: {
+    //       refresh_token: userData.refresh_token,
+    //     },
+    //   };
+    //   // dispatch(userRefreshToken(data)).then((res) => console.log(res));
+    // }, 10 * 1000);
 
-    return () => {
-      clearTimeout(timeoutId);
-    };
+    // return () => {
+    //   clearTimeout(timeoutId);
+    // };
   }, []);
-  const isMyTokenExpired = isExpired(userAuthtoken);
-
+  const isMyRefreshTokenExpired = isExpired(userData.refresh_token);
+  console.log(userData.refresh_token)
+console.log(isMyRefreshTokenExpired,'isMyRefreshTokenExpired')
   // if (userAuthtoken) {
-  if (isMyTokenExpired) {
+  if (isMyRefreshTokenExpired) {
     return <Navigate to={usrLogin} replace={true} />;
-  } else if (!isMyTokenExpired) {
+  } else if (!isMyRefreshTokenExpired) {
     return (
       <div>
         <Header />

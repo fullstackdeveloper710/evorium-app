@@ -38,7 +38,12 @@ export const userEditProfile = createAsyncThunk(
         method: "put",
         url: usrEditProfile,
         data: values,
+        
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
       };
+     console.log(values,"vavavav")
       dispatch(showLoader());
       const response = await httpsClient(config, userAuthtoken);
       dispatch(hideLoader());

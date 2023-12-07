@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getMyAccount, userEditProfile, userLanguageUpdate } from "../../thunk/user/usrProfile";
+import {
+  getMyAccount,
+  userEditProfile,
+  userLanguageUpdate,
+} from "../../thunk/user/usrProfile";
+import { userDownloadProgram } from "../../thunk/user/usrMain";
 
 const initialState = {
   status: false,
@@ -15,7 +20,6 @@ const userProfileSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-   
     // EDIT PROFILE REDUCER----------------------------
     builder.addCase(userEditProfile.fulfilled, (state, action) => {
       // state.userDetails = action.payload;
@@ -39,6 +43,16 @@ const userProfileSlice = createSlice({
       state.status = "failed";
     });
     builder.addCase(getMyAccount.pending, (state) => {
+      state.status = "pending";
+    });
+    builder.addCase(userDownloadProgram.fulfilled, (state, action) => {
+      state.status = "success";
+      
+    });
+    builder.addCase(userDownloadProgram.rejected, (state, action) => {
+      state.status = "rejected";
+    });
+    builder.addCase(userDownloadProgram.pending, (state, action) => {
       state.status = "pending";
     });
   },

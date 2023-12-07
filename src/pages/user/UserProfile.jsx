@@ -27,6 +27,8 @@ const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
+  const [imageFile,setImageFile] = useState(null)
+
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
 
@@ -76,11 +78,17 @@ const UserProfile = () => {
     full_name: userDetails?.full_name ?? "",
     email: userDetails?.email ?? "",
     phone: userDetails?.phone ?? "",
-    // password: userDetails?.password ?? "",
+    //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
-    profile_pic:  userDetails?.profile_pic ?? "",
-    file: userDetails?.file ?? "",
+
+
     address:userDetails?.address ?? "",
+
+    profile_pic_ : userDetails?.profile_pic,
+    profile_pic: null,
+
+
+
   };
 
   //Formin validation schema
@@ -114,7 +122,7 @@ const UserProfile = () => {
         // email: userDetails?.email,
       },
     };
-    console.log("my account ", data);
+
     dispatch(getMyAccount(data));
   }, [userAuthtoken, dispatch]);
 
@@ -126,10 +134,10 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
       values: {
-        ...values,
+        profile_pic : imageFile
       },
     };
-    console.log("first", values);
+    
 
     dispatch(userEditProfile(data));
   };
@@ -156,6 +164,15 @@ const UserProfile = () => {
   
       reader.readAsDataURL(file);
     }
+
+    // console.log(file)
+
+    setImageFile(file)
+    setFieldValue("profile_pic", file);
+    // setFieldValue("profile_pic_", URL.createObjectURL(file));
+    // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
+     
+
   };
   
   return (
@@ -181,54 +198,57 @@ const UserProfile = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
-                <Col md={12}>
-  <div className="inputRow">
-    <div className="editProfileUser">
-      {/* Input for selecting an image */}
-      <input
-        id="editUser"
-        type="file"
-        accept="image/*"
-        onChange={(e) => handleImageChange(e, setFieldValue)}
-      />
 
-      <label htmlFor="editUser">
-        <div className="editUser__figure">
-          {/* Display the selected image or default UserIcon */}
-          {values.profile_pic ? (
-            <Image
-              style={{
-                width: "100%",
-                height: "100%",
-                borderRadius: "100%",
-              }}
-              src={values.profile_pic}
-              alt="user_pro"
-            />
-          ) : (
-            <UserIcon role="img" />
-          )}
-        </div>
-        <div className="editUser__icon">
-          <CameraIcon onClick={handleShow} />
-        </div>
-      </label>
-    </div>
-  </div>
-  <CustomModal
-    show={show}
-    handleClose={handleClose}
-    modalHead="Image cropper"
-  >
-    {/* Pass the selected image to ImageCropper */}
-    <ImageCropper
-      updateCroppedImg={updateCroppedImg}
-      image={values.profile_pic}
-      file={values.file}
-      cancelCrop={cancelCrop}
-    />
-  </CustomModal>
-</Col>
+ 
+
+
+                  <Col md={12}>
+                    <div className="inputRow">
+                      <div className="editProfileUser">
+                        <input
+                          id="editUser"
+                          type="file"
+                          accept="image/*"
+                         
+                          onChange={(e) => handleImageChange(e, setFieldValue)}
+                        />
+                        <label for="editUser">
+                          <div className="editUser__figure">
+                            {values.profile_pic_ ? (
+                              <Image
+                                style={{
+                                  width: "100%",
+                                  height: "100%",
+                                  borderRadius: "100%",
+                                }}
+                                src={values.profile_pic_}
+                                alt="user_pro"
+                              />
+                            ) : (
+
+                              <UserIcon role="img" />
+
+                            )}
+                          </div>
+                          <div className="editUser__icon">
+                            <CameraIcon onClick={handleShow} />
+                          </div>
+                        </label>
+                      </div>
+                    </div>
+                    {/* <CustomModal
+                      show={show}
+                      handleClose={handleClose}
+                      modalHead="Image cropper"
+                    >
+                      <ImageCropper
+                        updateCroppedImg={updateCroppedImg}
+                        image={"image"}
+                        file={values.file}
+                        cancelCrop={cancelCrop}
+                      />
+                    </CustomModal> */}
+                  </Col>
 
 
                   <Col md={12}>
@@ -248,8 +268,10 @@ const UserProfile = () => {
                           errors.full_name}
                       </span>
                     </div>
-                  </Col>
+                  </Col>/
 
+
+ 
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -296,57 +318,56 @@ const UserProfile = () => {
                       </span>
                     </div>
                   </Col> */}
-{/* 
-<Col md={12}>
+                  <Col md={12}>
   <div className="inputRow">
     <div className="inputRow__icon">
-      <Select
-        id="countrySelect" // You can remove this if not needed
-        styles={{
-          control: (styles) => ({
-            ...styles,
-            color: values.isFocused ? 'black' : 'black',
-            backgroundColor: values.isFocused ? 'white' : 'white',
-          }),
+      <select
+        style={{
+          color: values.isFocused ? 'black' : 'black',
+          backgroundColor: values.isFocused ? 'white' : 'white',
+          // Add any other styles you need
         }}
         name="address"
         onBlur={handleBlur}
-        value={CountryOptions.find((option) => option.value === values.address)}
-        options={CountryOptions}
-        onChange={(selectedOption) => {
-          handleCountryChange(selectedOption.value);
-          handleChange("address")(selectedOption.value);
+        value={values.address}  // Set the selected value
+        onChange={(e) => {
+          handleCountryChange(e.target.value);
+          handleChange("address")(e.target.value);
         }}
-        components={{
-          Option: ({ innerProps, label, data }) => (
-            <div {...innerProps}>
-              <CountryFlag
-                countryCode={data.value}
-                style={{ marginRight: '8px' }}
-                svg
-              />
-              {label}
-            </div>
-          ),
-        }}
-      />
+      >
+        <option value="" disabled>
+          Select a country
+        </option>
+        {CountryOptions.map((country) => (
+          <option key={country.value} value={country.value}>
+            <FlagIcon countryCode={country.value} />
+            {country.label}
+          </option>
+        ))}
+      </select>
 
+      <span className="inputRow__iconGroup">
+        <DownArrow />
+      </span>
+
+      {/* Error message for country code */}
       <span style={{ color: "red" }}>
         {errors.address && touched.address && errors.address}
       </span>
     </div>
   </div>
-</Col> */}
+</Col>
 
-<Col md={12}>
+
+{/* <Col md={12}>
       <div className="inputRow">
         <div className="inputRow__icon">
-          {/* Country Select Dropdown */}
           <Select
             id="countrySelect"
             name="address"
+            value={values.address}  // Set the selected value
+
             onBlur={handleBlur}
-            value={countries.find((option) => option.value === values.address)}
             options={countries}
             onChange={(selectedOption) => {
               // handleCountryChange and handleChange should be updating the state appropriately
@@ -367,13 +388,12 @@ const UserProfile = () => {
             }}
           />
 
-          {/* Error message for country code */}
           <span style={{ color: 'red' }}>
             {errors.address && touched.address && errors.address}
           </span>
         </div>
       </div>
-    </Col>
+    </Col> */}
 
 
 

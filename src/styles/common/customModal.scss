@@ -14,3 +14,30 @@
         }
     }
 }
+.Demo__container{
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+.video_copy_block{
+    padding: 30px;
+    .input_copy_wraper{
+        position: relative;
+        button{
+         border-radius: 25px;
+         background-color: #ae00ff;
+         padding: 7px 25px;
+         border: 0px;
+         color: #fff;
+         position: absolute;
+         right: 5px;
+         top: 3.5px;
+        }
+    input{
+        width: 100%;
+        padding: 10px 50px 10px 25px;
+        border-radius: 25px;
+        border:1px solid #ccc;
+    }
+}
+}

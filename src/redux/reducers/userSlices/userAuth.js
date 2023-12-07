@@ -144,9 +144,14 @@ const userAuth = createSlice({
       })
       .addCase(userRefreshToken.fulfilled, (state, action) => {
         const { payload } = action;
-        // state.loading = false;
+
+        const {
+          meta: {
+            arg: { values },
+          },
+        } = action;
         state.userAuthtoken = payload.access_token;
-        state.userData = { ...payload };
+        state.status = "success";
       })
       .addCase(userRefreshToken.rejected, (state, action) => {
         // state.loading = false;
