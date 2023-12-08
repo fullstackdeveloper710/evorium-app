@@ -326,7 +326,7 @@ const UserProfile = () => {
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
-       
+
         name="address"
         onBlur={handleBlur}
         value={values.address}  // Set the selected value

@@ -125,12 +125,14 @@ const Otp = () => {
 
                   <Col md="12">
                     {/* <Button title={"Login"} className="submitBtn" submit={submit} /> */}
+                    <div className="submit_btn_otp">
                     <Button
                       type="submit"
                       title={"Submit"}
                       className="submitBtn"
                       // submit={submit}
                     />
+                    </div>
                   </Col>
                   <Col md="12">
                     <p className="newUserLink">
