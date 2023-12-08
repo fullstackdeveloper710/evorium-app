@@ -17,11 +17,15 @@ import { FlagIcon } from "react-flag-kit";
 import Select from "react-select";
 import CountryFlag from "react-country-flag";
 import countryList from "react-select-country-list";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 import { useCropper, useModal } from "../../utility/hooks";
+import { ROUTES } from "../../navigation/constants";
+import Swal from "sweetalert2"; // Import SweetAlert
+
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -44,6 +48,7 @@ const UserProfile = () => {
   const [croppedImage, setCroppedImage] = useState(null);
   const countries = countryList().getData();
   const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+  
 
 
   const handleCrop = () => {
@@ -114,8 +119,20 @@ const UserProfile = () => {
     //   ),
     // address: Yup.string().required("must select country"),
   });
+const {usrEditProfile}= ROUTES
+const navigate = useNavigate();
 
   //Methods
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Updation Successful',
+      icon: 'success',
+      confirmButtonText: 'Done',
+    }).then(() => {
+      navigate(usrEditProfile);
+    });
+  };
   useEffect(() => {
     const data = {
       userAuthtoken,
@@ -150,7 +167,13 @@ const UserProfile = () => {
 
     };
 
-    dispatch(userEditProfile(data));
+    dispatch(userEditProfile(data)).then(({ payload }) => {
+      if (payload.status) {
+
+        showSweetAlert();
+        // navigate(usrLogin);
+      }
+    });
   };
 
   // const handleImageChange = (e, setFieldValue) => {
