@@ -16,6 +16,7 @@ import userCredentials, {
   saveCredentials,
   changeRememberMe
 } from "../../redux/reducers/userSlices/userCredentials";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 const Login = () => {
   const [show, setShow] = useState(false);
@@ -56,7 +57,16 @@ const Login = () => {
   });
 
   //Methods
-
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Successfully Logged In',
+      icon: 'success',
+      confirmButtonText: 'Done',
+    }).then(() => {
+      navigate(usrPrograms);
+    });
+  };
   const onSubmitHandler = (values) => {
     const data = { values };
 
@@ -69,7 +79,9 @@ const Login = () => {
         } else {
           dispatch(clearCredentials());
         }
-        navigate(usrPrograms);
+        showSweetAlert();
+
+        // navigate(usrPrograms);
       }
     });
   };
