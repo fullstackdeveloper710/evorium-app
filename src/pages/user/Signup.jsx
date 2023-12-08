@@ -36,6 +36,7 @@ const Signup = () => {
     phone: "",
     country_code: "",
   };
+  const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
 
   //Formik validation schema
   const validationSchema = Yup.object().shape({
@@ -132,7 +133,7 @@ const Signup = () => {
             }) => (
               <Form onSubmit={handleSubmit}>
                 <Row>
-                  <Col md={12}>
+                 {/* <Col md={12}>
                     <Input
                       className="inputRow"
                       type="text"
@@ -147,7 +148,35 @@ const Signup = () => {
                         errors.full_name
                       }
                     />
-                  </Col>
+                  </ Col> */}
+                     <Col md={12}>
+  <div className="inputRow">
+    <input
+      name="full_name"
+      placeholder="Name"
+      type="text"
+      value={values.full_name}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      className={
+        touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'invalid-input')
+      }
+    />
+    <span style={{ color: 'red' }}>
+      {touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'Invalid full name')}
+    </span>
+  </div>
+</Col>
 
                   <Col md={12}>
                     <Input

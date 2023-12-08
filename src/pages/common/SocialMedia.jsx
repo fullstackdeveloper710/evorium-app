@@ -33,16 +33,20 @@ const SocialMedia = () => {
   const { state } = location;
 
   const google_login = useGoogleLogin({
+    
     onSuccess: async (tokenResponse) => {
-      const userInfo = await axios
-      .get('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-      })
-      .then(res => res.data);
+      console.log('Token Response:', tokenResponse);
   
-    console.log(userInfo);
-      console.log(tokenResponse)},
-
+      try {
+        const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
+          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        });
+  
+        console.log('User Info:', userInfo.data);
+      } catch (error) {
+        console.error('Error fetching user info:', error);
+      }
+    },
   });
 
   const onLoginStart = useCallback((profile) => {
@@ -87,7 +91,9 @@ const SocialMedia = () => {
 
   return (
     <>
-      <Col md={12} onSubmit={onSubmitHandler}>
+      <Col md={12}
+      onSubmit={onSubmitHandler}
+      >
         <div className="auth__socialWrap" style={{ display: "flex" }}>
           {/* <div className="auth__socialWrap__icon" > */}
 
@@ -117,11 +123,29 @@ const SocialMedia = () => {
                   <FacebookLoginButton text="" />
                 </LoginSocialFacebook>
               </li>
+<li>
+<GoogleLogin
+onSuccess={(credentialResponse) => {
+  console.log(credentialResponse);
+  onSubmitHandler(credentialResponse)
+  onclick=                    google_login()
 
+
+
+}}
+onError={() => {
+  console.log("login failed");
+}}
+/>
+</li>
               <li>
               <button onClick={() => {
                     google_login()
-                  }}> Google Login</button>      
+                  }}> Google Login</button>  
+                  
+
+
+    
               </li>
             </ul>
           </div>
