@@ -23,9 +23,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 import { useCropper, useModal } from "../../utility/hooks";
+
 import { ROUTES } from "../../navigation/constants";
 import Swal from "sweetalert2"; // Import SweetAlert
 import { userLogin } from "../../redux/thunk/user/usrMain";
+
+
+import { CountryOptions } from "../../utility/CountryList";
 
 
 const UserProfile = () => {
@@ -66,19 +70,13 @@ const UserProfile = () => {
   };
 
   // country selebox options
-  const CountryOptions = [
-    { value: "India", label: "India" },
-    { value: "Italy", label: "Italy" },
-    { value: "USA", label: "USA" },
-    { value: "China", label: "China" },
-    { value: "Canada", label: "Canada" },
-    { value: "UK", label: "UK" },
-  ];
   // const CountryOptions = [
-  //   { value: "India", label: "India", country_code: "+91" },
-  //   { value: "Italy", label: "Italy", country_code: "+39" },
-  //   { value: "USA", label: "USA", country_code: "+1" },
-  //   // ... other country options
+  //   { value: "India", label: "India" },
+  //   { value: "Italy", label: "Italy" },
+  //   { value: "USA", label: "USA" },
+  //   { value: "China", label: "China" },
+  //   { value: "Canada", label: "Canada" },
+  //   { value: "UK", label: "UK" },
   // ];
 
   //Formik initial values
@@ -89,9 +87,9 @@ const UserProfile = () => {
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
 
-    address: userDetails?.address ?? "",
+    address:userDetails?.address ?? "",
+    profile_pic_ : userDetails?.profile_pic,
 
-    profile_pic_: userDetails?.profile_pic,
     profile_pic: null,
   };
 
@@ -164,9 +162,16 @@ const navigate = useNavigate();
   };
 
   const onSubmitHandler = (values) => {
-    console.log(values,'values')
+    const { full_name , email , phone } = values;
+    if(values.phone === userDetails.phone){
+      delete values.phone
+    }
+    console.log(values,'valuesssss')
+    
+
     const data = {
       userAuthtoken,
+
 
       values: {
         profile_pic: imageFile,
@@ -175,6 +180,14 @@ const navigate = useNavigate();
 
       },
 
+      // values: {
+      //   profile_pic : imageFile,
+      //   full_name: userDetails?.full_name,
+
+      // },
+
+
+    
       values : values
       // values: {
       //   profile_pic : imageFile
@@ -237,7 +250,7 @@ const navigate = useNavigate();
           <Formik
             enableReinitialize={true}
             initialValues={initValues}
-            validationSchema={validationSchema}
+            // validationSchema={validationSchema}
             onSubmit={onSubmitHandler}
           >
             {({
@@ -392,46 +405,43 @@ const navigate = useNavigate();
                     </div>
                   </Col> */}
                   <Col md={12}>
-                    <div className="inputRow">
-                      <div className="inputRow__icon">
-                        <select
-                          style={{
-                            color: values.isFocused ? "black" : "black",
-                            backgroundColor: values.isFocused
-                              ? "white"
-                              : "white",
-                            // Add any other styles you need
-                          }}
-                          name="address"
-                          onBlur={handleBlur}
-                          value={values.address} // Set the selected value
-                          onChange={(e) => {
-                            handleCountryChange(e.target.value);
-                            handleChange("address")(e.target.value);
-                          }}
-                        >
-                          <option value="" disabled>
-                            Select a country
-                          </option>
-                          {CountryOptions.map((country) => (
-                            <option key={country.value} value={country.value}>
-                              <FlagIcon countryCode={country.value} />
-                              {country.label}
-                            </option>
-                          ))}
-                        </select>
 
-                        <span className="inputRow__iconGroup">
-                          <DownArrow />
-                        </span>
+  <div className="inputRow">
+    <div className="inputRow__icon">
+      <select
 
-                        {/* Error message for country code */}
-                        <span style={{ color: "red" }}>
-                          {errors.address && touched.address && errors.address}
-                        </span>
-                      </div>
-                    </div>
-                  </Col>
+        name="address"
+        onBlur={handleBlur}
+        value={values.address}  // Set the selected value
+        onChange={(e) => {
+          handleCountryChange(e.target.value);
+          handleChange("address")(e.target.value);
+        }}
+      >
+        <option value="" disabled>
+          Select a country
+        </option>
+        {CountryOptions.map((country) => (
+          <option key={country.value} value={country.value}>
+            <FlagIcon countryCode={country.value} />
+            {country.label}
+          </option>
+        ))}
+      </select>
+
+      <span className="inputRow__iconGroup">
+        <DownArrow />
+      </span>
+
+      {/* Error message for country code */}
+      <span style={{ color: "red" }}>
+        {errors.address && touched.address && errors.address}
+      </span>
+    </div>
+  </div>
+</Col>
+
+
 
                   {/* <Col md={12}>
       <div className="inputRow">

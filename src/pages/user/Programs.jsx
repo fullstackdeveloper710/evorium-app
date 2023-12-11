@@ -380,9 +380,6 @@ function Programs() {
                               {speakerList?.map((i) => (
                                 <div className="checkbox_list">
 
-                                  <label>{i.name}</label>
-
-
                                   <input
                                     type="checkbox"
                                     id={i._id}
@@ -636,7 +633,7 @@ function Programs() {
                         )}
 
                       {itemsToLoadPro < paidData.length && (
-                        <div className="btn_program2">
+                        <div className="btn_program2 col-12">
                         <button
                           onClick={() =>
                             setItemsToLoadPro((prevState) => prevState + 5)
@@ -754,6 +751,7 @@ function Programs() {
 
 
                       {itemsToLoadResult < filterResults.length && (
+                         <div className="btn_program2 text-center col-12">
                         <button
                           onClick={() =>
                             setItemsToLoadResult((prevState) => prevState + 5)
@@ -762,11 +760,12 @@ function Programs() {
                         >
                           View More
                         </button>
+                        </div>
                       )}
 
 
                   {itemsToLoadResult < filterResults.length && (
-                    <div className="btn_program2">
+                    <div className="btn_program2 col-12 text-center">
                     <button
                       onClick={() =>
                         setItemsToLoadResult((prevState) => prevState + 5)
@@ -879,7 +878,7 @@ function Programs() {
                     )}
 
                   {itemsToLoadResult < filterResults.length && (
-                    <div className="btn_program2">
+                    <div className="btn_program2 col-12 text-center">
                     <button
                       onClick={() =>
                         setItemsToLoadResult((prevState) => prevState + 5)
