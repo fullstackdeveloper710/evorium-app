@@ -25,6 +25,7 @@ import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 import { useCropper, useModal } from "../../utility/hooks";
 import { ROUTES } from "../../navigation/constants";
 import Swal from "sweetalert2"; // Import SweetAlert
+import { userLogin } from "../../redux/thunk/user/usrMain";
 
 
 const UserProfile = () => {
@@ -108,7 +109,6 @@ const UserProfile = () => {
     email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
       .matches(phoneRegExp, "*Enter a valid Phone Number")
-      .max(12)
       .required("*Enter a valid Phone Number"),
 
     // password: Yup.string()
@@ -119,33 +119,38 @@ const UserProfile = () => {
     //   ),
     // address: Yup.string().required("must select country"),
   });
-const {usrEditProfile}= ROUTES
+const {usrEditProfile,usrOtp}= ROUTES
 const navigate = useNavigate();
 
   //Methods
-  const showSweetAlert = () => {
+  const showNumberVerificationAlert = () => {
     Swal.fire({
       title: 'Success',
-      text: 'Updation Successful',
+      text: 'Updation successful',
       icon: 'success',
       confirmButtonText: 'Done',
     }).then(() => {
+      // Navigate to the desired page after the alert is closed
       navigate(usrEditProfile);
     });
   };
-  // const showUnsuccessfulAlert = () => {
-  //   Swal.fire({
-  //     title: 'Error',
-  //     text: 'Incorrect OTP. Please try again.',
-  //     icon: 'error',
-  //     confirmButtonText: 'OK',
-  //   });
-  // };
+  const showUnsuccessfulAlert = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Number verification unsuccessful. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'redirect to otp page ',
+    }).then(() => {
+      navigate(usrOtp);
+    });   
+   
+  };
   useEffect(() => {
     const data = {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
+        
 
         // email: userDetails?.email,
       },
@@ -166,6 +171,8 @@ const navigate = useNavigate();
       values: {
         profile_pic: imageFile,
         full_name: userDetails?.full_name,
+        otp: +values.otp,
+
       },
 
       values : values
@@ -178,10 +185,16 @@ const navigate = useNavigate();
     dispatch(userEditProfile(data)).then(({ payload }) => {
       if (payload.status) {
 
-        showSweetAlert();
-        // navigate(usrLogin);
-      }
-      
+        if (payload.verified) {
+          // Show a success alert
+          showNumberVerificationAlert();
+         
+        } else {
+          // Show an error alert for unsuccessful verification
+          showUnsuccessfulAlert();
+
+        }
+      } 
     });
   };
 
