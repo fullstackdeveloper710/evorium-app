@@ -13,22 +13,29 @@ import {
   getMyAccount,
   userEditProfile,
 } from "../../redux/thunk/user/usrProfile";
-import { FlagIcon } from 'react-flag-kit';
-import Select from 'react-select';
-import CountryFlag from 'react-country-flag';
-import countryList from 'react-select-country-list';
+import { FlagIcon } from "react-flag-kit";
+import Select from "react-select";
+import CountryFlag from "react-country-flag";
+import countryList from "react-select-country-list";
+import { useLocation, useNavigate, useParams } from "react-router";
 
 import { useDispatch, useSelector } from "react-redux";
 import { CustomModal, ImageCropper, Input } from "../../components/common";
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 import { useCropper, useModal } from "../../utility/hooks";
+
+import { ROUTES } from "../../navigation/constants";
+import Swal from "sweetalert2"; // Import SweetAlert
+
+
 import { CountryOptions } from "../../utility/CountryList";
+
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
   const [selectedImage, setSelectedImage] = useState(null);
 
-  const [imageFile,setImageFile] = useState(null)
+  const [imageFile, setImageFile] = useState(null);
 
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
@@ -44,6 +51,9 @@ const UserProfile = () => {
   const cropperRef = useRef(null);
   const [croppedImage, setCroppedImage] = useState(null);
   const countries = countryList().getData();
+  const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+  
+
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -75,15 +85,22 @@ const UserProfile = () => {
     phone: userDetails?.phone ?? "",
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
+
     address:userDetails?.address ?? "",
     profile_pic_ : userDetails?.profile_pic,
+
     profile_pic: null,
   };
 
   //Formin validation schema
   const validationSchema = Yup.object().shape({
     full_name: Yup.string()
-      .matches(nameRefExp, "*Name can only contain Latin letters.")
+    .matches(nameRefExp, "*Name can only contain Latin letters.")
+    .test('full_name', 'Please enter both first and last names', value => {
+      // Check if both first and last names are present
+      const names = value.split(' ');
+      return names.length === 2 && names.every(name => name.trim() !== '');
+    })
       .max(50)
       .required("*Enter Your Full Name"),
     email: Yup.string().email().required("*Enter your E-mail"),
@@ -92,23 +109,42 @@ const UserProfile = () => {
       .max(12)
       .required("*Enter a valid Phone Number"),
 
-    password: Yup.string()
-      .required("required field")
-      .matches(
-        passwordRefExp,
-        "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
-      ),
-    address: Yup.string().required("must select country"),
+    // password: Yup.string()
+    //   .required("required field")
+    //   .matches(
+    //     passwordRefExp,
+    //     "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
+    //   ),
+    // address: Yup.string().required("must select country"),
   });
+const {usrEditProfile}= ROUTES
+const navigate = useNavigate();
 
   //Methods
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Updation Successful',
+      icon: 'success',
+      confirmButtonText: 'Done',
+    }).then(() => {
+      navigate(usrEditProfile);
+    });
+  };
+  // const showUnsuccessfulAlert = () => {
+  //   Swal.fire({
+  //     title: 'Error',
+  //     text: 'Incorrect OTP. Please try again.',
+  //     icon: 'error',
+  //     confirmButtonText: 'OK',
+  //   });
+  // };
   useEffect(() => {
-    
     const data = {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
-        
+
         // email: userDetails?.email,
       },
     };
@@ -131,11 +167,18 @@ const UserProfile = () => {
     const data = {
       userAuthtoken,
 
+
+      values: {
+        profile_pic: imageFile,
+        full_name: userDetails?.full_name,
+      },
+
       // values: {
       //   profile_pic : imageFile,
       //   full_name: userDetails?.full_name,
 
       // },
+
 
     
       values : values
@@ -144,9 +187,15 @@ const UserProfile = () => {
       // },
 
     };
-    
 
-    dispatch(userEditProfile(data));
+    dispatch(userEditProfile(data)).then(({ payload }) => {
+      if (payload.status) {
+
+        showSweetAlert();
+        // navigate(usrLogin);
+      }
+      
+    });
   };
 
   // const handleImageChange = (e, setFieldValue) => {
@@ -160,28 +209,26 @@ const UserProfile = () => {
   // };
   const handleImageChange = (e, setFieldValue) => {
     const file = e.target.files[0];
-  
+
     if (file) {
       const reader = new FileReader();
-  
+
       reader.onloadend = () => {
         // Update the Formik values with the selected image
         setFieldValue("profile_pic", reader.result);
       };
-  
+
       reader.readAsDataURL(file);
     }
 
     // console.log(file)
 
-    setImageFile(file)
+    setImageFile(file);
     setFieldValue("profile_pic", file);
     // setFieldValue("profile_pic_", URL.createObjectURL(file));
     // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
-     
-
   };
-  
+
   return (
     <>
       <section className="auth">
@@ -203,12 +250,9 @@ const UserProfile = () => {
               handleBlur,
               setFieldValue,
             }) => (
+              
               <Form onSubmit={handleSubmit}>
                 <Row>
-
- 
-
-
                   <Col md={12}>
                     <div className="inputRow">
                       <div className="editProfileUser">
@@ -216,7 +260,6 @@ const UserProfile = () => {
                           id="editUser"
                           type="file"
                           accept="image/*"
-                         
                           onChange={(e) => handleImageChange(e, setFieldValue)}
                         />
                         <label for="editUser">
@@ -232,9 +275,7 @@ const UserProfile = () => {
                                 alt="user_pro"
                               />
                             ) : (
-
                               <UserIcon role="img" />
-
                             )}
                           </div>
                           <div className="editUser__icon">
@@ -257,8 +298,7 @@ const UserProfile = () => {
                     </CustomModal>
                   </Col>
 
-
-                  <Col md={12}>
+                  {/* <Col md={12}>
                     <div className="inputRow">
                       <input
                         name="full_name"
@@ -269,13 +309,42 @@ const UserProfile = () => {
                         onChange={handleChange}
                       />
                       <span style={{ color: "red" }}>
-                        {errors.full_name && touched.full_name && errors.full_name}
+                        {errors.full_name &&
+                          touched.full_name &&
+                          errors.full_name}
                       </span>
                     </div>
-                  </Col>
+                  </Col> */}
+   <Col md={12}>
+  <div className="inputRow">
+    <input
+      name="full_name"
+      placeholder="Name"
+      type="text"
+      value={values.full_name}
+      onBlur={handleBlur}
+      onChange={handleChange}
+      className={
+        touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'invalid-input')
+      }
+    />
+    <span style={{ color: 'red' }}>
+      {touched.full_name &&
+        ((!fullNameRegex.test(values.full_name) ||
+          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+            values.full_name
+          )) &&
+          'Invalid full name')}
+    </span>
+  </div>
+</Col>
 
 
- 
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -323,6 +392,7 @@ const UserProfile = () => {
                     </div>
                   </Col> */}
                   <Col md={12}>
+
   <div className="inputRow">
     <div className="inputRow__icon">
       <select
@@ -359,7 +429,8 @@ const UserProfile = () => {
 </Col>
 
 
-{/* <Col md={12}>
+
+                  {/* <Col md={12}>
       <div className="inputRow">
         <div className="inputRow__icon">
           <Select
@@ -394,8 +465,6 @@ const UserProfile = () => {
         </div>
       </div>
     </Col> */}
-
-
 
                   {/* <Col md={12}>
                     <Input

@@ -8,25 +8,25 @@ import { useModal } from "../../utility/hooks";
 import { ROUTES } from "../../navigation/constants";
 
 const UserPubLayout = () => {
-  const {
-    show,
-    handleClose,
-    handleShow,
-    shareShow,
-    handleShareClose,
-    handleShareShow,
-  } = useModal();
+  // const {
+  //   show,
+  //   handleClose,
+  //   handleShow,
+  //   shareShow,
+  //   handleShareClose,
+  //   handleShareShow,
+  // } = useModal();
 
-  const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
+  // const { userAuthtoken, userData } = useSelector((state) => state.userAuth);
 
-  const { usrLogin, usrOtp } = ROUTES;
-  const navigate = useNavigate();
+  // const { usrLogin, usrOtp } = ROUTES;
+  // const navigate = useNavigate();
 
-  useEffect(() => {
-    if (userAuthtoken && userData?.verified === false) {
-      navigate(usrOtp);
-    }
-  });
+  // useEffect(() => {
+  //   if (userAuthtoken && userData?.verified === false) {
+  //     navigate(usrOtp);
+  //   }
+  // });
   return (
     <div>
       <Header />
