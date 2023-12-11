@@ -12,6 +12,7 @@ import {
   userFacebookLogin,
   userGoogleLogin,
 } from "../../redux/thunk/user/usrMain";
+
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
@@ -29,6 +30,7 @@ const SocialMedia = () => {
   const [ID_TOKEN, setIDToken] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
   const { state } = location;
 
@@ -63,7 +65,7 @@ const SocialMedia = () => {
     alert("logout success");
   }, []);
 
-  const { usrPrograms } = ROUTES;
+  const { usrPrograms,usrOtp } = ROUTES;
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -86,9 +88,13 @@ const SocialMedia = () => {
         profile_pic: values.picture,
       },
     };
-    dispatch(userFacebookLogin(data));
+    dispatch(userFacebookLogin(data)).then(({ payload }) => {
+      if (payload) {
+        // Redirect to the edit profile page upon successful login
+        navigate(usrPrograms);
+      }
+    });
   };
-
   return (
     <>
       <Col md={12}
@@ -128,7 +134,7 @@ const SocialMedia = () => {
 onSuccess={(credentialResponse) => {
   console.log(credentialResponse);
   onSubmitHandler(credentialResponse)
-  onclick=                    google_login()
+  onclick=google_login()
 
 
 
