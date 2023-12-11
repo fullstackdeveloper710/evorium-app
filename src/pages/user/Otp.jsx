@@ -26,7 +26,7 @@ const Otp = () => {
   const { state } = location;
 
   //Routes
-  const { usrLogin } = ROUTES;
+  const { usrLogin , usrEditProfile } = ROUTES;
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -76,11 +76,15 @@ const Otp = () => {
     dispatch(userVerifyNum(data)).then(({ payload }) => {
       if (payload.status) {
 
+
         showSweetAlert();
         // navigate(usrLogin);
       }
       else{
         showUnsuccessfulAlert();
+
+        //navigate(usrEditProfile);
+
       }
     });
   };
@@ -147,12 +151,14 @@ const Otp = () => {
 
                   <Col md="12">
                     {/* <Button title={"Login"} className="submitBtn" submit={submit} /> */}
+                    <div className="submit_btn_otp">
                     <Button
                       type="submit"
                       title={"Submit"}
                       className="submitBtn"
                       // submit={submit}
                     />
+                    </div>
                   </Col>
                   <Col md="12">
                     <p className="newUserLink">
