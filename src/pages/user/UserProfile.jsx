@@ -133,6 +133,14 @@ const navigate = useNavigate();
       navigate(usrEditProfile);
     });
   };
+  // const showUnsuccessfulAlert = () => {
+  //   Swal.fire({
+  //     title: 'Error',
+  //     text: 'Incorrect OTP. Please try again.',
+  //     icon: 'error',
+  //     confirmButtonText: 'OK',
+  //   });
+  // };
   useEffect(() => {
     const data = {
       userAuthtoken,
@@ -173,6 +181,7 @@ const navigate = useNavigate();
         showSweetAlert();
         // navigate(usrLogin);
       }
+      
     });
   };
 

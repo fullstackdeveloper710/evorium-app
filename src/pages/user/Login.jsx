@@ -67,11 +67,19 @@ const Login = () => {
       navigate(usrPrograms);
     });
   };
+  const showUnsuccessfulAlert = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Incorrect. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  };
   const onSubmitHandler = (values) => {
     const data = { values };
 
     dispatch(userLogin(data)).then(({ payload }) => {
-      if (payload) {
+      if (payload.status) {
         if (rememberMe) {
           dispatch(
             saveCredentials({ email: values.email, password: values.password })
@@ -82,6 +90,9 @@ const Login = () => {
         showSweetAlert();
 
         // navigate(usrPrograms);
+      }
+      else{
+        showUnsuccessfulAlert();
       }
     });
   };

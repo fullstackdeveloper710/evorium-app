@@ -56,6 +56,14 @@ const Otp = () => {
       navigate(usrLogin);
     });
   };
+  const showUnsuccessfulAlert = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Incorrect. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  };
 
   const onSubmitHandler = (values) => {
     
@@ -70,6 +78,9 @@ const Otp = () => {
 
         showSweetAlert();
         // navigate(usrLogin);
+      }
+      else{
+        showUnsuccessfulAlert();
       }
     });
   };
