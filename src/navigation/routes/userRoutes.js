@@ -80,7 +80,7 @@ export const userRoutes = [
   {
     id: 6,
     type: "private",
-    path: usrVideoPlayer,
+    path: `${usrVideoPlayer}/:videoId`,
     Component: VideoPlayer,
     Auth: true,
     defaultComp: false,
