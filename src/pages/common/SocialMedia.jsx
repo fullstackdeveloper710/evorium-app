@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { LoginSocialGoogle, LoginSocialFacebook } from "reactjs-social-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 // CUSTOMIZE ANY UI BUTTON
 import {
@@ -33,8 +34,7 @@ const SocialMedia = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
-
-  const {usrPrograms} = ROUTES;
+  const { usrPrograms } = ROUTES;
 
   const { state } = location;
   const navigate = useNavigate();
@@ -42,24 +42,18 @@ const SocialMedia = () => {
   const google_login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-
         let data = {
-          values : {
-            token : tokenResponse.access_token
-          }
-        }
+          values: {
+            token: tokenResponse.access_token,
+          },
+        };
 
-        dispatch(userGoogleLogin(data)).then(({payload}) => {
+        dispatch(userGoogleLogin(data)).then(({ payload }) => {
           //  console.log(payload,'payload')
-           if(payload.status) {
-
-            navigate(usrPrograms)
-
-            
-
-           }
-        })
-
+          if (payload.status) {
+            navigate(usrPrograms);
+          }
+        });
 
         // const userInfo = await axios.get(
         //   "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -75,6 +69,13 @@ const SocialMedia = () => {
     },
   });
 
+
+  const responseFacebook = (response) => {
+    console.log(response);
+  }
+  
+
+
   const onLoginStart = useCallback((profile) => {
     const val = "";
   }, []);
@@ -88,8 +89,6 @@ const SocialMedia = () => {
     setProvider("");
     alert("logout success");
   }, []);
-
- 
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -128,7 +127,7 @@ const SocialMedia = () => {
           >
             <ul>
               <li>
-                <LoginSocialFacebook
+                {/* <LoginSocialFacebook
                   // isOnlyGetToken
                   appId="1083604836218636"
                   // onLoginStart={onLoginStart}
@@ -145,17 +144,27 @@ const SocialMedia = () => {
                   // redirect_uri={REDIRECT_URI}
                 >
                   <FacebookLoginButton text="" />
-                </LoginSocialFacebook>
+                </LoginSocialFacebook> */}
+                <FacebookLogin
+                  appId="1083604836218636"
+                  autoLoad
+                  callback={responseFacebook}
+                  fields="name,email"
+                  render={(renderProps) => (
+                    <button onClick={renderProps.onClick}>
+                      Login With Facebook
+                    </button>
+                  )}
+                />
               </li>
-             
+
               <li>
-              <button
+                <button
                   onClick={() => {
                     google_login();
                   }}
                 >
-                  
-                  Google Login
+                Login With Google
                 </button>
               </li>
             </ul>
