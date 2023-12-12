@@ -113,6 +113,7 @@ const userProgramsSlice = createSlice({
       })
       .addCase(getRecommendedPrograms.fulfilled, (state, action) => {
         const { payload } = action;
+        console.log(payload,'payloadddd')
 
         state.userRecommendedPrograms = payload;
 

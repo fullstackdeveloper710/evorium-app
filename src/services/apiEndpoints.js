@@ -3,7 +3,7 @@ const userApi = {
   usrLogin: "user/login",
   usrPrograms: "web/user/programs",
   usrVerify: "/user/verify_mobile_number",
-  usrGoogleLogin: "user/login_google",
+  usrGoogleLogin: "user/web_login_google",
   usrFacebookLogin: "user/login_facebook",
   usrMyAccount: "user/my_account",
   usrEditProfile: "user/update",
@@ -21,7 +21,8 @@ const userApi = {
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
-  userDownloadVideo : "/user/generate_Video_link/"
+  userDownloadVideo : "/user/generate_Video_link/",
+  userRecomendedProgram : '/user/recommended_programs'
 };
 
 const commonApi = {

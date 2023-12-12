@@ -10,7 +10,8 @@ const {
   usrRecentProgram,
   usrMyPrograms,
   usrDownloadProgram,
-  usrProgramStatus
+  usrProgramStatus,
+  userRecomendedProgram
 } = userApi;
 
 //get filtered programs results
@@ -45,6 +46,7 @@ export const getFilteredPrograms = createAsyncThunk(
 export const getRecommendedPrograms = createAsyncThunk(
   "user/getRecommendedPrograms",
   async (data, thunkAPI) => {
+    console.log('recomended program api hitting', data)
     const { dispatch } = thunkAPI;
     const { categories, userAuthtoken } = data;
 
@@ -52,10 +54,11 @@ export const getRecommendedPrograms = createAsyncThunk(
     try {
       const config = {
         method: "get",
-        url: `${usrFilterPrograms}?categories=${categories}`,
+        url: `${userRecomendedProgram}?categories=${categories}`,
       };
       dispatch(showLoader());
       const response = await httpsClient(config, userAuthtoken);
+      
       dispatch(hideLoader());
       return response;
     } catch (error) {

@@ -476,17 +476,27 @@ function AddProgram() {
                       </RadioGroup>
                     </div>
 
-                    <Input
-                      className="input_label_wrap"
-                      label="Price(in $)"
-                      type="text"
-                      placeholder="$100"
-                      name="price"
-                      value={values.price}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      error={errors.price && touched.price && errors.price}
-                    />
+
+
+                    {values.course_type === "Paid" && (
+  <Input
+    className="input_label_wrap"
+    label="Price(in $)"
+    type="text"
+    placeholder="$100"
+    name="price"
+    value={values.price}
+    onBlur={handleBlur}
+    onChange={handleChange}
+    error={errors.price && touched.price && errors.price}
+  />
+)}
+
+
+
+
+
+
 
                     <BtnGroup className="common_btns">
                       <Button
