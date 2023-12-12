@@ -107,6 +107,8 @@ const UserProfile = () => {
     email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
       .matches(phoneRegExp, "*Enter a valid Phone Number")
+      .max(13)
+
       .required("*Enter a valid Phone Number"),
 
     // password: Yup.string()

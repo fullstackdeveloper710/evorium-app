@@ -13,6 +13,7 @@ import {
   userFacebookLogin,
   userGoogleLogin,
 } from "../../redux/thunk/user/usrMain";
+
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
@@ -33,11 +34,12 @@ const SocialMedia = () => {
   const [ID_TOKEN, setIDToken] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
-  const { usrPrograms } = ROUTES;
+  const { usrPrograms,usrEditProfile } = ROUTES;
 
   const { state } = location;
-  const navigate = useNavigate();
+
 
   const google_login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
@@ -70,9 +72,9 @@ const SocialMedia = () => {
   });
 
 
-  const responseFacebook = (response) => {
-    console.log(response);
-  }
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // }
   
 
 
@@ -102,16 +104,29 @@ const SocialMedia = () => {
     dispatch(userGoogleLogin(data));
   };
   // facebook
-  const onSubmitHandlerFacebook = (values) => {
-    const data = {
-      values: {
-        access_token: values.access_token,
-        email: values.email,
-        full_name: values.given_name,
-        profile_pic: values.picture,
-      },
-    };
-    dispatch(userFacebookLogin(data));
+
+  const responseFacebook = (response) => {
+    if (response && response.accessToken) {
+      const data = {
+        values: {
+          access_token: response.accessToken,
+          email: response.email,
+          full_name: response.name,
+          profile_pic: response.picture.data.url,
+        },
+      };
+
+      dispatch(userFacebookLogin(data)).then(({ payload }) => {
+        if (payload) {
+          navigate(usrEditProfile);
+        } else {
+          console.error("Facebook login failed:", payload.message);
+        }
+      });
+      
+    } else {
+      console.error("Invalid Facebook access token");
+    }
   };
 
   return (
@@ -145,11 +160,11 @@ const SocialMedia = () => {
                 >
                   <FacebookLoginButton text="" />
                 </LoginSocialFacebook> */}
-                <FacebookLogin
+               <FacebookLogin
                   appId="1083604836218636"
-                  autoLoad
+                  autoLoad={false}
                   callback={responseFacebook}
-                  fields="name,email"
+                  fields="name,email,picture"
                   render={(renderProps) => (
                     <button onClick={renderProps.onClick}>
                       Login With Facebook
