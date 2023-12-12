@@ -16,10 +16,13 @@ import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 // import GoogleLogin from "@leecheuk/react-google-login";
-import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
+import {
+  GoogleLogin,
+  GoogleOAuthProvider,
+  useGoogleLogin,
+} from "@react-oauth/google";
 import { decodeJwt } from "jose";
 import axios from "axios";
-
 
 const REDIRECT_URI = "http://localhost:3000";
 
@@ -30,21 +33,44 @@ const SocialMedia = () => {
   const dispatch = useDispatch();
   const location = useLocation();
 
+
+  const {usrPrograms} = ROUTES;
+
   const { state } = location;
+  const navigate = useNavigate();
 
   const google_login = useGoogleLogin({
-    
     onSuccess: async (tokenResponse) => {
-      console.log('Token Response:', tokenResponse);
-  
       try {
-        const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
-        });
-  
-        console.log('User Info:', userInfo.data);
+
+        let data = {
+          values : {
+            token : tokenResponse.access_token
+          }
+        }
+
+        dispatch(userGoogleLogin(data)).then(({payload}) => {
+          //  console.log(payload,'payload')
+           if(payload.status) {
+
+            navigate(usrPrograms)
+
+            
+
+           }
+        })
+
+
+        // const userInfo = await axios.get(
+        //   "https://www.googleapis.com/oauth2/v3/userinfo",
+        //   {
+        //     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        //   }
+        // );
+
+        // console.log("User Info:", userInfo.data);
       } catch (error) {
-        console.error('Error fetching user info:', error);
+        console.error("Error fetching user info:", error);
       }
     },
   });
@@ -63,7 +89,7 @@ const SocialMedia = () => {
     alert("logout success");
   }, []);
 
-  const { usrPrograms } = ROUTES;
+ 
 
   const onSubmitHandler = (values) => {
     const data = {
@@ -91,9 +117,7 @@ const SocialMedia = () => {
 
   return (
     <>
-      <Col md={12}
-      onSubmit={onSubmitHandler}
-      >
+      <Col md={12} onSubmit={onSubmitHandler}>
         <div className="auth__socialWrap" style={{ display: "flex" }}>
           {/* <div className="auth__socialWrap__icon" > */}
 
@@ -123,29 +147,16 @@ const SocialMedia = () => {
                   <FacebookLoginButton text="" />
                 </LoginSocialFacebook>
               </li>
-<li>
-<GoogleLogin
-onSuccess={(credentialResponse) => {
-  console.log(credentialResponse);
-  onSubmitHandler(credentialResponse)
-  onclick=                    google_login()
-
-
-
-}}
-onError={() => {
-  console.log("login failed");
-}}
-/>
-</li>
+             
               <li>
-              <button onClick={() => {
-                    google_login()
-                  }}> Google Login</button>  
+              <button
+                  onClick={() => {
+                    google_login();
+                  }}
+                >
                   
-
-
-    
+                  Google Login
+                </button>
               </li>
             </ul>
           </div>

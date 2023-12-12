@@ -16,6 +16,8 @@ import BtnGroup from "./BtnGroup";
 import Button from "./Button";
 
 const CheckoutForm = ({ amount, programId, onCancel }) => {
+
+  console.log(amount,programId)
   const [errorMessage, setErrorMessage] = useState(null);
 
   //Redux state
