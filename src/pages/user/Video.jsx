@@ -120,6 +120,7 @@ const VideoPlayer = () => {
   );
 
   const { data: recommendedList } = userRecommendedPrograms;
+  console.log(userRecommendedPrograms,"userRecommendedPrograms")
 
   const data = {
     categories: category,

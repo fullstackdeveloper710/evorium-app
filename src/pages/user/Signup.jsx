@@ -56,7 +56,7 @@ const Signup = () => {
         passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
-    country_code: Yup.string().required("must select country"),
+    // country_code: Yup.string().required("must select country"),
   });
 
   //Methods
@@ -66,6 +66,7 @@ const Signup = () => {
   }
 
   const onSubmitHandler = (values) => {
+    console.log('submit handler qorking')
     const phoneNumber = parsePhoneNumber(values.phone, {
       defaultCountry: "US",
     }); // Change 'US' to your default country code

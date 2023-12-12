@@ -5,3 +5,4 @@ package-lock.json
 .env.staging
 .env.production
 /build
+.DS_store

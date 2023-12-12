@@ -1,11 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Image, Dropdown, DropdownButton } from "react-bootstrap";
 import { notification } from "../../assets/icons/admin";
 import { burger } from "../../assets/images/admin";
 import "../../styles/admin/header.scss";
+import { useSelector } from "react-redux";
 
-function Header() {
+const Header = () => {
   const [show, setShow] = useState(false);
+
+  const {
+    adminNotification: { count: notification_data },
+  } = useSelector((state) => state.adNotification);
+
   return (
     <div className="header_admin">
       <div className="title_block">
@@ -15,7 +21,7 @@ function Header() {
       <div className="right_notifications">
         <div className="notification_message">
           <Image src={notification} />
-          <span className="messages">8</span>
+          <span className="messages">9</span>
         </div>
         <div className="my_account_drop_down">
           <DropdownButton id="dropdown-basic-button" title="My Account">
@@ -34,6 +40,6 @@ function Header() {
       </div>
     </div>
   );
-}
+};
 
 export default Header;
