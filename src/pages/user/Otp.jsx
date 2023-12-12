@@ -10,6 +10,7 @@ import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate, useParams } from "react-router";
 import "../../styles/user/auth.scss";
 import "../../styles/user/otp.scss";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 const Otp = () => {
   const [show, setShow] = useState(false);
@@ -45,6 +46,24 @@ const Otp = () => {
     setShow(false);
     window.open("/login", "_self");
   }
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Registration successful',
+      icon: 'success',
+      confirmButtonText: 'Done',
+    }).then(() => {
+      navigate(usrLogin);
+    });
+  };
+  const showUnsuccessfulAlert = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Invalid OTP. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  };
 
   const onSubmitHandler = (values) => {
     
@@ -56,9 +75,16 @@ const Otp = () => {
     };
     dispatch(userVerifyNum(data)).then(({ payload }) => {
       if (payload.status) {
-        // debugger;
-        console.log(payload.status , 'payload status')
-        navigate(usrEditProfile);
+
+
+        showSweetAlert();
+        // navigate(usrLogin);
+      }
+      else{
+        showUnsuccessfulAlert();
+
+        //navigate(usrEditProfile);
+
       }
     });
   };
