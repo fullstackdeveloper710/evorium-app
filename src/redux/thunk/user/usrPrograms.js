@@ -11,7 +11,8 @@ const {
   usrMyPrograms,
   usrDownloadProgram,
   usrProgramStatus,
-  userRecomendedProgram
+  userRecomendedProgram,
+  userProgramWithID
 } = userApi;
 
 //get filtered programs results
@@ -35,6 +36,34 @@ export const getFilteredPrograms = createAsyncThunk(
       return response;
     } catch (error) {
       dispatch(hideRootLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
+
+//get Program with id 
+
+export const getProgramWithId = createAsyncThunk(
+  "user/getProgramWithId",
+  async (data, thunkAPI) => {
+    console.log('getProgramWithId ')
+    console.log(data)
+    const { dispatch } = thunkAPI;
+    const { videoId, userAuthtoken } = data;
+
+   
+    try {
+      const config = {
+        method: "get",
+        url: `${userProgramWithID}${videoId}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, userAuthtoken);
+      
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
       return thunkAPI.rejectWithValue(error.message);
     }
   }

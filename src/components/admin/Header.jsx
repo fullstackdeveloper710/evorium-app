@@ -13,19 +13,8 @@ const Header = () => {
   const full_name = useSelector((state) => state.adAuth?.full_name);
  
   const {adminNotification: { data: notification_data },} = useSelector((state) => state.adNotification);
-  
-  
 
 
-
-  // const unreadNotificationsCount = notifications.filter(
-  //   (notification) => !notification.read
-  // ).length;
-
-  // useEffect(() => {
-  //   dispatch(getAdminUserDetail());
-
-  // }, []);
   return (
     <div className="header_admin">
       <div className="title_block">
@@ -35,7 +24,9 @@ const Header = () => {
       <div className="right_notifications">
         <div className="notification_message">
           <Image src={notification} />
-          <span className="messages">{notification_data.length}</span>
+
+          <span className="messages">{notification_data?.length}</span>
+
         </div>
         <div className="my_account_drop_down">
           <DropdownButton id="dropdown-basic-button" title="My Account">

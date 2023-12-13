@@ -1,0 +1,36 @@
+.faq_section{
+    .auth__title{
+        font-size: 75px;
+    }
+}
+.faq_accordion{
+    .accordion-item{
+        border-radius: 0px !important;
+        background-color: transparent;
+        border: 0px;
+        border-bottom: 1px solid #fff;
+        .accordion-header{
+            button{
+                background-color: transparent;
+                color: #fff;
+                border-radius: 0px !important;
+                padding: 15px 0px;
+                font-family: "NeueMachina Ultrabold";
+                font-size: 18px;
+                &::after{
+                    filter: brightness(0)invert(1);
+                }
+                &:focus{
+                    outline: none;
+                    box-shadow: unset;
+                }
+            }
+        }
+        .accordion-collapse{
+            .accordion-body{
+                color: #fff;
+                padding: 15px 0px;
+            }
+        }
+    }
+}
