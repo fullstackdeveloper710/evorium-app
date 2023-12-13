@@ -59,8 +59,12 @@ function AddProgram() {
     selectedEpisode: Yup.string().required("required field"),
     course_type: Yup.string().required("required field"),
     tags: Yup.string().required("required field"),
-    price: Yup.string().required("required field"),
-    // episodes: Yup.array().of(
+    price: Yup.string("enter price")
+    // price: Yup.string().when("course_type", {
+    //   is: (courseType) => courseType === "Paid",
+    //   then: Yup.string().required("required field"),
+    //   otherwise: Yup.string(),
+    // }),    // episodes: Yup.array().of(
     //   Yup.object().shape({
     //     label: Yup.string().required("Required field"),
     //     startTime: Yup.object().shape({

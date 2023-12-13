@@ -18,6 +18,10 @@ import adminNotificationSlice from "./adminSlices/adNotification"
 import userProgramCategoriesList from "./userSlices/userProgramCategories&SpeakersList";
 import userProgramCategoriesSpeakersList from "./userSlices/userProgramCategories&SpeakersList";
 import userCredentials from "./userSlices/userCredentials";
+import adLatestPrograms from "./adminSlices/adLatestPrograms";
+import { getAdminLatestPrograms } from "../thunk/admin/adLatestPrograms";
+import adminLatestProgramsSlice from "./adminSlices/adLatestPrograms";
+
 
 
 
@@ -38,6 +42,7 @@ const rootReducer = combineReducers({
   adCms: adminCmsSlice,
   adPayment: adminPaymentSlice,
   adNotification : adminNotificationSlice,
+  adLatestProgram: adminLatestProgramsSlice,
   //User slices
   userAuth: userAuth,
   userPrograms: userProgramsSlice,
