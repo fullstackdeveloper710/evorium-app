@@ -10,16 +10,16 @@ const Header = () => {
   const dispatch = useDispatch();
 
   const [show, setShow] = useState(false);
-  const full_name = useSelector((state) => state.adAuth.full_name);
+  const full_name = useSelector((state) => state.adAuth?.full_name);
  
-  const notifications = useSelector((state) => state.adminNotification?.data || []);
+  const notifications_data = useSelector((state) => state.adminNotification?.notifications_data || []);
 
 
 
 
-  const unreadNotificationsCount = notifications.filter(
-    (notification) => !notification.read
-  ).length;
+  // const unreadNotificationsCount = notifications.filter(
+  //   (notification) => !notification.read
+  // ).length;
 
   // useEffect(() => {
   //   dispatch(getAdminUserDetail());
@@ -34,7 +34,7 @@ const Header = () => {
       <div className="right_notifications">
         <div className="notification_message">
           <Image src={notification} />
-          <span className="messages">{unreadNotificationsCount}</span>
+          <span className="messages">{notifications_data.length}</span>
         </div>
         <div className="my_account_drop_down">
           <DropdownButton id="dropdown-basic-button" title="My Account">

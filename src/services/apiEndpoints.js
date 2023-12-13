@@ -73,6 +73,7 @@ const adminApi = {
   adNotification: "/admin/notification",
   adDeleteNotification: "/admin/notification",
   adDeleteNotifications: "/admin/notifications",
+  adLatestPrograms:"/admin/latest_programs"
 
   //pending
 };
