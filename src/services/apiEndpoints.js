@@ -18,6 +18,7 @@ const userApi = {
   usrDownloadProgram: '/user/download_video_link',
   usrProgramStatus: '/user/my_program_payment_status',
   usrResendOtp : "/user/resend_otp",
+  userProgramWithID : "/user/videoplayer/",
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
