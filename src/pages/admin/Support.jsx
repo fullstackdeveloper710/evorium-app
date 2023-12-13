@@ -31,10 +31,8 @@ const Support = () => {
   //Methods
 
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-    };
-    dispatch(getAdminSupport(data));
+    
+    dispatch(getAdminSupport());
   }, []);
 
   return (

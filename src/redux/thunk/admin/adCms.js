@@ -136,14 +136,14 @@ export const getAdminPrivacy = createAsyncThunk(
   "admin/getAdminPrivacy",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken } = data;
+  
     try {
       const config = {
         method: "get",
         url: adGetPrivacyPolicy,
       };
       dispatch(showRootLoader());
-      const response = await httpsClient(config, adminAuthtoken);
+      const response = await httpsClient(config);
       dispatch(hideRootLoader());
       return response;
     } catch (error) {
@@ -226,14 +226,14 @@ export const getAdminSupport = createAsyncThunk(
   "admin/getAdminSupport",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken } = data;
+
     try {
       const config = {
         method: "get",
         url: adGetSupport,
       };
       dispatch(showRootLoader());
-      const response = await httpsClient(config, adminAuthtoken);
+      const response = await httpsClient(config);
       dispatch(hideRootLoader());
       return response;
     } catch (error) {

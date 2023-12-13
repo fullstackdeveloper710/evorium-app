@@ -15,6 +15,8 @@ const PrivacyPolicy = () => {
     privacyPolicy: { data },
   } = useSelector((state) => state.adCms);
 
+ 
+
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -31,10 +33,8 @@ const PrivacyPolicy = () => {
   //Methods
 
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-    };
-    dispatch(getAdminPrivacy(data));
+  
+    dispatch(getAdminPrivacy());
   }, []);
   return (
     <div className="privacy_section">

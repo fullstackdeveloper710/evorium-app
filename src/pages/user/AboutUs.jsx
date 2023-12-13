@@ -24,6 +24,7 @@ const AboutUs = () => {
       <Container>
         <Row>
           <div className="text-block">
+            
             <div
               style={{
                 color: "white",
