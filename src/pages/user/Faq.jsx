@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { Container, Row, Accordion } from "react-bootstrap";
 import "../../styles/user/auth.scss";
+import "../../styles/user/faq.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminFaqs } from "../../redux/thunk/admin/adFaqs";
 
@@ -16,13 +17,15 @@ const Faq = () => {
     });
   }, []);
   return (
-    <section className="auth">
+    <section className="auth faq_section">
       <Container>
-        <Row>
+        <Row className="justify-content-center">
+          <div className="col-md-8">
           <h1 className="auth__title">Faq</h1>
+          </div>
         </Row>
-        <Row>
-          <Accordion defaultActiveKey="0">
+        <Row className="justify-content-center">
+          <Accordion className="faq_accordion col-md-8" defaultActiveKey="0">
             {data?.map((item, index) => (
               <>
                 <Accordion.Item eventKey={index}>
