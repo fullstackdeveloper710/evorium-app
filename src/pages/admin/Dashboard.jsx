@@ -88,7 +88,7 @@ function Dashboard() {
                 <Image src={dashboard_categories} />
               </span>
               <div className="right_text">
-                <span className="number">{data?.categories_count}</span>
+                <span className="number">{data1?.categories_count}</span>
                 <p className="text_card">Categories</p>
               </div>
             </div>

@@ -12,8 +12,9 @@ const Header = () => {
   const [show, setShow] = useState(false);
   const full_name = useSelector((state) => state.adAuth?.full_name);
  
-  const notifications_data = useSelector((state) => state.adminNotification?.notifications_data || []);
-
+  const {adminNotification: { data: notification_data },} = useSelector((state) => state.adNotification);
+  
+  
 
 
 
@@ -34,7 +35,7 @@ const Header = () => {
       <div className="right_notifications">
         <div className="notification_message">
           <Image src={notification} />
-          <span className="messages">{notifications_data.length}</span>
+          <span className="messages">{notification_data.length}</span>
         </div>
         <div className="my_account_drop_down">
           <DropdownButton id="dropdown-basic-button" title="My Account">
