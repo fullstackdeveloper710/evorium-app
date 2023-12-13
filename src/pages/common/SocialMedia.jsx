@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { LoginSocialGoogle, LoginSocialFacebook } from "reactjs-social-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 // CUSTOMIZE ANY UI BUTTON
 import {
@@ -12,14 +13,18 @@ import {
   userFacebookLogin,
   userGoogleLogin,
 } from "../../redux/thunk/user/usrMain";
+
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
 // import GoogleLogin from "@leecheuk/react-google-login";
-import { GoogleLogin, GoogleOAuthProvider, useGoogleLogin } from "@react-oauth/google";
+import {
+  GoogleLogin,
+  GoogleOAuthProvider,
+  useGoogleLogin,
+} from "@react-oauth/google";
 import { decodeJwt } from "jose";
 import axios from "axios";
-
 
 const REDIRECT_URI = "http://localhost:3000";
 
@@ -29,25 +34,49 @@ const SocialMedia = () => {
   const [ID_TOKEN, setIDToken] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  const { usrPrograms,usrEditProfile } = ROUTES;
 
   const { state } = location;
 
+
   const google_login = useGoogleLogin({
-    
     onSuccess: async (tokenResponse) => {
-      console.log('Token Response:', tokenResponse);
-  
       try {
-        const userInfo = await axios.get('https://www.googleapis.com/oauth2/v3/userinfo', {
-          headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        let data = {
+          values: {
+            token: tokenResponse.access_token,
+          },
+        };
+
+        dispatch(userGoogleLogin(data)).then(({ payload }) => {
+          //  console.log(payload,'payload')
+          if (payload.status) {
+            navigate(usrPrograms);
+          }
         });
-  
-        console.log('User Info:', userInfo.data);
+
+        // const userInfo = await axios.get(
+        //   "https://www.googleapis.com/oauth2/v3/userinfo",
+        //   {
+        //     headers: { Authorization: `Bearer ${tokenResponse.access_token}` },
+        //   }
+        // );
+
+        // console.log("User Info:", userInfo.data);
       } catch (error) {
-        console.error('Error fetching user info:', error);
+        console.error("Error fetching user info:", error);
       }
     },
   });
+
+
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // }
+  
+
 
   const onLoginStart = useCallback((profile) => {
     const val = "";
@@ -63,8 +92,6 @@ const SocialMedia = () => {
     alert("logout success");
   }, []);
 
-  const { usrPrograms } = ROUTES;
-
   const onSubmitHandler = (values) => {
     const data = {
       values: {
@@ -77,23 +104,34 @@ const SocialMedia = () => {
     dispatch(userGoogleLogin(data));
   };
   // facebook
-  const onSubmitHandlerFacebook = (values) => {
-    const data = {
-      values: {
-        access_token: values.access_token,
-        email: values.email,
-        full_name: values.given_name,
-        profile_pic: values.picture,
-      },
-    };
-    dispatch(userFacebookLogin(data));
+
+  const responseFacebook = (response) => {
+    if (response && response.accessToken) {
+      const data = {
+        values: {
+          access_token: response.accessToken,
+          email: response.email,
+          full_name: response.name,
+          profile_pic: response.picture.data.url,
+        },
+      };
+
+      dispatch(userFacebookLogin(data)).then(({ payload }) => {
+        if (payload) {
+          navigate(usrEditProfile);
+        } else {
+          console.error("Facebook login failed:", payload.message);
+        }
+      });
+      
+    } else {
+      console.error("Invalid Facebook access token");
+    }
   };
 
   return (
     <>
-      <Col md={12}
-      onSubmit={onSubmitHandler}
-      >
+      <Col md={12} onSubmit={onSubmitHandler}>
         <div className="auth__socialWrap" style={{ display: "flex" }}>
           {/* <div className="auth__socialWrap__icon" > */}
 
@@ -104,7 +142,7 @@ const SocialMedia = () => {
           >
             <ul>
               <li>
-                <LoginSocialFacebook
+                {/* <LoginSocialFacebook
                   // isOnlyGetToken
                   appId="1083604836218636"
                   // onLoginStart={onLoginStart}
@@ -121,31 +159,28 @@ const SocialMedia = () => {
                   // redirect_uri={REDIRECT_URI}
                 >
                   <FacebookLoginButton text="" />
-                </LoginSocialFacebook>
+                </LoginSocialFacebook> */}
+               <FacebookLogin
+                  appId="1083604836218636"
+                  autoLoad={false}
+                  callback={responseFacebook}
+                  fields="name,email,picture"
+                  render={(renderProps) => (
+                    <button onClick={renderProps.onClick}>
+                      Login With Facebook
+                    </button>
+                  )}
+                />
               </li>
-<li>
-<GoogleLogin
-onSuccess={(credentialResponse) => {
-  console.log(credentialResponse);
-  onSubmitHandler(credentialResponse)
-  onclick=                    google_login()
 
-
-
-}}
-onError={() => {
-  console.log("login failed");
-}}
-/>
-</li>
               <li>
-              <button onClick={() => {
-                    google_login()
-                  }}> Google Login</button>  
-                  
-
-
-    
+                <button
+                  onClick={() => {
+                    google_login();
+                  }}
+                >
+                Login With Google
+                </button>
               </li>
             </ul>
           </div>

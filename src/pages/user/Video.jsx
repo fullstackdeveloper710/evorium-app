@@ -10,6 +10,7 @@ import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import {
   downloadProgram,
+  getProgramWithId,
   getRecommendedPrograms,
   getUserProgramList,
   programPaidStatus,
@@ -73,7 +74,6 @@ import { loadStripe } from "@stripe/stripe-js";
 import { FieldArray } from "formik";
 import { userDownloadProgram } from "../../redux/thunk/user/usrMain";
 
-
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
 );
@@ -84,7 +84,24 @@ const VideoPlayer = () => {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [startTime, setStartTime] = useState(0);
   const [downloadUrl, setDownloadUrl] = useState(null);
-  const [paymentStatus, setPaymentStatus] = useState(false)
+  const [paymentStatus, setPaymentStatus] = useState(false);
+  // const [ shareUrl ,setShareUrl] = useState('');
+  const [videoData , setVideoData ] = useState();
+
+  const [videoID, setVideoId] = useState("")
+
+  const shareUrl = window.location.href;
+
+  async function CopyUrlButton() {
+
+      try {
+        await navigator.clipboard.writeText(shareUrl);
+        console.log('URL copied to clipboard');
+      } catch (err) {
+        console.error('Unable to copy URL to clipboard', err);
+      }
+    
+  }
 
   //Redux state
   const {
@@ -97,57 +114,113 @@ const VideoPlayer = () => {
 
   //Router functions
   const location = useLocation();
-  const { state } = location;
-  const { data2send } = state;
-  const {
-    thumbnail_url,
-    description,
-    title,
-    videoId,
-    speaker,
-    price,
-    course_type,
-    video_duration,
-    views,
-    episodes,
-    category,
-  } = data2send.values;
-
-  
+  // const { state } = location;
+  // const { data2send } = state;
+  // const {
+  //   thumbnail_url,
+  //   description,
+  //   title,
+    
+  //   speaker,
+  //   price,
+  //   video_duration,
+  //   view_count,
+  //   episodes,
+  //   category,
+  // } = videoData;
+//   {
+//     "_id": "6544bc2f043db230ad107bcc",
+//     "title": "Simpson",
+//     "description": "Famous tv show",
+//     "category": "new",
+//     "speaker": "simpson",
+//     "episodes": [
+//         {
+//             "title": "introduction",
+//             "start": "00:10",
+//             "end": "00: 40"
+//         },
+//         {
+//             "title": "claimax",
+//             "start": "00: 41",
+//             "end": "00: 59"
+//         }
+//     ],
+//     "course_type": "Free",
+//     "tags": "Pro",
+//     "thumbnail_url": "https://api.evorium.xyz/thumbnails/6312304899.png",
+//     "video_size": 78049594,
+//     "video_duration": "3813",
+//     "view_count": 8,
+//     "createdAt": "2023-11-03T09:23:59.158Z",
+//     "updatedAt": "2023-11-22T05:30:26.468Z",
+//     "__v": 0
+// }
 
   const { userRecommendedPrograms } = useSelector(
     (state) => state.userPrograms
   );
 
   const { data: recommendedList } = userRecommendedPrograms;
+  console.log(userRecommendedPrograms, "userRecommendedPrograms");
 
   const data = {
-    categories: category,
+    categories: videoData?.category,
     userAuthtoken,
   };
 
-
-  let shareUrl = window.location;
-
+  console.log(shareUrl, "share url");
 
   function getDownloadLink() {
     dispatch(
       userDownloadProgram({
         userAuthtoken,
-        videoId: videoId,
+        videoId: videoID,
       })
     ).then(({ payload }) => {
       setDownloadUrl(payload.link);
     });
   }
 
-
   useEffect(() => {
+
+    
+    let shareUrl_ = window.location.pathname;
+
+    const regex = /\/videoplayer\/(.*)/;
+
+    const match = shareUrl_.match(regex);
+   
+
+    if (match) {
+
+      // setVideoId(match[0])
+
+      let data = {
+        userAuthtoken,
+       videoId : match[1]
+
+      };
+
+      dispatch(getProgramWithId(data)).then(({payload}) => {
+        console.log(payload.data,'payload')
+        setVideoData(payload.data)
+      })
+
+
+    } else {
+
+
+    }
+
     dispatch(getRecommendedPrograms(data));
-    getDownloadLink();
-    dispatch(programPaidStatus({program_id: videoId, userAuthtoken})).then(({payload}) => {
-      setPaymentStatus(payload.program_payment_status)
-    })
+    // getDownloadLink();
+    dispatch(programPaidStatus({ program_id: videoID, userAuthtoken })).then(
+      ({ payload }) => {
+        console.log(payload,'payload paid status')
+        setPaymentStatus(payload.program_payment_status);
+      }
+    );
   }, []);
 
   //Ref
@@ -162,9 +235,6 @@ const VideoPlayer = () => {
     handleShareClose,
     handleShareShow,
   } = useModal();
-
-
-  
 
   //Methods
   const toggleExpand = () => {
@@ -182,7 +252,7 @@ const VideoPlayer = () => {
     const data = {
       userAuthtoken,
       values: {
-        videoId: videoId,
+        videoId: videoID,
         userId: user_id,
       },
     };
@@ -273,7 +343,7 @@ const VideoPlayer = () => {
   async function handleDownload() {
     try {
       const response = await fetch(
-        `https://api.evorium.xyz/user/download_video_link/${videoId}`,
+        `https://api.evorium.xyz/user/download_video_link/${videoID}`,
         {
           method: "GET",
           headers: {
@@ -316,7 +386,7 @@ const VideoPlayer = () => {
   }
 
   return (
-     <>
+    <>
       <CustomModal
         show={show}
         handleClose={handleClose}
@@ -325,8 +395,8 @@ const VideoPlayer = () => {
         className="user_modal"
       >
         <CheckoutForm
-          amount={price}
-          programId={videoId}
+          amount={videoData?.price}
+          programId={videoID}
           onCancel={() => handleClose()}
         />
       </CustomModal>
@@ -348,10 +418,10 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                {paymentStatus === false ? (
+                { videoData?.course_type === 'Paid' && paymentStatus === false ? (
                   <>
                     <Image src={lockscreen} className="lock-screen" />
-                    <Image src={thumbnail_url} className="videoImg img-fluid" />
+                    <Image src={videoData?.thumbnail_url} className="videoImg img-fluid" />
                   </>
                 ) : (
                   <ReactPlayer
@@ -361,7 +431,7 @@ const VideoPlayer = () => {
                     ref={playerRef}
                     // playing={isPlaying}
                     controls={true}
-                    url={`http://api.evorium.xyz/user/web/video_stream/${videoId}`}
+                    url={`http://api.evorium.xyz/user/web/video_stream/${videoData?._id}`}
                     onStart={() => playerRef?.current?.seekTo(startTime)}
                     // onProgress={(progress) => handleVideoProgress(progress)}
                   />
@@ -375,12 +445,12 @@ const VideoPlayer = () => {
             <Col md={5}>
               <div className="videoWrapper__right">
                 <div className="videoWrapper__caption">
-                  <small>{speaker} | Interface, Experience</small>
-                  <h1>{title}</h1>
+                  <small>{videoData?.speaker} | Interface, Experience</small>
+                  <h1>{videoData?.title}</h1>
 
                   <div className="videoWrapper__caption__descp">
                     <h4>Description</h4>
-                    <p>{description}</p>
+                    <p>{videoData?.description}</p>
                     <button onClick={toggleExpand}>
                       {IsExpanded ? "Read Less" : "Read More"}
                     </button>
@@ -388,8 +458,8 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__midbuttons">
                     <div className="midbuttons__left">
-                      <span className="videoLength">{video_duration}</span>
-                      <span className="videoViews">{views} views</span>
+                      <span className="videoLength">{videoData?.video_duration}</span>
+                      <span className="videoViews">{videoData?.view_count} views</span>
                     </div>
                     <div className="midbuttons__right">
                       <button
@@ -426,9 +496,7 @@ const VideoPlayer = () => {
                         modalHead="Share"
                         className="user_modal"
                       >
-
-                        <div  className="Demo__container" >
-
+                        <div className="Demo__container">
                           <div className="Demo__some-network">
                             <FacebookShareButton
                               url={shareUrl}
@@ -460,7 +528,7 @@ const VideoPlayer = () => {
                           <div className="Demo__some-network">
                             <TwitterShareButton
                               url={shareUrl}
-                              title={title}
+                              title={videoData?.title}
                               className="Demo__some-network__share-button"
                             >
                               <XIcon size={32} round />
@@ -470,7 +538,7 @@ const VideoPlayer = () => {
                           <div className="Demo__some-network">
                             <WhatsappShareButton
                               url={shareUrl}
-                              title={title}
+                              title={videoData?.title}
                               separator=":: "
                               className="Demo__some-network__share-button"
                             >
@@ -490,7 +558,7 @@ const VideoPlayer = () => {
                           <div className="Demo__some-network">
                             <MailruShareButton
                               url={shareUrl}
-                              title={title}
+                              title={videoData?.title}
                               className="Demo__some-network__share-button"
                             >
                               <MailruIcon size={32} round />
@@ -500,7 +568,7 @@ const VideoPlayer = () => {
                           <div className="Demo__some-network">
                             <EmailShareButton
                               url={shareUrl}
-                              subject={title}
+                              subject={videoData?.title}
                               body="body"
                               className="Demo__some-network__share-button"
                             >
@@ -511,9 +579,9 @@ const VideoPlayer = () => {
 
                         <div className="video_copy_block">
                           <div className="input_copy_wraper">
-                         <input type="text"/>
-                         <button>Copy</button>
-                         </div>
+                            <input type="text" value={shareUrl} />
+                            <button onClick={() => CopyUrlButton()}>Copy</button>
+                          </div>
                         </div>
                       </CustomModal>
                     </div>
@@ -524,7 +592,7 @@ const VideoPlayer = () => {
                     {/* <FieldArray name="episodes"> */}
                     {/* {({ insert, remove, push }) => ( */}
                     <div>
-                      {episodes.map(({ title, start, end }) => (
+                      {videoData?.episodes.map(({ title, start, end }) => (
                         <div className="timecodec__list" key={title}>
                           <button
                             className="timecodecBtn"
@@ -545,16 +613,16 @@ const VideoPlayer = () => {
                     </div>
                   </div>
                   <div>
-                    {console.log(price,'checking payment status', paymentStatus === false)}
+                   
                     {paymentStatus === false ? (
                       <button className="buyBtn" onClick={handleShow}>
-                        Buy For ${parseInt(price) / 100}
+                        Buy For ${parseInt(videoData?.price) / 100}
                       </button>
-                    ) :  
-                    
-                    <button className="buyBtn" onClick={handleShow}>
-                    Purchased
-                  </button> }
+                    ) : (
+                      <button className="buyBtn" onClick={handleShow}>
+                        Purchased
+                      </button>
+                    )}
                   </div>
                 </div>
               </div>
@@ -628,7 +696,7 @@ const VideoPlayer = () => {
           </Row>
         </Container>
       </section>
-     </>
+    </>
   );
 };
 export default VideoPlayer;

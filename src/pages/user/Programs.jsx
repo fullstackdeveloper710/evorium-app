@@ -20,6 +20,7 @@ import { getProgramSpeakersList } from "../../redux/thunk/user/usrSpeakers";
 function Programs() {
   const [itemsToLoad, setItemsToLoad] = useState(5);
   const [itemsToLoadPro, setItemsToLoadPro] = useState(5);
+  const [itemsToLoadFree, setItemsToLoadFree] = useState(5);
   const [itemsToLoadResult, setItemsToLoadResult] = useState(5);
   const [sorted, setSorted] = useState("all");
   const [selectedItem, setSelectedItem] = useState(null);
@@ -130,7 +131,9 @@ function Programs() {
       },
     };
 
-    navigate(usrVideoPlayer, {
+    
+
+    navigate(`${usrVideoPlayer}/${values._id}`, {
       state: {
         data2send: { ...data },
       },
@@ -513,15 +516,29 @@ function Programs() {
                           )
                         )}
                         <Col md={12} className="text-center btn_program2">
+
+
+                      {itemsToLoadFree < freeData.length && (
+                        <div className="btn_program2 col-12">
+                        <button
+                          onClick={() =>
+                            setItemsToLoadFree((prevState) => prevState + 5)
+                          }
+                          className="view-All-btn"
+                        >
+                          View More
+                        </button>
+                        </div>
+                      )}
                           
-                      <button
+                      {/* <button
                         onClick={() =>
                           setItemsToLoad((prevState) => prevState + 5)
                         }
                         className="view-All-btn"
                       >
                         View More
-                      </button>
+                      </button> */}
                   
                       </Col>
                     </Row>

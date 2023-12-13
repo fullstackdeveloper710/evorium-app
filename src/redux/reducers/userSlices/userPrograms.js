@@ -8,6 +8,7 @@ import {
   getFilteredPrograms,
   downloadProgram,
   programPaidStatus,
+  getProgramWithId,
 } from "../../thunk/user/usrPrograms";
 
 const initialState = {
@@ -70,6 +71,26 @@ const userProgramsSlice = createSlice({
         state.status = false;
       });
 
+
+      //get video with video ID
+      builder
+      .addCase(getProgramWithId.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(getProgramWithId.fulfilled, (state, action) => {
+        const { payload } = action;
+
+        console.log(payload);
+
+        state.status = true;
+      })
+      .addCase(getProgramWithId.rejected, (state, action) => {
+        state.status = false;
+      });
+
+
+
     //get download program
 
     builder
@@ -113,6 +134,7 @@ const userProgramsSlice = createSlice({
       })
       .addCase(getRecommendedPrograms.fulfilled, (state, action) => {
         const { payload } = action;
+        console.log(payload,'payloadddd')
 
         state.userRecommendedPrograms = payload;
 

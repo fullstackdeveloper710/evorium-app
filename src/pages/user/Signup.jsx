@@ -39,6 +39,8 @@ const Signup = () => {
     country_code: "",
   };
   const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+  const phonenumberRegex =
+  /^[+]?[0-9]{1,3}?[-.\\s]?[(]?[0-9]{1,4}[)]?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,9}$/;
 
   //Formik validation schema
   const validationSchema = Yup.object().shape({
@@ -48,8 +50,7 @@ const Signup = () => {
       .required("*Enter Your Full Name"),
     email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
-      .matches(phoneRegExp, "*Enter a valid Phone Number")
-      .max(12)
+      .matches(phonenumberRegex, "*Enter a valid Phone Number")
       .required("*Enter a valid Phone Number"),
 
     password: Yup.string()
@@ -58,7 +59,7 @@ const Signup = () => {
         passwordRefExp,
         "Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character"
       ),
-    country_code: Yup.string().required("must select country"),
+    // country_code: Yup.string().required("must select country"),
   });
 
   //Methods
@@ -68,6 +69,7 @@ const Signup = () => {
   }
 
   const onSubmitHandler = (values) => {
+    console.log('submit handler qorking')
     const phoneNumber = parsePhoneNumber(values.phone, {
       defaultCountry: "US",
     }); // Change 'US' to your default country code
