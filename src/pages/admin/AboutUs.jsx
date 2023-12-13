@@ -31,9 +31,9 @@ const AboutUs = () => {
   //Methods
   useEffect(() => {
     const data = {
-      adminAuthtoken,
+      
     };
-    dispatch(getAdminAboutUs(data));
+    dispatch(getAdminAboutUs());
   }, []);
   return (
     <div className="about_us_section">
