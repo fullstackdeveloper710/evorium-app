@@ -131,7 +131,9 @@ function Programs() {
       },
     };
 
-    navigate(usrVideoPlayer, {
+    
+
+    navigate(`${usrVideoPlayer}/${values._id}`, {
       state: {
         data2send: { ...data },
       },

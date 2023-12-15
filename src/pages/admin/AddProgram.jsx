@@ -33,7 +33,7 @@ function AddProgram() {
     tags: "",
     price: "",
     episodes: [],
-    video: "",
+    video: null,
     selectedThumbnail: "",
     thumbnails: [],
   });
@@ -59,22 +59,36 @@ function AddProgram() {
     selectedEpisode: Yup.string().required("required field"),
     course_type: Yup.string().required("required field"),
     tags: Yup.string().required("required field"),
-    price: Yup.string().required("required field"),
-    // episodes: Yup.array().of(
-    //   Yup.object().shape({
-    //     label: Yup.string().required("Required field"),
-    //     startTime: Yup.object().shape({
-    //       hours: Yup.string().required("Required field"),
-    //       minutes: Yup.string().required("Required field"),
-    //       seconds: Yup.string().required("Required field"),
-    //     }),
-    //     endTime: Yup.object().shape({
-    //       hours: Yup.string().required("Required field"),
-    //       minutes: Yup.string().required("Required field"),
-    //       seconds: Yup.string().required("Required field"),
-    //     }),
-    //   })
-    // ),
+    // price: Yup.string("enter price")
+    price: Yup.string().when(["course_type"], {
+      is: ["Paid"],
+      then: Yup.string().required("Price is required for paid courses"),
+    }),
+    tags: Yup.string().required("required field"),
+    video: Yup.mixed()
+      .required("Video is required")
+      .test(
+        "fileSize",
+        "File size is too large",
+        (value) => value && value.size <= 104857600 // 100MB
+      )
+      .test(
+        "fileType",
+        "Invalid file type. Only videos are allowed",
+        (value) =>
+          value &&
+          ["video/mp4", "video/mpeg", "video/webm"].includes(value.type)
+      ),
+      thumbnails: Yup.array()
+      .required('Thumbnails are required')
+      .min(1, 'At least one thumbnail is required')
+      // .of(
+      //   Yup.object().shape({
+      //     url: Yup.string().url('Invalid URL').required('Thumbnail URL is required'),
+      //     // You can add more validation for each thumbnail property if needed
+      //   })
+      // ),
+ 
   });
 
   //Methods
@@ -472,21 +486,23 @@ function AddProgram() {
                           value={values.tags}
                           checked={values.tags === "recommended"}
                           onChange={() => setFieldValue("tags", "recommended")}
-                        />
+                        />video
                       </RadioGroup>
                     </div>
 
-                    <Input
-                      className="input_label_wrap"
-                      label="Price(in $)"
-                      type="text"
-                      placeholder="$100"
-                      name="price"
-                      value={values.price}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      error={errors.price && touched.price && errors.price}
-                    />
+                    {values.course_type === "Paid" && (
+                      <Input
+                        className="input_label_wrap"
+                        label="Price(in $)"
+                        type="text"
+                        placeholder="$100"
+                        name="price"
+                        value={values.price}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        error={errors.price && touched.price && errors.price}
+                      />
+                    )}
 
                     <BtnGroup className="common_btns">
                       <Button
@@ -505,16 +521,22 @@ function AddProgram() {
                   </div>
                 </Col>
                 <Col md={5}>
-                  <VideoUploader
-                    videoTitle={values.title}
-                    videoUrl={values?.video_url}
-                    disabled={state?.id}
-                    video={values.video}
-                    setFieldValue={setFieldValue}
-                    thumbnails={values.thumbnails}
-                    selectedThumbnail={values.selectedThumbnail}
-                  />
-                </Col>
+  <VideoUploader
+    videoTitle={values.title}
+    videoUrl={values?.video_url}
+    disabled={state?.id}
+    video={values.video}
+    setFieldValue={setFieldValue}
+    thumbnails={values.thumbnails}
+    selectedThumbnail={values.selectedThumbnail}
+  ></VideoUploader>
+  <span style={{ color: "red" }}>
+    {errors.thumbnails && touched.thumbnails && errors.thumbnails} 
+    {errors.video && touched.video && errors.video}
+
+  </span>
+</Col>
+
               </Row>
             </div>
           </Form>

@@ -3,25 +3,30 @@ import { Image, Dropdown, DropdownButton } from "react-bootstrap";
 import { notification } from "../../assets/icons/admin";
 import { burger } from "../../assets/images/admin";
 import "../../styles/admin/header.scss";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getAdminUserDetail } from "../../redux/thunk/admin/adUser";
 
 const Header = () => {
-  const [show, setShow] = useState(false);
+  const dispatch = useDispatch();
 
-  const {
-    adminNotification: { count: notification_data },
-  } = useSelector((state) => state.adNotification);
+  const [show, setShow] = useState(false);
+  const full_name = useSelector((state) => state.adAuth?.full_name);
+ 
+  const {adminNotification: { data: notification_data },} = useSelector((state) => state.adNotification);
+
 
   return (
     <div className="header_admin">
       <div className="title_block">
-        <h3>Welcome,, Maria!</h3>
+        <h3>Welcome,{full_name}!</h3>
         <p>Ready to jump back in?</p>
       </div>
       <div className="right_notifications">
         <div className="notification_message">
           <Image src={notification} />
-          <span className="messages">9</span>
+
+          <span className="messages">{notification_data?.length}</span>
+
         </div>
         <div className="my_account_drop_down">
           <DropdownButton id="dropdown-basic-button" title="My Account">

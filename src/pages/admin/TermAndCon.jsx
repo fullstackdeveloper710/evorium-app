@@ -31,10 +31,10 @@ const TermAndConditions = () => {
   //Methods
 
   useEffect(() => {
-    const data = {
-      adminAuthtoken,
-    };
-    dispatch(getAdminTermAndConditions(data));
+    // const data = {
+    //   adminAuthtoken,
+    // };
+    dispatch(getAdminTermAndConditions());
   }, []);
 
   return (

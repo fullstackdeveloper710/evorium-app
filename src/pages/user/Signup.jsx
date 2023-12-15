@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Row, Col } from "react-bootstrap";
 import { Button, Alert } from "../../components/user";
-import { CheckIcon, EyeLock } from "../../assets/icons/user";
+import { CheckIcon, EyeLock,AppleIcon, FacebookIcon, GoogleIcon} from "../../assets/icons/user";
 import { useNavigate } from "react-router-dom";
 import { Form, Formik } from "formik";
 import * as Yup from "yup";
@@ -14,6 +14,8 @@ import "../../styles/user/auth.scss";
 import PhoneInput from 'react-phone-number-input'
 import parsePhoneNumber from 'libphonenumber-js';
 import 'react-phone-number-input/style.css'
+import { Link } from "react-router-dom";
+
 import { nameRefExp, passwordRefExp, phoneRegExp } from "../../utility/regax";
 
 
@@ -37,6 +39,8 @@ const Signup = () => {
     country_code: "",
   };
   const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
+  const phonenumberRegex =
+  /^[+]?[0-9]{1,3}?[-.\\s]?[(]?[0-9]{1,4}[)]?[-.\\s]?[0-9]{1,4}[-.\\s]?[0-9]{1,9}$/;
 
   //Formik validation schema
   const validationSchema = Yup.object().shape({
@@ -46,8 +50,7 @@ const Signup = () => {
       .required("*Enter Your Full Name"),
     email: Yup.string().email().required("*Enter your E-mail"),
     phone: Yup.string()
-      .matches(phoneRegExp, "*Enter a valid Phone Number")
-      .max(12)
+      .matches(phonenumberRegex, "*Enter a valid Phone Number")
       .required("*Enter a valid Phone Number"),
 
     password: Yup.string()
@@ -269,6 +272,39 @@ const Signup = () => {
                     />
                   </Col>
 
+                  <Col md={12}>
+                    <div className="auth__socialWrap">
+                      <p>Or Continue with</p>
+                      <div className="auth__socialWrap__icon">
+                        <ul>
+                          <li>
+                            <Link to="/">
+                              <FacebookIcon />
+                            </Link>
+                          </li>
+                          <li>
+                            <Link to="/">
+                              <GoogleIcon />
+                            </Link>
+                          </li>
+
+                          <li>
+                            <Link to="/">
+                              <AppleIcon />
+                            </Link>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <p className="signingText">
+                        By signing up, you agree to our{" "}
+                        <Link to="/">Terms</Link> ,
+                        <Link to="/">Data Policy</Link> and{" "}
+                        <Link to="/">Cookies Policy</Link>.
+                      </p>
+                    </div>
+                  </Col>
+
                   <Col md="12">
                     <p className="newUserLink">
                       Already Have an Account?
@@ -279,7 +315,8 @@ const Signup = () => {
               </Form>
             )}
           </Formik>
-          <SocialMedia />
+          {/* <SocialMedia /> */}
+          
         </div>
       </section>
     </>

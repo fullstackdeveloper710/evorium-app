@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Col, Container, Row, Image, Accordion } from "react-bootstrap";
 import {
   FacebookIcon,
@@ -12,6 +12,7 @@ import "../../styles/user/footer.scss";
 import { Link } from "react-router-dom";
 import { ROUTES } from "../../navigation/constants";
 import { useTranslation } from "react-i18next";
+import { useSelector } from "react-redux";
 // import OpenSea from "../assets/icons/user/overSea.png";
 function FooterEvorium() {
   const { t, i18n } = useTranslation();
@@ -24,6 +25,12 @@ function FooterEvorium() {
     usrAboutUs,
     usrEditProfile,
   } = ROUTES;
+  const {
+    aboutUs: { data },
+  } = useSelector((state) => state.adCms);
+  useEffect(() => {
+
+  },[])
   return (
     <>
       <section className="footer">

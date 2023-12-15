@@ -18,6 +18,7 @@ const userApi = {
   usrDownloadProgram: '/user/generate_video_link',
   usrProgramStatus: '/user/my_program_payment_status',
   usrResendOtp : "/user/resend_otp",
+  userProgramWithID : "/user/videoplayer/",
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
@@ -73,6 +74,7 @@ const adminApi = {
   adNotification: "/admin/notification",
   adDeleteNotification: "/admin/notification",
   adDeleteNotifications: "/admin/notifications",
+  adLatestPrograms:"/admin/latest_programs"
 
   //pending
 };

@@ -1,5 +1,6 @@
 import React, { useCallback, useRef, useState } from "react";
 import { LoginSocialGoogle, LoginSocialFacebook } from "reactjs-social-login";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 
 // CUSTOMIZE ANY UI BUTTON
 import {
@@ -12,6 +13,7 @@ import {
   userFacebookLogin,
   userGoogleLogin,
 } from "../../redux/thunk/user/usrMain";
+
 import { ROUTES } from "../../navigation/constants";
 import { useLocation, useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
@@ -32,34 +34,28 @@ const SocialMedia = () => {
   const [ID_TOKEN, setIDToken] = useState("");
   const dispatch = useDispatch();
   const location = useLocation();
+  const navigate = useNavigate();
 
-
-  const {usrPrograms} = ROUTES;
+  const { usrPrograms,usrEditProfile } = ROUTES;
 
   const { state } = location;
-  const navigate = useNavigate();
+
 
   const google_login = useGoogleLogin({
     onSuccess: async (tokenResponse) => {
       try {
-
         let data = {
-          values : {
-            token : tokenResponse.access_token
-          }
-        }
+          values: {
+            token: tokenResponse.access_token,
+          },
+        };
 
-        dispatch(userGoogleLogin(data)).then(({payload}) => {
+        dispatch(userGoogleLogin(data)).then(({ payload }) => {
           //  console.log(payload,'payload')
-           if(payload.status) {
-
-            navigate(usrPrograms)
-
-            
-
-           }
-        })
-
+          if (payload.status) {
+            navigate(usrPrograms);
+          }
+        });
 
         // const userInfo = await axios.get(
         //   "https://www.googleapis.com/oauth2/v3/userinfo",
@@ -75,6 +71,13 @@ const SocialMedia = () => {
     },
   });
 
+
+  // const responseFacebook = (response) => {
+  //   console.log(response);
+  // }
+  
+
+
   const onLoginStart = useCallback((profile) => {
     const val = "";
   }, []);
@@ -89,8 +92,6 @@ const SocialMedia = () => {
     alert("logout success");
   }, []);
 
- 
-
   const onSubmitHandler = (values) => {
     const data = {
       values: {
@@ -103,16 +104,29 @@ const SocialMedia = () => {
     dispatch(userGoogleLogin(data));
   };
   // facebook
-  const onSubmitHandlerFacebook = (values) => {
-    const data = {
-      values: {
-        access_token: values.access_token,
-        email: values.email,
-        full_name: values.given_name,
-        profile_pic: values.picture,
-      },
-    };
-    dispatch(userFacebookLogin(data));
+
+  const responseFacebook = (response) => {
+    if (response && response.accessToken) {
+      const data = {
+        values: {
+          access_token: response.accessToken,
+          email: response.email,
+          full_name: response.name,
+          profile_pic: response.picture.data.url,
+        },
+      };
+
+      dispatch(userFacebookLogin(data)).then(({ payload }) => {
+        if (payload) {
+          navigate(usrEditProfile);
+        } else {
+          console.error("Facebook login failed:", payload.message);
+        }
+      });
+      
+    } else {
+      console.error("Invalid Facebook access token");
+    }
   };
 
   return (
@@ -128,7 +142,7 @@ const SocialMedia = () => {
           >
             <ul>
               <li>
-                <LoginSocialFacebook
+                {/* <LoginSocialFacebook
                   // isOnlyGetToken
                   appId="1083604836218636"
                   // onLoginStart={onLoginStart}
@@ -145,17 +159,27 @@ const SocialMedia = () => {
                   // redirect_uri={REDIRECT_URI}
                 >
                   <FacebookLoginButton text="" />
-                </LoginSocialFacebook>
+                </LoginSocialFacebook> */}
+               <FacebookLogin
+                  appId="1083604836218636"
+                  autoLoad={false}
+                  callback={responseFacebook}
+                  fields="name,email,picture"
+                  render={(renderProps) => (
+                    <button onClick={renderProps.onClick}>
+                      Login With Facebook
+                    </button>
+                  )}
+                />
               </li>
-             
+
               <li>
-              <button
+                <button
                   onClick={() => {
                     google_login();
                   }}
                 >
-                  
-                  Google Login
+                Login With Google
                 </button>
               </li>
             </ul>

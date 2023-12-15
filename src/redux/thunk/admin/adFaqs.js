@@ -11,14 +11,16 @@ export const getAdminFaqs = createAsyncThunk(
   "admin/getAdminFaqs",
   async (data, thunkAPI) => {
     const { dispatch } = thunkAPI;
-    const { adminAuthtoken, values } = data;
+   
     try {
+      
       const config = {
         method: "get",
-        url: `${adFaqList}?pageNo=${values?.pageNo}&pageSize=${values?.pageSize}`,
+        url: `${adFaqList}?pageNo=${data?.values?.pageNo}&pageSize=${data?.values?.pageSize}`,
       };
+      
       dispatch(showLoader());
-      const response = await httpsClient(config, adminAuthtoken);
+      const response = await httpsClient(config);
       dispatch(hideLoader());
       return response;
     } catch (error) {
