@@ -274,9 +274,9 @@ const VideoPlayer = () => {
   async function handleDownload() {
     try {
       const response = await fetch(
-        `https://api.evorium.xyz/user/download_video_link/${videoId}`,
+        `https://api.evorium.xyz/user/generate_video_link/${videoId}`,
         {
-          method: "GET",
+          method: "POST",
           headers: {
             // Include any necessary headers, such as authorization headers or others
             Authorization: `Bearer ${userAuthtoken}`,
