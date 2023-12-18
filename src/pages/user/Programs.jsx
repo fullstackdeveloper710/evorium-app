@@ -704,7 +704,7 @@ function Programs() {
                     </Row>
                     <Row className="popular-row">
                       {myPrograms
-                        .slice(0, itemsToLoadPro)
+                        .slice(0,itemsToLoad)
                         .map(
                           (
                             {

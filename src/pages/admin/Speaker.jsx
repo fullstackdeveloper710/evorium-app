@@ -21,11 +21,16 @@ import {
 import "../../styles/admin/categories.scss";
 import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
 import { totalItems, itemsPerPage } from "../../utility/methods";
+import { getAdminCategories } from "../../redux/thunk/admin/adCategories";
 function Speaker() {
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminSpeakers } = useSelector((state) => state.adSpeaker);
   const { data, count } = adminSpeakers;
+  const { adminCategories } = useSelector((state) => state.adCategories);
+  const { data:data1, count:count1 } = adminSpeakers;
+
+
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -52,6 +57,8 @@ function Speaker() {
   });
 
   useFetch({ action: getAdminSpeakers, currentPage, itemsPerPage });
+  useFetch({ action: getAdminCategories, currentPage, itemsPerPage });
+
 
   //Formik initial state
   const initValues = {
@@ -84,19 +91,14 @@ function Speaker() {
     resetForm();
   };
 
-  const options = [
-    {
-      value: "",
-      label: "Select option",
-    },
-    {
-      value: "pro",
-      label: "pro",
-    },
-    {
-      value: "free",
-      label: "free",
-    },
+  const catOptions = [
+    { value: "", label: "Select option" },
+    ...(Array.isArray(adminCategories.data)
+      ? adminCategories.data.map((category) => ({
+          value: category.title,
+          label: category.title,
+        }))
+      : []),
   ];
 
   const columns = [
@@ -182,7 +184,7 @@ function Speaker() {
                   value={values.category}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  options={options}
+                  options={catOptions}
                   error={errors.category && touched.category && errors.category}
                 />
                 <BtnGroup className="common_btns">
