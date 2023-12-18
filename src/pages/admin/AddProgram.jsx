@@ -20,7 +20,20 @@ import {
   updateAdminProgram,
 } from "../../redux/thunk/admin/adPrograms";
 import "../../styles/admin/addprogram.scss";
+import { totalItems, itemsPerPage } from "../../utility/methods";
+
 import { getStartAndEndTime } from "../../utility/methods";
+import {
+  addAdminCategory,
+  getAdminCategories,
+} from "../../redux/thunk/admin/adCategories";
+import {
+  addAdminSpeaker,
+  deleteAdminSpeaker,
+  getAdminSpeakers,
+} from "../../redux/thunk/admin/adSpeakers";
+import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
+import { getAdminTags } from "../../redux/thunk/admin/adTags";
 
 function AddProgram() {
   const [initValues, setInitValues] = useState({
@@ -40,6 +53,19 @@ function AddProgram() {
 
   //Redux state
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
+  const { adminCategories } = useSelector((state) => state.adCategories);
+  // const { data, count } = adminCategories;
+  console.log('adminCategories after fetching:', adminCategories);
+  const { adminSpeakers } = useSelector((state) => state.adSpeaker);
+  const { data: data1, count: count1 } = adminSpeakers;
+  console.log('adminSpeakers after fetching:', adminSpeakers);
+  // Log the data after it has been updated
+  const { adminTags } = useSelector((state) => state.adTags);
+  const { data: data2, count: count2 } = adminTags;
+    console.log('adminTags after fetching:', adminTags);
+
+
+
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -79,19 +105,33 @@ function AddProgram() {
           value &&
           ["video/mp4", "video/mpeg", "video/webm"].includes(value.type)
       ),
-      thumbnails: Yup.array()
-      .required('Thumbnails are required')
-      .min(1, 'At least one thumbnail is required')
-      // .of(
-      //   Yup.object().shape({
-      //     url: Yup.string().url('Invalid URL').required('Thumbnail URL is required'),
-      //     // You can add more validation for each thumbnail property if needed
-      //   })
-      // ),
- 
+    thumbnails: Yup.array()
+      .required("Thumbnails are required")
+      .min(1, "At least one thumbnail is required"),
+    // .of(
+    //   Yup.object().shape({
+    //     url: Yup.string().url('Invalid URL').required('Thumbnail URL is required'),
+    //     // You can add more validation for each thumbnail property if needed
+    //   })
+    // ),
   });
 
   //Methods
+  const {
+    currentPage,
+    totalPages,
+    nextPage,
+    prevPage,
+    goToPage,
+    setItemsPerPage,
+    onSelectPage,
+  } = usePagination({ totalItems: count1, itemsPerPage });
+
+
+
+  useFetch({ action: getAdminSpeakers, currentPage, itemsPerPage });
+  useFetch({ action: getAdminCategories, currentPage, itemsPerPage });
+  useFetch({ action: getAdminTags, currentPage, itemsPerPage });
 
   useEffect(() => {
     if (state?.id) {
@@ -139,33 +179,33 @@ function AddProgram() {
   };
 
   const catOptions = [
-    {
-      value: "",
-      label: "Select option",
-    },
-    {
-      value: "pro",
-      label: "pro",
-    },
-    {
-      value: "free",
-      label: "free",
-    },
+    { value: "", label: "Select option" },
+    ...(Array.isArray(adminCategories.data)
+      ? adminCategories.data.map((category) => ({
+          value: category.title,
+          label: category.title,
+        }))
+      : []),
   ];
+  const tagOptions = [
+    { value: "", label: "Select option" },
+    ...(Array.isArray(adminTags.data)
+      ? adminTags.data.map((tags) => ({
+          value: tags.title,
+          label: tags.title,
+        }))
+      : [])
+  ];
+  
 
   const speakerOptions = [
-    {
-      value: "",
-      label: "Select option",
-    },
-    {
-      value: "Andy William",
-      label: "Andy William",
-    },
-    {
-      value: "Speaker1",
-      label: "Speaker1",
-    },
+    { value: "", label: "Select option" },
+    ...(Array.isArray(adminSpeakers.data)
+      ? adminSpeakers.data.map((speaker) => ({
+          value: speaker.name,
+          label: speaker.name,
+        }))
+      : []),
   ];
 
   const episodesOptions = [
@@ -466,7 +506,7 @@ function AddProgram() {
                         />
                       </RadioGroup>
 
-                      <RadioGroup
+                      {/* <RadioGroup
                         groupClass="tags"
                         title="Tags"
                         error={errors.tags && touched.tags && errors.tags}
@@ -486,9 +526,20 @@ function AddProgram() {
                           value={values.tags}
                           checked={values.tags === "recommended"}
                           onChange={() => setFieldValue("tags", "recommended")}
-                        />video
-                      </RadioGroup>
+                        />
+                        video
+                      </RadioGroup> */}
                     </div>
+                    <SelectBox
+  className="input_label_wrap"
+  name="tags"
+  label="Tags"
+  value={values.tags}
+  onChange={handleChange}
+  onBlur={handleBlur}
+  options={tagOptions}  // Use the tagOptions array here
+  error={errors.tags && touched.tags && errors.tags}
+/>
 
                     {values.course_type === "Paid" && (
                       <Input
@@ -521,22 +572,22 @@ function AddProgram() {
                   </div>
                 </Col>
                 <Col md={5}>
-  <VideoUploader
-    videoTitle={values.title}
-    videoUrl={values?.video_url}
-    disabled={state?.id}
-    video={values.video}
-    setFieldValue={setFieldValue}
-    thumbnails={values.thumbnails}
-    selectedThumbnail={values.selectedThumbnail}
-  ></VideoUploader>
-  <span style={{ color: "red" }}>
-    {errors.thumbnails && touched.thumbnails && errors.thumbnails} 
-    {errors.video && touched.video && errors.video}
-
-  </span>
-</Col>
-
+                  <VideoUploader
+                    videoTitle={values.title}
+                    videoUrl={values?.video_url}
+                    disabled={state?.id}
+                    video={values.video}
+                    setFieldValue={setFieldValue}
+                    thumbnails={values.thumbnails}
+                    selectedThumbnail={values.selectedThumbnail}
+                  ></VideoUploader>
+                  <span style={{ color: "red" }}>
+                    {errors.thumbnails &&
+                      touched.thumbnails &&
+                      errors.thumbnails}
+                    {errors.video && touched.video && errors.video}
+                  </span>
+                </Col>
               </Row>
             </div>
           </Form>

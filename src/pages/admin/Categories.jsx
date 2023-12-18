@@ -20,6 +20,8 @@ function Categories() {
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
   const { adminCategories } = useSelector((state) => state.adCategories);
   const { data, count } = adminCategories;
+  console.log('adminCategories after fetching:', adminCategories);
+
 
   //Redux action dispatcher
   const dispatch = useDispatch();

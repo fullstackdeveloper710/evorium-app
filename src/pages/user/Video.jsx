@@ -86,21 +86,19 @@ const VideoPlayer = () => {
   const [downloadUrl, setDownloadUrl] = useState(null);
   const [paymentStatus, setPaymentStatus] = useState(false);
   // const [ shareUrl ,setShareUrl] = useState('');
-  const [videoData , setVideoData ] = useState();
+  const [videoData, setVideoData] = useState();
 
-  const [videoID, setVideoId] = useState("")
+  const [videoID, setVideoId] = useState("");
 
   const shareUrl = window.location.href;
 
   async function CopyUrlButton() {
-
-      try {
-        await navigator.clipboard.writeText(shareUrl);
-        console.log('URL copied to clipboard');
-      } catch (err) {
-        console.error('Unable to copy URL to clipboard', err);
-      }
-    
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      console.log("URL copied to clipboard");
+    } catch (err) {
+      console.error("Unable to copy URL to clipboard", err);
+    }
   }
 
   //Redux state
@@ -120,7 +118,7 @@ const VideoPlayer = () => {
   //   thumbnail_url,
   //   description,
   //   title,
-    
+
   //   speaker,
   //   price,
   //   video_duration,
@@ -128,34 +126,34 @@ const VideoPlayer = () => {
   //   episodes,
   //   category,
   // } = videoData;
-//   {
-//     "_id": "6544bc2f043db230ad107bcc",
-//     "title": "Simpson",
-//     "description": "Famous tv show",
-//     "category": "new",
-//     "speaker": "simpson",
-//     "episodes": [
-//         {
-//             "title": "introduction",
-//             "start": "00:10",
-//             "end": "00: 40"
-//         },
-//         {
-//             "title": "claimax",
-//             "start": "00: 41",
-//             "end": "00: 59"
-//         }
-//     ],
-//     "course_type": "Free",
-//     "tags": "Pro",
-//     "thumbnail_url": "https://api.evorium.xyz/thumbnails/6312304899.png",
-//     "video_size": 78049594,
-//     "video_duration": "3813",
-//     "view_count": 8,
-//     "createdAt": "2023-11-03T09:23:59.158Z",
-//     "updatedAt": "2023-11-22T05:30:26.468Z",
-//     "__v": 0
-// }
+  //   {
+  //     "_id": "6544bc2f043db230ad107bcc",
+  //     "title": "Simpson",
+  //     "description": "Famous tv show",
+  //     "category": "new",
+  //     "speaker": "simpson",
+  //     "episodes": [
+  //         {
+  //             "title": "introduction",
+  //             "start": "00:10",
+  //             "end": "00: 40"
+  //         },
+  //         {
+  //             "title": "claimax",
+  //             "start": "00: 41",
+  //             "end": "00: 59"
+  //         }
+  //     ],
+  //     "course_type": "Free",
+  //     "tags": "Pro",
+  //     "thumbnail_url": "https://api.evorium.xyz/thumbnails/6312304899.png",
+  //     "video_size": 78049594,
+  //     "video_duration": "3813",
+  //     "view_count": 8,
+  //     "createdAt": "2023-11-03T09:23:59.158Z",
+  //     "updatedAt": "2023-11-22T05:30:26.468Z",
+  //     "__v": 0
+  // }
 
   const { userRecommendedPrograms } = useSelector(
     (state) => state.userPrograms
@@ -183,41 +181,32 @@ const VideoPlayer = () => {
   }
 
   useEffect(() => {
-
-    
     let shareUrl_ = window.location.pathname;
 
     const regex = /\/videoplayer\/(.*)/;
 
     const match = shareUrl_.match(regex);
-   
 
     if (match) {
-
       // setVideoId(match[0])
 
       let data = {
         userAuthtoken,
-       videoId : match[1]
-
+        videoId: match[1],
       };
 
-      dispatch(getProgramWithId(data)).then(({payload}) => {
-        console.log(payload.data,'payload')
-        setVideoData(payload.data)
-      })
-
-
+      dispatch(getProgramWithId(data)).then(({ payload }) => {
+        console.log(payload.data, "payload");
+        setVideoData(payload.data);
+      });
     } else {
-
-
     }
 
     dispatch(getRecommendedPrograms(data));
     // getDownloadLink();
     dispatch(programPaidStatus({ program_id: videoID, userAuthtoken })).then(
       ({ payload }) => {
-        console.log(payload,'payload paid status')
+        console.log(payload, "payload paid status");
         setPaymentStatus(payload.program_payment_status);
       }
     );
@@ -418,10 +407,14 @@ const VideoPlayer = () => {
                   position: "relative",
                 }}
               >
-                { videoData?.course_type === 'Paid' && paymentStatus === false ? (
+                {videoData?.course_type === "Paid" &&
+                paymentStatus === false ? (
                   <>
                     <Image src={lockscreen} className="lock-screen" />
-                    <Image src={videoData?.thumbnail_url} className="videoImg img-fluid" />
+                    <Image
+                      src={videoData?.thumbnail_url}
+                      className="videoImg img-fluid"
+                    />
                   </>
                 ) : (
                   <ReactPlayer
@@ -458,8 +451,12 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__midbuttons">
                     <div className="midbuttons__left">
-                      <span className="videoLength">{videoData?.video_duration}</span>
-                      <span className="videoViews">{videoData?.view_count} views</span>
+                      <span className="videoLength">
+                        {videoData?.video_duration}
+                      </span>
+                      <span className="videoViews">
+                        {videoData?.view_count} views
+                      </span>
                     </div>
                     <div className="midbuttons__right">
                       <button
@@ -580,7 +577,9 @@ const VideoPlayer = () => {
                         <div className="video_copy_block">
                           <div className="input_copy_wraper">
                             <input type="text" value={shareUrl} />
-                            <button onClick={() => CopyUrlButton()}>Copy</button>
+                            <button onClick={() => CopyUrlButton()}>
+                              Copy
+                            </button>
                           </div>
                         </div>
                       </CustomModal>
@@ -589,8 +588,7 @@ const VideoPlayer = () => {
 
                   <div className="videoWrapper__caption__timecodec">
                     <h4>Time Codes</h4>
-                    {/* <FieldArray name="episodes"> */}
-                    {/* {({ insert, remove, push }) => ( */}
+                   
                     <div>
                       {videoData?.episodes.map(({ title, start, end }) => (
                         <div className="timecodec__list" key={title}>
@@ -613,12 +611,14 @@ const VideoPlayer = () => {
                     </div>
                   </div>
                   <div>
-                   
-                    {paymentStatus === false ? (
+                    {videoData?.course_type === "Paid" &&
+                    paymentStatus === false ? (
                       <button className="buyBtn" onClick={handleShow}>
                         Buy For ${parseInt(videoData?.price) / 100}
                       </button>
-                    ) : (
+                    ) : videoData?.course_type ===
+                      "Free" ?
+                    null : (
                       <button className="buyBtn" onClick={handleShow}>
                         Purchased
                       </button>
