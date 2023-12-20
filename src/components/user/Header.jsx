@@ -18,10 +18,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/reducers/userSlices/userAuth";
 import { useTranslation } from "react-i18next";
 import "../../styles/user/header.scss";
-import { userLanguageUpdate } from "../../redux/thunk/user/usrProfile";
+import {
+  getMyAccount,
+  userLanguageUpdate,
+} from "../../redux/thunk/user/usrProfile";
 
 function Header() {
   const [show, setShow] = useState(true);
+
+  const [imageFile, setImageFile] = useState(null);
+  const [profilePic, setProfilePic] = useState(null); // State to store the profile picture URL
 
   // i18n translator functions
   const { t, i18n } = useTranslation();
@@ -31,6 +37,7 @@ function Header() {
     userAuthtoken,
     userData: { language },
   } = useSelector((state) => state.userAuth);
+  const { userDetails } = useSelector((state) => state.userProfile);
 
   //Redux action dispatcher
   const dispatch = useDispatch();
@@ -40,6 +47,20 @@ function Header() {
   const { usrHome, usrPrograms, usrEditProfile, usrLogin } = ROUTES;
 
   //Methods
+  useEffect(() => {
+    const data = {
+      userAuthtoken,
+      values: {
+        full_name: userDetails?.full_name,
+        // profile_pic: imageFile,
+
+        // email: userDetails?.email,
+      },
+    };
+
+    dispatch(getMyAccount(data));
+  }, [userAuthtoken, dispatch]);
+
   useEffect(() => {
     if (window.innerWidth < 992) {
       setShow(false);
@@ -63,16 +84,13 @@ function Header() {
     dispatch(userLogout());
   };
 
-
   useEffect(() => {
     i18n.changeLanguage(language);
     console.log(language, "language coming from db");
   }, []);
 
   const onLeanguageChange = (language) => {
-   
-
-    dispatch(userLanguageUpdate({userAuthtoken,values : language}))
+    dispatch(userLanguageUpdate({ userAuthtoken, values: language }));
     i18n.changeLanguage(language);
   };
   return (
@@ -192,8 +210,20 @@ function Header() {
                       />
                       <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
-                          <img src="" alt="" />
-                          <UserIcon />
+                          {userDetails?.profile_pic ? (
+                            <img
+                              src={userDetails.profile_pic}
+                              alt="Profile"
+                              style={{
+                                width: "40px", // Adjust the size as needed
+                                height: "40px", // Adjust the size as needed
+                                borderRadius: "50%", // Creates a round shape
+                              }}
+                            />
+                          ) : (
+                            <UserIcon />
+                            
+                          )}
                         </span>
                       </Link>
                     </>
