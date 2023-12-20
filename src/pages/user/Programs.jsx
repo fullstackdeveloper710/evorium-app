@@ -49,9 +49,18 @@ function Programs() {
   const { data: speakerList } = programsSpeakers;
 
   const { data: paidData } = userPaidPrograms;
+
   const { data: freeData } = userFreePrograms;
+
   const { data: myPrograms } = userMyPrograms;
+  const [combinedPrograms, setCombinedPrograms] = useState([])
+  console.log("combinedPrograms",combinedPrograms)
+
+  ;
+
   const { data: filterResults } = userFilteredProgram;
+  console.log("filterResults",filterResults)
+
 
   const { data: atoz } = userAZPrograms;
   const { data: ztoa } = userZAPrograms;
@@ -79,6 +88,9 @@ function Programs() {
       },
     };
 
+ 
+    
+
     if (userAuthtoken !== null) {
       // dispatch(getMyProrgamsList(data))
       dispatch(getMyProrgamsList({ userAuthtoken: userAuthtoken }));
@@ -86,6 +98,14 @@ function Programs() {
 
     dispatch(getUserProgramList(data_for_Paid));
   }, [userAuthtoken, dispatch]);
+
+  useEffect(() => {
+    // Combine free and paid programs
+    const combined = freeData.concat(paidData);
+    setCombinedPrograms(combined);
+    console.log("Combined Programs:", combined);
+
+  }, [freeData, paidData]);
 
   // useEffect(() => {
   //   const data_filter = {
@@ -682,28 +702,10 @@ function Programs() {
                           </p>
                         </div>
                       </Col>
-                      {/* <Col md={4} className="text-end">
-                        {itemsToLoadPro < paidData.length && (
-                          <button
-                            onClick={loadMorePro}
-                            className="view-All-btn"
-                          >
-                            View All
-                          </button>
-                        )}
-                        :
-                        {itemsToLoadPro > 5 && (
-                          <button
-                            onClick={loadLessPro}
-                            className="view-All-btn"
-                          >
-                            View Less
-                          </button>
-                        )}
-                      </Col> */}
+               
                     </Row>
                     <Row className="popular-row">
-                      {myPrograms
+                      {combinedPrograms
                         .slice(0,itemsToLoad)
                         .map(
                           (
@@ -767,11 +769,11 @@ function Programs() {
                         )}
 
 
-                      {itemsToLoadResult < filterResults.length && (
+                      {itemsToLoad < combinedPrograms.length && (
                          <div className="btn_program2 text-center col-12">
                         <button
                           onClick={() =>
-                            setItemsToLoadResult((prevState) => prevState + 5)
+                            setItemsToLoad((prevState) => prevState + 5)
                           }
                           className="view-All-btn"
                         >
@@ -780,18 +782,12 @@ function Programs() {
                         </div>
                       )}
 
-
-                  {itemsToLoadResult < filterResults.length && (
-                    <div className="btn_program2 col-12 text-center">
-                    <button
-                      onClick={() =>
-                        setItemsToLoadResult((prevState) => prevState + 5)
-                      }
-                      className="view-All-btn"
-                    >
-                      View More
-                    </button>
-                    </div>
+{itemsToLoad > 5 && (
+    <div className="btn_program2 col-12 text-center">
+      <button onClick={() => setItemsToLoad((prev) => prev - 5)} className="view-All-btn">
+        View Less
+      </button>
+    </div>
                   )}
 
 
