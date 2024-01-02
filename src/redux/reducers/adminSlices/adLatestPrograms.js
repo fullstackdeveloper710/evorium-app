@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getAdminLatestPrograms } from "../../thunk/admin/adLatestPrograms";
+import { deleteAdminLatestPrograms, getAdminLatestPrograms } from "../../thunk/admin/adLatestPrograms";
 
 
 const initialState = {
@@ -31,7 +31,12 @@ const adminLatestProgramsSlice = createSlice({
       });
       
 
+   
+
+
+
     },
 });
+
 
 export default adminLatestProgramsSlice.reducer;

@@ -3,7 +3,7 @@ import { Container, Row } from "react-bootstrap";
 import "../../styles/user/auth.scss";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminPrivacy } from "../../redux/thunk/admin/adCms";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 function PrivacyPolicy() {
   const dispatch = useDispatch();
   const {
@@ -15,10 +15,18 @@ function PrivacyPolicy() {
   useEffect(() => {
     dispatch(getAdminPrivacy());
   }, []);
+
+  
+  const containerStyle = {
+    display: "flex",
+    alignItems: "center",
+    // height: "100vh",
+    textAlign: "center ",
+  };
   return (
     <>
       <section className="auth">
-        <Container>
+        <Container style={containerStyle}>
           <Row>
             {/* <Col md={6} sm={4}> */}
 

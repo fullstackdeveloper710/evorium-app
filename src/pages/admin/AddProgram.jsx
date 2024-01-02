@@ -21,6 +21,7 @@ import {
 } from "../../redux/thunk/admin/adPrograms";
 import "../../styles/admin/addprogram.scss";
 import { totalItems, itemsPerPage } from "../../utility/methods";
+import Swal from "sweetalert2"; // Import SweetAlert
 
 import { getStartAndEndTime } from "../../utility/methods";
 import {
@@ -34,6 +35,7 @@ import {
 } from "../../redux/thunk/admin/adSpeakers";
 import { useConfirmation, useFetch, usePagination } from "../../utility/hooks";
 import { getAdminTags } from "../../redux/thunk/admin/adTags";
+import { Alert } from "../../components/user";
 
 function AddProgram() {
   const [initValues, setInitValues] = useState({
@@ -62,7 +64,7 @@ function AddProgram() {
   // Log the data after it has been updated
   const { adminTags } = useSelector((state) => state.adTags);
   const { data: data2, count: count2 } = adminTags;
-    console.log('adminTags after fetching:', adminTags);
+  console.log('adminTags after fetching:', adminTags);
 
 
 
@@ -75,6 +77,8 @@ function AddProgram() {
   const location = useLocation();
   const { state } = location;
   const { adProgramList } = ROUTES;
+  const [showSuccessAlert, setShowSuccessAlert] = useState(false); // State to control the visibility of the success alert
+
 
   //Yup validation schema
   const validationSchema = Yup.object().shape({
@@ -117,6 +121,27 @@ function AddProgram() {
   });
 
   //Methods
+  const showSweetAlert = () => {
+    Swal.fire({
+      title: 'Success',
+      text: 'Video successful',
+      icon: 'success',
+      confirmButtonText: 'Done',
+    }).then(() => {
+      navigate(addAdminProgram);
+    });
+  };
+  const showUnsuccessfulAlert = () => {
+    Swal.fire({
+      title: 'Error',
+      text: 'Invalid. Please try again.',
+      icon: 'error',
+      confirmButtonText: 'OK',
+    });
+  };
+
+
+
   const {
     currentPage,
     totalPages,
@@ -170,8 +195,21 @@ function AddProgram() {
       console.log(data, "date here in update");
       console.log("update Admin programs");
     } else {
-      dispatch(addAdminProgram(data));
-    }
+      dispatch(addAdminProgram(data)).then(({ payload }) => {
+        if (payload.status) {
+
+
+          showSweetAlert();
+          // navigate(usrLogin);
+        }
+        else {
+          showUnsuccessfulAlert();
+
+          //navigate(usrEditProfile);
+
+        }
+      });
+    };
   };
 
   const onCancelHandler = (resetForm) => {
@@ -182,29 +220,29 @@ function AddProgram() {
     { value: "", label: "Select option" },
     ...(Array.isArray(adminCategories.data)
       ? adminCategories.data.map((category) => ({
-          value: category.title,
-          label: category.title,
-        }))
+        value: category.title,
+        label: category.title,
+      }))
       : []),
   ];
   const tagOptions = [
     { value: "", label: "Select option" },
     ...(Array.isArray(adminTags.data)
       ? adminTags.data.map((tags) => ({
-          value: tags.title,
-          label: tags.title,
-        }))
+        value: tags.title,
+        label: tags.title,
+      }))
       : [])
   ];
-  
+
 
   const speakerOptions = [
     { value: "", label: "Select option" },
     ...(Array.isArray(adminSpeakers.data)
       ? adminSpeakers.data.map((speaker) => ({
-          value: speaker.name,
-          label: speaker.name,
-        }))
+        value: speaker.name,
+        label: speaker.name,
+      }))
       : []),
   ];
 
@@ -247,11 +285,13 @@ function AddProgram() {
         {state?.id ? "Update Program" : "Add New Program"}
       </h3>{" "}
       <Formik
+
         enableReinitialize={true}
         initialValues={initValues}
         validationSchema={validationSchema}
         onSubmit={onSubmitHandler}
       >
+
         {({
           values,
           resetForm,
@@ -263,6 +303,7 @@ function AddProgram() {
           handleBlur,
           setFieldValue,
         }) => (
+
           <Form>
             <div className="add_program_form">
               <Row>
@@ -376,11 +417,11 @@ function AddProgram() {
                                       value={title}
                                       onBlur={handleBlur}
                                       onChange={handleChange}
-                                      // error={
-                                      //   errors.number &&
-                                      //   touched.number &&
-                                      //   errors.number
-                                      // }
+                                    // error={
+                                    //   errors.number &&
+                                    //   touched.number &&
+                                    //   errors.number
+                                    // }
                                     />
                                   </Col>
                                   <Col xs lg="4">
@@ -531,15 +572,17 @@ function AddProgram() {
                       </RadioGroup> */}
                     </div>
                     <SelectBox
-  className="input_label_wrap"
-  name="tags"
-  label="Tags"
-  value={values.tags}
-  onChange={handleChange}
-  onBlur={handleBlur}
-  options={tagOptions}  // Use the tagOptions array here
-  error={errors.tags && touched.tags && errors.tags}
-/>
+                      className="input_label_wrap"
+                      name="tags"
+                      label="Tags"
+                      value={values.tags}
+                      onChange={handleChange}
+
+                      
+                      onBlur={handleBlur}
+                      options={tagOptions}  // Use the tagOptions array here
+                      error={errors.tags && touched.tags && errors.tags}
+                    />
 
                     {values.course_type === "Paid" && (
                       <Input
@@ -560,7 +603,7 @@ function AddProgram() {
                         title={state?.id ? "Update" : "Save"}
                         type="submit"
                         className="primary_btn"
-                        // onClick={() => onSubmitHandler(values)}
+                      // onClick={() => onSubmitHandler(values)}
                       />
                       <Button
                         title="cancel"

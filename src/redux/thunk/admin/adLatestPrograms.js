@@ -1,7 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import httpsClient from "../../../services/httpsClient";
 import { adminApi } from "../../../services/apiEndpoints";
-import { hideLoader, showLoader } from "../../reducers/common/appSlice";
+import { hideBtnLoader, hideLoader, showBtnLoader, showLoader } from "../../reducers/common/appSlice";
 
 const {
   adLatestPrograms
@@ -27,3 +27,6 @@ export const getAdminLatestPrograms = createAsyncThunk(
     }
   }
 );
+
+
+// delete admin category thunk

@@ -1,14 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import {
   addAdminProgram,
+  deleteAdminLatestProgram,
   deleteAdminProgram,
   getAdminProgramList,
   searchAdminProgram,
   updateAdminProgram,
 } from "../../thunk/admin/adPrograms";
+import { getAdminLatestPrograms } from "../../thunk/admin/adLatestPrograms";
 
 const initialState = {
   adminPrograms: {
+    data: [],
+    count: 0,
+  },
+  adminLatestPrograms: {
     data: [],
     count: 0,
   },
@@ -85,6 +91,27 @@ const adminProgramsSlice = createSlice({
         state.status = false;
       });
 
+         //delete Latest admin program
+    builder
+    .addCase(deleteAdminLatestProgram.pending, (state) => {
+      state.error = null;
+      state.status = false;
+    })
+    .addCase(deleteAdminLatestProgram.fulfilled, (state, action) => {
+      const { meta } = action;
+      state.adminLatestPrograms = {
+        ...state.adminLatestPrograms,
+        data: state.adminLatestPrograms.data.filter(
+          (item) => item._id !== meta.arg.values.id
+        ),
+      };
+      state.status = true;
+    })
+    .addCase(deleteAdminLatestProgram.rejected, (state, action) => {
+      state.status = false;
+    });
+
+
     //update admin program
     builder
       .addCase(updateAdminProgram.pending, (state) => {
@@ -96,6 +123,21 @@ const adminProgramsSlice = createSlice({
       })
       .addCase(updateAdminProgram.rejected, (state, action) => {
         state.status = false;
+      });
+
+      builder
+      .addCase(getAdminLatestPrograms.pending, (state) => {
+        state.error = null;
+        state.status = false;
+      })
+      .addCase(getAdminLatestPrograms.fulfilled, (state, action) => {
+        const { payload } = action;
+        state.adminLatestPrograms = payload;
+        state.status = true;
+      })
+      .addCase(getAdminLatestPrograms.rejected, (state, action) => {
+        state.status = false;
+        state.error = action.error.message; // Assuming your API returns an error message
       });
   },
 });

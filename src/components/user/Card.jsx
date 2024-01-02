@@ -26,7 +26,7 @@ const Card = (props) => {
           {course_type === "free" || course_type === "Free" ? (
             <span className="free-btn">{course_type}</span>
           ) : (
-            <span className="premium-btn">{price}</span>
+            <span className="premium-btn">${price}</span>
           )}
 
           <Image src={watched ? checked : paused} className="label-watch" />

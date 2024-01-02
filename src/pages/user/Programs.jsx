@@ -87,10 +87,7 @@ function Programs() {
         course_type: "Paid",
       },
     };
-
- 
-    
-
+     
     if (userAuthtoken !== null) {
       // dispatch(getMyProrgamsList(data))
       dispatch(getMyProrgamsList({ userAuthtoken: userAuthtoken }));
@@ -259,18 +256,8 @@ function Programs() {
     setSorted(val);
   };
 
-  // const loadMore = () => {
-  //   setItemsToLoad(cardsData.length);
-  // };
-  // const loadLess = () => {
-  //   setItemsToLoad(5);
-  // };
-  // const loadMorePro = () => {
-  //   setItemsToLoadPro(cardsData.length);
-  // };
-  // const loadLessPro = () => {
-  //   setItemsToLoadPro(5);
-  // };
+
+  
   let data = {
     userAuthtoken,
     filter: filter,
@@ -414,10 +401,6 @@ function Programs() {
 
                                    <label>{i.name}</label>
                                   </div>
-
-                            
-
-
                                 // </div>
                               ))}
                             </div>

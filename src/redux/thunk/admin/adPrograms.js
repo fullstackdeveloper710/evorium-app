@@ -107,6 +107,27 @@ export const deleteAdminProgram = createAsyncThunk(
   }
 );
 
+// delete admin program
+export const deleteAdminLatestProgram = createAsyncThunk(
+  "admin/deleteAdminLatestProgram",
+  async (data, thunkAPI) => {
+    const { dispatch } = thunkAPI;
+    const { adminAuthtoken, values } = data;
+    try {
+      const config = {
+        method: "delete",
+        url: `${adDelProgram}/${values.id}`,
+      };
+      dispatch(showLoader());
+      const response = await httpsClient(config, adminAuthtoken);
+      dispatch(hideLoader());
+      return response;
+    } catch (error) {
+      dispatch(hideLoader());
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 // get admin program by id thunk
 export const getAdminProgramById = createAsyncThunk(
   "admin/getAdminProgramById",
