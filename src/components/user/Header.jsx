@@ -38,7 +38,7 @@ function Header() {
     userData: { language },
   } = useSelector((state) => state.userAuth);
   const { userDetails } = useSelector((state) => state.userProfile);
-
+  console.log('Profile Picture URL:', userDetails.profile_pic);
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -52,7 +52,7 @@ function Header() {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
-        // profile_pic: imageFile,
+        profile_pic: imageFile,
 
         // email: userDetails?.email,
       },
@@ -210,7 +210,8 @@ function Header() {
                       />
                       <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
-                          {userDetails?.profile_pic ? (
+                          
+                          {userDetails?.profile_pic? (
                             <img
                               src={userDetails.profile_pic}
                               alt="Profile"
@@ -219,11 +220,13 @@ function Header() {
                                 height: "40px", // Adjust the size as needed
                                 borderRadius: "50%", // Creates a round shape
                               }}
+                              
                             />
                           ) : (
                             <UserIcon />
                             
                           )}
+                          
                         </span>
                       </Link>
                     </>

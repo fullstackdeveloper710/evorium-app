@@ -28,9 +28,7 @@ import { ROUTES } from "../../navigation/constants";
 import Swal from "sweetalert2"; // Import SweetAlert
 import { userLogin } from "../../redux/thunk/user/usrMain";
 
-
 import { CountryOptions } from "../../utility/CountryList";
-
 
 const UserProfile = () => {
   const [selectedCountry, setSelectedCountry] = useState("");
@@ -42,7 +40,11 @@ const UserProfile = () => {
   const [Initialvalues, setInitialvalues] = useState(false);
 
   const { userAuthtoken } = useSelector((state) => state.userAuth);
+  const { userDetails:{verified} } = useSelector((state) => state.userAuth);
+console.log('Verified status from Redux store:', verified);
   const { userDetails } = useSelector((state) => state.userProfile);
+  // const verified = userDetails?.verified; // Check the correct nesting
+  // console.log("show status", verified);
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -53,8 +55,6 @@ const UserProfile = () => {
   const [croppedImage, setCroppedImage] = useState(null);
   const countries = countryList().getData();
   const fullNameRegex = /^[a-zA-Z]+(?: [a-zA-Z]+)*$/;
-  
-
 
   const handleCrop = () => {
     if (cropperRef.current) {
@@ -87,21 +87,21 @@ const UserProfile = () => {
     //password: userDetails?.password ?? "",
     country_code: userDetails?.country_code ?? "",
 
-    address:userDetails?.address ?? "",
-    profile_pic_ : userDetails?.profile_pic,
+    address: userDetails?.address ?? "",
+    profile_pic: userDetails?.profile_pic,
 
-    profile_pic: null,
+    // profile_pic: null,
   };
 
   //Formin validation schema
   const validationSchema = Yup.object().shape({
     full_name: Yup.string()
-    .matches(nameRefExp, "*Name can only contain Latin letters.")
-    .test('full_name', 'Please enter both first and last names', value => {
-      // Check if both first and last names are present
-      const names = value.split(' ');
-      return names.length === 2 && names.every(name => name.trim() !== '');
-    })
+      .matches(nameRefExp, "*Name can only contain Latin letters.")
+      .test("full_name", "Please enter both first and last names", (value) => {
+        // Check if both first and last names are present
+        const names = value.split(" ");
+        return names.length === 2 && names.every((name) => name.trim() !== "");
+      })
       .max(50)
       .required("*Enter Your Full Name"),
     email: Yup.string().email().required("*Enter your E-mail"),
@@ -119,16 +119,16 @@ const UserProfile = () => {
     //   ),
     // address: Yup.string().required("must select country"),
   });
-const {usrEditProfile,usrOtp}= ROUTES
-const navigate = useNavigate();
+  const { usrEditProfile, usrOtp } = ROUTES;
+  const navigate = useNavigate();
 
   //Methods
   const showNumberVerificationAlert = () => {
     Swal.fire({
-      title: 'Success',
-      text: 'Updation successful',
-      icon: 'success',
-      confirmButtonText: 'Done',
+      title: "Success",
+      text: "Updation successful",
+      icon: "success",
+      confirmButtonText: "Done",
     }).then(() => {
       // Navigate to the desired page after the alert is closed
       navigate(usrEditProfile);
@@ -136,21 +136,19 @@ const navigate = useNavigate();
   };
   const showUnsuccessfulAlert = () => {
     Swal.fire({
-      title: 'Error',
-      text: 'Number verification unsuccessful. Please try again.',
-      icon: 'error',
-      confirmButtonText: 'redirect to otp page ',
+      title: "Error",
+      text: "Number verification unsuccessful. Please try again.",
+      icon: "error",
+      confirmButtonText: "redirect to otp page ",
     }).then(() => {
       navigate(usrOtp);
-    });   
-   
+    });
   };
   useEffect(() => {
     const data = {
       userAuthtoken,
       values: {
         full_name: userDetails?.full_name,
-        
 
         // email: userDetails?.email,
       },
@@ -164,52 +162,33 @@ const navigate = useNavigate();
   };
 
   const onSubmitHandler = (values) => {
-    const { full_name , email , phone } = values;
-    if(values.phone === userDetails.phone){
-      delete values.phone
+    const { full_name, email, phone } = values;
+    if (values.phone === userDetails.phone) {
+      delete values.phone;
     }
-    console.log(values,'valuesssss')
-    
-
+    console.log(values, "valuesssss");
     const data = {
       userAuthtoken,
-
-
       values: {
         profile_pic: imageFile,
         full_name: userDetails?.full_name,
         otp: +values.otp,
-
       },
-
-      // values: {
-      //   profile_pic : imageFile,
-      //   full_name: userDetails?.full_name,
-
-      // },
-
-
-    
-      values : values
-      // values: {
-      //   profile_pic : imageFile
-      // },
-
+      values: values,
     };
+    console.log("Values sent to userEditProfile action:", data);
 
     dispatch(userEditProfile(data)).then(({ payload }) => {
       if (payload.status) {
-
+        console.log("ngkfjghkjgjgj", payload.verified);
         if (payload.verified) {
           // Show a success alert
           showNumberVerificationAlert();
-         
         } else {
           // Show an error alert for unsuccessful verification
           showUnsuccessfulAlert();
-
         }
-      } 
+      }
     });
   };
 
@@ -265,7 +244,6 @@ const navigate = useNavigate();
               handleBlur,
               setFieldValue,
             }) => (
-              
               <Form onSubmit={handleSubmit}>
                 <Row>
                   <Col md={12}>
@@ -279,14 +257,14 @@ const navigate = useNavigate();
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
-                            {values.profile_pic_ ? (
+                            {values.profile_pic? (
                               <Image
                                 style={{
                                   width: "100%",
                                   height: "100%",
                                   borderRadius: "100%",
                                 }}
-                                src={values.profile_pic_}
+                                src={values.profile_pic}
                                 alt="user_pro"
                               />
                             ) : (
@@ -330,35 +308,34 @@ const navigate = useNavigate();
                       </span>
                     </div>
                   </Col> */}
-   <Col md={12}>
-  <div className="inputRow">
-    <input
-      name="full_name"
-      placeholder="Name"
-      type="text"
-      value={values.full_name}
-      onBlur={handleBlur}
-      onChange={handleChange}
-      className={
-        touched.full_name &&
-        ((!fullNameRegex.test(values.full_name) ||
-          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
-            values.full_name
-          )) &&
-          'invalid-input')
-      }
-    />
-    <span style={{ color: 'red' }}>
-      {touched.full_name &&
-        ((!fullNameRegex.test(values.full_name) ||
-          !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
-            values.full_name
-          )) &&
-          'Invalid full name')}
-    </span>
-  </div>
-</Col>
-
+                  <Col md={12}>
+                    <div className="inputRow">
+                      <input
+                        name="full_name"
+                        placeholder="Name"
+                        type="text"
+                        value={values.full_name}
+                        onBlur={handleBlur}
+                        onChange={handleChange}
+                        className={
+                          touched.full_name &&
+                          (!fullNameRegex.test(values.full_name) ||
+                            !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+                              values.full_name
+                            )) &&
+                          "invalid-input"
+                        }
+                      />
+                      <span style={{ color: "red" }}>
+                        {touched.full_name &&
+                          (!fullNameRegex.test(values.full_name) ||
+                            !/^[a-zA-Z]+(?: [a-zA-Z]+)*\s+[a-zA-Z]+(?: [a-zA-Z]+)*$/.test(
+                              values.full_name
+                            )) &&
+                          "Invalid full name"}
+                      </span>
+                    </div>
+                  </Col>
 
                   <Col md={12}>
                     <div className="inputRow">
@@ -391,59 +368,41 @@ const navigate = useNavigate();
                       </span>
                     </div>
                   </Col>
-                  {/* <Col md={12}>
-                    <div className="inputRow">
-                      <input
-                        name="address"
-                        placeholder="Address"
-                        type="text"
-                        value={values.address}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      <span style={{ color: "red" }}>
-                        {errors.address && touched.address && errors.address}
-                      </span>
-                    </div>
-                  </Col> */}
+                
                   <Col md={12}>
+                    <div className="inputRow">
+                      <div className="inputRow__icon">
+                        <select
+                          name="address"
+                          onBlur={handleBlur}
+                          value={values.address} // Set the selected value
+                          onChange={(e) => {
+                            handleCountryChange(e.target.value);
+                            handleChange("address")(e.target.value);
+                          }}
+                        >
+                          <option value="" disabled>
+                            Select a country
+                          </option>
+                          {CountryOptions.map((country) => (
+                            <option key={country.value} value={country.value}>
+                              <FlagIcon countryCode={country.value} />
+                              {country.label}
+                            </option>
+                          ))}
+                        </select>
 
-  <div className="inputRow">
-    <div className="inputRow__icon">
-      <select
+                        <span className="inputRow__iconGroup">
+                          <DownArrow />
+                        </span>
 
-        name="address"
-        onBlur={handleBlur}
-        value={values.address}  // Set the selected value
-        onChange={(e) => {
-          handleCountryChange(e.target.value);
-          handleChange("address")(e.target.value);
-        }}
-      >
-        <option value="" disabled>
-          Select a country
-        </option>
-        {CountryOptions.map((country) => (
-          <option key={country.value} value={country.value}>
-            <FlagIcon countryCode={country.value} />
-            {country.label}
-          </option>
-        ))}
-      </select>
-
-      <span className="inputRow__iconGroup">
-        <DownArrow />
-      </span>
-
-      {/* Error message for country code */}
-      <span style={{ color: "red" }}>
-        {errors.address && touched.address && errors.address}
-      </span>
-    </div>
-  </div>
-</Col>
-
-
+                        {/* Error message for country code */}
+                        <span style={{ color: "red" }}>
+                          {errors.address && touched.address && errors.address}
+                        </span>
+                      </div>
+                    </div>
+                  </Col>
 
                   {/* <Col md={12}>
       <div className="inputRow">
