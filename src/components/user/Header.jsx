@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Image } from "react-bootstrap";
@@ -25,7 +25,7 @@ import {
 
 function Header() {
   const [show, setShow] = useState(true);
-
+  const dropdownRef = useRef(null);
   const [imageFile, setImageFile] = useState(null);
   const [profilePic, setProfilePic] = useState(null); // State to store the profile picture URL
 
@@ -47,6 +47,9 @@ function Header() {
   const { usrHome, usrPrograms, usrEditProfile, usrLogin } = ROUTES;
 
   //Methods
+
+
+
   useEffect(() => {
     const data = {
       userAuthtoken,

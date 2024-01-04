@@ -35,13 +35,13 @@ const UserProfile = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   const [imageFile, setImageFile] = useState(null);
+  const [file, setFile] = useState(null);
 
   //Redux state
   const [Initialvalues, setInitialvalues] = useState(false);
 
   const { userAuthtoken } = useSelector((state) => state.userAuth);
-  const { userDetails:{verified} } = useSelector((state) => state.userAuth);
-console.log('Verified status from Redux store:', verified);
+
   const { userDetails } = useSelector((state) => state.userProfile);
   // const verified = userDetails?.verified; // Check the correct nesting
   // console.log("show status", verified);
@@ -170,7 +170,7 @@ console.log('Verified status from Redux store:', verified);
     const data = {
       userAuthtoken,
       values: {
-        profile_pic: imageFile,
+        profile_pic: file,
         full_name: userDetails?.full_name,
         otp: +values.otp,
       },
@@ -203,6 +203,8 @@ console.log('Verified status from Redux store:', verified);
   // };
   const handleImageChange = (e, setFieldValue) => {
     const file = e.target.files[0];
+    console.log(e.target.files[0], "e.target.files[0];");
+    setFile(e.target.files[0]);
 
     if (file) {
       const reader = new FileReader();
@@ -212,15 +214,13 @@ console.log('Verified status from Redux store:', verified);
         setFieldValue("profile_pic", reader.result);
       };
 
-      reader.readAsDataURL(file);
+      // reader.readAsDataURL(file);
     }
 
     // console.log(file)
 
     setImageFile(file);
     setFieldValue("profile_pic", file);
-    // setFieldValue("profile_pic_", URL.createObjectURL(file));
-    // console.log(URL.createObjectURL(file), "URL.createObjectURL(file)");
   };
 
   return (
@@ -257,14 +257,18 @@ console.log('Verified status from Redux store:', verified);
                         />
                         <label for="editUser">
                           <div className="editUser__figure">
-                            {values.profile_pic? (
+                            {values.profile_pic ? (
                               <Image
                                 style={{
                                   width: "100%",
                                   height: "100%",
                                   borderRadius: "100%",
                                 }}
-                                src={values.profile_pic}
+                                src={
+                                  file
+                                    ? URL.createObjectURL(file)
+                                    : values.profile_pic
+                                }
                                 alt="user_pro"
                               />
                             ) : (
@@ -277,7 +281,7 @@ console.log('Verified status from Redux store:', verified);
                         </label>
                       </div>
                     </div>
-                    <CustomModal
+                    {/* <CustomModal
                       show={show}
                       handleClose={handleClose}
                       modalHead="Image cropper"
@@ -288,26 +292,9 @@ console.log('Verified status from Redux store:', verified);
                         file={values.file}
                         cancelCrop={cancelCrop}
                       />
-                    </CustomModal>
+                    </CustomModal> */}
                   </Col>
 
-                  {/* <Col md={12}>
-                    <div className="inputRow">
-                      <input
-                        name="full_name"
-                        placeholder="Name"
-                        type="text"
-                        value={values.full_name}
-                        onBlur={handleBlur}
-                        onChange={handleChange}
-                      />
-                      <span style={{ color: "red" }}>
-                        {errors.full_name &&
-                          touched.full_name &&
-                          errors.full_name}
-                      </span>
-                    </div>
-                  </Col> */}
                   <Col md={12}>
                     <div className="inputRow">
                       <input
@@ -368,7 +355,7 @@ console.log('Verified status from Redux store:', verified);
                       </span>
                     </div>
                   </Col>
-                
+
                   <Col md={12}>
                     <div className="inputRow">
                       <div className="inputRow__icon">
