@@ -38,7 +38,7 @@ function Header() {
     userData: { language },
   } = useSelector((state) => state.userAuth);
   const { userDetails } = useSelector((state) => state.userProfile);
-  console.log('Profile Picture URL:', userDetails.profile_pic);
+  console.log("Profile Picture URL:", userDetails.profile_pic);
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -47,8 +47,6 @@ function Header() {
   const { usrHome, usrPrograms, usrEditProfile, usrLogin } = ROUTES;
 
   //Methods
-
-
 
   useEffect(() => {
     const data = {
@@ -82,6 +80,22 @@ function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  useEffect(() => {
+    const handleOutsideClick = (event) => {
+      // Close the dropdown if the click is outside the dropdown area
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setShow(false);
+      }
+    };
+
+    // Add event listener to close dropdown on outside click
+    document.addEventListener("click", handleOutsideClick);
+
+    return () => {
+      // Remove event listener on component unmount
+      document.removeEventListener("click", handleOutsideClick);
+    };
+  }, []);
 
   const onLogouthandler = () => {
     dispatch(userLogout());
@@ -96,9 +110,14 @@ function Header() {
     dispatch(userLanguageUpdate({ userAuthtoken, values: language }));
     i18n.changeLanguage(language);
   };
+
+  const onButtonClick = () => {
+    // Hide the dropdown when any button is clicked
+    setShow(false);
+  };
   return (
     <>
-      <div className="customHeader">
+      <div className="customHeader" ref={dropdownRef}>
         <div className="container">
           <div className="customHeader__innerHeader">
             <button className="hamburgerMenu" onClick={() => setShow(!show)}>
@@ -124,9 +143,12 @@ function Header() {
             {show && (
               <div className="customHeader__dropMenu">
                 <ul className="customHeader__menu">
-                  <li>
-                    <Link to={usrHome}>{t("home")}</Link>
-                  </li>
+                  {/* <button onClick={() => onButtonClick()}> */}
+                    <li>
+                      <Link to={usrHome}>{t("home")}</Link>
+                    </li>
+                  {/* </button> */}
+
                   <li>
                     <Link to={usrPrograms}>{t("programs")}</Link>
                   </li>
@@ -213,8 +235,7 @@ function Header() {
                       />
                       <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
-                          
-                          {userDetails?.profile_pic? (
+                          {userDetails?.profile_pic ? (
                             <img
                               src={userDetails.profile_pic}
                               alt="Profile"
@@ -223,13 +244,10 @@ function Header() {
                                 height: "40px", // Adjust the size as needed
                                 borderRadius: "50%", // Creates a round shape
                               }}
-                              
                             />
                           ) : (
                             <UserIcon />
-                            
                           )}
-                          
                         </span>
                       </Link>
                     </>

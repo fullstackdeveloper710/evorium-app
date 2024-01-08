@@ -9,7 +9,7 @@ import {
   view,
   trash,
 } from "../../assets/icons/admin";
-import { video_card } from "../../assets/images/admin";
+import { thumbnail, video_card } from "../../assets/images/admin";
 import "../../styles/admin/dashboard.scss";
 import { TableUser } from "../../components/admin";
 import { useDispatch, useSelector } from "react-redux";
@@ -23,9 +23,19 @@ import {
   deleteAdminLatestPrograms,
   getAdminLatestPrograms,
 } from "../../redux/thunk/admin/adLatestPrograms";
-import { useConfirmation, useFetch, usePagination, useSearch } from "../../utility/hooks";
+import {
+  useConfirmation,
+  useFetch,
+  usePagination,
+  useSearch,
+} from "../../utility/hooks";
 import { BtnGroup, Button, ConfirmPopUp } from "../../components/common";
-import { deleteAdminLatestProgram, deleteAdminProgram, getAdminProgramList, searchAdminProgram } from "../../redux/thunk/admin/adPrograms";
+import {
+  deleteAdminLatestProgram,
+  deleteAdminProgram,
+  getAdminProgramList,
+  searchAdminProgram,
+} from "../../redux/thunk/admin/adPrograms";
 import { itemsPerPage } from "../../utility/methods";
 
 function Dashboard() {
@@ -34,19 +44,20 @@ function Dashboard() {
   const { adminAuthtoken } = useSelector((state) => state.adAuth);
 
   const {
-    adminDashboard: { data: data1 }} = useSelector((state) => state.adDashboard);
+    adminDashboard: { data: data1 },
+  } = useSelector((state) => state.adDashboard);
 
   const {
-    adminNotification: { data: notification_data }} = useSelector((state) => state.adNotification);
+    adminNotification: { data: notification_data },
+  } = useSelector((state) => state.adNotification);
   const {
-    adminLatestPrograms: { data }} = useSelector((state) => state.adLatestProgram);
-console.log("data latest",data)
+    adminLatestPrograms: { data },
+  } = useSelector((state) => state.adLatestProgram);
+  console.log("data latest", data);
   const { adminLatestPrograms } = useSelector((state) => state.adPrograms);
 
-  const { data:data2, count } = adminLatestPrograms;
-  console.log("data adminLatestPrograms",data2)
-
-
+  const { data: data2, count } = adminLatestPrograms;
+  console.log("data adminLatestPrograms", data2);
 
   const {
     setId,
@@ -57,12 +68,9 @@ console.log("data latest",data)
   } = useConfirmation({
     action: deleteAdminLatestProgram,
   });
-  
- 
-  
+
   // Use onConfirmHandlerWithReload where you handle the confirmation
-  
-  
+
   const {
     currentPage,
     totalPages,
@@ -80,8 +88,12 @@ console.log("data latest",data)
     action: searchAdminProgram,
   });
 
-  useFetch({ search, action: getAdminLatestPrograms, currentPage, itemsPerPage });
-
+  useFetch({
+    search,
+    action: getAdminLatestPrograms,
+    currentPage,
+    itemsPerPage,
+  });
 
   useEffect(() => {
     const data = {
@@ -108,8 +120,6 @@ console.log("data latest",data)
             </div>
           </Col>
           <Col md={3}>
-
-            
             <div className="cards_dashboard users">
               <span className="icons">
                 <Image src={dashboarduser} />
@@ -168,7 +178,17 @@ console.log("data latest",data)
                       <div className="card_uploads" key={index._id}>
                         <div className="left_video_block">
                           <div className="img_block">
-                            <Image src={video_card} />
+                            <Image
+                              src={thumbnail_url}
+                              className="custom-thumbnail" // You can also apply a custom class for additional styling
+                              style={{
+                                width: "100px", // Adjust the width as needed
+                                height: "100px", // Adjust the height as needed
+                                // Add any additional styling properties as necessary
+                              }}
+                              alt="Thumbnail"
+                            />
+
                             <span className="available">Available</span>
                           </div>
                           <div className="text_block">
@@ -210,11 +230,11 @@ console.log("data latest",data)
                 <div>There are no records to display</div>
               )}
 
-<ConfirmPopUp
-          showConfirm={showConfirm}
-          handleConfirmClose={handleConfirmClose}
-          onConfirmHandler={onConfirmHandler}
-        />
+              <ConfirmPopUp
+                showConfirm={showConfirm}
+                handleConfirmClose={handleConfirmClose}
+                onConfirmHandler={onConfirmHandler}
+              />
             </div>
           </Col>
           <Col md={5}>
