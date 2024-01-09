@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Nav from "react-bootstrap/Nav";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import { Image } from "react-bootstrap";
@@ -18,16 +18,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { userLogout } from "../../redux/reducers/userSlices/userAuth";
 import { useTranslation } from "react-i18next";
 import "../../styles/user/header.scss";
-import {
-  getMyAccount,
-  userLanguageUpdate,
-} from "../../redux/thunk/user/usrProfile";
+import { userLanguageUpdate } from "../../redux/thunk/user/usrProfile";
 
 function Header() {
   const [show, setShow] = useState(true);
-  const dropdownRef = useRef(null);
-  const [imageFile, setImageFile] = useState(null);
-  const [profilePic, setProfilePic] = useState(null); // State to store the profile picture URL
 
   // i18n translator functions
   const { t, i18n } = useTranslation();
@@ -37,8 +31,7 @@ function Header() {
     userAuthtoken,
     userData: { language },
   } = useSelector((state) => state.userAuth);
-  const { userDetails } = useSelector((state) => state.userProfile);
-  console.log("Profile Picture URL:", userDetails.profile_pic);
+
   //Redux action dispatcher
   const dispatch = useDispatch();
 
@@ -47,21 +40,6 @@ function Header() {
   const { usrHome, usrPrograms, usrEditProfile, usrLogin } = ROUTES;
 
   //Methods
-
-  useEffect(() => {
-    const data = {
-      userAuthtoken,
-      values: {
-        full_name: userDetails?.full_name,
-        profile_pic: imageFile,
-
-        // email: userDetails?.email,
-      },
-    };
-
-    dispatch(getMyAccount(data));
-  }, [userAuthtoken, dispatch]);
-
   useEffect(() => {
     if (window.innerWidth < 992) {
       setShow(false);
@@ -80,26 +58,11 @@ function Header() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-  useEffect(() => {
-    const handleOutsideClick = (event) => {
-      // Close the dropdown if the click is outside the dropdown area
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
-        setShow(false);
-      }
-    };
-
-    // Add event listener to close dropdown on outside click
-    document.addEventListener("click", handleOutsideClick);
-
-    return () => {
-      // Remove event listener on component unmount
-      document.removeEventListener("click", handleOutsideClick);
-    };
-  }, []);
 
   const onLogouthandler = () => {
     dispatch(userLogout());
   };
+
 
   useEffect(() => {
     i18n.changeLanguage(language);
@@ -107,17 +70,14 @@ function Header() {
   }, []);
 
   const onLeanguageChange = (language) => {
-    dispatch(userLanguageUpdate({ userAuthtoken, values: language }));
-    i18n.changeLanguage(language);
-  };
+   
 
-  const onButtonClick = () => {
-    // Hide the dropdown when any button is clicked
-    setShow(false);
+    dispatch(userLanguageUpdate({userAuthtoken,values : language}))
+    i18n.changeLanguage(language);
   };
   return (
     <>
-      <div className="customHeader" ref={dropdownRef}>
+      <div className="customHeader">
         <div className="container">
           <div className="customHeader__innerHeader">
             <button className="hamburgerMenu" onClick={() => setShow(!show)}>
@@ -143,12 +103,9 @@ function Header() {
             {show && (
               <div className="customHeader__dropMenu">
                 <ul className="customHeader__menu">
-                  {/* <button onClick={() => onButtonClick()}> */}
-                    <li>
-                      <Link to={usrHome}>{t("home")}</Link>
-                    </li>
-                  {/* </button> */}
-
+                  <li>
+                    <Link to={usrHome}>{t("home")}</Link>
+                  </li>
                   <li>
                     <Link to={usrPrograms}>{t("programs")}</Link>
                   </li>
@@ -235,19 +192,8 @@ function Header() {
                       />
                       <Link to={usrEditProfile} className="p-0 eprofile">
                         <span className="headeruser">
-                          {userDetails?.profile_pic ? (
-                            <img
-                              src={userDetails.profile_pic}
-                              alt="Profile"
-                              style={{
-                                width: "40px", // Adjust the size as needed
-                                height: "40px", // Adjust the size as needed
-                                borderRadius: "50%", // Creates a round shape
-                              }}
-                            />
-                          ) : (
-                            <UserIcon />
-                          )}
+                          <img src="" alt="" />
+                          <UserIcon />
                         </span>
                       </Link>
                     </>

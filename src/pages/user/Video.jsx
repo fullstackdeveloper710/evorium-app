@@ -337,7 +337,7 @@ const VideoPlayer = () => {
   async function handleDownload() {
     try {
       const response = await fetch(
-        `https://api.evorium.xyz/user/download_video_link/${videoID}`,
+        `https://api.evorium.xyz/user/generate_Video_link/${videoID}`,
         {
           method: "POST",
           headers: {
