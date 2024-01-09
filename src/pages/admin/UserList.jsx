@@ -6,7 +6,7 @@ import {
   getAdminUserList,
   searchAdminUserList,
 } from "../../redux/thunk/admin/adUser";
-import { ConfirmPopUp, ReactDataTable } from "../../components/common";
+import { BtnGroup, Button, ConfirmPopUp, ReactDataTable } from "../../components/common";
 import { Image } from "react-bootstrap";
 import { demopic } from "../../assets/images/admin";
 import { dateFormater } from "../../utility/methods";
@@ -27,6 +27,7 @@ function UserList() {
   //Redux state
   const { adminUsers } = useSelector((state) => state.adUser);
   const { data, count } = adminUsers;
+  console.log(adminUsers,"usersssssssssssssssssss")
 
   //Router functions
   const navigate = useNavigate();
@@ -112,7 +113,7 @@ function UserList() {
         <div className="location">
           <span>
             <Image />
-            London, UK
+            {row.address}
           </span>
         </div>
       ),
@@ -120,26 +121,24 @@ function UserList() {
     {
       name: "Action",
       selector: (row) => (
-        <div className="actions_btns">
-          <button className="action_btn" onClick={() => onViewHandler(row._id)}>
-            <Image src={view} />
-          </button>
-          <button
-            className="action_btn"
+        <BtnGroup className="delete_action">
+          <Button
+            title={<Image src={trash} />}
+            type="button"
+            className="action_btn delete_btn "
             onClick={() => {
               handleConfirmShow();
               setId(row._id);
             }}
-          >
-            <Image src={trash} />
-          </button>
+          />
           <ConfirmPopUp
             showConfirm={showConfirm}
             handleConfirmClose={handleConfirmClose}
             onConfirmHandler={onConfirmHandler}
           />
-        </div>
+        </BtnGroup>
       ),
+      // width: "200px",
     },
   ];
   return (

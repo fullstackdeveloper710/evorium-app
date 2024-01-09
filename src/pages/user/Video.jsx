@@ -5,7 +5,7 @@ import { Card } from "../../components/user";
 import { cardsData } from "../../utility/data";
 import { Play, lockscreen } from "../../assets/icons/user";
 import { CheckoutForm, CustomModal, Input } from "../../components/common";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useModal } from "../../utility/hooks";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -73,6 +73,8 @@ import "../../styles/user/video.scss";
 import { loadStripe } from "@stripe/stripe-js";
 import { FieldArray } from "formik";
 import { userDownloadProgram } from "../../redux/thunk/user/usrMain";
+import { ROUTES } from "../../navigation/constants";
+import moment from "moment";
 
 const stripePromise = loadStripe(
   "pk_test_51NsgDPSGZG5DL3XoTSBKwQDGmbwM1ZVynvfuy5gqwnrlzfScPgsXpWHqDhv6ClIUZpJkDlJZBM4Qai0qUlRsCJHU004QV7HMdi"
@@ -112,6 +114,9 @@ const VideoPlayer = () => {
 
   //Router functions
   const location = useLocation();
+  const navigate = useNavigate();
+  const { usrVideoPlayer } = ROUTES;
+
   // const { state } = location;
   // const { data2send } = state;
   // const {
@@ -373,7 +378,25 @@ const VideoPlayer = () => {
       console.error("Error during file download:", error);
     }
   }
+  const onCardClick = (values) => {
+    const data = {
+      values: {
+        ...values,
+        videoId: values._id,
+      },
+    };
+    navigate(`${usrVideoPlayer}/${values._id}`, {
+      state: {
+        data2send: { ...data },
+      },
+    });
+  }
+  function convertTimeInHour(time) {
+    let duration = moment.duration(time, "seconds");
 
+    let formatted_Time = moment.utc(duration.asMilliseconds()).format("HH:mm");
+    return formatted_Time;
+  }
   return (
     <>
       <CustomModal
@@ -665,31 +688,60 @@ const VideoPlayer = () => {
               ?.map(
                 (
                   {
-                    id,
+                    _id,
                     title,
                     image,
-                    duration,
-                    views,
+                    view_count,
                     description,
                     watched,
-                    url,
                     subsType,
                     amount,
+                    url,
                     thumbnail_url,
+                    video_duration,
+                    speaker,
+                    episodes,
+                    price,
+                    course_type,
+                    category,
                   },
                   index
                 ) => (
                   <Card
+                    course_type={course_type}
+                    video_id={_id}
+                    onClick={() =>
+                      onCardClick({
+                        _id,
+                        title,
+                        image,
+                        view_count,
+                        description,
+                        watched,
+                        subsType,
+                        amount,
+                        url,
+                        thumbnail_url,
+                        video_duration,
+                        speaker,
+                        episodes,
+                        price,
+                        course_type,
+                        category,
+                      })
+                    }
                     url={url}
-                    key={id}
+                    key={_id}
                     title={title}
                     thumbnail_url={thumbnail_url}
-                    duration={duration}
-                    views={views}
+                    video_duration={convertTimeInHour(video_duration)}
+                    views={view_count}
                     watched={watched}
-                    subsType={subsType}
-                    amount={amount}
                     description={description}
+                    subsType={subsType}
+                    episodes={episodes}
+                    speaker={speaker}
+                    price={price}
                   />
                 )
               )}

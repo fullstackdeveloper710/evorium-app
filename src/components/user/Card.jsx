@@ -33,9 +33,12 @@ const Card = (props) => {
         </div>
         <div className="bottom-details">
           <p className="name">{title}</p>
-          <a href="void 0" className="link-card">
-            {description}
-          </a>
+          {/* <a href="void 0" className="link-card"> */}
+          <p className="link-card">
+          {description}
+
+          </p>
+          {/* </a> */}
           <div className="time-view">
             <span className="mins">{video_duration} mins </span>
             <span className="views">{views} views</span>
