@@ -392,12 +392,18 @@ const VideoPlayer = () => {
         videoId: values._id,
       },
     };
-    navigate(`${usrVideoPlayer}/${values._id}`, {
-      state: {
-        data2send: { ...data },
-      },
-    });
-  }
+  
+    // Reload the page with the video ID as a URL parameter
+    window.location.href = `${usrVideoPlayer}/${values._id}`;
+  
+    // Note: If you're using react-router-dom, you should use its history API to navigate
+    // Example using react-router-dom:
+    // navigate(`${usrVideoPlayer}/${values._id}`);
+  };
+  
+  
+  
+  
   function convertTimeInHour(time) {
     let duration = moment.duration(time, "seconds");
 
