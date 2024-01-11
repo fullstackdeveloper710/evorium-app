@@ -214,7 +214,7 @@ export const userRecentProgram = createAsyncThunk(
 );
 
 export const downloadProgram = createAsyncThunk(
-  "user/donwloadProgram",
+  "user/downloadProgram",
   async (data, thunkAPI) => {
     const{dispatch } = thunkAPI;
     const {userAuthtoken, program_id} = data;

@@ -15,14 +15,14 @@ const userApi = {
   usrCategories: "/categories?all=true",
   usrSpeakers: "/speakers?all=true",
   usrUpdateLanguage: "/user/language",
-  usrDownloadProgram: '/user/generate_video_link',
+  usrDownloadProgram: '/user/download_video_link',
   usrProgramStatus: '/user/my_program_payment_status',
   usrResendOtp : "/user/resend_otp",
   userProgramWithID : "/user/videoplayer/",
   //pending
   usrRefreshToken: "/user/refresh_token",
   usrFilterPrograms: "user/filter",
-  userDownloadVideo : "/user/generate_Video_link/",
+  userDownloadVideo : "/user/generate_video_link/",
   userRecomendedProgram : '/user/recommended_programs'
 };
 

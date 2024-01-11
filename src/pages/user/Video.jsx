@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { createElement, useEffect, useState } from "react";
 import ReactPlayer from "react-player";
 import { Container, Row, Col, Image } from "react-bootstrap";
 import { Card } from "../../components/user";
@@ -176,13 +176,14 @@ const VideoPlayer = () => {
 
   function getDownloadLink() {
     dispatch(
-      userDownloadProgram({
+      downloadProgram({
         userAuthtoken,
         videoId: videoID,
       })
     ).then(({ payload }) => {
       setDownloadUrl(payload.link);
     });
+    console.log("jsghfdjhsgfjAHSGDFJSGAHdfjsahg",downloadProgram)
   }
 
   useEffect(() => {
@@ -193,7 +194,7 @@ const VideoPlayer = () => {
     const match = shareUrl_.match(regex);
 
     if (match) {
-      // setVideoId(match[0])
+      setVideoId(match[0].replace("/videoplayer/",''))
 
       let data = {
         userAuthtoken,
@@ -255,7 +256,7 @@ const VideoPlayer = () => {
         setIsPlaying(!isPlaying);
       }
     });
-    // dispatch(getUserProgramList(data));
+    dispatch(getUserProgramList(data));
   };
 
   const calculateSeekTime = (start) => {
@@ -333,51 +334,57 @@ const VideoPlayer = () => {
     // Your logic based on the progress object
     console.log("Current played seconds:", progress.playedSeconds);
   };
-
   async function handleDownload() {
+    console.log(videoID, 'videoID here');
+  
     try {
       const response = await fetch(
         `https://api.evorium.xyz/user/generate_Video_link/${videoID}`,
         {
           method: "POST",
           headers: {
-            // Include any necessary headers, such as authorization headers or others
             Authorization: `Bearer ${userAuthtoken}`,
+            Accept: "video/mp4",
           },
         }
       );
-
+  
       if (!response.ok) {
         throw new Error(`HTTP error! Status: ${response.status}`);
       }
-
-      // Get the filename from the Content-Disposition header, if needed
-      const contentDisposition = response.headers.get("Content-Disposition");
-      const filename = contentDisposition
-        ? contentDisposition.split("filename=")[1]
-        : "downloaded-file.mp4";
-
-      // Create a Blob from the response data
-      const blob = await response.blob();
-
-      // Create a temporary URL for the Blob
-      const url = window.URL.createObjectURL(blob);
-
-      // Create a link element to trigger the download
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = filename;
-
-      // Append the link to the document and trigger the download
-      document.body.appendChild(link);
-      link.click();
-
-      // Remove the link element from the document
-      document.body.removeChild(link);
+  
+      const data = await response.json();
+      console.log('Data received:', data);
+  
+      const link = data.link;
+  
+      if (link) {
+        const aTag = document.createElement("a");
+        aTag.href = link;
+        aTag.target = "_blank";
+        aTag.download = "downloaded-video.mp4";
+        aTag.style.display = "none"; // Hide the link
+  
+        // Append the link to the document
+        document.body.appendChild(aTag);
+  
+        // Simulate a click on the link to trigger the download
+        aTag.click();
+  
+        // Remove the link after the download is started
+        document.body.removeChild(aTag);
+      } else {
+        console.error("Link not found in the response");
+      }
     } catch (error) {
       console.error("Error during file download:", error);
     }
   }
+  
+  // HTML button to trigger the download
+  <button onclick="handleDownload()">Download Video</button>
+  
+  
   const onCardClick = (values) => {
     const data = {
       values: {
@@ -684,7 +691,7 @@ const VideoPlayer = () => {
           <Row className="popular-row">
             {console.log(recommendedList, "recomendedlist")}
             {recommendedList
-              ?.slice(0, itemsToLoad)
+               ?.slice(0, itemsToLoad)
               ?.map(
                 (
                   {
