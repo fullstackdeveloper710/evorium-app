@@ -9,6 +9,7 @@ import {
   BtnGroup,
   Button,
   Input,
+  Loader,
   VideoUploader,
 } from "../../components/common";
 import SelectBox from "../../components/common/SelectBox";
@@ -95,23 +96,25 @@ function AddProgram() {
       then: Yup.string().required("Price is required for paid courses"),
     }),
     tags: Yup.string().required("required field"),
-    video: Yup.mixed()
-      .required("Video is required")
-      .test(
-        "fileSize",
-        "File size is too large",
-        (value) => value && value.size <= 104857600 // 100MB
-      )
-      .test(
-        "fileType",
-        "Invalid file type. Only videos are allowed",
-        (value) =>
-          value &&
-          ["video/mp4", "video/mpeg", "video/webm"].includes(value.type)
-      ),
-    thumbnails: Yup.array()
-      .required("Thumbnails are required")
-      .min(1, "At least one thumbnail is required"),
+    // video: Yup.mixed()
+    // .test(
+    //   'fileSize',
+    //   'File size is too large. Maximum allowed size is 100MB.',
+    //   (value) => !value || (value && value.size && value.size <= 104857600) // 100MB
+    // )
+    // .test(
+    //   'fileType',
+    //   'Invalid file type. Only videos are allowed (e.g., MP4, MPEG, WebM).',
+    //   (value) =>
+    //     !value ||
+    //     (value && value.type && ['video/mp4', 'video/mpeg', 'video/webm'].includes(value.type))
+    // )
+    // .required('Video is required'),
+  
+
+    // thumbnails: Yup.array()
+    //   .required("Thumbnails are required")
+    //   .min(1, "At least one thumbnail is required"),
     // .of(
     //   Yup.object().shape({
     //     url: Yup.string().url('Invalid URL').required('Thumbnail URL is required'),
@@ -177,40 +180,79 @@ function AddProgram() {
     }
   }, [state]);
 
-  const onSubmitHandler = (val) => {
+  // const onSubmitHandler = (val) => {
+  //   const data = {
+  //     adminAuthtoken,
+  //     values: {
+  //       ...val,
+  //       episodes: getStartAndEndTime("string", val),
+  //       thumbnail: val.selectedThumbnail,
+  //     },
+  //   };
+  //   delete data.values.thumbnails;
+  //   delete data.values.selectedThumbnail;
+  //   delete data.values.selectedEpisode;
+
+  //   if (state?._id) {
+  //     dispatch(updateAdminProgram(data));
+  //     console.log(data, "date here in update");
+  //     console.log("update Admin programs");
+  //   } else {
+  //     dispatch(addAdminProgram(data)).then(({ payload }) => {
+  //       if (payload.status) {
+
+
+  //         showSweetAlert();
+  //       }
+  //       else {
+  //         showUnsuccessfulAlert();
+
+
+  //       }
+  //     });
+  //   };
+  // };
+  const [isLoading, setIsLoading] = useState(false);
+
+  // ... (rest of your component)
+
+  const onSubmitHandler = async (values) => {
+    setIsLoading(true);
+
     const data = {
       adminAuthtoken,
       values: {
-        ...val,
-        episodes: getStartAndEndTime("string", val),
-        thumbnail: val.selectedThumbnail,
+        ...values,
+        episodes: getStartAndEndTime('string', values),
+        thumbnail: values.selectedThumbnail,
       },
     };
+
     delete data.values.thumbnails;
     delete data.values.selectedThumbnail;
     delete data.values.selectedEpisode;
 
-    if (state?.id) {
-      // dispatch(updateAdminProgram(data));
-      console.log(data, "date here in update");
-      console.log("update Admin programs");
-    } else {
-      dispatch(addAdminProgram(data)).then(({ payload }) => {
+    try {
+      if (state?._id) {
+        await dispatch(updateAdminProgram(data));
+        console.log('update Admin programs');
+      } else {
+        const { payload } = await dispatch(addAdminProgram(data));
+
         if (payload.status) {
-
-
           showSweetAlert();
-          // navigate(usrLogin);
-        }
-        else {
+        } else {
           showUnsuccessfulAlert();
-
-          //navigate(usrEditProfile);
-
         }
-      });
-    };
+      }
+    } catch (error) {
+      console.error('Error during form submission:', error);
+      // Handle error, show an error message, etc.
+    } finally {
+      setIsLoading(false);
+    }
   };
+  
 
   const onCancelHandler = (resetForm) => {
     resetForm();
@@ -597,13 +639,13 @@ function AddProgram() {
                         error={errors.price && touched.price && errors.price}
                       />
                     )}
-
+{/* 
                     <BtnGroup className="common_btns">
                       <Button
                         title={state?.id ? "Update" : "Save"}
                         type="submit"
                         className="primary_btn"
-                      // onClick={() => onSubmitHandler(values)}
+                      onClick={() => onSubmitHandler(values)}
                       />
                       <Button
                         title="cancel"
@@ -611,9 +653,30 @@ function AddProgram() {
                         className="secondry_btn"
                         onClick={() => onCancelHandler(resetForm)}
                       />
-                    </BtnGroup>
+                    </BtnGroup> */}
+                     <BtnGroup className="common_btns">
+                {isLoading ? (
+<Loader/>) : (
+                  <>
+                    <Button
+                      title={state?.id ? 'Update' : 'Save'}
+                      type="submit"
+                      className="primary_btn"
+                    />
+                    <Button
+                      title="cancel"
+                      type="button"
+                      className="secondry_btn"
+                      onClick={() => onCancelHandler(resetForm)}
+                    />
+                  </>
+                )}
+              </BtnGroup>
                   </div>
                 </Col>
+                <Col md={5}>
+                {state?.id ? null : (
+                // Render video section only when adding a new program
                 <Col md={5}>
                   <VideoUploader
                     videoTitle={values.title}
@@ -624,6 +687,8 @@ function AddProgram() {
                     thumbnails={values.thumbnails}
                     selectedThumbnail={values.selectedThumbnail}
                   ></VideoUploader>
+                </Col>
+              )}
                   <span style={{ color: "red" }}>
                     {errors.thumbnails &&
                       touched.thumbnails &&
